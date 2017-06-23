@@ -9,10 +9,10 @@ React code splitting made easy. Reduce your bundle size without stress ✂️✨
 npm install loadable-components
 ```
 
-Webpack permits us to use easily split our code using dynamic `import` syntax.
+Webpack allows modern code splitting via the [dynamic `import` syntax](https://webpack.js.org/guides/code-splitting-async/).
 `loadable-components` makes it possible to use that awesome feature with React components. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
 
-You want a real size demo? Check it out on https://www.smooth-code.com/, it's open source https://github.com/smooth-code/website.
+Check it out on https://www.smooth-code.com/, it's open source https://github.com/smooth-code/website.
 
 ## Getting started
 
