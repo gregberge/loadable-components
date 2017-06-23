@@ -10,7 +10,7 @@ npm install loadable-components
 ```
 
 Webpack permits us to use easily split our code using dynamic `import` syntax.
-`loadable-components` makes it possible to use it with React components. It is compatible with react-router and server side rendering. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
+`loadable-components` makes it possible to use that awesome feature with React components. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
 
 ## Getting started
 
@@ -37,7 +37,7 @@ export default () =>
 
 ### Custom loading
 
-It's possible to add a custom loading component, by default it will render nothing:
+It is possible to add a custom loading component, by default it will render nothing:
 
 ```js
 export const Home = loadable(() => import('./Home'), {
@@ -47,7 +47,7 @@ export const Home = loadable(() => import('./Home'), {
 
 ### Error handling
 
-You can configure the component rendered when an error occurs during loading:
+You can configure the component rendered when an error occurs during loading, by default it will render nothing:
 
 ```js
 export const Home = loadable(() => import('./Home'), {
@@ -85,6 +85,30 @@ export default () =>
 
 ### Server-side rendering
 
+First create a `Routes.js` containing all your loadable routes:
+
+```js
+// Routes.js
+import loadable from 'loadable-components'
+
+export const Home = loadable(() => import('client/Home'))
+```
+
+You can use them in your application:
+
+```js
+// App.js
+import React from 'react'
+import { Home } from './Routes'
+
+const App = () =>
+  <div>
+    <Route exact path="/" component={Home} />
+  </div>
+```
+
+Then bootstrap your application client-side using `loadComponents`:
+
 ```js
 // main.js
 import React from 'react'
@@ -104,23 +128,7 @@ loadComponents().then(() => {
 })
 ```
 
-```js
-// App.js
-import React from 'react'
-import { Home } from './Routes'
-
-const App = () =>
-  <div>
-    <Route exact path="/" component={Home} />
-  </div>
-```
-
-```js
-// Routes.js
-import loadable from 'loadable-components'
-
-export const Home = loadable(() => import('client/Home'))
-```
+The only thing you have to do on the server is to call `getLoadableState()` and inserting the loadable state in your html:
 
 ```js
 // server.js
@@ -130,8 +138,10 @@ import { StaticRouter } from 'react-router'
 import { getLoadableState } from 'loadable-components/server'
 import App from './App'
 
+let context = {}
+
 const app = (
-  <StaticRouter>
+  <StaticRouter location={...} context={context}>
     <App />
   </StaticRouter>
 )
@@ -152,6 +162,15 @@ getLoadableState(app).then(loadableState => {
   `
 })
 ```
+
+#### Configuring Babel
+
+Dynamic `import` syntax is natively supported by Webpack but not by node. That's why you have to configure Babel differently for server and client:
+
+- Use [babel-plugin-syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/) on the client.
+- Use [babel-plugin-dynamic-import-node](https://github.com/airbnb/babel-plugin-dynamic-import-node) on the server.
+
+To have a different configuration for client and server, you can use [Babel env option](https://babeljs.io/docs/usage/babelrc/#env-option).
 
 ## API Reference
 
@@ -286,4 +305,4 @@ ComponentWithTranslations[LOADABLE] = () => ({
 - React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
 - Loadable components inspired by [react-loadable](https://github.com/thejameskyle/react-loadable)
 
-## License MIT
+## MIT
