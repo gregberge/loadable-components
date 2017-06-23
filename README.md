@@ -16,9 +16,9 @@ We use it in production on [our website](https://www.smooth-code.com/), it's ope
 
 ## Motivation
 
-Splitting your React application and rendering it server-side is complicated. Several has tried, [react-router gave up](https://reacttraining.com/react-router/web/guides/code-splitting), today only [next.js](https://github.com/zeit/next.js/) is doing it right. First I decided to not do it (afraid by react-router) on my website. But then I think "Fuck code splitting shouldn't be a problem today, let's do it.".
+Splitting your React application and rendering it server-side is complicated. Several have tried, [react-router gave up](https://reacttraining.com/react-router/web/guides/code-splitting), today only [next.js](https://github.com/zeit/next.js/) is doing it right. First I decided to not do it (afraid by react-router 😱) on my website. But then I think "Fuck code splitting shouldn't be a problem today, let's do it.".
 
-I tried several solutions, [react-async-components](https://github.com/ctrlplusb/react-async-component), [react-loadable](https://github.com/thejameskyle/react-loadable) and for each of them server-side rendering is very complicated. I decided to create `loadable-components` with for main goal: reducing API in order to make it as easier as possible for the developer. I inspired from [styled-components](https://www.styled-components.com/) and [Apollo](http://dev.apollodata.com/) for the API and `loadable-components` was born.
+I tried several solutions, [react-async-components](https://github.com/ctrlplusb/react-async-component), [react-loadable](https://github.com/thejameskyle/react-loadable) and for each of them server-side rendering is very complicated. I decided to create `loadable-components` with for main goal: reducing API in order to make it as easier as possible for the developer. I inspired from [`styled-components`](https://www.styled-components.com/) and [Apollo](http://dev.apollodata.com/) for the API and `loadable-components` was born.
 
 ## Getting started
 
@@ -65,7 +65,7 @@ export const Home = loadable(() => import('./Home'), {
 
 ### Prefetching
 
-To enhance the user you can fetch routes before they are requested by the user.
+To enhance user experience you can fetch routes before they are requested by the user.
 
 #### Prefetch on route loading
 
@@ -136,7 +136,7 @@ loadComponents().then(() => {
 })
 ```
 
-The only thing you have to do on the server is to call `getLoadableState()` and inserting the loadable state in your html:
+The only thing you have to do on the server is calling `getLoadableState()` and inserting the loadable state in your html:
 
 ```js
 // server.js
