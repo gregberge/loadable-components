@@ -1,4 +1,7 @@
-# loadable-components
+<a href="https://github.com/smooth-code/loadable-components">
+  <img alt="loadable-components" src="https://user-images.githubusercontent.com/266302/27487896-6a8cc4fa-5835-11e7-8061-b481ad72a065.png" height="200px" />
+</a>
+<br />
 
 [![Build Status](https://travis-ci.org/smooth-code/loadable-components.svg?branch=master)](https://travis-ci.org/smooth-code/loadable-components)
 [![codecov](https://codecov.io/gh/smooth-code/loadable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/smooth-code/loadable-components)
