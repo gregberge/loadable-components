@@ -14,6 +14,12 @@ Webpack allows modern code splitting via the [dynamic `import` syntax](https://w
 
 Check it out on https://www.smooth-code.com/, it's open source https://github.com/smooth-code/website.
 
+## Motivation
+
+Splitting your React application and rendering it server-side is complicated. Several has tried, [react-router gave up](https://reacttraining.com/react-router/web/guides/code-splitting), today only [next.js](https://github.com/zeit/next.js/) is doing it right. First I decided to not do it (afraid by react-router) on my website. But then I think "Fuck code splitting shouldn't be a problem today, let's do it.".
+
+I tried several solutions, [react-async-components](https://github.com/ctrlplusb/react-async-component), [react-loadable](https://github.com/thejameskyle/react-loadable) and for each of them server-side rendering is very complicated. I decided to create `loadable-components` with for main goal: reducing API in order to make it as easier as possible for the developer. I inspired from [styled-components](https://www.styled-components.com/) and [Apollo](http://dev.apollodata.com/) for the API and `loadable-components` was born.
+
 ## Getting started
 
 ```js
@@ -305,6 +311,6 @@ ComponentWithTranslations[LOADABLE] = () => ({
 
 - API inspired by [styled-components](https://github.com/styled-components/styled-components)
 - React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
-- Loadable components inspired by [react-loadable](https://github.com/thejameskyle/react-loadable)
+- Loadable components inspired by [react-loadable](https://github.com/thejameskyle/react-loadable) and [react-async-components](https://github.com/ctrlplusb/react-async-component)
 
 ## MIT
