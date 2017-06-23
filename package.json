@@ -1,0 +1,55 @@
+{
+  "name": "loadable-components",
+  "version": "0.0.0",
+  "description": "React code splitting made easy.",
+  "main": "index.js",
+  "repository": "git@github.com:smooth-code/loadable-components.git",
+  "author": "Greg Bergé <berge.greg@gmail.com>",
+  "keywords": [
+    "react",
+    "promise",
+    "code",
+    "splitting",
+    "split",
+    "webpack",
+    "async"
+  ],
+  "license": "MIT",
+  "jest": {
+    "coverageDirectory": "./coverage/"
+  },
+  "scripts": {
+    "format": "prettier --write --no-semi --single-quote --trailing-comma all \"src/**/*.js\"",
+    "release": "mversion `conventional-recommended-bump -p angular` -m",
+    "test": "eslint . && jest --runInBand --coverage && codecov"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-dynamic-import-node": "^1.0.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-react": "^6.24.1",
+    "codecov": "^2.2.0",
+    "conventional-github-releaser": "^1.1.11",
+    "conventional-recommended-bump": "^1.0.0",
+    "enzyme": "^2.9.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-config-prettier": "^2.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^5.0.1",
+    "eslint-plugin-react": "^7.0.1",
+    "jest": "^20.0.4",
+    "mversion": "^1.10.1",
+    "prettier": "^1.4.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router": "^4.1.1",
+    "react-test-renderer": "^15.6.1"
+  }
+}

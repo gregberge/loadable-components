@@ -1,0 +1,11 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier"],
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": ["error", {"extensions": [".js"]}],
+    "react/jsx-wrap-multilines": "off"
+  }
+}
