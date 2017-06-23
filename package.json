@@ -19,6 +19,7 @@
     "coverageDirectory": "./coverage/"
   },
   "scripts": {
+    "build": "rm -rf lib/ && NODE_ENV=production babel src -d lib && cp package.json lib/ && cp README.md lib/",
     "format": "prettier --write --no-semi --single-quote --trailing-comma all \"src/**/*.js\"",
     "release": "mversion `conventional-recommended-bump -p angular` -m",
     "test": "eslint . && jest --runInBand --coverage && codecov"
