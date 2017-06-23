@@ -13,7 +13,7 @@ describe('DeferredState', () => {
   describe('#getScriptContent', () => {
     it('should return script content', () => {
       expect(deferredState.getScriptContent()).toBe(
-        'window.__DEFER_COMPONENT_IDS__ = [0,1,2];',
+        'window.__LOADABLE_COMPONENT_IDS__ = [0,1,2];',
       )
     })
   })
@@ -21,7 +21,7 @@ describe('DeferredState', () => {
   describe('#getScriptTag', () => {
     it('should return script content', () => {
       expect(deferredState.getScriptTag()).toBe(
-        '<script>window.__DEFER_COMPONENT_IDS__ = [0,1,2];</script>',
+        '<script>window.__LOADABLE_COMPONENT_IDS__ = [0,1,2];</script>',
       )
     })
   })
@@ -32,7 +32,7 @@ describe('DeferredState', () => {
         shallow(deferredState.getScriptElement()).equals(
           <script
             dangerouslySetInnerHTML={{
-              __html: 'window.__DEFER_COMPONENT_IDS__ = [0,1,2];',
+              __html: 'window.__LOADABLE_COMPONENT_IDS__ = [0,1,2];',
             }}
           />,
         ),

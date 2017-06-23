@@ -16,6 +16,7 @@
   ],
   "license": "MIT",
   "jest": {
+    "rootDir": "src",
     "coverageDirectory": "./coverage/"
   },
   "scripts": {
