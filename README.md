@@ -71,7 +71,7 @@ export const Home = loadable(() => import('./Home'), {
 To avoid flashing a loader if the loading is very fast, you could implement a minimum delay. There is no built-in API in `loadable-components` but you could do it using [`p-min-delay`](https://github.com/sindresorhus/p-min-delay).
 
 ```js
-import loadable from 'loadable-components`
+import loadable from 'loadable-components'
 import pMinDelay from 'p-min-delay'
 
 // Wait a minimum of 200ms before loading home.
@@ -81,7 +81,7 @@ export const Home = loadable(pMinDelay(() => import('./Home'), 200))
 If you want to avoid these delay server-side:
 
 ```js
-import loadable from 'loadable-components`
+import loadable from 'loadable-components'
 import pMinDelay from 'p-min-delay'
 
 const delay = (promise) => {
@@ -97,7 +97,7 @@ export const Home = loadable(delay(() => import('./Home')))
 Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
 
 ```js
-import loadable from 'loadable-components`
+import loadable from 'loadable-components'
 import { timeout } from 'promise-timeout'
 
 // Wait a maximum of 2s before sending an error.
