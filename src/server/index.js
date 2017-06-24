@@ -104,7 +104,7 @@ function getQueriesFromTree(
   return queries
 }
 
-export async function getLoadableState(
+export function getLoadableState(
   rootElement,
   rootContext = {},
   fetchRoot = true,
@@ -118,29 +118,30 @@ export async function getLoadableState(
   let componentIds = []
 
   // wait on each query that we found, re-rendering the subtree when it's done
-  const mappedQueries = queries.map(async ({ query, element, context }) => {
+  const mappedQueries = queries.map(({ query, element, context }) =>
     // we've just grabbed the query for element, so don't try and get it again
-    try {
-      const componentId = await query
-      componentIds.push(componentId)
-      const state = await getLoadableState(element, context, false)
-      componentIds = [...componentIds, ...state.componentIds]
-    } catch (e) {
-      errors.push(e)
+    query
+      .then(componentId => {
+        componentIds.push(componentId)
+        return getLoadableState(element, context, false)
+      })
+      .then(state => {
+        componentIds = [...componentIds, ...state.componentIds]
+      })
+      .catch(e => errors.push(e)),
+  )
+
+  return Promise.all(mappedQueries).then(() => {
+    if (errors.length > 0) {
+      const error = errors.length === 1
+        ? errors[0]
+        : new Error(
+            `${errors.length} errors were thrown when importing your modules.`,
+          )
+      error.queryErrors = errors
+      throw error
     }
+
+    return new DeferredState(componentIds)
   })
-
-  await Promise.all(mappedQueries)
-
-  if (errors.length > 0) {
-    const error = errors.length === 1
-      ? errors[0]
-      : new Error(
-          `${errors.length} errors were thrown when importing your modules.`,
-        )
-    error.queryErrors = errors
-    throw error
-  }
-
-  return new DeferredState(componentIds)
 }

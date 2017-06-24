@@ -7,12 +7,14 @@
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "keywords": [
     "react",
-    "promise",
-    "code",
-    "splitting",
-    "split",
+    "ssr",
     "webpack",
-    "async"
+    "code-splitting",
+    "react-router",
+    "server-side-rendering",
+    "dynamic-import",
+    "react-loadable",
+    "react-async-components"
   ],
   "license": "MIT",
   "jest": {

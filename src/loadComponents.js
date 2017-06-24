@@ -2,7 +2,7 @@
 import { LOADABLE, COMPONENT_IDS } from './constants'
 import * as componentTracker from './componentTracker'
 
-async function loadComponents() {
+function loadComponents() {
   if (typeof window === 'undefined') {
     throw new Error(
       '`loadComponents` must be called client-side: `window` is undefined',
