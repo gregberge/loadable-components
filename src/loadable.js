@@ -13,11 +13,12 @@ function loadable(
   class LoadableComponent extends React.Component {
     static Component = null
 
-    static async load() {
-      const module = await getComponent()
-      const Component = resolveModuleDefault(module)
-      LoadableComponent.Component = Component
-      return Component
+    static load() {
+      return getComponent().then(module => {
+        const Component = resolveModuleDefault(module)
+        LoadableComponent.Component = Component
+        return Component
+      })
     }
 
     state = {
