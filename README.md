@@ -66,6 +66,44 @@ export const Home = loadable(() => import('./Home'), {
 })
 ```
 
+### Delay
+
+To avoid flashing a loader if the loading is very fast, you could implement a minimum delay. There is no built-in API in `loadable-components` but you could do it using [`p-min-delay`](https://github.com/sindresorhus/p-min-delay).
+
+```js
+import loadable from 'loadable-components`
+import pMinDelay from 'p-min-delay'
+
+// Wait a minimum of 200ms before loading home.
+export const Home = loadable(pMinDelay(() => import('./Home'), 200))
+```
+
+If you want to avoid these delay server-side:
+
+```js
+import loadable from 'loadable-components`
+import pMinDelay from 'p-min-delay'
+
+const delay = (promise) => {
+  if (typeof window === 'undefined') return promise
+  return pMinDelay(promise, 200)
+}
+
+export const Home = loadable(delay(() => import('./Home')))
+```
+
+### Timeout
+
+Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
+
+```js
+import loadable from 'loadable-components`
+import { timeout } from 'promise-timeout'
+
+// Wait a maximum of 2s before sending an error.
+export const Home = loadable(timeout(() => import('./Home'), 2000))
+```
+
 ### Prefetching
 
 To enhance user experience you can fetch routes before they are requested by the user.
@@ -310,10 +348,22 @@ ComponentWithTranslations[LOADABLE] = () => ({
 })
 ```
 
+## Other solutions
+
+[`react-loadable`](https://github.com/thejameskyle/react-loadable) offers an elegant API to load a component and enhance it. It supports a lot of features like delay and timeout. I chose to not implement it because it delay can be done in `LoadingComponent` and timeout can be done in `getComponent` function.
+
+[`react-async-component`](https://github.com/ctrlplusb/react-async-component) offers a simple API, very similar to `loadable-components` API.
+
+The main difference between these two libraries is the server-side rendering approach:
+
+- `react-loadable` requires a babel plugin. I think it's too complicated and we should not rely on it.
+- `react-async-component` has a better approach, analyzing tree + context, it also rely on another library. I like the idea but not the API.
+
+`loadable-components` has a simpler approach, it relies on [dynamic-import-specification](https://github.com/tc39/proposal-dynamic-import) and assumes that [it is working for node and Webpack](https://babeljs.io/docs/plugins/syntax-dynamic-import/). Then it analyzes the tree server-side and waiting for every modules to be loaded. Client-side it loads modules before rendering the application. The API is as simple as possible, no context, no babel plugin, no magic variable.
+
 ## Inspirations
 
 - API inspired by [styled-components](https://github.com/styled-components/styled-components)
 - React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
-- Loadable components inspired by [react-loadable](https://github.com/thejameskyle/react-loadable) and [react-async-components](https://github.com/ctrlplusb/react-async-component)
 
 ## MIT
