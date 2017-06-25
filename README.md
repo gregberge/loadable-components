@@ -354,6 +354,8 @@ ComponentWithTranslations[LOADABLE] = () => ({
 
 [`react-async-component`](https://github.com/ctrlplusb/react-async-component) offers a simple API, very similar to `loadable-components` API.
 
+[`react-code-splitting`](https://github.com/didierfranc/react-code-splitting) is the basic approach of an async component, it doesn't support LoadingComponent, ErrorComponent and server-side rendering.
+
 The main difference between these two libraries is the server-side rendering approach:
 
 - `react-loadable` requires a babel plugin. I think it's too complicated and we should not rely on it.
