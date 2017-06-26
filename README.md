@@ -3,14 +3,16 @@
 </a>
 <br />
 
-[![Build Status](https://travis-ci.org/smooth-code/loadable-components.svg?branch=master)](https://travis-ci.org/smooth-code/loadable-components)
-[![codecov](https://codecov.io/gh/smooth-code/loadable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/smooth-code/loadable-components)
-
 React code splitting made easy. Reduce your bundle size without stress ✂️✨.
+
+> Read [the intro blogpost](https://medium.com/smooth-code/introducing-loadable-components-%EF%B8%8F-646dd3ab0aa6)
 
 ```sh
 npm install loadable-components
 ```
+
+[![Build Status](https://travis-ci.org/smooth-code/loadable-components.svg?branch=master)](https://travis-ci.org/smooth-code/loadable-components)
+[![codecov](https://codecov.io/gh/smooth-code/loadable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/smooth-code/loadable-components)
 
 Webpack allows modern code splitting via the [dynamic `import` syntax](https://webpack.js.org/guides/code-splitting-async/).
 `loadable-components` makes it possible to use that awesome feature with React components. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
