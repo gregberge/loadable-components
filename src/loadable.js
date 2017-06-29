@@ -12,13 +12,23 @@ function loadable(
 ) {
   class LoadableComponent extends React.Component {
     static Component = null
+    static loadingPromise = null
 
     static load() {
-      return getComponent().then(module => {
-        const Component = resolveModuleDefault(module)
-        LoadableComponent.Component = Component
-        return Component
-      })
+      if (!LoadableComponent.loadingPromise) {
+        LoadableComponent.loadingPromise = getComponent()
+          .then(module => {
+            const Component = resolveModuleDefault(module)
+            LoadableComponent.Component = Component
+            return Component
+          })
+          .catch(error => {
+            LoadableComponent.loadingPromise = null
+            throw error
+          })
+      }
+
+      return LoadableComponent.loadingPromise
     }
 
     state = {

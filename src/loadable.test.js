@@ -6,16 +6,27 @@ import Dummy from './__fixtures__/Dummy'
 import loadable from './loadable'
 
 describe('#loadable', () => {
+  let getComponent
   let Loadable
 
   beforeEach(() => {
-    Loadable = loadable(() => import('./__fixtures__/Dummy'))
+    getComponent = jest.fn(() => import('./__fixtures__/Dummy'))
+    Loadable = loadable(getComponent)
   })
 
   it('should load component using import', async () => {
     const wrapper = mount(<Loadable />)
     expect(wrapper.find('EmptyComponent').exists()).toBe(true)
     await Loadable.load()
+    expect(wrapper.contains(<Dummy />)).toBe(true)
+  })
+
+  it('should not load it two times', async () => {
+    const wrapper = mount(<Loadable />)
+    expect(wrapper.find('EmptyComponent').exists()).toBe(true)
+    Loadable.load()
+    await Loadable.load()
+    expect(getComponent).toHaveBeenCalledTimes(1)
     expect(wrapper.contains(<Dummy />)).toBe(true)
   })
 
