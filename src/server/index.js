@@ -112,7 +112,7 @@ export function getLoadableState(
   const queries = getQueriesFromTree({ rootElement, rootContext }, fetchRoot)
 
   // no queries found, nothing to do
-  if (!queries.length) return new DeferredState([])
+  if (!queries.length) return Promise.resolve(new DeferredState([]))
 
   const errors = []
   let componentIds = []
