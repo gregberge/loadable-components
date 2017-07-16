@@ -26,4 +26,17 @@ describe('server side rendering', () => {
     const loadableState = await getLoadableState(app)
     expect(loadableState.componentIds).toEqual([1, 0])
   })
+
+  describe('without any ids', () => {
+    it('should return an empty deferred state', async () => {
+      const context = {}
+      app = (
+        <StaticRouter location="/books/2" context={context}>
+          <div />
+        </StaticRouter>
+      )
+      const loadableState = await getLoadableState(app).then(x => x)
+      expect(loadableState.componentIds).toEqual([])
+    })
+  })
 })
