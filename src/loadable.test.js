@@ -18,6 +18,7 @@ describe('#loadable', () => {
     const wrapper = mount(<Loadable />)
     expect(wrapper.find('EmptyComponent').exists()).toBe(true)
     await Loadable.load()
+    wrapper.update()
     expect(wrapper.contains(<Dummy />)).toBe(true)
   })
 
@@ -26,6 +27,7 @@ describe('#loadable', () => {
     expect(wrapper.find('EmptyComponent').exists()).toBe(true)
     Loadable.load()
     await Loadable.load()
+    wrapper.update()
     expect(getComponent).toHaveBeenCalledTimes(1)
     expect(wrapper.contains(<Dummy />)).toBe(true)
   })
@@ -63,13 +65,15 @@ describe('#loadable', () => {
 
   it('should be possible to add a loading component', async () => {
     const LoadableWithLoading = loadable(() => import('./__fixtures__/Dummy'), {
-      LoadingComponent: ({ className }) =>
-        <div className={className}>loading</div>,
+      LoadingComponent: ({ className }) => (
+        <div className={className}>loading</div>
+      ),
     })
 
     const wrapper = mount(<LoadableWithLoading className="x" />)
     expect(wrapper.contains(<div className="x">loading</div>)).toBe(true)
     await LoadableWithLoading.load()
+    wrapper.update()
     expect(wrapper.contains(<Dummy className="x" />)).toBe(true)
   })
 
@@ -79,8 +83,9 @@ describe('#loadable', () => {
         throw new Error('Bouh')
       },
       {
-        ErrorComponent: ({ error, props }) =>
-          <div className={props.className}>{error.message}</div>,
+        ErrorComponent: ({ error, props }) => (
+          <div className={props.className}>{error.message}</div>
+        ),
       },
     )
 
@@ -90,6 +95,7 @@ describe('#loadable', () => {
       await new Promise(resolve => setTimeout(resolve))
       await LoadableWithError.load()
     } catch (error) {
+      wrapper.update()
       expect(wrapper.contains(<div className="x">Bouh</div>)).toBe(true)
     }
   })
