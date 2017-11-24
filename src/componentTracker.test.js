@@ -10,5 +10,9 @@ describe('componentTracker', () => {
 
     expect(componentTracker.get(id1)).toBe(Component1)
     expect(componentTracker.get(id2)).toBe(Component2)
+
+    const components = [];
+    componentTracker.forEach((x) => components.push(x))
+    expect(components).toEqual([Component1, Component2])
   })
 })
