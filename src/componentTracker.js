@@ -9,3 +9,7 @@ export const track = component => {
 }
 
 export const get = id => components[id]
+
+export const forEach = (cb) => {
+  Object.keys(components).forEach( i => cb(get(i)))
+}
