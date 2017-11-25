@@ -19,11 +19,7 @@
   "license": "MIT",
   "jest": {
     "rootDir": "src",
-    "coverageDirectory": "./coverage/",
-    "setupFiles": [
-      "raf/polyfill",
-      "<rootDir>/../testSetup.js"
-    ]
+    "setupFiles": ["<rootDir>/setupTests.js"]
   },
   "scripts": {
     "build": "rm -rf lib/ && NODE_ENV=production babel src -d lib && cp package.json lib/ && cp README.md lib/",
@@ -36,30 +32,30 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.0.1",
-    "babel-plugin-dynamic-import-node": "^1.1.0",
+    "babel-eslint": "^8.0.2",
+    "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "codecov": "^2.3.0",
-    "conventional-github-releaser": "^1.1.12",
-    "conventional-recommended-bump": "^1.0.2",
-    "enzyme": "^3.1.0",
-    "enzyme-adapter-react-16": "^1.0.1",
-    "eslint": "^4.8.0",
-    "eslint-config-airbnb": "^16.0.0",
-    "eslint-config-prettier": "^2.6.0",
-    "eslint-plugin-import": "^2.7.0",
+    "codecov": "^3.0.0",
+    "conventional-github-releaser": "^2.0.0",
+    "conventional-recommended-bump": "^1.0.3",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.8.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.5.1",
     "jest": "^21.2.1",
     "mversion": "^1.10.1",
-    "prettier": "^1.7.4",
+    "prettier": "^1.8.2",
     "raf": "^3.4.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
     "react-router": "^4.2.0",
-    "react-test-renderer": "^16.0.0"
+    "react-test-renderer": "^16.1.1"
   }
 }

@@ -137,7 +137,9 @@ export function getLoadableState(
         errors.length === 1
           ? errors[0]
           : new Error(
-              `${errors.length} errors were thrown when importing your modules.`,
+              `${
+                errors.length
+              } errors were thrown when importing your modules.`,
             )
       error.queryErrors = errors
       throw error

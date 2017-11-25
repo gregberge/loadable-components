@@ -8,10 +8,11 @@ describe('server side rendering', () => {
   let app
 
   beforeEach(() => {
-    const App = () =>
+    const App = () => (
       <div>
         <Route path="/books" component={Books} />
       </div>
+    )
 
     const context = {}
 

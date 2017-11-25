@@ -9,3 +9,4 @@ export const track = component => {
 }
 
 export const get = id => components[id]
+export const getAll = () => ({ ...components })

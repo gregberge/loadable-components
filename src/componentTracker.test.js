@@ -10,5 +10,10 @@ describe('componentTracker', () => {
 
     expect(componentTracker.get(id1)).toBe(Component1)
     expect(componentTracker.get(id2)).toBe(Component2)
+
+    expect(componentTracker.getAll()).toEqual({
+      [id1]: Component1,
+      [id2]: Component2,
+    })
   })
 })
