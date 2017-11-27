@@ -2,6 +2,6 @@
   "scripts": {
     "precommit": "yarn build && git add -A",
     "postcommit": "git push && git push --tags",
-    "postupdate": "conventional-github-releaser --preset angular && echo "Please publish using: npm publish lib""
+    "postupdate": "conventional-github-releaser --preset angular && echo \"Please publish using: npm publish lib\""
   }
 }
