@@ -10,7 +10,14 @@ function loadComponents() {
   }
 
   const ids = window[COMPONENT_IDS] || []
-  return Promise.all(ids.map(id => componentTracker.get(id)[LOADABLE]().load()))
+  return Promise.all(
+    ids.map(id =>
+      componentTracker
+        .get(id)
+        [LOADABLE]()
+        .load(),
+    ),
+  )
 }
 
 export default loadComponents

@@ -29,6 +29,8 @@ I tried several solutions, [react-async-components](https://github.com/ctrlplusb
 
 ```js
 // Routes.js
+import loadable from 'loadable-components'
+
 export const Home = loadable(() => import('./Home'))
 export const About = loadable(() => import('./About'))
 export const Contact = loadable(() => import('./Contact'))
@@ -222,6 +224,23 @@ Dynamic `import` syntax is natively supported by Webpack but not by node. That's
 - Use [babel-plugin-dynamic-import-node](https://github.com/airbnb/babel-plugin-dynamic-import-node) on the server.
 
 To have a different configuration for client and server, you can use [Babel env option](https://babeljs.io/docs/usage/babelrc/#env-option).
+
+### Snapshoting
+
+An alternative to server-side rendering is [snapshoting](https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319). Basically, you crawl your React website locally and you generate HTML pages.
+
+You need to instruct your snapshot solution to save state of `loadable-components` to the `window` in the end.
+
+`getState()` will return `{__LOADABLE_COMPONENT_IDS__: [...]}`, and this should be converted to  `<script>window.__LOADABLE_COMPONENT_IDS__ = [...]</script>` in the resulting html.
+
+For example, to do this with [`react-snap`](https://github.com/stereobooster/react-snap) you can use following code:
+
+```js
+import { getState } from 'loadable-components/snap'
+
+// Set up for react-snap.
+window.snapSaveState = () => getState()
+```
 
 ## API Reference
 
