@@ -1,6 +1,6 @@
 {
   "name": "loadable-components",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "React code splitting made easy.",
   "main": "index.js",
   "repository": "git@github.com:smooth-code/loadable-components.git",
@@ -19,7 +19,9 @@
   "license": "MIT",
   "jest": {
     "rootDir": "src",
-    "setupFiles": ["<rootDir>/setupTests.js"]
+    "setupFiles": [
+      "<rootDir>/setupTests.js"
+    ]
   },
   "scripts": {
     "build": "rm -rf lib/ && NODE_ENV=production babel src -d lib && cp package.json lib/ && cp README.md lib/",
