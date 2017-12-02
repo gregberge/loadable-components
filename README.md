@@ -333,17 +333,23 @@ You can implement a loadable component by your own. To do it you have to add `LO
 
 ```js
 import React from 'react'
-import { LOADABLE } from 'loadable-components'
+import { LOADABLE, componentTracker } from 'loadable-components'
 
 class ComponentWithTranslations extends React.Component {
   // Required
-  static componentId = 'custom-loadable'
+  static componentId = componentTracker.track(ComponentWithTranslations);
+
   static async load = () => {
     const response = await fetch('/translations.json')
     const translations = await response.json()
     ComponentWithTranslations.translations = translations
     return translations
   }
+
+  static [LOADABLE] = () => ({
+    componentId: ComponentWithTranslations.componentId,
+    load: ComponentWithTranslations.load,
+  })
 
   state = { translations: ComponentWithTranslations.translations }
 
@@ -358,15 +364,6 @@ class ComponentWithTranslations extends React.Component {
     return <div>{hello}</div>
   }
 }
-
-ComponentWithTranslations[LOADABLE] = () => ({
-  componentId: 'custom-loadable',
-  load: async () => {
-    const response = await fetch('/translations.json')
-    const translations = await response.json()
-    ComponentWithTranslations.translations = translations
-  }
-})
 ```
 
 ## Other solutions
