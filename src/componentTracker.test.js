@@ -16,4 +16,14 @@ describe('componentTracker', () => {
       [id2]: Component2,
     })
   })
+
+  it('should be possible to reset tracking', () => {
+    componentTracker.track(() => null)
+    componentTracker.track(() => null)
+
+    componentTracker.loadableHMR()
+
+    expect(componentTracker.getAll()).toEqual({})
+    expect(componentTracker.track(() => null)).toEqual(0)
+  })
 })
