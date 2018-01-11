@@ -9,8 +9,8 @@ export const track = component => {
 }
 
 export const loadableHMR = () => {
-  currentId = 0;
-  components = {};
+  currentId = 0
+  components = {}
 }
 export const get = id => components[id]
 export const getAll = () => ({ ...components })
