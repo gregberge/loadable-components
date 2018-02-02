@@ -87,7 +87,14 @@ function getQueriesFromTree(
 
     if (instance && instance.constructor[LOADABLE] && !skipRoot) {
       const loadable = instance.constructor[LOADABLE]()
-      const query = loadable.load().then(() => loadable.componentId)
+      const query = loadable.load().then(() => {
+        if (!loadable.componentId) {
+          throw new Error(
+            'loadable-components: modules entry is missing, your are probably missing `loadable-components/babel`',
+          )
+        }
+        return loadable.componentId
+      })
 
       if (query) {
         queries.push({ query, element, context })
@@ -108,25 +115,24 @@ export function getLoadableState(
   rootElement,
   rootContext = {},
   fetchRoot = true,
+  tree = {},
 ) {
   const queries = getQueriesFromTree({ rootElement, rootContext }, fetchRoot)
 
   // no queries found, nothing to do
-  if (!queries.length) return Promise.resolve(new DeferredState([]))
+  if (!queries.length) return Promise.resolve(new DeferredState(tree))
 
   const errors = []
-  let componentIds = []
+  tree.children = []
 
   // wait on each query that we found, re-rendering the subtree when it's done
   const mappedQueries = queries.map(({ query, element, context }) =>
     // we've just grabbed the query for element, so don't try and get it again
     query
-      .then(componentId => {
-        componentIds.push(componentId)
-        return getLoadableState(element, context, false)
-      })
-      .then(state => {
-        componentIds = [...componentIds, ...state.componentIds]
+      .then(id => {
+        const subTree = { id }
+        tree.children.push(subTree)
+        return getLoadableState(element, context, false, subTree)
       })
       .catch(e => errors.push(e)),
   )
@@ -145,6 +151,6 @@ export function getLoadableState(
       throw error
     }
 
-    return new DeferredState(componentIds)
+    return new DeferredState(tree)
   })
 }

@@ -42,21 +42,39 @@ import React from 'react'
 import { Route } from 'react-router'
 import * as Routes from './Routes'
 
-export default () =>
+export default () => (
   <div>
     <Route exact path="/" component={Routes.Home} />
     <Route path="/about" component={Routes.About} />
     <Route path="/contact" component={Routes.Contact} />
   </div>
+)
 ```
 
 ### Custom loading
 
 It is possible to add a custom loading component, by default it will render nothing:
 
+Using a component:
+
 ```js
-export const Home = loadable(() => import('./Home'), {
-  LoadingComponent: (props) => <div>Loading...</div>,
+const Loading = () => <div>Loading...</div>
+
+const Home = loadable(() => import('./Home'), {
+  LoadingComponent: Loading,
+})
+```
+
+Or using render props:
+
+```js
+import React from 'react'
+
+const Home = loadable(() => import('./Home'), {
+  render: ({ Component, loading, ownProps }) => {
+    if (loading) return <div>Loading...</div>
+    return <Component {...ownProps} />
+  },
 })
 ```
 
@@ -64,9 +82,26 @@ export const Home = loadable(() => import('./Home'), {
 
 You can configure the component rendered when an error occurs during loading, by default it will render nothing:
 
+Using a component:
+
 ```js
-export const Home = loadable(() => import('./Home'), {
-  ErrorComponent: ({ error, props }) => <div>Oups an error occurs.</div>,
+const ErrorDisplay = ({ error }) => <div>Oups! {error.message}</div>
+
+const Home = loadable(() => import('./Home'), {
+  ErrorComponent: ErrorDisplay,
+})
+```
+
+Or using render props:
+
+```js
+import React from 'react'
+
+const Home = loadable(() => import('./Home'), {
+  render: ({ Component, error, ownProps }) => {
+    if (error) return <div>Oups! {error.message}</div>
+    return <Component {...ownProps} />
+  },
 })
 ```
 
@@ -88,7 +123,7 @@ If you want to avoid these delay server-side:
 import loadable from 'loadable-components'
 import pMinDelay from 'p-min-delay'
 
-const delay = (promise) => {
+const delay = promise => {
   if (typeof window === 'undefined') return promise
   return pMinDelay(promise, 200)
 }
@@ -108,6 +143,24 @@ import { timeout } from 'promise-timeout'
 export const Home = loadable(timeout(() => import('./Home'), 2000))
 ```
 
+### Loading multiple resources in parallel
+
+Since `loadable-components` accepts a simple callback function it is easy to load multiple resource in parallel. Simply do it in JavaScript!
+
+```js
+import React from 'react'
+import loadable from 'loadable-components'
+
+const What = loadable(() => {
+  const [{ default: Books }, { default: books }] = Promise.all([
+    import('./Books'),
+    import('./books.json'),
+  ])
+
+  return props => <Books {...props} books={books} />
+})
+```
+
 ### Prefetching
 
 To enhance user experience you can fetch routes before they are requested by the user.
@@ -116,11 +169,19 @@ To enhance user experience you can fetch routes before they are requested by the
 
 ```js
 import React from 'react'
-import { Contact } from './Routes'
+import { Route } from 'react-router'
+import * as Routes from './Routes'
 
-Contact.load()
+// Prefetch contact component
+Routes.Contact.load()
 
-export default () => <div>Hello</div>
+const App () => (
+  <div>
+    <Route exact path="/" component={Routes.Home} />
+    <Route path="/about" component={Routes.About} />
+    <Route path="/contact" component={Routes.Contact} />
+  </div>
+)
 ```
 
 #### Prefetch on hover
@@ -129,11 +190,13 @@ export default () => <div>Hello</div>
 import React from 'react'
 import { Contact } from './Routes'
 
-export default () =>
+const Links = () => (
   <div>
-    <Link
-    <Link to="/contact" onHover={Contact.load}>Contact</Link>
+    <Link to="/contact" onHover={Contact.load}>
+      Contact
+    </Link>
   </div>
+)
 ```
 
 ### Server-side rendering
@@ -154,10 +217,13 @@ You can use them in your application:
 import React from 'react'
 import { Home } from './Routes'
 
-const App = () =>
+const App = () => (
   <div>
     <Route exact path="/" component={Home} />
   </div>
+)
+
+export default App
 ```
 
 Then bootstrap your application client-side using `loadComponents`:
@@ -191,7 +257,7 @@ import { StaticRouter } from 'react-router'
 import { getLoadableState } from 'loadable-components/server'
 import App from './App'
 
-let context = {}
+const context = {}
 
 const app = (
   <StaticRouter location={...} context={context}>
@@ -218,10 +284,35 @@ getLoadableState(app).then(loadableState => {
 
 #### Configuring Babel
 
-Dynamic `import` syntax is natively supported by Webpack but not by node. That's why you have to configure Babel differently for server and client:
+Server-side rendering requires to specify which modules are loaded into your `loadable` callback:
 
-- Use [babel-plugin-syntax-dynamic-import](https://babeljs.io/docs/plugins/syntax-dynamic-import/) on the client.
-- Use [babel-plugin-dynamic-import-node](https://github.com/airbnb/babel-plugin-dynamic-import-node) on the server.
+```js
+import loadable from 'loadable-components'
+
+const AsyncComponent = loadable(() => import('./MyComponent'), {
+  modules: ['./MyComponent'],
+})
+```
+
+As you can see this is relatively boring and can be automated using our babel plugin `loadable-components/babel`.
+
+Dynamic `import` syntax is natively supported by Webpack / Parcel but not by node. That's why you have to configure Babel differently for server and client:
+
+**On the server**:
+
+```json
+{
+  "plugins": ["loadable-components/babel", "babel-plugin-dynamic-import-node"]
+}
+```
+
+**On the client**:
+
+```json
+{
+  "plugins": ["loadable-components/babel"]
+}
+```
 
 To have a different configuration for client and server, you can use [Babel env option](https://babeljs.io/docs/usage/babelrc/#env-option).
 
@@ -231,7 +322,7 @@ An alternative to server-side rendering is [snapshoting](https://medium.com/supe
 
 You need to instruct your snapshot solution to save state of `loadable-components` to the `window` in the end.
 
-`getState()` will return `{__LOADABLE_COMPONENT_IDS__: [...]}`, and this should be converted to  `<script>window.__LOADABLE_COMPONENT_IDS__ = [...]</script>` in the resulting html.
+`getState()` will return `{__LOADABLE_STATE__: {...} }`, and this should be converted to `<script>window.__LOADABLE_STATE__ = {...}</script>` in the resulting html.
 
 For example, to do this with [`react-snap`](https://github.com/stereobooster/react-snap) you can use following code:
 
@@ -254,8 +345,11 @@ This is the default export. It's a factory used to create a loadable component. 
 2. `options` _(Object)_: Facultative options to configure component behavior.
 
 ### options
-1. `ErrorComponent` _(ReactComponent)_: Component rendered when an error occurs, take two props: `error` and `props`.
+
+1. `ErrorComponent` _(ReactComponent)_: Component rendered when an error occurs, take two props: `error` and `ownProps`.
 2. `LoadingComponent` _(ReactComponent)_: Component rendered during loading, take the same props from loadable component.
+3. `render` _(Function)_: If specified this function is called with in render with an object: `{ loading, error, ownProps, Component }`. It takes precedence over `ErrorComponent` and `LoadingComponent`.
+4. `modules` _(Object)_: This options is only required if you do server-side rendering. It can be automated using babel plugin `loadable-components/babel`.
 
 ```js
 import loadable from 'loadable-components'
@@ -324,8 +418,8 @@ getLoadableState(app).then(loadableState => {
 
 A loadable state has two methods to extract state:
 
-- `loadableState.getScriptTag()`: Returns a string representing a script tag.
-- `loadableState.getScriptElement()`: Returns a React element.
+* `loadableState.getScriptTag()`: Returns a string representing a script tag.
+* `loadableState.getScriptElement()`: Returns a React element.
 
 ## Interoperability
 
@@ -379,14 +473,14 @@ ComponentWithTranslations[LOADABLE] = () => ({
 
 The main difference between these two libraries is the server-side rendering approach:
 
-- `react-loadable` requires a babel plugin. I think it's too complicated and we should not rely on it.
-- `react-async-component` has a better approach, analyzing tree + context, it also rely on another library. I like the idea but not the API.
+* `react-loadable` requires a babel plugin. I think it's too complicated and we should not rely on it.
+* `react-async-component` has a better approach, analyzing tree + context, it also rely on another library. I like the idea but not the API.
 
 `loadable-components` has a simpler approach, it relies on [dynamic-import-specification](https://github.com/tc39/proposal-dynamic-import) and assumes that [it is working for node and Webpack](https://babeljs.io/docs/plugins/syntax-dynamic-import/). Then it analyzes the tree server-side and waiting for every modules to be loaded. Client-side it loads modules before rendering the application. The API is as simple as possible, no context, no babel plugin, no magic variable.
 
 ## Inspirations
 
-- API inspired by [styled-components](https://github.com/styled-components/styled-components)
-- React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
+* API inspired by [styled-components](https://github.com/styled-components/styled-components)
+* React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
 
 ## MIT

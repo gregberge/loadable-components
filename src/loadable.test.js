@@ -83,8 +83,8 @@ describe('#loadable', () => {
         throw new Error('Bouh')
       },
       {
-        ErrorComponent: ({ error, props }) => (
-          <div className={props.className}>{error.message}</div>
+        ErrorComponent: ({ error, ownProps }) => (
+          <div className={ownProps.className}>{error.message}</div>
         ),
       },
     )
@@ -98,5 +98,23 @@ describe('#loadable', () => {
       wrapper.update()
       expect(wrapper.contains(<div className="x">Bouh</div>)).toBe(true)
     }
+  })
+
+  it('should be possible to use render props', async () => {
+    const LoadableWithRenderProps = loadable(
+      async () => props => <div {...props}>Hello</div>,
+      {
+        render: ({ ownProps, loading, Component }) => {
+          if (loading) return <div>Loading...</div>
+          return <Component {...ownProps} />
+        },
+      },
+    )
+
+    const wrapper = mount(<LoadableWithRenderProps className="x" />)
+    expect(wrapper.text()).toBe('Loading...')
+    await LoadableWithRenderProps.load()
+    wrapper.update()
+    expect(wrapper.find('div.x').text()).toBe('Hello')
   })
 })

@@ -8,7 +8,12 @@ const EmptyComponent = () => null
 
 function loadable(
   getComponent,
-  { ErrorComponent = EmptyComponent, LoadingComponent = EmptyComponent } = {},
+  {
+    ErrorComponent = EmptyComponent,
+    LoadingComponent = EmptyComponent,
+    render,
+    modules,
+  } = {},
 ) {
   class LoadableComponent extends React.Component {
     static Component = null
@@ -34,6 +39,7 @@ function loadable(
     state = {
       Component: LoadableComponent.Component,
       error: null,
+      loading: true,
     }
 
     mounted = false
@@ -43,10 +49,10 @@ function loadable(
 
       LoadableComponent.load()
         .then(Component => {
-          this.safeSetState({ Component })
+          this.safeSetState({ Component, loading: false })
         })
         .catch(error => {
-          this.safeSetState({ error })
+          this.safeSetState({ error, loading: false })
         })
     }
 
@@ -66,21 +72,31 @@ function loadable(
     render() {
       const { Component, error } = this.state
 
+      if (typeof render === 'function') {
+        return render({
+          ...this.state,
+          ownProps: this.props,
+        })
+      }
+
       if (Component !== null) {
         return <Component {...this.props} />
       }
 
       if (error !== null) {
-        return <ErrorComponent error={error} props={this.props} />
+        return <ErrorComponent error={error} ownProps={this.props} />
       }
 
       return <LoadingComponent {...this.props} />
     }
   }
 
-  const id = componentTracker.track(LoadableComponent)
   LoadableComponent[LOADABLE] = () => LoadableComponent
-  LoadableComponent.componentId = id
+
+  if (modules) {
+    const id = componentTracker.track(LoadableComponent, modules)
+    LoadableComponent.componentId = id
+  }
 
   return LoadableComponent
 }

@@ -1,10 +1,8 @@
-let currentId = 0
 const components = {}
 
-export const track = component => {
-  const id = currentId
+export const track = (component, modules) => {
+  const id = modules.join('-')
   components[id] = component
-  currentId += 1
   return id
 }
 
