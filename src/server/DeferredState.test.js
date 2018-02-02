@@ -7,13 +7,15 @@ describe('DeferredState', () => {
   let deferredState
 
   beforeEach(() => {
-    deferredState = new DeferredState([0, 1, 2])
+    deferredState = new DeferredState({
+      children: [{ id: './Foo' }, { id: './Bar' }],
+    })
   })
 
   describe('#getScriptContent', () => {
     it('should return script content', () => {
       expect(deferredState.getScriptContent()).toBe(
-        'window.__LOADABLE_COMPONENT_IDS__ = [0,1,2];',
+        'window.__LOADABLE_STATE__ = {"children":[{"id":"./Foo"},{"id":"./Bar"}]};',
       )
     })
   })
@@ -21,7 +23,7 @@ describe('DeferredState', () => {
   describe('#getScriptTag', () => {
     it('should return script content', () => {
       expect(deferredState.getScriptTag()).toBe(
-        '<script>window.__LOADABLE_COMPONENT_IDS__ = [0,1,2];</script>',
+        '<script>window.__LOADABLE_STATE__ = {"children":[{"id":"./Foo"},{"id":"./Bar"}]};</script>',
       )
     })
   })
@@ -32,7 +34,8 @@ describe('DeferredState', () => {
         shallow(deferredState.getScriptElement()).equals(
           <script
             dangerouslySetInnerHTML={{
-              __html: 'window.__LOADABLE_COMPONENT_IDS__ = [0,1,2];',
+              __html:
+                'window.__LOADABLE_STATE__ = {"children":[{"id":"./Foo"},{"id":"./Bar"}]};',
             }}
           />,
         ),

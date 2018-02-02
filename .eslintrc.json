@@ -5,7 +5,9 @@
     "jest": true
   },
   "rules": {
-    "react/jsx-filename-extension": ["error", {"extensions": [".js"]}],
-    "react/jsx-wrap-multilines": "off"
+    "no-param-reassign": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
+    "react/jsx-wrap-multilines": "off",
+    "react/no-unused-state": "off"
   }
 }

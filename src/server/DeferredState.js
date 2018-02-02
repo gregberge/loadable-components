@@ -1,14 +1,14 @@
 /* eslint-disable react/no-danger */
 import React from 'react'
-import { COMPONENT_IDS } from '../constants'
+import { LOADABLE_STATE } from '../constants'
 
 class DeferredState {
-  constructor(componentIds) {
-    this.componentIds = componentIds
+  constructor(tree) {
+    this.tree = tree
   }
 
   getScriptContent() {
-    return `window.${COMPONENT_IDS} = ${JSON.stringify(this.componentIds)};`
+    return `window.${LOADABLE_STATE} = ${JSON.stringify(this.tree)};`
   }
 
   getScriptTag() {

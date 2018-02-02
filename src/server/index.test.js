@@ -25,7 +25,9 @@ describe('server side rendering', () => {
 
   it('should collect ids', async () => {
     const loadableState = await getLoadableState(app)
-    expect(loadableState.componentIds).toEqual([1, 0])
+    expect(loadableState.tree).toEqual({
+      children: [{ children: [{ id: './Book' }], id: './Books' }],
+    })
   })
 
   describe('without any ids', () => {
@@ -37,7 +39,7 @@ describe('server side rendering', () => {
         </StaticRouter>
       )
       const loadableState = await getLoadableState(app).then(x => x)
-      expect(loadableState.componentIds).toEqual([])
+      expect(loadableState.tree).toEqual({})
     })
   })
 })
