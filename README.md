@@ -151,8 +151,8 @@ Since `loadable-components` accepts a simple callback function it is easy to loa
 import React from 'react'
 import loadable from 'loadable-components'
 
-const What = loadable(() => {
-  const [{ default: Books }, { default: books }] = Promise.all([
+const What = loadable(async () => {
+  const [{ default: Books }, { default: books }] = await Promise.all([
     import('./Books'),
     import('./books.json'),
   ])
