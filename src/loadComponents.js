@@ -3,7 +3,7 @@ import { LOADABLE, LOADABLE_STATE } from './constants'
 import * as componentTracker from './componentTracker'
 
 function loadState(rootState) {
-  if (!rootState.children) return null
+  if (!rootState.children) return Promise.resolve(null)
 
   return Promise.all(
     rootState.children.map(state => {
@@ -50,7 +50,7 @@ function loadComponents() {
   }
 
   const state = window[LOADABLE_STATE]
-  if (!state) {
+  if (!state || !state.children) {
     throw new Error(
       'loadable-components state not found. ' +
         'You have a problem server-side. ' +

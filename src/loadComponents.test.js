@@ -30,4 +30,26 @@ describe('loadComponents', () => {
     expect(Component2.load).toHaveBeenCalled()
     expect(Component3.load).toHaveBeenCalled()
   })
+
+  it('should handle no LOADABLE_STATE', async () => {
+    delete window[LOADABLE_STATE]
+    expect.assertions(1)
+
+    try {
+      await loadComponents()
+    } catch (err) {
+      expect(err.message).toMatch(/loadable-components state not found/)
+    }
+  })
+
+  it('should handle no children', async () => {
+    delete window[LOADABLE_STATE].children
+    expect.assertions(1)
+
+    try {
+      await loadComponents()
+    } catch (err) {
+      expect(err.message).toMatch(/loadable-components state not found/)
+    }
+  })
 })
