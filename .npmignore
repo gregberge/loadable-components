@@ -1,7 +1,5 @@
 /*
 !/babel.js
 !/server.js
-!/lib/**/*.js
-__fixtures__
-*.test.js
-setupTests.js
+!/dist/**/*.js
+!/src/**/*.js
