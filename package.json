@@ -1,6 +1,6 @@
 {
   "name": "loadable-components",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "React code splitting made easy.",
   "repository": "git@github.com:smooth-code/loadable-components.git",
   "main": "dist/loadable-components.cjs.js",
@@ -21,12 +21,10 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -rf dist/ && rollup -c",
-    "ci":
-      "yarn build && yarn lint && bundlesize && yarn test --coverage && codecov",
+    "ci": "yarn build && yarn lint && bundlesize && yarn test --coverage && codecov",
     "format": "prettier --write \"src/**/*.js\" \"*.md\"",
     "lint": "eslint .",
-    "release":
-      "yarn build && standard-version && conventional-github-releaser -p angular",
+    "release": "yarn build && standard-version && conventional-github-releaser -p angular",
     "test": "jest"
   },
   "peerDependencies": {
@@ -75,7 +73,9 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0"
   },
   "jest": {
-    "setupFiles": ["<rootDir>/tests/setupTests.js"]
+    "setupFiles": [
+      "<rootDir>/tests/setupTests.js"
+    ]
   },
   "bundlesize": [
     {
