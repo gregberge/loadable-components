@@ -1,5 +1,5 @@
 node_modules/
-/lib/
 /coverage/
-__fixtures__
-example
+/dist/
+__fixtures__/
+/example/

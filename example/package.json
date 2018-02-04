@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev:server": "nodemon server",
+    "dev:client": "webpack-dev-server"
+  },
   "dependencies": {
     "express": "^4.16.2",
-    "loadable-components": "file:../loadable-components-v0.4.0-4.tgz",
+    "loadable-components": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },

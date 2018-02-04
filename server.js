@@ -1,1 +1,1 @@
-module.exports = require('./lib/server')
+module.exports = require('./dist/loadable-components.server.cjs.js')

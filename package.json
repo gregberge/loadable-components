@@ -2,8 +2,10 @@
   "name": "loadable-components",
   "version": "1.0.2",
   "description": "React code splitting made easy.",
-  "main": "lib/index.js",
   "repository": "git@github.com:smooth-code/loadable-components.git",
+  "main": "dist/loadable-components.cjs.js",
+  "jsnext:main": "dist/loadable-components.es.js",
+  "module": "dist/loadable-components.es.js",
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "keywords": [
     "react",
@@ -17,17 +19,14 @@
     "react-async-components"
   ],
   "license": "MIT",
-  "jest": {
-    "setupFiles": [
-      "<rootDir>/tests/setupTests.js"
-    ]
-  },
   "scripts": {
-    "build": "rm -rf lib/ && NODE_ENV=production babel --ignore \"*.test.js\" src -d lib",
-    "ci": "yarn build && yarn lint && yarn test --coverage && codecov",
+    "build": "rm -rf dist/ && rollup -c",
+    "ci":
+      "yarn build && yarn lint && bundlesize && yarn test --coverage && codecov",
     "format": "prettier --write \"src/**/*.js\" \"*.md\"",
     "lint": "eslint .",
-    "release": "yarn build && standard-version && conventional-github-releaser -p angular",
+    "release":
+      "yarn build && standard-version && conventional-github-releaser -p angular",
     "test": "jest"
   },
   "peerDependencies": {
@@ -39,10 +38,12 @@
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.1.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "bundlesize": "^0.16.0",
     "codecov": "^3.0.0",
     "conventional-github-releaser": "^2.0.0",
     "enzyme": "^3.3.0",
@@ -59,9 +60,27 @@
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-test-renderer": "^16.2.0",
+    "rollup": "^0.55.3",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-uglify": "^3.0.0",
+    "rollup-plugin-visualizer": "^0.3.1",
     "standard-version": "^4.3.0"
   },
   "dependencies": {
     "babel-plugin-syntax-dynamic-import": "^6.18.0"
-  }
+  },
+  "jest": {
+    "setupFiles": ["<rootDir>/tests/setupTests.js"]
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/loadable-components.min.js",
+      "maxSize": "2kb"
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 node_modules/
-/lib/
 /coverage/
-__fixtures__
+/dist/
+__fixtures__/
+/example/
 CHANGELOG.md
