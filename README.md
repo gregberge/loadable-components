@@ -1,19 +1,25 @@
-<a href="https://github.com/smooth-code/loadable-components">
-  <img alt="loadable-components" src="https://user-images.githubusercontent.com/266302/27487896-6a8cc4fa-5835-11e7-8061-b481ad72a065.png" height="200px" />
-</a>
-<br />
+<h1 align="center">
+  <img src="https://user-images.githubusercontent.com/266302/27487896-6a8cc4fa-5835-11e7-8061-b481ad72a065.png" alt="loadable-components" title="loadable-components" width="300">
+</h1>
+<p align="center" style="font-size: 1.2rem;">React code splitting made easy. Reduce your bundle size without stress ✂️✨.</p>
 
-React code splitting made easy. Reduce your bundle size without stress ✂️✨.
+[![Build Status][build-badge]][build]
+[![Code Coverage][coverage-badge]][coverage]
+[![Version][version-badge]][package]
+[![MIT License][license-badge]][license]
+[![Small size][size-badge]][build-min]
 
-> Read [the intro blogpost](https://medium.com/smooth-code/introducing-loadable-components-%EF%B8%8F-646dd3ab0aa6)
+[![PRs Welcome][prs-badge]][prs] [![Chat][chat-badge]][chat]
+
+[![Watch on GitHub][github-watch-badge]][github-watch]
+[![Star on GitHub][github-star-badge]][github-star]
+[![Tweet][twitter-badge]][twitter]
+
+[**Read the intro blogpost**](https://medium.com/smooth-code/introducing-loadable-components-%EF%B8%8F-646dd3ab0aa6)
 
 ```sh
 npm install loadable-components
 ```
-
-[![Build Status](https://travis-ci.org/smooth-code/loadable-components.svg?branch=master)](https://travis-ci.org/smooth-code/loadable-components)
-[![codecov](https://codecov.io/gh/smooth-code/loadable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/smooth-code/loadable-components)
-[![gzip size](http://img.badgesize.io/https://unpkg.com/loadable-components/dist/loadable-components.min.js?compression=gzip)](https://unpkg.com/loadable-components/dist/loadable-components.min.js)
 
 Webpack allows modern code splitting via the [dynamic `import` syntax](https://webpack.js.org/guides/code-splitting/#dynamic-imports).
 `loadable-components` makes it possible to use that awesome feature with React components. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
@@ -482,3 +488,24 @@ The main difference between these two libraries is the server-side rendering app
 * React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
 
 ## MIT
+
+[build-badge]: https://img.shields.io/travis/smooth-code/loadable-components.svg?style=flat-square
+[build]: https://travis-ci.org/smooth-code/loadable-components
+[coverage-badge]: https://img.shields.io/codecov/c/github/smooth-code/loadable-components.svg?style=flat-square
+[coverage]: https://codecov.io/github/smooth-code/loadable-components
+[version-badge]: https://img.shields.io/npm/v/loadable-components.svg?style=flat-square
+[package]: https://www.npmjs.com/package/loadable-components
+[license-badge]: https://img.shields.io/npm/l/loadable-components.svg?style=flat-square
+[license]: https://github.com/smooth-code/loadable-components/blob/master/LICENSE
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[prs]: http://makeapullrequest.com
+[chat]: https://gitter.im/smooth-code/loadable-components
+[chat-badge]: https://img.shields.io/gitter/room/smooth-code/loadable-components.svg?style=flat-square
+[github-watch-badge]: https://img.shields.io/github/watchers/smooth-code/loadable-components.svg?style=social
+[github-watch]: https://github.com/smooth-code/loadable-components/watchers
+[github-star-badge]: https://img.shields.io/github/stars/smooth-code/loadable-components.svg?style=social
+[github-star]: https://github.com/smooth-code/loadable-components/stargazers
+[twitter]: https://twitter.com/intent/tweet?text=Check%20out%20loadable-components!%20https://github.com/smooth-code/loadable-components%20%F0%9F%91%8D
+[twitter-badge]: https://img.shields.io/twitter/url/https/github.com/smooth-code/loadable-components.svg?style=social
+[size-badge]: http://img.badgesize.io/https://unpkg.com/loadable-components/dist/loadable-components.min.js?compression=gzip&style=flat-square
+[build-min]: https://unpkg.com/loadable-components/dist/loadable-components.min.js
