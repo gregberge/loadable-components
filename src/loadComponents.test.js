@@ -41,15 +41,4 @@ describe('loadComponents', () => {
       expect(err.message).toMatch(/loadable-components state not found/)
     }
   })
-
-  it('should handle no children', async () => {
-    delete window[LOADABLE_STATE].children
-    expect.assertions(1)
-
-    try {
-      await loadComponents()
-    } catch (err) {
-      expect(err.message).toMatch(/loadable-components state not found/)
-    }
-  })
 })

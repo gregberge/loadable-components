@@ -50,7 +50,7 @@ function loadComponents() {
   }
 
   const state = window[LOADABLE_STATE]
-  if (!state || !state.children) {
+  if (!state) {
     throw new Error(
       'loadable-components state not found. ' +
         'You have a problem server-side. ' +
