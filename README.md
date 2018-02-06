@@ -334,7 +334,7 @@ You need to instruct your snapshot solution to save state of `loadable-component
 For example, to do this with [`react-snap`](https://github.com/stereobooster/react-snap) you can use following code:
 
 ```js
-import { getState } from 'loadable-components/snap'
+import { getState } from 'loadable-components'
 
 // Set up for react-snap.
 window.snapSaveState = () => getState()
