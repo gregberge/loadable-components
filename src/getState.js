@@ -1,9 +1,9 @@
 /* eslint-env browser */
 /* eslint-disable import/prefer-default-export */
-import { getAll as getAllComponents } from '../componentTracker'
-import { LOADABLE_STATE } from '../constants'
+import { getAll as getAllComponents } from './componentTracker'
+import { LOADABLE_STATE } from './constants'
 
-export function getState() {
+function getState() {
   const componentByIds = getAllComponents()
   const children = Object.keys(componentByIds).reduce((ids, id) => {
     const component = componentByIds[id]
@@ -12,3 +12,5 @@ export function getState() {
   }, [])
   return { [LOADABLE_STATE]: { children } }
 }
+
+export default getState
