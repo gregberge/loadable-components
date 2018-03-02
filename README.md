@@ -274,7 +274,7 @@ const app = (
 
 // Extract loadable state from application tree
 getLoadableState(app).then(loadableState => {
-  const html = renderToString(<YourApp />)
+  const html = renderToString(app)
   // Insert style tag into page
   const page = `
     <!doctype html>
