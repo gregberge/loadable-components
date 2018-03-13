@@ -199,7 +199,7 @@ import { Contact } from './Routes'
 
 const Links = () => (
   <div>
-    <Link to="/contact" onHover={Contact.load}>
+    <Link to="/contact" onMouseOver={Contact.load}>
       Contact
     </Link>
   </div>
