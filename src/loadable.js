@@ -90,7 +90,10 @@ function loadable(
       return <LoadingComponent {...this.props} />
     }
   }
-
+  // development mode load every time
+  if(process.env.NODE_ENV === 'development'){
+    LoadableComponent.load()
+  }
   LoadableComponent[LOADABLE] = () => LoadableComponent
 
   if (modules) {
