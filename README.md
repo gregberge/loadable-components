@@ -340,6 +340,17 @@ import { getState } from 'loadable-components'
 window.snapSaveState = () => getState()
 ```
 
+### Hot Reloading
+
+Loadable Components is Hot Reload friendly, it works out of the box with [React Hot Loader](https://github.com/gaearon/react-hot-loader) without adding a single line of code. All components are loaded when a reload occurs, if you want to disable this behaviour, you can set a global config:
+
+```js
+import { setConfig } from 'loadable-components'
+
+// Disable automatic "load" of components
+setConfig({ hotReload: false })
+```
+
 ## API Reference
 
 ### loadable
