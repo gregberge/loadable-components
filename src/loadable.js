@@ -3,6 +3,7 @@ import React from 'react'
 import { LOADABLE } from './constants'
 import resolveModuleDefault from './utils/resolveModuleDefault'
 import * as componentTracker from './componentTracker'
+import { getConfig } from './config'
 
 const EmptyComponent = () => null
 
@@ -92,6 +93,10 @@ function loadable(
   }
 
   LoadableComponent[LOADABLE] = () => LoadableComponent
+
+  if (module && module.hot && getConfig().hotReload) {
+    LoadableComponent.load()
+  }
 
   if (modules) {
     const id = componentTracker.track(LoadableComponent, modules)
