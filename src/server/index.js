@@ -145,7 +145,7 @@ export function getLoadableState(
         const err = new Error(
           `${errors.length} errors were thrown when importing your modules.`
         );
-        err.errors = errors;
+        err.queryErrors = errors
         throw err;
       }
     }
