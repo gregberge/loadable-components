@@ -37,24 +37,29 @@ function loadable(
       return LoadableComponent.loadingPromise
     }
 
-    state = {
-      Component: LoadableComponent.Component,
-      error: null,
-      loading: true,
-    }
+    constructor(props) {
+      super(props)
+      this.state = {
+        Component: LoadableComponent.Component,
+        error: null,
+        loading: true,
+      }
+      this.mounted = false
+      this.loadingPromise = null
 
-    mounted = false
-
-    componentWillMount() {
-      if (typeof window === 'undefined' || this.state.Component !== null) return
-
-      LoadableComponent.load()
-        .then(Component => {
-          this.safeSetState({ Component, loading: false })
-        })
-        .catch(error => {
-          this.safeSetState({ error, loading: false })
-        })
+      if (
+        typeof window !== 'undefined' &&
+        this.state.Component === null &&
+        this.loadingPromise === null
+      ) {
+        this.loadingPromise = LoadableComponent.load()
+          .then(Component => {
+            this.safeSetState({ Component, loading: false })
+          })
+          .catch(error => {
+            this.safeSetState({ error, loading: false })
+          })
+      }
     }
 
     componentDidMount() {
