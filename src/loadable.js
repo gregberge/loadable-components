@@ -1,5 +1,6 @@
 /* eslint-disable react/sort-comp */
 import React from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { LOADABLE } from './constants'
 import resolveModuleDefault from './utils/resolveModuleDefault'
 import * as componentTracker from './componentTracker'
@@ -26,6 +27,12 @@ function loadable(
           .then(module => {
             const Component = resolveModuleDefault(module)
             LoadableComponent.Component = Component
+            hoistNonReactStatics(LoadableComponent, Component, {
+              Component: true,
+              loadingPromise: true,
+              load: true,
+              [LOADABLE]: true,
+            })
             return Component
           })
           .catch(error => {

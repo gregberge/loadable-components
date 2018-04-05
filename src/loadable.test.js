@@ -22,6 +22,11 @@ describe('#loadable', () => {
     expect(wrapper.contains(<Dummy />)).toBe(true)
   })
 
+  it('should hoist static variables', async () => {
+    await Loadable.load()
+    expect(Loadable.dummyStaticProp).toBe(true)
+  })
+
   it('should not load it two times', async () => {
     const wrapper = mount(<Loadable />)
     expect(wrapper.find('EmptyComponent').exists()).toBe(true)
