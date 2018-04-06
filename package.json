@@ -24,7 +24,7 @@
     "ci": "yarn build && yarn lint && bundlesize && yarn test --coverage && codecov",
     "format": "prettier --write \"src/**/*.js\" \"*.md\"",
     "lint": "eslint .",
-    "release": "yarn build && standard-version && conventional-github-releaser -p angular",
+    "release": "yarn build && standard-version && conventional-github-releaser --preset angular",
     "test": "jest"
   },
   "peerDependencies": {
