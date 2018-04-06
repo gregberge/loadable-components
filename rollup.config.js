@@ -29,7 +29,7 @@ const umdConfig = Object.assign({}, configBase, {
     format: 'umd',
     name: 'loadable',
     exports: 'named',
-    globals: { react: 'React' },
+    globals: { react: 'React', 'hoist-non-react-statics': 'hoistNonReactStatics' },
     sourcemap: true,
   },
 })
@@ -60,14 +60,14 @@ const esConfig = Object.assign({}, configBase, {
     {
       file: 'dist/loadable-components.es.js',
       format: 'es',
-      globals: { react: 'React' },
+      globals: { react: 'React', 'hoist-non-react-statics': 'hoistNonReactStatics' },
       sourcemap: true,
     },
     {
       file: 'dist/loadable-components.cjs.js',
       format: 'cjs',
       exports: 'named',
-      globals: { react: 'React' },
+      globals: { react: 'React', 'hoist-non-react-statics': 'hoistNonReactStatics' },
       sourcemap: true,
     },
   ],
