@@ -41,6 +41,7 @@ describe('#loadable', () => {
     await Loadable.load()
     const wrapper = mount(<Loadable />)
     expect(wrapper.contains(<Dummy />)).toBe(true)
+    expect(wrapper.state().loading).toBe(false)
   })
 
   it('should do nothing if component is not mounted', async () => {
