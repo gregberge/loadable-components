@@ -49,7 +49,7 @@ function loadable(
       this.state = {
         Component: LoadableComponent.Component,
         error: null,
-        loading: true,
+        loading: !LoadableComponent.Component,
       }
       this.mounted = false
       this.loadingPromise = null
