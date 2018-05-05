@@ -3,11 +3,15 @@ import loadable from 'loadable-components'
 
 const What = loadable(
   async () => {
-    const { default: DeepWord } = await import('./DeepWorld')
-    const { default: DeepAmazing } = await import('./DeepAmazing')
+    const {
+      default: World,
+    } = await import(/* webpackChunkName: "World" */ './World')
+    const {
+      default: Amazing,
+    } = await import(/* webpackChunkName: "Amazing" */ './Amazing')
     return () => (
       <React.Fragment>
-        <DeepAmazing /> <DeepWord />
+        <Amazing /> <World />
       </React.Fragment>
     )
   },

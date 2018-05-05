@@ -1,11 +1,12 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
+  mode: 'development',
   entry: './client.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
-    chunkFilename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -23,11 +24,12 @@ module.exports = {
                 targets: {
                   browsers: ['last 2 chrome versions'],
                 },
-                modules: false
+                modules: false,
               },
             ],
           ],
           plugins: [
+            'react-hot-loader/babel',
             'loadable-components/babel',
             ['transform-class-properties', { loose: true }],
             'transform-object-rest-spread',
@@ -36,8 +38,13 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
   devtool: 'sourcemap',
   devServer: {
+    hot: true,
     proxy: {
       contentBase: path.resolve(__dirname, 'public'),
       publicPath: '/',

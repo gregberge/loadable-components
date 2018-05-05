@@ -1,5 +1,6 @@
 {
   "execMap": {
     "js": "babel-node"
-  }
+  },
+  "delay": 10000
 }
