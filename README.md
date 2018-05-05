@@ -352,15 +352,15 @@ This is the default export. It's a factory used to create a loadable component. 
 
 ### Arguments
 
-1. `getComponent` _(Function)_: Function to load component asynchronously.
-2. `options` _(Object)_: Facultative options to configure component behavior.
+1.  `getComponent` _(Function)_: Function to load component asynchronously.
+2.  `options` _(Object)_: Facultative options to configure component behavior.
 
 ### options
 
-1. `ErrorComponent` _(ReactComponent)_: Component rendered when an error occurs, take two props: `error` and `ownProps`.
-2. `LoadingComponent` _(ReactComponent)_: Component rendered during loading, take the same props from loadable component.
-3. `render` _(Function)_: If specified this function is called with in render with an object: `{ loading, error, ownProps, Component }`. It takes precedence over `ErrorComponent` and `LoadingComponent`.
-4. `modules` _(Object)_: This options is only required if you do server-side rendering. It can be automated using babel plugin `loadable-components/babel`.
+1.  `ErrorComponent` _(ReactComponent)_: Component rendered when an error occurs, take two props: `error` and `ownProps`.
+2.  `LoadingComponent` _(ReactComponent)_: Component rendered during loading, take the same props from loadable component.
+3.  `render` _(Function)_: If specified this function is called with in render with an object: `{ loading, error, ownProps, Component }`. It takes precedence over `ErrorComponent` and `LoadingComponent`.
+4.  `modules` _(Object)_: This options is only required if you do server-side rendering. It can be automated using babel plugin `loadable-components/babel`.
 
 ```js
 import loadable from 'loadable-components'

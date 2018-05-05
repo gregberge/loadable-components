@@ -2,6 +2,5 @@ node_modules/
 /coverage/
 /dist/
 __fixtures__/
-/example/
 CHANGELOG.md
 package.json
