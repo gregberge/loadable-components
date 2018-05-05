@@ -32,6 +32,7 @@ function loadable(
               loadingPromise: true,
               load: true,
               [LOADABLE]: true,
+              componentId: true,
             })
             return Component
           })
