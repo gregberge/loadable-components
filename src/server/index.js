@@ -145,7 +145,7 @@ function getQueriesFromTree(
       const query = loadable.load().then(() => {
         if (!loadable.componentId) {
           throw new Error(
-            'loadable-components: modules entry is missing, your are probably missing `loadable-components/babel`',
+            'loadable-components: modules entry is missing, you are probably missing `loadable-components/babel` in your Babel config.',
           )
         }
         return loadable.componentId
