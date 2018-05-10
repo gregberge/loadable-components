@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/smooth-code/loadable-components/compare/v1.4.0...v2.0.0) (2018-05-10)
+
+
+### Bug Fixes
+
+* do not propagate componentId ([fff1248](https://github.com/smooth-code/loadable-components/commit/fff1248))
+
+
+### Code Refactoring
+
+* remove HMR relative code ([ef0817c](https://github.com/smooth-code/loadable-components/commit/ef0817c))
+
+
+### BREAKING CHANGES
+
+* `setConfig` is no longer available.
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/smooth-code/loadable-components/compare/v1.3.0...v1.4.0) (2018-04-18)
 
