@@ -21,7 +21,7 @@ app.get('/', async (req, res) => {
   </html>`)
   } catch (err) {
     res.status(500)
-    res.send(err)
+    res.send(err.stack)
   }
 })
 
