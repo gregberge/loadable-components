@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://user-images.githubusercontent.com/266302/27487896-6a8cc4fa-5835-11e7-8061-b481ad72a065.png" alt="loadable-components" title="loadable-components" width="300">
+  <img src="https://user-images.githubusercontent.com/266302/27487896-6a8cc4fa-5835-11e7-8061-b481ad72a065.png" alt="loadable-components" title="Loadable Components" width="300">
 </h1>
 <p align="center" style="font-size: 1.2rem;">React code splitting made easy. Reduce your bundle size without stress ✂️✨.</p>
 
@@ -22,15 +22,15 @@ npm install loadable-components
 ```
 
 Webpack allows modern code splitting via the [dynamic `import` syntax](https://webpack.js.org/guides/code-splitting/#dynamic-imports).
-`loadable-components` makes it possible to use that awesome feature with React components. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
+Loadable Components makes it possible to use that awesome feature with React. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
 
-We use it in production on [our website](https://www.smooth-code.com/), it's open source https://github.com/smooth-code/website.
+We use it in production on [smooth-code.com](https://www.smooth-code.com/), it's open source https://github.com/smooth-code/website.
 
 ## Motivation
 
 Splitting your React application and rendering it server-side is complicated. Several have tried, [react-router gave up](https://reacttraining.com/react-router/web/guides/code-splitting), today only [next.js](https://github.com/zeit/next.js/) is doing it right. First I decided to not do it (afraid by react-router 😱) on my website. But then I think "Fuck code splitting shouldn't be a problem today, let's do it.".
 
-I tried several solutions, [react-async-components](https://github.com/ctrlplusb/react-async-component), [react-loadable](https://github.com/thejameskyle/react-loadable) and for each of them server-side rendering is very complicated. I decided to create `loadable-components` with for main goal: reducing API in order to make it as easier as possible for the developer. I inspired from [`styled-components`](https://www.styled-components.com/) and [Apollo](http://dev.apollodata.com/) for the API and `loadable-components` was born.
+I tried several solutions, [react-async-components](https://github.com/ctrlplusb/react-async-component), [react-loadable](https://github.com/thejameskyle/react-loadable) and for each of them server-side rendering was very complicated. I decided to create Loadable Components with for main goal: reducing API in order to make it as easier as possible for the developer. I inspired from [Styled Components](https://www.styled-components.com/) and [Apollo](http://dev.apollodata.com/) for the API.
 
 ## Getting started
 
@@ -327,7 +327,7 @@ To have a different configuration for client and server, you can use [Babel env 
 
 An alternative to server-side rendering is [snapshoting](https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319). Basically, you crawl your React website locally and you generate HTML pages.
 
-You need to instruct your snapshot solution to save state of `loadable-components` to the `window` in the end.
+You need to instruct your snapshot solution to save state of Loadable Components to the `window` in the end.
 
 `getState()` will return `{__LOADABLE_STATE__: {...} }`, and this should be converted to `<script>window.__LOADABLE_STATE__ = {...}</script>` in the resulting html.
 
@@ -484,12 +484,12 @@ The main difference between these two libraries is the server-side rendering app
 * `react-loadable` requires a webpack plugin and a babel plugin. I think it's too complicated and we should not rely on it.
 * `react-async-component` has a better approach, analyzing tree + context, it also rely on another library. I like the idea but not the API.
 
-`loadable-components` has a simpler approach, it relies on [dynamic-import-specification](https://github.com/tc39/proposal-dynamic-import) and assumes that [it is working for node and Webpack](https://babeljs.io/docs/plugins/syntax-dynamic-import/). Then it analyzes the tree server-side and waiting for every modules to be loaded. Client-side it loads modules before rendering the application. The API is as simple as possible, no context, no magic variable.
+Loadable Components has a simpler approach, it relies on [dynamic-import-specification](https://github.com/tc39/proposal-dynamic-import) and assumes that [it is working for node and Webpack](https://babeljs.io/docs/plugins/syntax-dynamic-import/). Then it analyzes the tree server-side and waiting for every modules to be loaded. Client-side it loads modules before rendering the application. The API is as simple as possible, no context, no magic variable.
 
 ## Inspirations
 
-* API inspired by [styled-components](https://github.com/styled-components/styled-components)
-* React tree traversing from [react-apollo](https://github.com/apollographql/react-apollo)
+* API inspired by [Styled Components](https://github.com/styled-components/styled-components)
+* React tree traversing from [React Apollo](https://github.com/apollographql/react-apollo)
 
 ## MIT
 
