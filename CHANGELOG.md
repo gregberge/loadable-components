@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/smooth-code/loadable-components/compare/v2.0.0...v2.0.1) (2018-05-12)
+
+
+### Bug Fixes
+
+* fix module resolving ([10318b0](https://github.com/smooth-code/loadable-components/commit/10318b0)), closes [#59](https://github.com/smooth-code/loadable-components/issues/59)
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/smooth-code/loadable-components/compare/v1.4.0...v2.0.0) (2018-05-10)
 
