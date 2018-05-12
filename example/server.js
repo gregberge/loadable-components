@@ -1,3 +1,4 @@
+import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import express from 'express'

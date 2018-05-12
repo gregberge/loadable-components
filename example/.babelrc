@@ -1,9 +1,15 @@
 {
-  "presets": ["react", ["env", {
-    "targets": {
-      "node": "current"
-    }
-  }]],
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
   "plugins": [
     "dynamic-import-node",
     "loadable-components/babel",
