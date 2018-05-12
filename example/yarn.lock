@@ -13,6 +13,118 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
+"@webassemblyjs/ast@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.4.2.tgz#ab715aa1fec9dd23c025204dba39690c119418ea"
+  dependencies:
+    "@webassemblyjs/helper-wasm-bytecode" "1.4.2"
+    "@webassemblyjs/wast-parser" "1.4.2"
+    debug "^3.1.0"
+    webassemblyjs "1.4.2"
+
+"@webassemblyjs/floating-point-hex-parser@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/floating-point-hex-parser/-/floating-point-hex-parser-1.4.2.tgz#9296fb64caa37bf98c8064aa329680e3e2bfacc7"
+
+"@webassemblyjs/helper-buffer@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/helper-buffer/-/helper-buffer-1.4.2.tgz#3cacecd5a6bfcb67932ed8219f81f92d8b2dafbb"
+
+"@webassemblyjs/helper-code-frame@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/helper-code-frame/-/helper-code-frame-1.4.2.tgz#20526637c3849f12b08f8661248477eef9642329"
+  dependencies:
+    "@webassemblyjs/wast-printer" "1.4.2"
+
+"@webassemblyjs/helper-fsm@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/helper-fsm/-/helper-fsm-1.4.2.tgz#e41050282994b5be077b95b65b66ecd5a92c5e88"
+
+"@webassemblyjs/helper-wasm-bytecode@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/helper-wasm-bytecode/-/helper-wasm-bytecode-1.4.2.tgz#b48c289c7921056aa12d71e78a17070ffe90c49c"
+
+"@webassemblyjs/helper-wasm-section@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/helper-wasm-section/-/helper-wasm-section-1.4.2.tgz#520e02c0cc3e5e9b5f44f58abc04ba5eda6e5476"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/helper-buffer" "1.4.2"
+    "@webassemblyjs/helper-wasm-bytecode" "1.4.2"
+    "@webassemblyjs/wasm-gen" "1.4.2"
+
+"@webassemblyjs/leb128@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/leb128/-/leb128-1.4.2.tgz#d13f368abdcefc54428f55a265a993de610f8893"
+  dependencies:
+    leb "^0.3.0"
+
+"@webassemblyjs/validation@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/validation/-/validation-1.4.2.tgz#55cf5b219e25900c85773fc35beb9d12ae0ede53"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+
+"@webassemblyjs/wasm-edit@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/wasm-edit/-/wasm-edit-1.4.2.tgz#bde9a581065f63f257ed511d7d9cf04f8cd04524"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/helper-buffer" "1.4.2"
+    "@webassemblyjs/helper-wasm-bytecode" "1.4.2"
+    "@webassemblyjs/helper-wasm-section" "1.4.2"
+    "@webassemblyjs/wasm-gen" "1.4.2"
+    "@webassemblyjs/wasm-opt" "1.4.2"
+    "@webassemblyjs/wasm-parser" "1.4.2"
+    "@webassemblyjs/wast-printer" "1.4.2"
+    debug "^3.1.0"
+
+"@webassemblyjs/wasm-gen@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/wasm-gen/-/wasm-gen-1.4.2.tgz#0899297f9426073736df799287845a73c597cf90"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/helper-wasm-bytecode" "1.4.2"
+    "@webassemblyjs/leb128" "1.4.2"
+
+"@webassemblyjs/wasm-opt@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/wasm-opt/-/wasm-opt-1.4.2.tgz#c44ad48e109aec197e3bf69875c54537d76ba2e9"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/helper-buffer" "1.4.2"
+    "@webassemblyjs/wasm-gen" "1.4.2"
+    "@webassemblyjs/wasm-parser" "1.4.2"
+
+"@webassemblyjs/wasm-parser@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/wasm-parser/-/wasm-parser-1.4.2.tgz#3bf7e10cfe336db0ecdea0a5d7ed8a63b7a7754a"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/helper-wasm-bytecode" "1.4.2"
+    "@webassemblyjs/leb128" "1.4.2"
+    "@webassemblyjs/wasm-parser" "1.4.2"
+    webassemblyjs "1.4.2"
+
+"@webassemblyjs/wast-parser@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/wast-parser/-/wast-parser-1.4.2.tgz#6499c38cf8895a81394f7e40d4681a85aaa84498"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/floating-point-hex-parser" "1.4.2"
+    "@webassemblyjs/helper-code-frame" "1.4.2"
+    "@webassemblyjs/helper-fsm" "1.4.2"
+    long "^3.2.0"
+    webassemblyjs "1.4.2"
+
+"@webassemblyjs/wast-printer@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@webassemblyjs/wast-printer/-/wast-printer-1.4.2.tgz#ee70a828f0d9730b55b9a5c3ed694094ba68ba57"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/wast-parser" "1.4.2"
+    long "^3.2.0"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -826,9 +938,9 @@ babel-polyfill@^6.26.0:
     core-js "^2.5.0"
     regenerator-runtime "^0.10.5"
 
-babel-preset-env@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.6.1.tgz#a18b564cc9b9afdf4aae57ae3c1b0d99188e6f48"
+babel-preset-env@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.7.0.tgz#dea79fa4ebeb883cd35dab07e260c1c9c04df77a"
   dependencies:
     babel-plugin-check-es2015-constants "^6.22.0"
     babel-plugin-syntax-trailing-function-commas "^6.22.0"
@@ -857,7 +969,7 @@ babel-preset-env@^1.6.1:
     babel-plugin-transform-es2015-unicode-regex "^6.22.0"
     babel-plugin-transform-exponentiation-operator "^6.22.0"
     babel-plugin-transform-regenerator "^6.22.0"
-    browserslist "^2.1.2"
+    browserslist "^3.2.6"
     invariant "^2.2.2"
     semver "^5.3.0"
 
@@ -1196,12 +1308,12 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-browserslist@^2.1.2:
-  version "2.11.3"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-2.11.3.tgz#fe36167aed1bbcde4827ebfe71347a2cc70b99b2"
+browserslist@^3.2.6:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.2.7.tgz#aa488634d320b55e88bab0256184dbbcca1e6de9"
   dependencies:
-    caniuse-lite "^1.0.30000792"
-    electron-to-chromium "^1.3.30"
+    caniuse-lite "^1.0.30000835"
+    electron-to-chromium "^1.3.45"
 
 buffer-from@^1.0.0:
   version "1.0.0"
@@ -1298,9 +1410,9 @@ camelcase@^4.0.0, camelcase@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
 
-caniuse-lite@^1.0.30000792:
-  version "1.0.30000792"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000792.tgz#d0cea981f8118f3961471afbb43c9a1e5bbf0332"
+caniuse-lite@^1.0.30000835:
+  version "1.0.30000839"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000839.tgz#41fcc036cf1cb77a0e0be041210f77f1ced44a7b"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -1983,9 +2095,9 @@ ejs@^2.5.9:
   version "2.5.9"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.9.tgz#7ba254582a560d267437109a68354112475b0ce5"
 
-electron-to-chromium@^1.3.30:
-  version "1.3.32"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.32.tgz#11d0684c0840e003c4be8928f8ac5f35dbc2b4e6"
+electron-to-chromium@^1.3.45:
+  version "1.3.45"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.45.tgz#458ac1b1c5c760ce8811a16d2bfbd97ec30bafb8"
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -3634,6 +3746,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+leb@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/leb/-/leb-0.3.0.tgz#32bee9fad168328d6aea8522d833f4180eed1da3"
+
 listr-silent-renderer@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/listr-silent-renderer/-/listr-silent-renderer-1.1.1.tgz#924b5a3757153770bf1a8e3fbf74b8bbf3f9242e"
@@ -3701,16 +3817,16 @@ load-json-file@^4.0.0:
     pify "^3.0.0"
     strip-bom "^3.0.0"
 
-loadable-components@/Users/neoziro/projects/loadable-components/loadable-components-v1.4.1-alpha.2.tgz:
-  version "1.4.0"
-  resolved "/Users/neoziro/projects/loadable-components/loadable-components-v1.4.1-alpha.2.tgz#80739715206d52d5b0118a2084b9ba4d44f10b6b"
+loadable-components@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/loadable-components/-/loadable-components-2.0.0.tgz#fcf9258fa391ba1aa25a220f0a7211699142cd18"
   dependencies:
     babel-plugin-syntax-dynamic-import "^6.18.0"
     hoist-non-react-statics "^2.5.0"
 
-"loadable-components@file:../loadable-components-v1.4.1-alpha.0.tgz":
-  version "1.4.0"
-  resolved "file:../loadable-components-v1.4.1-alpha.0.tgz#e961bbe33e58a481669cbb5f957bcd59708d2054"
+"loadable-components@file:../loadable-components-v2.1.0-alpha.0.tgz":
+  version "2.0.0"
+  resolved "file:../loadable-components-v2.1.0-alpha.0.tgz#969882fd79806b14dc31c460ee63ce0477e55322"
   dependencies:
     babel-plugin-syntax-dynamic-import "^6.18.0"
     hoist-non-react-statics "^2.5.0"
@@ -3771,6 +3887,10 @@ loglevelnext@^1.0.1:
   dependencies:
     es6-symbol "^3.1.1"
     object.assign "^4.1.0"
+
+long@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
   version "1.3.1"
@@ -4256,9 +4376,9 @@ node-pre-gyp@^0.9.0:
     semver "^5.3.0"
     tar "^4"
 
-nodemon@^1.17.3:
-  version "1.17.3"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.17.3.tgz#3b0bbc2ee05ccb43b1aef15ba05c63c7bc9b8530"
+nodemon@^1.17.4:
+  version "1.17.4"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.17.4.tgz#243ff9c69ffbf1175f2460f9b023f35a072c15e9"
   dependencies:
     chokidar "^2.0.2"
     debug "^3.1.0"
@@ -4925,9 +5045,9 @@ react-dom@^16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-hot-loader@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.1.2.tgz#5e8025f5bc5605506586b46eb2c6cc4006fd54d7"
+react-hot-loader@^4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.1.3.tgz#b4ceca7961cc08451f8199a24a5753a749edd9ce"
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
@@ -6264,15 +6384,25 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   dependencies:
     minimalistic-assert "^1.0.0"
 
+webassemblyjs@1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/webassemblyjs/-/webassemblyjs-1.4.2.tgz#3b07b506917c97153d83441d8a88ffa2d25cc07d"
+  dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/validation" "1.4.2"
+    "@webassemblyjs/wasm-parser" "1.4.2"
+    "@webassemblyjs/wast-parser" "1.4.2"
+    long "^3.2.0"
+
 webpack-addons@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/webpack-addons/-/webpack-addons-1.1.5.tgz#2b178dfe873fb6e75e40a819fa5c26e4a9bc837a"
   dependencies:
     jscodeshift "^0.4.0"
 
-webpack-cli@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-2.1.2.tgz#9c9a4b90584f7b8acaf591238ef0667e04c817f6"
+webpack-cli@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-2.1.3.tgz#65d166851abaa56067ef3f716b02a97ba6bbe84d"
   dependencies:
     chalk "^2.3.2"
     cross-spawn "^6.0.5"
@@ -6362,10 +6492,13 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.7.0.tgz#a04f68dab86d5545fd0277d07ffc44e4078154c9"
+webpack@^4.8.2:
+  version "4.8.2"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.8.2.tgz#41aa00fd32a8f253a2f12a2da11c8ad4d52fde1c"
   dependencies:
+    "@webassemblyjs/ast" "1.4.2"
+    "@webassemblyjs/wasm-edit" "1.4.2"
+    "@webassemblyjs/wasm-parser" "1.4.2"
     acorn "^5.0.0"
     acorn-dynamic-import "^3.0.0"
     ajv "^6.1.0"

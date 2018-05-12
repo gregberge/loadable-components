@@ -1,6 +1,8 @@
 import React from 'react'
 import loadable from 'loadable-components'
 import { hot } from 'react-hot-loader'
+import A from './A'
+import B from './B'
 
 const AsyncWhat = loadable(() =>
   import(/* webpackChunkName: "What" */ './What.js'),
@@ -12,6 +14,8 @@ const AsyncBig = loadable(() =>
 
 const App = () => (
   <div>
+    <A />
+    <B />
     Hello <AsyncWhat />!
   </div>
 )
