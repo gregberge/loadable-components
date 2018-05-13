@@ -1,7 +1,7 @@
 import React from 'react'
 import loadable from 'loadable-components'
 
-const What = loadable(
+const MultipleLoad = loadable(
   async () => {
     const {
       default: World,
@@ -20,4 +20,4 @@ const What = loadable(
   },
 )
 
-export default What
+export default MultipleLoad
