@@ -21,12 +21,14 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist/ && rollup -c",
+    "build": "rollup -c",
     "ci": "yarn build && yarn lint && bundlesize && yarn test --coverage && codecov",
     "format": "prettier --write \"src/**/*.js\" \"*.md\"",
     "lint": "eslint .",
+    "prebuild": "rm -rf dist/",
+    "prepublishOnly": "yarn build",
     "typecheck:ts": "dtslint types",
-    "release": "yarn build && standard-version && conventional-github-releaser --preset angular",
+    "release": "standard-version && conventional-github-releaser --preset angular",
     "test": "jest"
   },
   "peerDependencies": {
