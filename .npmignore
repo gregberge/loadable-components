@@ -3,3 +3,7 @@
 !/server.js
 !/dist/**/*.js
 !/src/**/*.js
+!/types/index.d.ts
+!/types/tsconfig.json
+__fixtures__
+*.test.js
