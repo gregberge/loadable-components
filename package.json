@@ -5,6 +5,7 @@
   "repository": "git@github.com:smooth-code/loadable-components.git",
   "main": "dist/loadable-components.cjs.js",
   "jsnext:main": "dist/loadable-components.es.js",
+  "types": "types/index.d.ts",
   "module": "dist/loadable-components.es.js",
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "keywords": [
@@ -24,6 +25,7 @@
     "ci": "yarn build && yarn lint && bundlesize && yarn test --coverage && codecov",
     "format": "prettier --write \"src/**/*.js\" \"*.md\"",
     "lint": "eslint .",
+    "typecheck:ts": "dtslint types",
     "release": "yarn build && standard-version && conventional-github-releaser --preset angular",
     "test": "jest"
   },
@@ -31,6 +33,7 @@
     "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
+    "@types/react": "^16.3.14",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -44,6 +47,7 @@
     "bundlesize": "^0.17.0",
     "codecov": "^3.0.1",
     "conventional-github-releaser": "^2.0.2",
+    "dtslint": "^0.3.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
