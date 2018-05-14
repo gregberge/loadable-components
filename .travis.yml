@@ -19,3 +19,6 @@ cache:
   directories:
     - ".eslintcache"
     - "node_modules"
+
+git:
+  depth: 5
