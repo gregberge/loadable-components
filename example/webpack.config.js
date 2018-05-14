@@ -3,7 +3,7 @@ const webpack = require('webpack')
 
 module.exports = {
   mode: 'development',
-  entry: './client.js',
+  entry: './src/client.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',

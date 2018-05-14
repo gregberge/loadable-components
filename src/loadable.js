@@ -14,6 +14,7 @@ function loadable(
     LoadingComponent = EmptyComponent,
     render,
     modules,
+    asyncMode,
   } = {},
 ) {
   class LoadableComponent extends React.Component {
@@ -98,6 +99,10 @@ function loadable(
 
       if (error !== null) {
         return <ErrorComponent error={error} ownProps={this.props} />
+      }
+
+      if (asyncMode) {
+        throw this.loadingPromise
       }
 
       return <LoadingComponent {...this.props} />
