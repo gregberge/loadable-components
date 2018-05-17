@@ -31,7 +31,7 @@ function loadState(rootState) {
         throw new Error(
           `loadable-components: module "${
             state.id
-          }" is not a laodable component, please verify your SSR setup`,
+          }" is not a loadable component, please verify your SSR setup`,
         )
       }
 
