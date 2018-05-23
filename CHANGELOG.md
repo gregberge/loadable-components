@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/smooth-code/loadable-components/compare/v2.1.0...v2.2.0) (2018-05-23)
+
+
+### Bug Fixes
+
+* fix SSR with HMR #85 ([20138e1](https://github.com/smooth-code/loadable-components/commit/20138e1)), closes [#85](https://github.com/smooth-code/loadable-components/issues/85)
+
+
+### Features
+
+* experimental suspense 🤩 ([57ce712](https://github.com/smooth-code/loadable-components/commit/57ce712))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/smooth-code/loadable-components/compare/v2.0.1...v2.1.0) (2018-05-13)
 
