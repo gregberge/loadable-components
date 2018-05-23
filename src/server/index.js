@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger, no-underscore-dangle */
 import React from 'react'
 import { LOADABLE } from '../constants'
+import { reset as resetTracker } from '../componentTracker'
 import DeferredState from './DeferredState'
 
 function isReactElement(element) {
@@ -172,6 +173,9 @@ export function getLoadableState(
   fetchRoot = true,
   tree = {},
 ) {
+  // Prevent duplicated components
+  resetTracker()
+
   const queries = getQueriesFromTree({ rootElement, rootContext }, fetchRoot)
 
   // no queries found, nothing to do
