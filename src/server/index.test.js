@@ -44,7 +44,7 @@ describe('server side rendering', () => {
       app = <App />
     })
 
-    it.only('should traverse context', async () => {
+    it('should traverse context', async () => {
       const loadableState = await getLoadableState(app)
       expect(loadableState.tree).toEqual({
         children: [{ children: [{ id: './Book' }], id: './Books' }],
