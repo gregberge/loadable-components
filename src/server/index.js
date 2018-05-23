@@ -1,7 +1,8 @@
 /* eslint-disable react/no-danger, no-underscore-dangle */
 import React from 'react'
+// eslint-disable-next-line import/no-unresolved, import/extensions
+import { componentTracker } from 'loadable-components'
 import { LOADABLE } from '../constants'
-import { reset as resetTracker } from '../componentTracker'
 import DeferredState from './DeferredState'
 
 function isReactElement(element) {
@@ -174,7 +175,7 @@ export function getLoadableState(
   tree = {},
 ) {
   // Prevent duplicated components
-  resetTracker()
+  componentTracker.reset()
 
   const queries = getQueriesFromTree({ rootElement, rootContext }, fetchRoot)
 
