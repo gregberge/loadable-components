@@ -5,9 +5,10 @@ export default function({ types: t }) {
     inherits: syntax,
 
     visitor: {
-      ImportDeclaration(path) {
+      ImportDeclaration(path, state) {
         const source = path.node.source.value
-        if (source !== 'loadable-components') return
+        const trigger = state.opts.applyOnModuleName || 'loadable-components'
+        if (source !== trigger) return
 
         const defaultSpecifier = path
           .get('specifiers')
@@ -45,25 +46,26 @@ export default function({ types: t }) {
           })
 
           if (!dynamicImports.length) return
-
-          let options = args[1]
-          if (args[1]) {
-            options = options.node
-          } else {
-            options = t.objectExpression([])
-            callExpression.node.arguments.push(options)
-          }
-
-          options.properties.push(
-            t.objectProperty(
-              t.identifier('modules'),
-              t.arrayExpression(
-                dynamicImports.map(
-                  dynamicImport => dynamicImport.get('arguments')[0].node,
-                ),
-              ),
-            ),
-          )
+          
+          const dynamicImportArray = t.arrayExpression(dynamicImports.map(dynamicImport => dynamicImport.get('arguments')[0].node))
+          
+          const assignToPromise = t.VariableDeclaration('var', [t.VariableDeclarator(t.Identifier('fn'), loaderMethod.node)])
+          
+          const addModuleArray = t.ExpressionStatement(t.AssignmentExpression('=', t.Identifier('fn.modules'), dynamicImportArray))
+          
+          const test = t.ArrowFunctionExpression(
+            [], 
+            t.BlockStatement([
+              assignToPromise,
+              addModuleArray,
+              t.ReturnStatement(t.Identifier('fn'))
+            ]))
+          
+          const selfcall = t.CallExpression(test, [])
+          
+          loaderMethod.replaceWith(selfcall)
+          
+          return
         })
       },
     },

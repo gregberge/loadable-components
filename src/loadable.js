@@ -110,9 +110,9 @@ function loadable(
   }
 
   LoadableComponent[LOADABLE] = () => LoadableComponent
-
-  if (modules) {
-    const id = componentTracker.track(LoadableComponent, modules)
+  const dynamicModules = modules || getComponent.modules
+  if (dynamicModules) {
+    const id = componentTracker.track(LoadableComponent, dynamicModules)
     LoadableComponent.componentId = id
   }
 
