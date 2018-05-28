@@ -7,12 +7,12 @@ export default function({ types: t }) {
     visitor: {
       ImportDeclaration(path, state) {
         const source = path.node.source.value
-        const trigger = state.opts.applyOnModuleName || 'loadable-components'
-        if (source !== trigger) return
-
+        const triggerModule = state.opts.triggerModule || 'loadable-components'
+        if (source !== triggerModule) return
+        const triggerImport = state.opts.triggerImport || 'loadable'
         const defaultSpecifier = path
           .get('specifiers')
-          .find(specifier => specifier.isImportDefaultSpecifier())
+          .find(specifier => specifier.node.local.name === triggerImport)
 
         if (!defaultSpecifier) return
 
@@ -46,26 +46,37 @@ export default function({ types: t }) {
           })
 
           if (!dynamicImports.length) return
-          
-          const dynamicImportArray = t.arrayExpression(dynamicImports.map(dynamicImport => dynamicImport.get('arguments')[0].node))
-          
-          const assignToPromise = t.VariableDeclaration('var', [t.VariableDeclarator(t.Identifier('fn'), loaderMethod.node)])
-          
-          const addModuleArray = t.ExpressionStatement(t.AssignmentExpression('=', t.Identifier('fn.modules'), dynamicImportArray))
-          
+
+          const dynamicImportArray = t.arrayExpression(
+            dynamicImports.map(
+              dynamicImport => dynamicImport.get('arguments')[0].node,
+            ),
+          )
+
+          const assignToFn = t.VariableDeclaration('const', [
+            t.VariableDeclarator(t.Identifier('fn'), loaderMethod.node),
+          ])
+
+          const addModuleArray = t.ExpressionStatement(
+            t.AssignmentExpression(
+              '=',
+              t.Identifier('fn.modules'),
+              dynamicImportArray,
+            ),
+          )
+
           const test = t.ArrowFunctionExpression(
-            [], 
+            [],
             t.BlockStatement([
-              assignToPromise,
+              assignToFn,
               addModuleArray,
-              t.ReturnStatement(t.Identifier('fn'))
-            ]))
-          
+              t.ReturnStatement(t.Identifier('fn')),
+            ]),
+          )
+
           const selfcall = t.CallExpression(test, [])
-          
+
           loaderMethod.replaceWith(selfcall)
-          
-          return
         })
       },
     },

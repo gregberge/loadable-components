@@ -1,7 +1,10 @@
 import loadable from 'loadable-components';
 
-const AsyncComponent = loadable(() => import('./MyComponent'), {
-  modules: ['./MyComponent']
-});
+const AsyncComponent = loadable((() => {
+  const fn = () => import('./MyComponent');
+
+  fn.modules = ['./MyComponent'];
+  return fn;
+})());
 
 export default AsyncComponent;
