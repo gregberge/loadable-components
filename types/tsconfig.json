@@ -7,6 +7,11 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "noEmit": true,
-    "strictFunctionTypes": false
+    "strictFunctionTypes": false,
+    "baseUrl": ".",
+    "paths": {
+      "loadable-components": ["."],
+      "loadable-components/server": ["../server"]
+    }
   }
 }
