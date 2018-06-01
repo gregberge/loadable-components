@@ -7,7 +7,10 @@ function loadState(rootState) {
 
   return Promise.all(
     rootState.children.map(state => {
-      const component = componentTracker.get(state.id)
+      const component = typeof state.id === 'string' ?
+        componentTracker.get(state.id) ||
+          componentTracker.get(state.id.substring(0, state.id.lastIndexOf('-'))) :
+        null;
 
       if (!component) {
         console.warn( // eslint-disable-line
