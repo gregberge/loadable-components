@@ -222,6 +222,7 @@ You can use them in your application:
 ```js
 // App.js
 import React from 'react'
+import { Route } from 'react-router'
 import { Home } from './Routes'
 
 const App = () => (
