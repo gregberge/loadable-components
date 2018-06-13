@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import loadableComponent, { loadComponents } from 'loadable-components';
-import { getLoadableState } from 'loadable-components/server';
+import { DeferredState, getLoadableState } from 'loadable-components/server';
 
 const App = loadableComponent(() => import('./TestComponent'));
 
@@ -13,9 +13,9 @@ const app = (
   <App prop1={"1"} prop2={2}/>
 );
 
-getLoadableState(app).then(() => {
+getLoadableState(app).then((serverState) => {
 // Load all components needed before starting rendering
-  loadComponents().then(() => {
+  loadComponents().then((state) => {
     // $ExpectError
     const a1 = <App prop1={4} prop2="4"/>;
 
@@ -23,5 +23,8 @@ getLoadableState(app).then(() => {
     const a2 = <App/>;
 
     const a3 = <App prop1={"4"} prop2={4}/>;
+
+    // $ExpectType ReactHTMLElement<HTMLScriptElement>
+    const scriptElement = serverState.getScriptElement();
   });
 });
