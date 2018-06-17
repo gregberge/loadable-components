@@ -25,15 +25,13 @@ describe('loadComponents', () => {
     }
   })
 
-  it('rejects when no LOADABLE_STATE', async () => {
+  it('logs an error warning when no LOADABLE_STATE', async () => {
     delete window[LOADABLE_STATE]
-
+    global.console.error = jest.fn()
     expect.assertions(1)
-    try {
-      await loadComponents()
-    } catch (error) {
-      expect(error.message).toMatch(/loadable-components state not found/)
-    }
+    await loadComponents()
+    const errorWarning = global.console.error.mock.calls[0][0]
+    expect(errorWarning).toMatch(/loadable-components state not found/)
   })
 
   it('rejects when no component is found in componentTracker', async () => {

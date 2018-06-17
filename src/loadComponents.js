@@ -47,9 +47,11 @@ function loadComponents() {
 
   const state = window[LOADABLE_STATE]
   if (!state) {
-    return Promise.reject(new Error('loadable-components state not found. ' +
+    console.error('loadable-components state not found. ' + // eslint-disable-line
       'You have a problem server-side. ' +
-      'Please verify that you have called `loadableState.getScriptTag()` server-side.'))
+      'Please verify that you have called `loadableState.getScriptTag()` server-side.')
+
+    return Promise.resolve(null)
   }
 
   return loadState(state)
