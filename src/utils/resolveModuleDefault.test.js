@@ -1,9 +1,8 @@
 import resolveModuleDefault from './resolveModuleDefault'
 
 describe('resolveModuleDefault', () => {
-  it('should return default is ES module', () => {
+  it('should return default if present', () => {
     const module = {
-      __esModule: true,
       default: 'foo',
     }
 
