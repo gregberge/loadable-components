@@ -4,7 +4,7 @@ import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import json from 'rollup-plugin-json'
-import uglify from 'rollup-plugin-uglify'
+import { uglify } from 'rollup-plugin-uglify'
 import visualizer from 'rollup-plugin-visualizer'
 import sourceMaps from 'rollup-plugin-sourcemaps'
 import pkg from './package.json'
@@ -29,7 +29,10 @@ const umdConfig = Object.assign({}, configBase, {
     format: 'umd',
     name: 'loadable',
     exports: 'named',
-    globals: { react: 'React', 'hoist-non-react-statics': 'hoistNonReactStatics' },
+    globals: {
+      react: 'React',
+      'hoist-non-react-statics': 'hoistNonReactStatics',
+    },
     sourcemap: true,
   },
 })
@@ -60,14 +63,20 @@ const esConfig = Object.assign({}, configBase, {
     {
       file: 'dist/loadable-components.es.js',
       format: 'es',
-      globals: { react: 'React', 'hoist-non-react-statics': 'hoistNonReactStatics' },
+      globals: {
+        react: 'React',
+        'hoist-non-react-statics': 'hoistNonReactStatics',
+      },
       sourcemap: true,
     },
     {
       file: 'dist/loadable-components.cjs.js',
       format: 'cjs',
       exports: 'named',
-      globals: { react: 'React', 'hoist-non-react-statics': 'hoistNonReactStatics' },
+      globals: {
+        react: 'React',
+        'hoist-non-react-statics': 'hoistNonReactStatics',
+      },
       sourcemap: true,
     },
   ],
