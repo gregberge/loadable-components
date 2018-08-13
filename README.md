@@ -121,7 +121,7 @@ import loadable from 'loadable-components'
 import pMinDelay from 'p-min-delay'
 
 // Wait a minimum of 200ms before loading home.
-export const Home = loadable(pMinDelay(() => import('./Home'), 200))
+export const Home = loadable(() => pMinDelay(import('./Home'), 200))
 ```
 
 If you want to avoid these delay server-side:
@@ -135,7 +135,7 @@ const delay = promise => {
   return pMinDelay(promise, 200)
 }
 
-export const Home = loadable(delay(() => import('./Home')))
+export const Home = loadable(() => delay(import('./Home')))
 ```
 
 ### Timeout
@@ -147,7 +147,7 @@ import loadable from 'loadable-components'
 import { timeout } from 'promise-timeout'
 
 // Wait a maximum of 2s before sending an error.
-export const Home = loadable(timeout(() => import('./Home'), 2000))
+export const Home = loadable(() => timeout(import('./Home'), 2000))
 ```
 
 ### Loading multiple resources in parallel
