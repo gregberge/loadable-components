@@ -4,7 +4,8 @@ import B from './B'
 
 const Nesting = () => (
   <React.Fragment>
-    <A /> <B />
+    <A />
+    <B />
   </React.Fragment>
 )
 

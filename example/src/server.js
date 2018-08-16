@@ -18,7 +18,10 @@ app.use(async (req, res) => {
     const loadableState = await getLoadableState(reactApp)
     const stream = ReactDOMServer.renderToNodeStream(reactApp)
     res.write(`<!DOCTYPE html><html><body><div id="root">`)
-    stream.pipe(res, { end: false })
+    stream.pipe(
+      res,
+      { end: false },
+    )
     stream.on('end', () => {
       res.end(
         `</div>${loadableState.getScriptTag()}<script src="bundle.js"></script></body></html>`,
@@ -30,4 +33,5 @@ app.use(async (req, res) => {
   }
 })
 
+// eslint-disable-next-line no-console
 app.listen(3000, () => console.log('http://localhost:3000'))

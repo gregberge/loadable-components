@@ -5,7 +5,8 @@ const AsyncAmazingWorld = loadable(() => import('./AmazingWorld'))
 
 const Nesting = () => (
   <React.Fragment>
-    This is an <AsyncAmazingWorld />
+    This is an
+    <AsyncAmazingWorld />
   </React.Fragment>
 )
 

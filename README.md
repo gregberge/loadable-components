@@ -430,8 +430,8 @@ getLoadableState(app).then(loadableState => {
 
 A loadable state has two methods to extract state:
 
-* `loadableState.getScriptTag()`: Returns a string representing a script tag.
-* `loadableState.getScriptElement()`: Returns a React element.
+- `loadableState.getScriptTag()`: Returns a string representing a script tag.
+- `loadableState.getScriptElement()`: Returns a React element.
 
 ## Interoperability
 
@@ -482,15 +482,15 @@ class ComponentWithTranslations extends React.Component {
 
 The main difference between these two libraries is the server-side rendering approach:
 
-* `react-loadable` requires a webpack plugin and a babel plugin. I think it's too complicated and we should not rely on it.
-* `react-async-component` has a better approach, analyzing tree + context, it also rely on another library. I like the idea but not the API.
+- `react-loadable` requires a webpack plugin and a babel plugin. I think it's too complicated and we should not rely on it.
+- `react-async-component` has a better approach, analyzing tree + context, it also rely on another library. I like the idea but not the API.
 
 Loadable Components has a simpler approach, it relies on [dynamic-import-specification](https://github.com/tc39/proposal-dynamic-import) and assumes that [it is working for node and Webpack](https://babeljs.io/docs/plugins/syntax-dynamic-import/). Then it analyzes the tree server-side and waiting for every modules to be loaded. Client-side it loads modules before rendering the application. The API is as simple as possible, no context, no magic variable.
 
 ## Inspirations
 
-* API inspired by [Styled Components](https://github.com/styled-components/styled-components)
-* React tree traversing from [React Apollo](https://github.com/apollographql/react-apollo)
+- API inspired by [Styled Components](https://github.com/styled-components/styled-components)
+- React tree traversing from [React Apollo](https://github.com/apollographql/react-apollo)
 
 ## MIT
 

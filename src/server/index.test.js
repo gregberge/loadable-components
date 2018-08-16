@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import { Route, StaticRouter } from 'react-router'
-import { getLoadableState } from './'
+import { getLoadableState } from '.'
 import { Books } from '../__fixtures__/Routes'
 
 describe('server side rendering', () => {
