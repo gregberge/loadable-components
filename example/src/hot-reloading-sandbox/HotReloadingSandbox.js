@@ -5,7 +5,8 @@ const AsyncCounter = loadable(() => import('./Counter'))
 
 const HotReloadingSandbox = () => (
   <React.Fragment>
-    Counter: <AsyncCounter />
+    Counter:
+    <AsyncCounter />
   </React.Fragment>
 )
 

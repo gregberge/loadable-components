@@ -1,4 +1,4 @@
-import { getState } from './'
+import { getState } from '.'
 import loadable from './loadable'
 
 describe('#getState', () => {

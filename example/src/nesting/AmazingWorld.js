@@ -5,7 +5,8 @@ const AsyncWorld = loadable(() => import('./World'))
 
 const AmazingWorld = () => (
   <React.Fragment>
-    Amazing <AsyncWorld />
+    Amazing
+    <AsyncWorld />
   </React.Fragment>
 )
 

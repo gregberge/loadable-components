@@ -11,7 +11,8 @@ const MultipleLoad = loadable(
     } = await import(/* webpackChunkName: "Amazing" */ './Amazing')
     return () => (
       <React.Fragment>
-        <Amazing /> <World />
+        <Amazing />
+        <World />
       </React.Fragment>
     )
   },

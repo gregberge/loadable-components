@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import { LOADABLE_STATE } from './constants'
-import loadable from './'
+import loadable from '.'
 import * as componentTracker from './componentTracker'
 import loadComponents from './loadComponents'
 
@@ -38,14 +38,16 @@ describe('loadComponents', () => {
 
   it('rejects when no component is found in componentTracker', async () => {
     window[LOADABLE_STATE] = {
-      children: [{ id: null } ]
+      children: [{ id: null }],
     }
 
     expect.assertions(1)
     try {
       await loadComponents()
     } catch (error) {
-      expect(error.message).toMatch(/loadable-components: module "null" is not found/)
+      expect(error.message).toMatch(
+        /loadable-components: module "null" is not found/,
+      )
     }
   })
 
@@ -53,14 +55,16 @@ describe('loadComponents', () => {
     const BadComponent = -1
     const badId = componentTracker.track(BadComponent, ['./BadComponent'])
     window[LOADABLE_STATE] = {
-      children: [{ id: badId } ]
+      children: [{ id: badId }],
     }
 
     expect.assertions(1)
     try {
       await loadComponents()
     } catch (error) {
-      expect(error.message).toMatch(/loadable-components: module ".\/BadComponent" is not a loadable component/)
+      expect(error.message).toMatch(
+        /loadable-components: module ".\/BadComponent" is not a loadable component/,
+      )
     }
   })
 

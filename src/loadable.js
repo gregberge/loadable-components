@@ -19,6 +19,7 @@ function loadable(
 ) {
   class LoadableComponent extends React.Component {
     static Component = null
+
     static loadingPromise = null
 
     static load() {
