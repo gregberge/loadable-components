@@ -24,14 +24,14 @@ export interface ComponentTracker {
 }
 
 export interface LoadableOptions<T> {
-  ErrorComponent?: React.ComponentType;
-  LoadingComponent?: React.ComponentType;
+  ErrorComponent?: React.ComponentType<T & { error: any }>;
+  LoadingComponent?: React.ComponentType<T>;
   render?: (options: { loading: boolean, error: boolean, ownProps: T, Component: React.ComponentType<T> }) => React.ReactElement<T>;
   modules?: any;
 }
 
 export interface Loadable<T> extends React.ComponentClass<T> {
-  Component: React.ComponentClass;
+  Component: React.ComponentClass<T>;
   loadingPromise: Promise<any>;
   load(): Promise<any>;
 }
