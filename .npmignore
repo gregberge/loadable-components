@@ -1,6 +1,7 @@
 /*
 !/babel.js
 !/server.js
+!/server.d.ts
 !/dist/**/*.js
 !/src/**/*.js
 !/types/index.d.ts
