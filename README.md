@@ -24,8 +24,6 @@ npm install loadable-components
 Webpack allows modern code splitting via the [dynamic `import` syntax](https://webpack.js.org/guides/code-splitting/#dynamic-imports).
 Loadable Components makes it possible to use that awesome feature with React. It is compatible with **`react-router`** and **server side rendering**. The API is designed to be as simple as possible to avoid useless complexity and boilerplate.
 
-We use it in production on [smooth-code.com](https://www.smooth-code.com/), it's open source https://github.com/smooth-code/website.
-
 ## Motivation
 
 Splitting your React application and rendering it server-side is complicated. Several have tried, [react-router gave up](https://reacttraining.com/react-router/web/guides/code-splitting), today only [next.js](https://github.com/zeit/next.js/) is doing it right. First I decided to not do it (afraid by react-router 😱) on my website. But then I think "Fuck code splitting shouldn't be a problem today, let's do it.".
