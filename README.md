@@ -189,6 +189,16 @@ const App () => (
 )
 ```
 
+`load()` returns a `Promise`, so if you don't handle the error case, it will propagate the error to the console. You can handle it however you want, for example:
+
+```js
+// ignore the error
+Routes.Contact.load().catch(() => { /* ignore error */ })
+
+// report the error to your backend
+Routes.Contact.load().catch(e => reportError(e))
+```
+
 #### Prefetch on hover
 
 ```js
@@ -322,9 +332,9 @@ Dynamic `import` syntax is natively supported by Webpack / Parcel but not by nod
 
 To have a different configuration for client and server, you can use [Babel env option](https://babeljs.io/docs/usage/babelrc/#env-option).
 
-### Snapshoting
+### Snapshotting
 
-An alternative to server-side rendering is [snapshoting](https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319). Basically, you crawl your React website locally and you generate HTML pages.
+An alternative to server-side rendering is [snapshotting](https://medium.com/superhighfives/an-almost-static-stack-6df0a2791319). Basically, you crawl your React website locally and you generate HTML pages.
 
 You need to instruct your snapshot solution to save state of Loadable Components to the `window` in the end.
 
