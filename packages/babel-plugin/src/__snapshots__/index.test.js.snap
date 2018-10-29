@@ -1,0 +1,280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin aggressive import should work with destructuration 1`] = `
+"loadable({
+  chunkName({
+    foo
+  }) {
+    return \`\${foo}\`;
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: ({
+    foo
+  }) => import(
+  /* webpackChunkName: \\"[request]\\" */
+  \`./\${foo}\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve({
+    foo
+  }) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./\${foo}\`);
+    }
+
+    return require('path').resolve(__dirname, \`./\${foo}\`);
+  }
+
+});"
+`;
+
+exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
+"loadable({
+  chunkName(props) {
+    return \`\${props.foo}\`;
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: props => import(
+  /* webpackChunkName: \\"[request]\\" */
+  \`./\${props.foo}\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve(props) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./\${props.foo}\`);
+    }
+
+    return require('path').resolve(__dirname, \`./\${props.foo}\`);
+  }
+
+});"
+`;
+
+exports[`plugin aggressive import without "webpackChunkName" should add it 1`] = `
+"loadable({
+  chunkName(props) {
+    return \`\${props.foo}\`;
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: props => import(
+  /* webpackChunkName: \\"[request]\\" */
+  \`./\${props.foo}\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve(props) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./\${props.foo}\`);
+    }
+
+    return require('path').resolve(__dirname, \`./\${props.foo}\`);
+  }
+
+});"
+`;
+
+exports[`plugin simple import in a complex promise should work 1`] = `
+"loadable({
+  chunkName() {
+    return \\"ModA\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => timeout(import(
+  /* webpackChunkName: \\"ModA\\" */
+  './ModA'), 2000),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"./ModA\\");
+    }
+
+    return require('path').resolve(__dirname, \\"./ModA\\");
+  }
+
+});"
+`;
+
+exports[`plugin simple import should work with template literal 1`] = `
+"loadable({
+  chunkName() {
+    return \`ModA\`;
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return require('path').resolve(__dirname, \`./ModA\`);
+  }
+
+});"
+`;
+
+exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
+"loadable({
+  chunkName() {
+    return \\"ChunkA\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"ChunkA\\" */
+  './ModA'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"./ModA\\");
+    }
+
+    return require('path').resolve(__dirname, \\"./ModA\\");
+  }
+
+});"
+`;
+
+exports[`plugin simple import without "webpackChunkName" comment should add it 1`] = `
+"loadable({
+  chunkName() {
+    return \\"ModA\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  './ModA'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"./ModA\\");
+    }
+
+    return require('path').resolve(__dirname, \\"./ModA\\");
+  }
+
+});"
+`;

@@ -1,0 +1,36 @@
+{
+  "name": "@loadable/component",
+  "description": "React code splitting made easy.",
+  "version": "3.0.0-alpha.0",
+  "main": "dist/loadable.cjs.js",
+  "module": "dist/loadable.es.js",
+  "jsnext:main": "dist/loadable.es.js",
+  "repository": "git@github.com:smooth-code/loadable-components.git",
+  "author": "Greg Bergé <berge.greg@gmail.com>",
+  "keywords": [
+    "react",
+    "ssr",
+    "webpack",
+    "code-splitting",
+    "react-router",
+    "server-side-rendering",
+    "dynamic-import",
+    "react-loadable",
+    "react-async-components"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "shx rm -rf dist",
+    "build": "cross-env rollup -c",
+    "prepublishOnly": "yarn run build"
+  },
+  "peerDependencies": {
+    "react": ">=16.3.0"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "^3.0.1"
+  }
+}

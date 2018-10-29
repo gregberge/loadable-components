@@ -1,0 +1,24 @@
+{
+  "name": "@loadable/server",
+  "description": "Server utilities for loadable.",
+  "version": "3.0.0-alpha.0",
+  "main": "lib/index.js",
+  "repository": "git@github.com:smooth-code/loadable-components.git",
+  "author": "Greg Bergé <berge.greg@gmail.com>",
+  "keywords": [
+    "loadable"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "shx rm -rf dist",
+    "build": "babel --config-file ../../babel.config.js -d lib --ignore \"**/*.test.js\" src",
+    "prepublishOnly": "yarn run build"
+  },
+  "peerDependencies": {
+    "@loadable/component": "^3.0.0",
+    "react": ">=16.3.0"
+  }
+}

@@ -1,4 +1,4 @@
 node_modules/
-/dist/
+dist/
+lib/
 /coverage/
-bundle-stats.html
