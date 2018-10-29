@@ -41,6 +41,25 @@ function MyComponent() {
 }
 ```
 
+### Full dynamic import
+
+Webpack accepts [full dynamic imports](https://webpack.js.org/api/module-methods/#import-) and you can also use them with `@loadable/component` to create dynamic components.
+
+```js
+import loadable from '@loadable/component'
+
+const AsyncPage = loadable(props => import(`./${props.page}`))
+
+function MyComponent() {
+  return (
+    <div>
+      <AsyncPage page="Home" />
+      <AsyncPage page="Contact" />
+    </div>
+  )
+}
+```
+
 ### Suspense
 
 `@loadable/component` exposes a `lazy` method that acts similarly as `React.lazy` one.
