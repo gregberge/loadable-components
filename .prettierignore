@@ -4,3 +4,4 @@ node_modules/
 __fixtures__/
 CHANGELOG.md
 package.json
+lerna.json

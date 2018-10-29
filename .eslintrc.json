@@ -10,6 +10,7 @@
     "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
     "react/jsx-wrap-multilines": "off",
     "react/no-unused-state": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off"
   }
 }
