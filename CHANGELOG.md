@@ -1,5 +1,31 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [3.0.0](https://github.com/smooth-code/loadable-components/compare/v2.2.3...v3.0.0) (2018-10-29)
+
+
+### Bug Fixes
+
+* **typescript:** restore types ([#113](https://github.com/smooth-code/loadable-components/issues/113)) ([240bb8f](https://github.com/smooth-code/loadable-components/commit/240bb8f))
+
+
+### Features
+
+* welcome loadable ([4dffad7](https://github.com/smooth-code/loadable-components/commit/4dffad7))
+
+
+### BREAKING CHANGES
+
+* API has completely changed, see documentation.
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="2.2.3"></a>
