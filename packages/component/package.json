@@ -7,6 +7,9 @@
   "jsnext:main": "dist/loadable.es.js",
   "repository": "git@github.com:smooth-code/loadable-components.git",
   "author": "Greg Bergé <berge.greg@gmail.com>",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "react",
     "ssr",
