@@ -102,8 +102,8 @@ describe('plugin', () => {
   describe('load', () => {
     it('should support naming', () => {
       const result = testPlugin(`
-        import load from '@loadable/component'
-        load(() => import('moment'))
+        import Loadable from '@loadable/component'
+        Loadable(() => import('moment'))
       `)
 
       expect(result).toMatchSnapshot()
@@ -113,8 +113,8 @@ describe('plugin', () => {
   describe('load.lib', () => {
     it('should support naming too', () => {
       const result = testPlugin(`
-        import load from '@loadable/component'
-        load.lib(() => import('moment'))
+        import Loadable from '@loadable/component'
+        Loadable.lib(() => import('moment'))
       `)
 
       expect(result).toMatchSnapshot()
