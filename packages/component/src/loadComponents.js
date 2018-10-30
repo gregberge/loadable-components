@@ -40,7 +40,12 @@ export default function loadComponents(loadableState) {
   invariant(WEBPACK, '`loadComponents()` is only compatible with Webpack')
 
   return Promise.all(
-    loadableState.map(chunk => __webpack_require__.e(chunk)),
+    loadableState.map(chunk => __webpack_require__.e(chunk)).catch(error => {
+      // We can safely ignore "missing" type errors
+      // we just want the bundle to be loaded, not the module installed
+      if (error.message.match(/missing:/)) return
+      throw error
+    }),
   ).catch(error => {
     warn('`loadComponents()` has failed')
     warn(error)
