@@ -23,6 +23,18 @@ Loadable leverage the limit of Code Splitting and give you access to all feature
 
 Code Splitting + Server Side Rendering is something very complex. Several libraries tried to solve this problem successfully or not. The goal of this library is to follow as much as possible the philosophy of React and give a developer-experience first solution to solve this complex problem. It takes the best from all libraries and provide an elegant solution to this problem.
 
+## Differences with React.lazy & react-loadable
+
+[`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy) doesn't support full dynamic import and SSR. Loadable uses the same API with more features (SSR, full dynamic import, library import). If you don't need them, you don't need `loadable`.
+
+| Library               | Suspense | SSR | Library loading | import(`./${x}`) |
+| --------------------- | -------- | --- | --------------- | ---------------- |
+| `React.lazy`          | ✅       | ❌  | ❌              | ❌               |
+| `react-loadable`      | ❌       | 🔶  | ❌              | ❌               |
+| `@loadable/component` | ✅       | ✅  | ✅              | ✅               |
+
+Even if [`react-loadable` is recommended by React team](https://reactjs.org/docs/code-splitting.html#reactlazy), the project does not accept any GitHub issues and is no longer maintained.
+
 ## Getting started
 
 `loadable` lets you render a dynamic import as a regular component.
@@ -38,6 +50,53 @@ function MyComponent() {
       <OtherComponent />
     </div>
   )
+}
+```
+
+### Loading library
+
+`loadable.lib` lets you defer the loading of a library. It takes a render props called when the library is loaded.
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib(() => import('moment'))
+
+function MyComponent() {
+  return (
+    <div>
+      <Moment fallback="xx:xx">
+        {({ default: moment }) => moment().format('HH:mm')}
+      </Moment>
+    </div>
+  )
+}
+```
+
+You can also use a `ref` that will be populated when the library will be loaded.
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib(() => import('moment'))
+
+class MyComponent {
+  moment = React.createRef()
+
+  handleClick = () => {
+    if (this.moment.current) {
+      return console.log(this.moment.current.default.format('HH:mm'))
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}>What time is it?</button>
+        <Moment ref={this.moment} />
+      </div>
+    )
+  }
 }
 ```
 
@@ -62,12 +121,12 @@ function MyComponent() {
 
 ### Suspense
 
-`@loadable/component` exposes a `lazy` method that acts similarly as `React.lazy` one.
+`@loadable/component` exposes a `loadable.lazy` method that acts similarly as `React.lazy` one.
 
 ```js
-import { lazy } from '@loadable/component'
+import loadable from '@loadable/component'
 
-const OtherComponent = lazy(() => import('./OtherComponent'))
+const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
 
 function MyComponent() {
   return (
@@ -80,60 +139,63 @@ function MyComponent() {
 }
 ```
 
+> Use `loadable.lib.lazy` for libraries.
+
 > Suspense is not yet available for server-side rendering.
 
-### Custom loading
+### Fallback without Suspense
 
-It is possible to add a custom loading component, by default it will render nothing.
-
-**Using a component**
+You can specify a `fallback` in `loadable` options.
 
 ```js
-const Loading = () => <div>Loading...</div>
-
-const Home = loadable(() => import('./Home'), {
-  LoadingComponent: Loading,
+const OtherComponent = loadable(() => import('./OtherComponent'), {
+  fallback: <div>Loading...</div>,
 })
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
 ```
 
-**Using render props**
+You can also specify a `fallback` in props:
 
 ```js
-import React from 'react'
+const OtherComponent = loadable(() => import('./OtherComponent'))
 
-const Home = loadable(() => import('./Home'), {
-  render: ({ Component, loading, ownProps }) => {
-    if (loading) return <div>Loading...</div>
-    return <Component {...ownProps} />
-  },
-})
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent fallback={<div>Loading...</div>} />
+    </div>
+  )
+}
 ```
 
-### Error handling
+### Error boundaries
 
-You can configure the component rendered when an error occurs during loading, by default it will display the error.
-
-**Using a component**
+If the other module fails to load (for example, due to network failure), it will trigger an error. You can handle these errors to show a nice user experience and manage recovery with [Error Boundaries](https://reactjs.org/docs/error-boundaries.html). Once you’ve created your Error Boundary, you can use it anywhere above your lazy components to display an error state when there’s a network error.
 
 ```js
-const ErrorDisplay = ({ error }) => <div>Oups! {error.message}</div>
+import MyErrorBoundary from '/MyErrorBoundary'
+const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
+const AnotherComponent = loadable.lazy(() => import('./AnotherComponent'))
 
-const Home = loadable(() => import('./Home'), {
-  ErrorComponent: ErrorDisplay,
-})
-```
-
-**Using render props**
-
-```js
-import React from 'react'
-
-const Home = loadable(() => import('./Home'), {
-  render: ({ Component, error, ownProps }) => {
-    if (error) return <div>Oups! {error.message}</div>
-    return <Component {...ownProps} />
-  },
-})
+const MyComponent = () => (
+  <div>
+    <MyErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+    </MyErrorBoundary>
+  </div>
+)
 ```
 
 ### Delay
@@ -145,21 +207,9 @@ import loadable from '@loadable/component'
 import pMinDelay from 'p-min-delay'
 
 // Wait a minimum of 200ms before loading home.
-export const Home = loadable(() => pMinDelay(import('./Home'), 200))
-```
-
-If you want to avoid these delay server-side:
-
-```js
-import loadable from '@loadable/component'
-import pMinDelay from 'p-min-delay'
-
-const delay = promise => {
-  if (typeof window === 'undefined') return promise
-  return pMinDelay(promise, 200)
-}
-
-export const Home = loadable(() => delay(import('./Home')))
+export const OtherComponent = loadable(() =>
+  pMinDelay(import('./OtherComponent'), 200),
+)
 ```
 
 ### Timeout
@@ -171,7 +221,9 @@ import loadable from '@loadable/component'
 import { timeout } from 'promise-timeout'
 
 // Wait a maximum of 2s before sending an error.
-export const Home = loadable(() => timeout(import('./Home'), 2000))
+export const OtherComponent = loadable(() =>
+  timeout(import('./OtherComponent'), 2000),
+)
 ```
 
 ### Prefetching
@@ -213,7 +265,89 @@ function MyComponent() {
 }
 ```
 
+> `prefetch` and `Prefetch` are also available for components created with `loadable.lazy`, `loadable.lib` and `loadable.lib.lazy`.
+
 > Only component based prefetching is compatible with Server Side Rendering.
+
+## API
+
+### loadable
+
+Create a loadable component.
+
+| Arguments          | Description                              |
+| ------------------ | ---------------------------------------- |
+| `loadFn`           | The function call to load the component. |
+| `options`          | Optional options.                        |
+| `options.fallback` | Fallback displayed during the loading.   |
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+```
+
+### loadableState.lazy
+
+Create a loadable component "Suspense" ready.
+
+| Arguments | Description                              |
+| --------- | ---------------------------------------- |
+| `loadFn`  | The function call to load the component. |
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
+```
+
+### LoadableComponent
+
+A component created using `loadable` or `loadable.lazy`.
+
+| Props | Description                                       |
+| ----- | ------------------------------------------------- |
+| `...` | Props are forwarded as first argument of `loadFn` |
+
+### loadable.lib
+
+Create a loadable library.
+
+| Arguments          | Description                              |
+| ------------------ | ---------------------------------------- |
+| `loadFn`           | The function call to load the component. |
+| `options`          | Optional options.                        |
+| `options.fallback` | Fallback displayed during the loading.   |
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib(() => import('moment'))
+```
+
+### loadable.lib.lazy
+
+Create a loadable library "Suspense" ready.
+
+| Arguments | Description                              |
+| --------- | ---------------------------------------- |
+| `loadFn`  | The function call to load the component. |
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib.lazy(() => import('moment'))
+```
+
+### LoadableLibrary
+
+A component created using `loadable.lib` or `loadable.lib.lazy`.
+
+| Props      | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| `children` | Function called when the library is loaded.          |
+| `ref`      | Accepts a ref, populated when the library is loaded. |
+| `...`      | Props are forwarded as first argument of `loadFn`    |
 
 ## [Server side rendering](https://github.com/smooth-code/loadable-components/tree/master/packages/server)
 

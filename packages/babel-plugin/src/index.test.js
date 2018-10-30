@@ -80,4 +80,14 @@ describe('plugin', () => {
       })
     })
   })
+
+  describe('loadable.lib', () => {
+    it('should be transpiled too', () => {
+      const result = testPlugin(`
+        loadable.lib(() => import('moment'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
 })

@@ -28,11 +28,25 @@ const loadablePlugin = api => {
 
   const propertyFactories = properties.map(init => init(api))
 
+  function isValidIdentifier(path) {
+    // `loadable()`
+    if (path.get('callee').isIdentifier({ name: 'loadable' })) {
+      return true
+    }
+
+    // `loadable.lib()`
+    return (
+      path.get('callee').isMemberExpression() &&
+      path.get('callee.object').isIdentifier({ name: 'loadable' }) &&
+      path.get('callee.property').isIdentifier({ name: 'lib' })
+    )
+  }
+
   return {
     inherits: syntaxDynamicImport,
     visitor: {
       CallExpression(path) {
-        if (!path.get('callee').isIdentifier({ name: 'loadable' })) return
+        if (!isValidIdentifier(path)) return
 
         const callPaths = collectImportCallPaths(path)
 
