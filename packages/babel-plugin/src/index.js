@@ -79,8 +79,8 @@ const loadablePlugin = api => {
               ),
             ),
           )
-        });
-      }
+        })
+      },
     },
   }
 }
