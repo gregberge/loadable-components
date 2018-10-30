@@ -35,9 +35,9 @@ const loadablePlugin = api => {
         const source = path.node.source.value
         if (source !== '@loadable/component') return
 
-        let defaultSpecifier = path.get('specifiers').find(specifier => {
-          return specifier.isImportDefaultSpecifier()
-        })
+        const defaultSpecifier = path.get('specifiers').find(specifier =>
+          specifier.isImportDefaultSpecifier()
+        )
 
         if (!defaultSpecifier) return
 
