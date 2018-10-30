@@ -62,11 +62,11 @@ import loadable from '@loadable/component'
 
 const Moment = loadable.lib(() => import('moment'))
 
-function MyComponent() {
+function FromNow({ date }) {
   return (
     <div>
-      <Moment fallback="xx:xx">
-        {({ default: moment }) => moment().format('HH:mm')}
+      <Moment fallback={date.toLocaleDateString()}>
+        {({ default: moment }) => moment(date).fromNow()}
       </Moment>
     </div>
   )
