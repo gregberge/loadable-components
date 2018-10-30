@@ -19,7 +19,7 @@ const withLoadableState = Component => props => (
 
 const identity = v => v
 
-function createLoadable({ resolve = identity, render }) {
+function createLoadable({ resolve = identity, render, onLoad }) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
 
@@ -89,15 +89,28 @@ function createLoadable({ resolve = identity, render }) {
       }
 
       componentDidMount() {
-        if (!this.state.result || !this.state.error) {
+        if (this.state.loading) {
           this.loadAsync()
+        } else if (!this.state.error) {
+          this.triggerOnLoad()
+        }
+      }
+
+      triggerOnLoad() {
+        if (onLoad) {
+          setTimeout(() => {
+            onLoad(this.state.result, this.props)
+          })
         }
       }
 
       loadSync() {
+        if (!this.state.loading) return
+
         try {
           const loadedModule = ctor.requireSync(this.props)
-          this.state.result = resolve(loadedModule, { Loadable })
+          const result = resolve(loadedModule, { Loadable })
+          this.state.result = result
           this.state.loading = false
         } catch (error) {
           this.state.error = error
@@ -105,17 +118,22 @@ function createLoadable({ resolve = identity, render }) {
       }
 
       loadAsync() {
-        return ctor
-          .requireAsync(this.props)
-          .then(loadedModule => {
-            this.setState({
-              result: resolve(loadedModule, { Loadable }),
-              loading: false,
+        this.promise =
+          this.promise ||
+          ctor
+            .requireAsync(this.props)
+            .then(loadedModule => {
+              this.setState(
+                {
+                  result: resolve(loadedModule, { Loadable }),
+                  loading: false,
+                },
+                () => this.triggerOnLoad(),
+              )
             })
-          })
-          .catch(error => {
-            this.setState({ error, loading: false })
-          })
+            .catch(error => {
+              this.setState({ error, loading: false })
+            })
       }
 
       render() {

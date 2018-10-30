@@ -2,15 +2,16 @@
 import createLoadable from './createLoadable'
 
 const library = createLoadable({
-  render({ result, loading, props, error }) {
-    if (!loading && !error && props.ref) {
+  onLoad(result, props) {
+    if (result && props.ref) {
       if (typeof props.ref === 'function') {
         props.ref(result)
       } else {
         props.ref.current = result
       }
     }
-
+  },
+  render({ result, loading, props }) {
     if (!loading && props.children) {
       return props.children(result)
     }
