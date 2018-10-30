@@ -28,49 +28,59 @@ const loadablePlugin = api => {
 
   const propertyFactories = properties.map(init => init(api))
 
-  function isValidIdentifier(path) {
-    // `loadable()`
-    if (path.get('callee').isIdentifier({ name: 'loadable' })) {
-      return true
-    }
-
-    // `loadable.lib()`
-    return (
-      path.get('callee').isMemberExpression() &&
-      path.get('callee.object').isIdentifier({ name: 'loadable' }) &&
-      path.get('callee.property').isIdentifier({ name: 'lib' })
-    )
-  }
-
   return {
     inherits: syntaxDynamicImport,
     visitor: {
-      CallExpression(path) {
-        if (!isValidIdentifier(path)) return
+      ImportDeclaration(path) {
+        const source = path.node.source.value
+        if (source !== '@loadable/component') return
 
-        const callPaths = collectImportCallPaths(path)
+        let defaultSpecifier = path.get('specifiers').find(specifier => {
+          return specifier.isImportDefaultSpecifier()
+        })
 
-        // Ignore loadable function that does not have any "import" call
-        if (callPaths.length === 0) return
+        if (!defaultSpecifier) return
 
-        // Multiple imports call is not supported
-        if (callPaths.length > 1) {
-          throw new Error(
-            'loadable: multiple import calls inside `loadable()` function are not supported.',
-          )
-        }
+        const bindingName = defaultSpecifier.node.local.name
+        const binding = path.scope.getBinding(bindingName)
 
-        const [callPath] = callPaths
-        const funcPath = path.get('arguments.0')
+        binding.referencePaths.forEach(refPath => {
+          let callExpression = refPath.parentPath
 
-        funcPath.replaceWith(
-          t.objectExpression(
-            propertyFactories.map(getProperty =>
-              getProperty({ path, callPath, funcPath }),
+          if (
+            callExpression.isMemberExpression() &&
+            callExpression.node.computed === false &&
+            callExpression.get('property').isIdentifier({ name: 'lib' })
+          ) {
+            callExpression = callExpression.parentPath
+          }
+
+          if (!callExpression.isCallExpression()) return
+
+          const callPaths = collectImportCallPaths(callExpression)
+
+          // Ignore loadable function that does not have any "import" call
+          if (callPaths.length === 0) return
+
+          // Multiple imports call is not supported
+          if (callPaths.length > 1) {
+            throw new Error(
+              'loadable: multiple import calls inside `loadable()` function are not supported.',
+            )
+          }
+
+          const [callPath] = callPaths
+          const funcPath = callExpression.get('arguments.0')
+
+          funcPath.replaceWith(
+            t.objectExpression(
+              propertyFactories.map(getProperty =>
+                getProperty({ path: callExpression, callPath, funcPath }),
+              ),
             ),
-          ),
-        )
-      },
+          )
+        });
+      }
     },
   }
 }

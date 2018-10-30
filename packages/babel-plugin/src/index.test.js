@@ -15,6 +15,7 @@ describe('plugin', () => {
   describe('simple import', () => {
     it('should work with template literal', () => {
       const result = testPlugin(`
+          import loadable from '@loadable/component'
           loadable(() => import(\`./ModA\`))
         `)
 
@@ -24,6 +25,7 @@ describe('plugin', () => {
     describe('with "webpackChunkName" comment', () => {
       it('should use it', () => {
         const result = testPlugin(`
+          import loadable from '@loadable/component'
           loadable(() => import(/* webpackChunkName: "ChunkA" */ './ModA'))
         `)
 
@@ -34,6 +36,7 @@ describe('plugin', () => {
     describe('without "webpackChunkName" comment', () => {
       it('should add it', () => {
         const result = testPlugin(`
+          import loadable from '@loadable/component'
           loadable(() => import('./ModA'))
         `)
 
@@ -44,6 +47,7 @@ describe('plugin', () => {
     describe('in a complex promise', () => {
       it('should work', () => {
         const result = testPlugin(`
+          import loadable from '@loadable/component'
           loadable(() => timeout(import('./ModA'), 2000))
         `)
 
@@ -55,6 +59,7 @@ describe('plugin', () => {
   describe('aggressive import', () => {
     it('should work with destructuration', () => {
       const result = testPlugin(`
+        import loadable from '@loadable/component'
         loadable(({ foo }) => import(/* webpackChunkName: "Pages" */ \`./\${foo}\`))
       `)
       expect(result).toMatchSnapshot()
@@ -63,6 +68,7 @@ describe('plugin', () => {
     describe('with "webpackChunkName"', () => {
       it('should replace it', () => {
         const result = testPlugin(`
+          import loadable from '@loadable/component'
           loadable(props => import(/* webpackChunkName: "Pages" */ \`./\${props.foo}\`))
         `)
 
@@ -73,6 +79,7 @@ describe('plugin', () => {
     describe('without "webpackChunkName"', () => {
       it('should add it', () => {
         const result = testPlugin(`
+          import loadable from '@loadable/component'
           loadable(props => import(\`./\${props.foo}\`))
         `)
 
@@ -84,7 +91,30 @@ describe('plugin', () => {
   describe('loadable.lib', () => {
     it('should be transpiled too', () => {
       const result = testPlugin(`
+        import loadable from '@loadable/component'
         loadable.lib(() => import('moment'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('load', () => {
+    it('should support naming', () => {
+      const result = testPlugin(`
+        import load from '@loadable/component'
+        load(() => import('moment'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('load.lib', () => {
+    it('should support naming too', () => {
+      const result = testPlugin(`
+        import load from '@loadable/component'
+        load.lib(() => import('moment'))
       `)
 
       expect(result).toMatchSnapshot()

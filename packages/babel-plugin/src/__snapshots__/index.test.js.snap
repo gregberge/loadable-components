@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugin aggressive import should work with destructuration 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName({
     foo
   }) {
@@ -46,7 +47,8 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 `;
 
 exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName(props) {
     return \`\${props.foo}\`;
   },
@@ -85,7 +87,8 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 `;
 
 exports[`plugin aggressive import without "webpackChunkName" should add it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName(props) {
     return \`\${props.foo}\`;
   },
@@ -123,8 +126,89 @@ exports[`plugin aggressive import without "webpackChunkName" should add it 1`] =
 });"
 `;
 
+exports[`plugin load should support naming 1`] = `
+"import load from '@loadable/component';
+load({
+  chunkName() {
+    return \\"moment\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"moment\\" */
+  'moment'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"moment\\");
+    }
+
+    return require('path').resolve(__dirname, \\"moment\\");
+  }
+
+});"
+`;
+
+exports[`plugin load.lib should support naming too 1`] = `
+"import load from '@loadable/component';
+load.lib({
+  chunkName() {
+    return \\"moment\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"moment\\" */
+  'moment'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"moment\\");
+    }
+
+    return require('path').resolve(__dirname, \\"moment\\");
+  }
+
+});"
+`;
+
 exports[`plugin loadable.lib should be transpiled too 1`] = `
-"loadable.lib({
+"import loadable from '@loadable/component';
+loadable.lib({
   chunkName() {
     return \\"moment\\";
   },
@@ -163,7 +247,8 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 `;
 
 exports[`plugin simple import in a complex promise should work 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName() {
     return \\"ModA\\";
   },
@@ -202,7 +287,8 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 `;
 
 exports[`plugin simple import should work with template literal 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName() {
     return \`ModA\`;
   },
@@ -241,7 +327,8 @@ exports[`plugin simple import should work with template literal 1`] = `
 `;
 
 exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName() {
     return \\"ChunkA\\";
   },
@@ -280,7 +367,8 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
 `;
 
 exports[`plugin simple import without "webpackChunkName" comment should add it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   chunkName() {
     return \\"ModA\\";
   },
