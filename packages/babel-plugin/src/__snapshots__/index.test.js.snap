@@ -123,6 +123,45 @@ exports[`plugin aggressive import without "webpackChunkName" should add it 1`] =
 });"
 `;
 
+exports[`plugin loadable.lib should be transpiled too 1`] = `
+"loadable.lib({
+  chunkName() {
+    return \\"moment\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"moment\\" */
+  'moment'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"moment\\");
+    }
+
+    return require('path').resolve(__dirname, \\"moment\\");
+  }
+
+});"
+`;
+
 exports[`plugin simple import in a complex promise should work 1`] = `
 "loadable({
   chunkName() {

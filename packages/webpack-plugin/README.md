@@ -16,7 +16,7 @@ npm install --save-dev @loadable/webpack-plugin
 const LoadablePlugin = require('@loadable/webpack-plugin')
 
 module.exports = {
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new LoadablePlugin()],
 }
 ```
 

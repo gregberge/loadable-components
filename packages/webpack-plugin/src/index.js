@@ -6,7 +6,7 @@ class LoadablePlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tap('@loadable/webpack', hookCompiler => {
+    compiler.hooks.emit.tap('@loadable/webpack-plugin', hookCompiler => {
       const { assetsByChunkName, publicPath } = hookCompiler.getStats().toJson({
         hash: true,
         publicPath: true,
