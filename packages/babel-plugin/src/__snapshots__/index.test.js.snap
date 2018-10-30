@@ -127,8 +127,8 @@ loadable({
 `;
 
 exports[`plugin load should support naming 1`] = `
-"import load from '@loadable/component';
-load({
+"import Loadable from '@loadable/component';
+Loadable({
   chunkName() {
     return \\"moment\\";
   },
@@ -167,8 +167,8 @@ load({
 `;
 
 exports[`plugin load.lib should support naming too 1`] = `
-"import load from '@loadable/component';
-load.lib({
+"import Loadable from '@loadable/component';
+Loadable.lib({
   chunkName() {
     return \\"moment\\";
   },
