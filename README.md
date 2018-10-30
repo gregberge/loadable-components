@@ -305,9 +305,10 @@ const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
 
 A component created using `loadable` or `loadable.lazy`.
 
-| Props | Description                                       |
-| ----- | ------------------------------------------------- |
-| `...` | Props are forwarded as first argument of `loadFn` |
+| Props      | Description                                       |
+| ---------- | ------------------------------------------------- |
+| `fallback` | Fallback displayed during the loading.            |
+| `...`      | Props are forwarded as first argument of `loadFn` |
 
 ### loadable.lib
 
@@ -347,6 +348,7 @@ A component created using `loadable.lib` or `loadable.lib.lazy`.
 | ---------- | ---------------------------------------------------- |
 | `children` | Function called when the library is loaded.          |
 | `ref`      | Accepts a ref, populated when the library is loaded. |
+| `fallback` | Fallback displayed during the loading.               |
 | `...`      | Props are forwarded as first argument of `loadFn`    |
 
 ## [Server side rendering](https://github.com/smooth-code/loadable-components/tree/master/packages/server)
