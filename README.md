@@ -85,7 +85,7 @@ class MyComponent {
 
   handleClick = () => {
     if (this.moment.current) {
-      return console.log(this.moment.current.default.format('HH:mm'))
+      return alert(this.moment.current.default.format('HH:mm'))
     }
   }
 
