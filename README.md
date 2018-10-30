@@ -100,6 +100,8 @@ class MyComponent {
 }
 ```
 
+> You can also pass a function to `ref`, called when the library will be loaded.
+
 ### Full dynamic import
 
 Webpack accepts [full dynamic imports](https://webpack.js.org/api/module-methods/#import-) and you can also use them with `@loadable/component` to create dynamic components.
