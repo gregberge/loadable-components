@@ -6,6 +6,10 @@ class LoadablePlugin {
   }
 
   apply(compiler) {
+    // Disable splitChunks for loadable chunks
+    compiler.options.optimization.splitChunks.chunks = chunk =>
+      !chunk.canBeInitial() && !chunk.name.startsWith('loadable-')
+
     compiler.hooks.emit.tap('@loadable/webpack-plugin', hookCompiler => {
       const { assetsByChunkName, publicPath } = hookCompiler.getStats().toJson({
         hash: true,

@@ -65,14 +65,17 @@ export default function chunkNameProperty({ types: t }) {
         importArg.node.expressions,
       )
     }
-    return t.stringLiteral(moduleToChunk(importArg.node.value))
+    return t.stringLiteral(`loadable-${moduleToChunk(importArg.node.value)}`)
   }
 
   function getExistingChunkName(callPath) {
     const importArg = getImportArg(callPath)
     const chunkName = getRawChunkNameFromCommments(importArg)
     if (!chunkName) return null
-    return t.stringLiteral(chunkName)
+    const loadableChunkName = chunkName.startsWith('loadable-')
+      ? chunkName
+      : `loadable-${chunkName}`
+    return t.stringLiteral(loadableChunkName)
   }
 
   function isAgressiveImport(callPath) {
@@ -82,7 +85,7 @@ export default function chunkNameProperty({ types: t }) {
     )
   }
 
-  function addChunkNameComment(callPath, chunkName) {
+  function addOrReplaceChunkNameComment(callPath, chunkName) {
     const importArg = getImportArg(callPath)
     const chunkNameComment = getChunkNameComment(importArg)
     if (chunkNameComment) {
@@ -104,13 +107,16 @@ export default function chunkNameProperty({ types: t }) {
   return ({ callPath, funcPath }) => {
     let chunkName
     const agressiveImport = isAgressiveImport(callPath)
+
     if (!agressiveImport) {
       chunkName = getExistingChunkName(callPath)
     }
+
     if (!chunkName) {
       chunkName = generateChunkName(callPath)
-      addChunkNameComment(callPath, chunkName)
     }
+
+    addOrReplaceChunkNameComment(callPath, chunkName)
 
     return t.objectMethod(
       'method',

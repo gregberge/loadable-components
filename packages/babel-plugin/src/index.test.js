@@ -37,6 +37,14 @@ describe('plugin', () => {
 
         expect(result).toMatchSnapshot()
       })
+
+      it('should not put prefix if already there', () => {
+        const result = testPlugin(`
+          loadable(() => import(/* webpackChunkName: "loadable-ChunkA" */ './ModA'))
+        `)
+
+        expect(result).toMatchSnapshot()
+      })
     })
 
     describe('without "webpackChunkName" comment', () => {
