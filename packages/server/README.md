@@ -17,7 +17,7 @@ This table compares the two modes.
 | Mode    | `@loadable/babel-plugin` | `@loadable/webpack-plugin` | `loadComponents()` | Perf |
 | ------- | ------------------------ | -------------------------- | ------------------ | ---- |
 | Static  | Required                 | Required                   | Not required       | ++   |
-| Dynamic | Required                 | No required                | Required           | +    |
+| Dynamic | Required                 | Required                   | Required           | +    |
 
 ### Static Mode (recommended)
 
@@ -39,8 +39,8 @@ This table compares the two modes.
 const LoadablePlugin = require('@loadable/webpack-plugin')
 
 module.exports = {
-  /* Your webpack config... */
-  plugins: [new HtmlWebpackPlugin()],
+  // ...
+  plugins: [new LoadablePlugin()],
 }
 ```
 
@@ -75,7 +75,20 @@ const scriptTags = loadableState.getScriptTags() // or loadableState.getScriptEl
 }
 ```
 
-#### 2. Setup `LoadableState` server-side (without manifest)
+#### 2. Install `@loadable/webpack-plugin`
+
+**webpack.config.js**
+
+```js
+const LoadablePlugin = require('@loadable/webpack-plugin')
+
+module.exports = {
+  // ...
+  plugins: [new LoadablePlugin()],
+}
+```
+
+#### 3. Setup `LoadableState` server-side (without manifest)
 
 ```js
 import path from 'path'
@@ -92,7 +105,7 @@ const html = renderToString(
 const scriptTags = loadableState.getScriptTags() // or loadableState.getScriptElements();
 ```
 
-#### 3. Use `loadComponents()` client-side
+#### 4. Use `loadComponents()` client-side
 
 ```js
 import { hydrate } from 'react-dom'
