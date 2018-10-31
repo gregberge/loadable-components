@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.4](https://github.com/smooth-code/loadable-components/compare/v4.0.3...v4.0.4) (2018-10-31)
+
+
+### Bug Fixes
+
+* fix peer dependencies ([6816e8c](https://github.com/smooth-code/loadable-components/commit/6816e8c))
+
+
+
+
+
 ## [4.0.3](https://github.com/smooth-code/loadable-components/compare/v4.0.2...v4.0.3) (2018-10-31)
 
 
