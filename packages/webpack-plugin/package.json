@@ -19,5 +19,8 @@
     "prebuild": "shx rm -rf dist",
     "build": "babel --config-file ../../babel.config.js -d lib --ignore \"**/*.test.js\" src",
     "prepublishOnly": "yarn run build"
+  },
+  "peerDependencies": {
+    "webpack": ">=4.0.0"
   }
 }
