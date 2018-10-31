@@ -123,12 +123,12 @@ function MyComponent() {
 
 ### Suspense
 
-`@loadable/component` exposes a `loadable.lazy` method that acts similarly as `React.lazy` one.
+`@loadable/component` exposes a `lazy` method that acts similarly as `React.lazy` one.
 
 ```js
-import loadable from '@loadable/component'
+import { lazy } from '@loadable/component'
 
-const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
+const OtherComponent = lazy(() => import('./OtherComponent'))
 
 function MyComponent() {
   return (
@@ -141,7 +141,7 @@ function MyComponent() {
 }
 ```
 
-> Use `loadable.lib.lazy` for libraries.
+> Use `lazy.lib` for libraries.
 
 > Suspense is not yet available for server-side rendering.
 
@@ -183,18 +183,16 @@ If the other module fails to load (for example, due to network failure), it will
 
 ```js
 import MyErrorBoundary from '/MyErrorBoundary'
-const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
-const AnotherComponent = loadable.lazy(() => import('./AnotherComponent'))
+const OtherComponent = loadable(() => import('./OtherComponent'))
+const AnotherComponent = loadable(() => import('./AnotherComponent'))
 
 const MyComponent = () => (
   <div>
     <MyErrorBoundary>
-      <Suspense fallback={<div>Loading...</div>}>
-        <section>
-          <OtherComponent />
-          <AnotherComponent />
-        </section>
-      </Suspense>
+      <section>
+        <OtherComponent />
+        <AnotherComponent />
+      </section>
     </MyErrorBoundary>
   </div>
 )
@@ -267,7 +265,7 @@ function MyComponent() {
 }
 ```
 
-> `prefetch` and `Prefetch` are also available for components created with `loadable.lazy`, `loadable.lib` and `loadable.lib.lazy`.
+> `prefetch` and `Prefetch` are also available for components created with `lazy`, `loadable.lib` and `lazy.lib`.
 
 > Only component based prefetching is compatible with Server Side Rendering.
 
@@ -289,7 +287,7 @@ import loadable from '@loadable/component'
 const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
 
-### loadableState.lazy
+### lazy
 
 Create a loadable component "Suspense" ready.
 
@@ -298,14 +296,14 @@ Create a loadable component "Suspense" ready.
 | `loadFn`  | The function call to load the component. |
 
 ```js
-import loadable from '@loadable/component'
+import { lazy } from '@loadable/component'
 
-const OtherComponent = loadable.lazy(() => import('./OtherComponent'))
+const OtherComponent = lazy(() => import('./OtherComponent'))
 ```
 
 ### LoadableComponent
 
-A component created using `loadable` or `loadable.lazy`.
+A component created using `loadable` or `lazy`.
 
 | Props      | Description                                       |
 | ---------- | ------------------------------------------------- |
@@ -328,7 +326,7 @@ import loadable from '@loadable/component'
 const Moment = loadable.lib(() => import('moment'))
 ```
 
-### loadable.lib.lazy
+### lazy.lib
 
 Create a loadable library "Suspense" ready.
 
@@ -337,14 +335,14 @@ Create a loadable library "Suspense" ready.
 | `loadFn`  | The function call to load the component. |
 
 ```js
-import loadable from '@loadable/component'
+import { lazy } from '@loadable/component'
 
-const Moment = loadable.lib.lazy(() => import('moment'))
+const Moment = lazy.lib(() => import('moment'))
 ```
 
 ### LoadableLibrary
 
-A component created using `loadable.lib` or `loadable.lib.lazy`.
+A component created using `loadable.lib` or `lazy.lib`.
 
 | Props      | Description                                          |
 | ---------- | ---------------------------------------------------- |

@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp */
 import createLoadable from './createLoadable'
 
-const library = createLoadable({
+export const { loadable, lazy } = createLoadable({
   onLoad(result, props) {
     if (result && props.ref) {
       if (typeof props.ref === 'function') {
@@ -19,5 +19,3 @@ const library = createLoadable({
     return null
   },
 })
-
-export default library
