@@ -3,10 +3,16 @@
   "workspaces": [
     "packages/*"
   ],
+  "bundlesize": [
+    {
+      "path": "./packages/component/dist/loadable.min.js",
+      "maxSize": "3 kB"
+    }
+  ],
   "scripts": {
     "build": "lerna run build",
     "ci": "yarn build && yarn lint && yarn test --ci",
-    "dev": "WATCH_MODE=true lerna run build --parallel -- --watch",
+    "dev": "WATCH_MODE=true lerna run build --parallel -- --watch && bundlesize",
     "format": "prettier --write \"**/*.{js,json,md}\"",
     "lint": "eslint .",
     "release": "lerna publish --conventional-commits && conventional-github-releaser --preset angular",
@@ -23,6 +29,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "bundlesize": "^0.17.0",
     "conventional-github-releaser": "^3.1.2",
     "cross-env": "^5.2.0",
     "eslint": "^5.7.0",

@@ -10,6 +10,7 @@
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![Dependencies](https://img.shields.io/david/smooth-code/loadable-components.svg?path=packages%2Fcomponent)](https://david-dm.org/smooth-code/loadable-components?path=packages/component)
 [![DevDependencies](https://img.shields.io/david/dev/smooth-code/loadable-components.svg)](https://david-dm.org/smooth-code/loadable-components?type=dev)
+[![Small size][https://img.badgesize.io/https://unpkg.com/@loadable/component/dist/loadable.min.js?compression=gzip]][https://unpkg.com/@loadable/component/dist/loadable.min.js]
 
 ```sh
 npm install @loadable/component
