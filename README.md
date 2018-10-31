@@ -10,7 +10,7 @@
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 [![Dependencies](https://img.shields.io/david/smooth-code/loadable-components.svg?path=packages%2Fcomponent)](https://david-dm.org/smooth-code/loadable-components?path=packages/component)
 [![DevDependencies](https://img.shields.io/david/dev/smooth-code/loadable-components.svg)](https://david-dm.org/smooth-code/loadable-components?type=dev)
-[![Small size][https://img.badgesize.io/https://unpkg.com/@loadable/component/dist/loadable.min.js?compression=gzip]][https://unpkg.com/@loadable/component/dist/loadable.min.js]
+[![Small size](https://img.badgesize.io/https://unpkg.com/@loadable/component/dist/loadable.min.js?compression=gzip)](https://unpkg.com/@loadable/component/dist/loadable.min.js)
 
 ```sh
 npm install @loadable/component
@@ -18,23 +18,24 @@ npm install @loadable/component
 
 ## Introduction
 
-Code Splitting can be done easily using [`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy). It is true if you don't need Server Side Rendering or complex features like [full dynamic imports](https://webpack.js.org/api/module-methods/#import-).
+Code splitting is supported out of the box by React using [`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy). So what is the goal of this library?
 
-Loadable leverage the limit of Code Splitting and give you access to all features.
+`@loadable/component` pushes the limit of Code splitting, it offers several features:
 
-Code Splitting + Server Side Rendering is something very complex. Several libraries tried to solve this problem successfully or not. The goal of this library is to follow as much as possible the philosophy of React and give a developer-experience first solution to solve this complex problem. It takes the best from all libraries and provide an elegant solution to this problem.
+- 📚 Library splitting
+- ⚡️ Prefetching
+- 💫 Server Side Rendering
+- 🎛 Full dynamic import `` import(`./${value}`) ``
 
-## Differences with React.lazy & react-loadable
+## Comparison with React.lazy & react-loadable
 
-[`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy) doesn't support full dynamic import and SSR. Loadable uses the same API with more features (SSR, full dynamic import, library import). If you don't need them, you don't need `loadable`.
+| Library               | Suspense | SSR | Library splitting | `` import(`./${value}`) `` |
+| --------------------- | -------- | --- | ----------------- | -------------------------- |
+| `React.lazy`          | ✅       | ❌  | ❌                | ❌                         |
+| `react-loadable`      | ❌       | 🔶  | ❌                | ❌                         |
+| `@loadable/component` | ✅       | ✅  | ✅                | ✅                         |
 
-| Library               | Suspense | SSR | Library loading | import(`./${x}`) |
-| --------------------- | -------- | --- | --------------- | ---------------- |
-| `React.lazy`          | ✅       | ❌  | ❌              | ❌               |
-| `react-loadable`      | ❌       | 🔶  | ❌              | ❌               |
-| `@loadable/component` | ✅       | ✅  | ✅              | ✅               |
-
-Even if [`react-loadable` is recommended by React team](https://reactjs.org/docs/code-splitting.html#reactlazy), the project does not accept any GitHub issues and is no longer maintained.
+Even if [`react-loadable` is recommended by React team](https://reactjs.org/docs/code-splitting.html#reactlazy), the project does not accept any GitHub issue and is no longer maintained.
 
 ## Getting started
 
@@ -74,7 +75,7 @@ function FromNow({ date }) {
 }
 ```
 
-You can also use a `ref` that will be populated when the library will be loaded.
+You can also use a `ref`, populated when the library is loaded.
 
 ```js
 import loadable from '@loadable/component'
@@ -101,11 +102,11 @@ class MyComponent {
 }
 ```
 
-> You can also pass a function to `ref`, called when the library will be loaded.
+> You can also pass a function to `ref`, called when the library is loaded.
 
 ### Full dynamic import
 
-Webpack accepts [full dynamic imports](https://webpack.js.org/api/module-methods/#import-) and you can also use them with `@loadable/component` to create dynamic components.
+Webpack accepts [full dynamic imports](https://webpack.js.org/api/module-methods/#import-), you can use them to create a reusable Loadable Component.
 
 ```js
 import loadable from '@loadable/component'
@@ -144,7 +145,7 @@ function MyComponent() {
 
 > Use `lazy.lib` for libraries.
 
-> Suspense is not yet available for server-side rendering.
+> ⚠️ Suspense is not yet available for server-side rendering.
 
 ### Fallback without Suspense
 
@@ -213,6 +214,8 @@ export const OtherComponent = loadable(() =>
 )
 ```
 
+> With suspense, use `<Suspense maxDuration={200}>` to have the same effect.
+
 ### Timeout
 
 Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
@@ -268,7 +271,7 @@ function MyComponent() {
 
 > `prefetch` and `Prefetch` are also available for components created with `lazy`, `loadable.lib` and `lazy.lib`.
 
-> Only component based prefetching is compatible with Server Side Rendering.
+> Only component based prefetching (`<Prefetch>`) is compatible with Server Side Rendering.
 
 ## API
 

@@ -21,7 +21,7 @@
     "prepublishOnly": "yarn run build"
   },
   "peerDependencies": {
-    "@loadable/component": "^3.0.0",
+    "@loadable/component": "^4.0.0",
     "react": ">=16.3.0"
   }
 }
