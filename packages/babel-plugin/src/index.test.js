@@ -26,8 +26,6 @@ describe('plugin', () => {
         loadable(() => import('../foo/bar'))
       `)
 
-      console.log(result)
-
       expect(result).toMatchSnapshot()
     })
 
