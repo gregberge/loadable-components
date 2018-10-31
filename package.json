@@ -28,7 +28,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
-    "babel-loader": "^8.0.4",
     "bundlesize": "^0.17.0",
     "conventional-github-releaser": "^3.1.2",
     "cross-env": "^5.2.0",
