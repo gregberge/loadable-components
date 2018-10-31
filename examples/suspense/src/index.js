@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react'
 import { render } from 'react-dom'
-import loadable from '../../../packages/component'
+import { lazy } from '../../../packages/component'
 
-const Hello = loadable.lazy(() => import('./Hello'))
-const Moment = loadable.lib(() => import('moment'))
+const Hello = lazy(() => import('./Hello'))
+const Moment = lazy.lib(() => import('moment'))
 
 const App = () => (
   <div>

@@ -134,6 +134,8 @@ function createLoadable({ resolve = identity, render, onLoad }) {
             .catch(error => {
               this.setState({ error, loading: false })
             })
+
+        return this.promise
       }
 
       render() {
@@ -183,9 +185,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
     return loadable(ctor, { ...options, suspense: true })
   }
 
-  loadable.lazy = lazy
-
-  return loadable
+  return { loadable, lazy }
 }
 
 export default createLoadable

@@ -15,8 +15,16 @@ describe('plugin', () => {
   describe('simple import', () => {
     it('should work with template literal', () => {
       const result = testPlugin(`
-          loadable(() => import(\`./ModA\`))
-        `)
+        loadable(() => import(\`./ModA\`))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should transform path into "chunk-friendly" name', () => {
+      const result = testPlugin(`
+        loadable(() => import('../foo/bar'))
+      `)
 
       expect(result).toMatchSnapshot()
     })

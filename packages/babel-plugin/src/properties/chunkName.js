@@ -29,7 +29,7 @@ function getRawChunkNameFromCommments(importArg) {
 }
 
 function moduleToChunk(str) {
-  return str ? str.replace(/^[./]+|(\.js$)/g, '') : ''
+  return str ? str.replace(/^[./]+|(\.js$)/g, '').replace(/\//, '-') : ''
 }
 
 function replaceQuasiValue(str) {
@@ -65,7 +65,7 @@ export default function chunkNameProperty({ types: t }) {
         importArg.node.expressions,
       )
     }
-    return t.stringLiteral(importArg.node.value.replace(/^\.\//, ''))
+    return t.stringLiteral(moduleToChunk(importArg.node.value))
   }
 
   function getExistingChunkName(callPath) {

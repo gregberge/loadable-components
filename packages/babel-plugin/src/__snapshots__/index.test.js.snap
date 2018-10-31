@@ -201,6 +201,45 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 });"
 `;
 
+exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
+"loadable({
+  chunkName() {
+    return \\"foo-bar\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"foo-bar\\" */
+  '../foo/bar'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"../foo/bar\\");
+    }
+
+    return require('path').resolve(__dirname, \\"../foo/bar\\");
+  }
+
+});"
+`;
+
 exports[`plugin simple import should work with template literal 1`] = `
 "loadable({
   chunkName() {
