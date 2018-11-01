@@ -16,7 +16,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf dist",
+    "prebuild": "shx rm -rf lib",
     "build": "babel --config-file ../../babel.config.js -d lib --ignore \"**/*.test.js\" src",
     "prepublishOnly": "yarn run build"
   },
