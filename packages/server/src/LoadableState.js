@@ -60,7 +60,7 @@ class LoadableState {
   }
 
   getScriptElements() {
-    if (this.prefetchMode) {
+    if (this.manifest) {
       return this.chunks.map(chunk => {
         const props = {
           src: this.getChunkAsset(chunk),
