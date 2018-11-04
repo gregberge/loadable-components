@@ -23,5 +23,8 @@
   "peerDependencies": {
     "@loadable/component": "^4.0.0",
     "react": ">=16.3.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
   }
 }

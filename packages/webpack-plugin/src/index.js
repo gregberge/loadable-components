@@ -1,17 +1,14 @@
-import path from 'path'
-
 class LoadablePlugin {
-  constructor({ filename = 'loadable-manifest.json' } = {}) {
+  constructor({ filename = 'loadable-stats.json' } = {}) {
     this.opts = { filename }
   }
 
   apply(compiler) {
-    // Disable splitChunks for loadable chunks
-    compiler.options.optimization.splitChunks.chunks = chunk =>
-      !chunk.canBeInitial() && !chunk.name.startsWith('loadable-')
+    // Add a custom output.jsonpFunction: __LOADABLE_LOADED_CHUNKS__
+    compiler.options.output.jsonpFunction = '__LOADABLE_LOADED_CHUNKS__'
 
     compiler.hooks.emit.tap('@loadable/webpack-plugin', hookCompiler => {
-      const { assetsByChunkName, publicPath } = hookCompiler.getStats().toJson({
+      const stats = hookCompiler.getStats().toJson({
         hash: true,
         publicPath: true,
         assets: true,
@@ -21,19 +18,7 @@ class LoadablePlugin {
         errorDetails: false,
         timings: false,
       })
-      const assetPath = (publicPath || '').replace(/\/$/, '')
-      const fullAssetsByChunkName = Object.keys(assetsByChunkName).reduce(
-        (assets, key) => {
-          let asset = assetsByChunkName[key]
-          if (Array.isArray(asset)) {
-            ;[asset] = asset
-          }
-          assets[key] = path.join(assetPath, asset)
-          return assets
-        },
-        {},
-      )
-      const result = JSON.stringify(fullAssetsByChunkName, null, 2)
+      const result = JSON.stringify(stats, null, 2)
       hookCompiler.assets[this.opts.filename] = {
         source() {
           return result

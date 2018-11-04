@@ -126,7 +126,7 @@ exports[`plugin aggressive import without "webpackChunkName" should add it 1`] =
 exports[`plugin loadable.lib should be transpiled too 1`] = `
 "loadable.lib({
   chunkName() {
-    return \\"loadable-moment\\";
+    return \\"moment\\";
   },
 
   isReady(props) {
@@ -138,7 +138,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"loadable-moment\\" */
+  /* webpackChunkName: \\"moment\\" */
   'moment'),
 
   requireSync(props) {
@@ -165,7 +165,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 exports[`plugin simple import in a complex promise should work 1`] = `
 "loadable({
   chunkName() {
-    return \\"loadable-ModA\\";
+    return \\"ModA\\";
   },
 
   isReady(props) {
@@ -177,7 +177,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
   },
 
   requireAsync: () => timeout(import(
-  /* webpackChunkName: \\"loadable-ModA\\" */
+  /* webpackChunkName: \\"ModA\\" */
   './ModA'), 2000),
 
   requireSync(props) {
@@ -204,7 +204,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
 "loadable({
   chunkName() {
-    return \\"loadable-foo-bar\\";
+    return \\"foo-bar\\";
   },
 
   isReady(props) {
@@ -216,7 +216,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"loadable-foo-bar\\" */
+  /* webpackChunkName: \\"foo-bar\\" */
   '../foo/bar'),
 
   requireSync(props) {
@@ -279,10 +279,10 @@ exports[`plugin simple import should work with template literal 1`] = `
 });"
 `;
 
-exports[`plugin simple import with "webpackChunkName" comment should not put prefix if already there 1`] = `
+exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
 "loadable({
   chunkName() {
-    return \\"loadable-ChunkA\\";
+    return \\"ChunkA\\";
   },
 
   isReady(props) {
@@ -294,7 +294,7 @@ exports[`plugin simple import with "webpackChunkName" comment should not put pre
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"loadable-ChunkA\\" */
+  /* webpackChunkName: \\"ChunkA\\" */
   './ModA'),
 
   requireSync(props) {
@@ -318,10 +318,10 @@ exports[`plugin simple import with "webpackChunkName" comment should not put pre
 });"
 `;
 
-exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
+exports[`plugin simple import with "webpackChunkName" comment should use it even if comment is separated by "," 1`] = `
 "loadable({
   chunkName() {
-    return \\"loadable-ChunkA\\";
+    return \\"ChunkA\\";
   },
 
   isReady(props) {
@@ -333,7 +333,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"loadable-ChunkA\\" */
+  /* webpackPrefetch: true, webpackChunkName: \\"ChunkA\\" */
   './ModA'),
 
   requireSync(props) {
@@ -360,7 +360,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
 exports[`plugin simple import without "webpackChunkName" comment should add it 1`] = `
 "loadable({
   chunkName() {
-    return \\"loadable-ModA\\";
+    return \\"ModA\\";
   },
 
   isReady(props) {
@@ -372,7 +372,7 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"loadable-ModA\\" */
+  /* webpackChunkName: \\"ModA\\" */
   './ModA'),
 
   requireSync(props) {

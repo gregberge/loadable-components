@@ -12,5 +12,5 @@ lazy.lib = libraryExports.lazy
 export default loadable
 export { lazy }
 
-export { default as loadComponents } from './loadComponents'
+export { default as loadableReady } from './loadableReady'
 export const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = sharedInternals

@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define, react/no-multi-comp */
+/* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
 import { invariant } from './util'
 import Context from './Context'
@@ -11,9 +11,9 @@ function resolveConstructor(ctor) {
   return ctor
 }
 
-const withLoadableState = Component => props => (
+const withChunkExtractor = Component => props => (
   <Context.Consumer>
-    {loadableState => <Component loadableState={loadableState} {...props} />}
+    {extractor => <Component __chunkExtractor={extractor} {...props} />}
   </Context.Consumer>
 )
 
@@ -22,36 +22,6 @@ const identity = v => v
 function createLoadable({ resolve = identity, render, onLoad }) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
-
-    function prefetch(props) {
-      ctor.requireAsync(props).catch(() => {})
-    }
-
-    class InnerPrefetch extends React.Component {
-      constructor(props) {
-        super(props)
-
-        invariant(
-          !props.loadableState || ctor.requireSync,
-          'SSR requires `@loadable/babel`, please install it',
-        )
-
-        // Server-side
-        if (props.loadableState) {
-          props.loadableState.addPrefetchedChunk(ctor.chunkName(props))
-        }
-      }
-
-      componentDidMount() {
-        prefetch(this.props)
-      }
-
-      render() {
-        return null
-      }
-    }
-
-    const Prefetch = withLoadableState(InnerPrefetch)
 
     class InnerLoadable extends React.Component {
       constructor(props) {
@@ -64,12 +34,12 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         }
 
         invariant(
-          !props.loadableState || ctor.requireSync,
+          !props.__chunkExtractor || ctor.requireSync,
           'SSR requires `@loadable/babel`, please install it',
         )
 
         // Server-side
-        if (props.loadableState) {
+        if (props.__chunkExtractor) {
           // We run load function, we assume that it won't fail and that it
           // triggers a synchronous loading of the module
           ctor.requireAsync(props).catch(() => {})
@@ -77,7 +47,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           // So we can require now the module synchronously
           this.loadSync()
 
-          props.loadableState.addChunk(ctor.chunkName(props))
+          props.__chunkExtractor.addChunk(ctor.chunkName(props))
           return
         }
 
@@ -140,9 +110,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
       render() {
         const {
-          forwardedRef: ref,
+          forwardedRef,
           fallback: propFallback,
-          loadableState,
+          __chunkExtractor,
           ...props
         } = this.props
         const { error, loading, result } = this.state
@@ -166,17 +136,15 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           fallback,
           result,
           options,
-          props: { ...props, ref },
+          props: { ...props, ref: forwardedRef },
         })
       }
     }
 
-    const EnhancedInnerLoadable = withLoadableState(InnerLoadable)
+    const EnhancedInnerLoadable = withChunkExtractor(InnerLoadable)
     const Loadable = React.forwardRef((props, ref) => (
       <EnhancedInnerLoadable forwardedRef={ref} {...props} />
     ))
-    Loadable.Prefetch = Prefetch
-    Loadable.prefetch = prefetch
 
     return Loadable
   }
