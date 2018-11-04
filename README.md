@@ -230,46 +230,19 @@ export const OtherComponent = loadable(() =>
 
 ### Prefetching
 
-To enhance user experience, you can prefetch components, it loads component in background. This way you will avoid loading at first component display.
+Loadable Components is fully compatible with [webpack hints `webpackPrefetch` and `webpackPreload`](https://webpack.js.org/guides/code-splitting/#prefetching-preloading-modules).
 
-Each `loadable` component exposes a `Prefetch` component. It renders nothing but prefetch the component.
-
-```js
-import loadable from '@loadable/component'
-
-const OtherComponent = loadable(() => import('./OtherComponent'))
-
-function MyComponent() {
-  return (
-    <div>
-      {/* Nothing will be rendered, but the component will be loaded in background */}
-      <OtherComponent.Prefetch />
-    </div>
-  )
-}
-```
-
-A method `prefetch` is also exposed, you can call it to trigger `prefetch` on user action.
+Most of the time, you want to "prefetch" a component, it means it will be loaded when the browser is idle. You can do it by adding `/* webpackPrefetch: true */` inside your import statement.
 
 ```js
 import loadable from '@loadable/component'
 
-const OtherComponent = loadable(() => import('./OtherComponent'))
-
-function MyComponent() {
-  return (
-    <div>
-      <button onMouseOver={() => OtherComponent.prefetch()}>
-        Prefetch on hover
-      </button>
-    </div>
-  )
-}
+const OtherComponent = loadable(() =>
+  import(/* webpackPrefetch: true */ './OtherComponent'),
+)
 ```
 
-> `prefetch` and `Prefetch` are also available for components created with `lazy`, `loadable.lib` and `lazy.lib`.
-
-> Only component based prefetching (`<Prefetch>`) is compatible with Server Side Rendering.
+> You can extract prefetched resources server-side to add `<link rel="prefetch">` in your head.
 
 ## API
 

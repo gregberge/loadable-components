@@ -1,0 +1,299 @@
+{
+  "errors": [],
+  "warnings": [],
+  "version": "4.24.0",
+  "hash": "5645b5c36a2ab52fe783",
+  "publicPath": "/dist/node",
+  "outputPath": "../__fixtures__",
+  "assetsByChunkName": {
+    "letters-A": [
+      "letters-A.css",
+      "letters-A.js"
+    ],
+    "letters-B": "letters-B.js",
+    "letters-C": "letters-C.js",
+    "letters-D": "letters-D.js",
+    "main": [
+      "main.css",
+      "main.js"
+    ]
+  },
+  "assets": [
+    {
+      "name": "letters-A.css",
+      "size": 13,
+      "chunks": [
+        "letters-A"
+      ],
+      "chunkNames": [
+        "letters-A"
+      ]
+    },
+    {
+      "name": "letters-A.js",
+      "size": 1602,
+      "chunks": [
+        "letters-A"
+      ],
+      "chunkNames": [
+        "letters-A"
+      ]
+    },
+    {
+      "name": "letters-B.js",
+      "size": 963,
+      "chunks": [
+        "letters-B"
+      ],
+      "chunkNames": [
+        "letters-B"
+      ]
+    },
+    {
+      "name": "letters-C.js",
+      "size": 517,
+      "chunks": [
+        "letters-C"
+      ],
+      "chunkNames": [
+        "letters-C"
+      ]
+    },
+    {
+      "name": "letters-D.js",
+      "size": 517,
+      "chunks": [
+        "letters-D"
+      ],
+      "chunkNames": [
+        "letters-D"
+      ]
+    },
+    {
+      "name": "main.css",
+      "size": 16,
+      "chunks": [
+        "main"
+      ],
+      "chunkNames": [
+        "main"
+      ]
+    },
+    {
+      "name": "main.js",
+      "size": 15366,
+      "chunks": [
+        "main"
+      ],
+      "chunkNames": [
+        "main"
+      ]
+    }
+  ],
+  "filteredAssets": 0,
+  "entrypoints": {
+    "main": {
+      "chunks": [
+        "main"
+      ],
+      "assets": [
+        "main.css",
+        "main.js"
+      ],
+      "children": {
+        "preload": [
+          {
+            "name": "letters-C",
+            "chunks": [
+              "letters-C"
+            ],
+            "assets": [
+              "letters-C.js"
+            ]
+          }
+        ],
+        "prefetch": [
+          {
+            "name": "letters-D",
+            "chunks": [
+              "letters-D"
+            ],
+            "assets": [
+              "letters-D.js"
+            ]
+          }
+        ]
+      },
+      "childAssets": {
+        "preload": [
+          "letters-C.js"
+        ],
+        "prefetch": [
+          "letters-D.js"
+        ]
+      }
+    }
+  },
+  "namedChunkGroups": {
+    "main": {
+      "chunks": [
+        "main"
+      ],
+      "assets": [
+        "main.css",
+        "main.js"
+      ],
+      "children": {
+        "preload": [
+          {
+            "name": "letters-C",
+            "chunks": [
+              "letters-C"
+            ],
+            "assets": [
+              "letters-C.js"
+            ]
+          }
+        ],
+        "prefetch": [
+          {
+            "name": "letters-D",
+            "chunks": [
+              "letters-D"
+            ],
+            "assets": [
+              "letters-D.js"
+            ]
+          }
+        ]
+      },
+      "childAssets": {
+        "preload": [
+          "letters-C.js"
+        ],
+        "prefetch": [
+          "letters-D.js"
+        ]
+      }
+    },
+    "letters-A": {
+      "chunks": [
+        "letters-A"
+      ],
+      "assets": [
+        "letters-A.css",
+        "letters-A.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "letters-B": {
+      "chunks": [
+        "letters-B"
+      ],
+      "assets": [
+        "letters-B.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "letters-C": {
+      "chunks": [
+        "letters-C"
+      ],
+      "assets": [
+        "letters-C.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "letters-D": {
+      "chunks": [
+        "letters-D"
+      ],
+      "assets": [
+        "letters-D.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "moment": {
+      "chunks": [],
+      "assets": [],
+      "children": {},
+      "childAssets": {}
+    }
+  },
+  "children": [
+    {
+      "errors": [],
+      "warnings": [],
+      "publicPath": "/dist/node",
+      "outputPath": "/Users/neoziro/Projects/loadable-components/examples/server-side-rendering/public/dist/node",
+      "assetsByChunkName": {},
+      "assets": [],
+      "filteredAssets": 0,
+      "entrypoints": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            "mini-css-extract-plugin"
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "namedChunkGroups": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            "mini-css-extract-plugin"
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "children": [],
+      "name": "mini-css-extract-plugin node_modules/css-loader/index.js!src/client/letters/A.css"
+    },
+    {
+      "errors": [],
+      "warnings": [],
+      "publicPath": "/dist/node",
+      "outputPath": "/Users/neoziro/Projects/loadable-components/examples/server-side-rendering/public/dist/node",
+      "assetsByChunkName": {},
+      "assets": [],
+      "filteredAssets": 0,
+      "entrypoints": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            "mini-css-extract-plugin"
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "namedChunkGroups": {
+        "mini-css-extract-plugin": {
+          "chunks": [
+            "mini-css-extract-plugin"
+          ],
+          "assets": [
+            "*"
+          ],
+          "children": {},
+          "childAssets": {}
+        }
+      },
+      "children": [],
+      "name": "mini-css-extract-plugin node_modules/css-loader/index.js!src/client/main.css"
+    }
+  ]
+}

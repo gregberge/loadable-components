@@ -3,14 +3,24 @@ import { getImportArg } from '../util'
 
 const WEBPACK_CHUNK_NAME_REGEXP = /webpackChunkName/
 
-function readWebpackChunkNameValue(value) {
-  // try compile only if webpack options comment is present
+function readWebpackCommentValues(str) {
   try {
-    const val = vm.runInNewContext(`(function(){return {${value}};})()`)
-    return val.webpackChunkName
+    const values = vm.runInNewContext(`(function(){return {${str}};})()`)
+    return values
+  } catch (e) {
+    throw Error(`compilation error while processing: /*${str}*/: ${e.message}`)
+  }
+}
+
+function writeWebpackCommentValues(values) {
+  try {
+    const str = Object.keys(values)
+      .map(key => `${key}: ${JSON.stringify(values[key])}`)
+      .join(', ')
+    return ` ${str} `
   } catch (e) {
     throw Error(
-      `compilation error while processing: /*${value}*/: ${e.message}`,
+      `compilation error while processing: /*${values}*/: ${e.message}`,
     )
   }
 }
@@ -25,7 +35,7 @@ function getChunkNameComment(importArg) {
 function getRawChunkNameFromCommments(importArg) {
   const chunkNameComment = getChunkNameComment(importArg)
   if (!chunkNameComment) return null
-  return readWebpackChunkNameValue(chunkNameComment.node.value)
+  return readWebpackCommentValues(chunkNameComment.node.value)
 }
 
 function moduleToChunk(str) {
@@ -57,7 +67,7 @@ export default function chunkNameProperty({ types: t }) {
     )
   }
 
-  function generateChunkName(callPath) {
+  function generateChunkNameNode(callPath) {
     const importArg = getImportArg(callPath)
     if (importArg.isTemplateLiteral()) {
       return t.templateLiteral(
@@ -65,17 +75,13 @@ export default function chunkNameProperty({ types: t }) {
         importArg.node.expressions,
       )
     }
-    return t.stringLiteral(`loadable-${moduleToChunk(importArg.node.value)}`)
+    return t.stringLiteral(moduleToChunk(importArg.node.value))
   }
 
-  function getExistingChunkName(callPath) {
+  function getExistingChunkNameComment(callPath) {
     const importArg = getImportArg(callPath)
-    const chunkName = getRawChunkNameFromCommments(importArg)
-    if (!chunkName) return null
-    const loadableChunkName = chunkName.startsWith('loadable-')
-      ? chunkName
-      : `loadable-${chunkName}`
-    return t.stringLiteral(loadableChunkName)
+    const values = getRawChunkNameFromCommments(importArg)
+    return values
   }
 
   function isAgressiveImport(callPath) {
@@ -85,7 +91,7 @@ export default function chunkNameProperty({ types: t }) {
     )
   }
 
-  function addOrReplaceChunkNameComment(callPath, chunkName) {
+  function addOrReplaceChunkNameComment(callPath, values) {
     const importArg = getImportArg(callPath)
     const chunkNameComment = getChunkNameComment(importArg)
     if (chunkNameComment) {
@@ -93,30 +99,35 @@ export default function chunkNameProperty({ types: t }) {
     }
 
     if (isAgressiveImport(callPath)) {
-      importArg.addComment('leading', ' webpackChunkName: "[request]" ')
-      return
+      values.webpackChunkName = '[request]'
     }
 
-    const value = t.isTemplateLiteral(chunkName)
-      ? chunkName.quasis[0].value.cooked
-      : chunkName.value
+    // const value = t.isTemplateLiteral(chunkName)
+    // ? chunkName.quasis[0].value.cooked
+    // : chunkName.value
 
-    importArg.addComment('leading', ` webpackChunkName: "${value}" `)
+    importArg.addComment('leading', writeWebpackCommentValues(values))
+  }
+
+  function replaceChunkName(callPath) {
+    const agressiveImport = isAgressiveImport(callPath)
+    const values = getExistingChunkNameComment(callPath)
+
+    if (!agressiveImport && values) {
+      addOrReplaceChunkNameComment(callPath, values)
+      return t.stringLiteral(values.webpackChunkName)
+    }
+
+    const chunkNameNode = generateChunkNameNode(callPath)
+    const webpackChunkName = t.isTemplateLiteral(chunkNameNode)
+      ? chunkNameNode.quasis[0].value.cooked
+      : chunkNameNode.value
+    addOrReplaceChunkNameComment(callPath, { webpackChunkName })
+    return chunkNameNode
   }
 
   return ({ callPath, funcPath }) => {
-    let chunkName
-    const agressiveImport = isAgressiveImport(callPath)
-
-    if (!agressiveImport) {
-      chunkName = getExistingChunkName(callPath)
-    }
-
-    if (!chunkName) {
-      chunkName = generateChunkName(callPath)
-    }
-
-    addOrReplaceChunkNameComment(callPath, chunkName)
+    const chunkName = replaceChunkName(callPath)
 
     return t.objectMethod(
       'method',

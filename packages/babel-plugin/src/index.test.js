@@ -38,9 +38,9 @@ describe('plugin', () => {
         expect(result).toMatchSnapshot()
       })
 
-      it('should not put prefix if already there', () => {
+      it('should use it even if comment is separated by ","', () => {
         const result = testPlugin(`
-          loadable(() => import(/* webpackChunkName: "loadable-ChunkA" */ './ModA'))
+          loadable(() => import(/* webpackPrefetch: true, webpackChunkName: "ChunkA" */ './ModA'))
         `)
 
         expect(result).toMatchSnapshot()

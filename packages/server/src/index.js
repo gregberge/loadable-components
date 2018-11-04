@@ -1,2 +1,2 @@
-export { default as LoadableStateManager } from './LoadableStateManager'
-export { default as LoadableState } from './LoadableState'
+export { default as ChunkExtractorManager } from './ChunkExtractorManager'
+export { default as ChunkExtractor } from './ChunkExtractor'
