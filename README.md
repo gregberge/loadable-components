@@ -214,8 +214,6 @@ export const OtherComponent = loadable(() =>
 )
 ```
 
-> With suspense, use `<Suspense maxDuration={200}>` to have the same effect.
-
 ### Timeout
 
 Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
