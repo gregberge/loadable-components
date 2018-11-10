@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/smooth-code/loadable-components/compare/v4.0.5...v5.0.0) (2018-11-10)
+
+
+### Bug Fixes
+
+* fix loadableReady ([59693bb](https://github.com/smooth-code/loadable-components/commit/59693bb))
+
+
+### Features
+
+* improve SSR support ([eb1cfe8](https://github.com/smooth-code/loadable-components/commit/eb1cfe8))
+
+
+### BREAKING CHANGES
+
+* - SSR has been rewritten from scratch, if you use it, please follow the
+new guide.
+- Prefetch component and prefetch functions have been removed, please
+use `webpackPrefetch` instead.
+
+
+
+
+
 ## [4.0.2](https://github.com/smooth-code/loadable-components/compare/v4.0.1...v4.0.2) (2018-10-31)
 
 
