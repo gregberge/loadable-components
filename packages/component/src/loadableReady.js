@@ -22,7 +22,7 @@ export default function loadableReady(done = () => {}) {
     return Promise.resolve()
   }
 
-  let resolved = true
+  let resolved = false
 
   return new Promise(resolve => {
     window.__LOADABLE_LOADED_CHUNKS__ = window.__LOADABLE_LOADED_CHUNKS__ || []
