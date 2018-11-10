@@ -193,6 +193,7 @@ Used to collect chunks server-side and get them as script tags or script element
 | `options.statsFile`   | Stats file path generated using `@loadable/webpack-plugin`. |
 | `options.stats`       | Stats generated using `@loadable/webpack-plugin`.           |
 | `options.entrypoints` | Webpack entrypoints to load (default to `["main"]`).        |
+| `options.outputPath`  | Optional output path (only for `requireEntrypoint`).        |
 
 You must specify either `statsFile` or `stats` to be able to use `ChunkExtractor`.
 

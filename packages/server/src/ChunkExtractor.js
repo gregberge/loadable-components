@@ -77,8 +77,9 @@ function joinTags(tags) {
 }
 
 class ChunkExtractor {
-  constructor({ statsFile, stats, entrypoints = ['main'] } = []) {
+  constructor({ statsFile, stats, entrypoints = ['main'], outputPath } = []) {
     this.stats = stats || smartRequire(statsFile)
+    this.outputPath = outputPath || this.stats.outputPath
     this.statsFile = statsFile
     this.entrypoints = Array.isArray(entrypoints) ? entrypoints : [entrypoints]
     this.chunks = []
@@ -101,7 +102,7 @@ class ChunkExtractor {
       scriptType: extensionToScriptType(path.extname(filename).toLowerCase()),
       chunk,
       url: this.resolvePublicUrl(filename),
-      path: path.join(this.stats.outputPath, filename),
+      path: path.join(this.outputPath, filename),
       type,
       linkType,
     }
