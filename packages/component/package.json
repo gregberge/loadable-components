@@ -1,7 +1,7 @@
 {
   "name": "@loadable/component",
   "description": "React code splitting made easy.",
-  "version": "5.0.1",
+  "version": "5.1.2",
   "main": "dist/loadable.cjs.js",
   "module": "dist/loadable.es.js",
   "jsnext:main": "dist/loadable.es.js",
