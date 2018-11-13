@@ -244,6 +244,11 @@ const OtherComponent = loadable(() =>
 
 > You can extract prefetched resources server-side to add `<link rel="prefetch">` in your head.
 
+## [Server side rendering](https://github.com/smooth-code/loadable-components/tree/master/packages/server/README.md)
+
+👉 [See `@loadable/server` documentation](https://github.com/smooth-code/loadable-components/tree/master/packages/server/README.md).
+
+
 ## API
 
 ### loadable
@@ -325,9 +330,5 @@ A component created using `loadable.lib` or `lazy.lib`.
 | `ref`      | Accepts a ref, populated when the library is loaded. |
 | `fallback` | Fallback displayed during the loading.               |
 | `...`      | Props are forwarded as first argument of `loadFn`    |
-
-## [Server side rendering](https://github.com/smooth-code/loadable-components/tree/master/packages/server)
-
-👉 [See `@loadable/server` documentation](https://github.com/smooth-code/loadable-components/tree/master/packages/server).
 
 ## MIT
