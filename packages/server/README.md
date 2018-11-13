@@ -134,7 +134,7 @@ stream.pipe(
 
 // and finalize the response with closing HTML
 stream.on('end', () =>
-  res.end(`${loadableState.getScriptTags()}</body></html>`),
+  res.end(`${chunkExtractor.getScriptTags()}</body></html>`),
 )
 ```
 
@@ -155,7 +155,7 @@ const jsx = extractor.collectChunks(<YourApp />)
 
 const html = renderToString(jsx)
 
-const linkTags = extractor.getLinkTags() // or loadableState.getLinkElements();
+const linkTags = extractor.getLinkTags() // or chunkExtractor.getLinkElements();
 
 const html = `<html>
   <head>${linkTags}</head>
@@ -257,7 +257,7 @@ const body = renderToString(
 Get "prefetch" and "preload" links as a string of `<link>` tags.
 
 ```js
-const head = `<head>${loadableState.getLinkTags()}</head>`
+const head = `<head>${chunkExtractor.getLinkTags()}</head>`
 ```
 
 ### chunkExtractor.getLinkElements
@@ -265,7 +265,7 @@ const head = `<head>${loadableState.getLinkTags()}</head>`
 Get "prefetch" and "preload" links as an array of React `<link>` elements.
 
 ```js
-const head = renderToString(<head>{loadableState.getLinkElements()}</head>)
+const head = renderToString(<head>{chunkExtractor.getLinkElements()}</head>)
 ```
 
 ### chunkExtractor.getStyleTags
@@ -273,7 +273,7 @@ const head = renderToString(<head>{loadableState.getLinkElements()}</head>)
 Get style links as a string of `<link>` tags.
 
 ```js
-const head = `<head>${loadableState.getStyleTags()}</head>`
+const head = `<head>${chunkExtractor.getStyleTags()}</head>`
 ```
 
 ### chunkExtractor.getStyleElements
@@ -281,7 +281,7 @@ const head = `<head>${loadableState.getStyleTags()}</head>`
 Get style links as an array of React `<link>` elements.
 
 ```js
-const head = renderToString(<head>{loadableState.getStyleElements()}</head>)
+const head = renderToString(<head>{chunkExtractor.getStyleElements()}</head>)
 ```
 
 ### ChunkExtractorManager
