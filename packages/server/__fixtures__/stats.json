@@ -169,7 +169,8 @@
       },
       "childAssets": {
         "preload": [
-          "letters-C.js"
+          "letters-C.js",
+          "letters-C.js.map"
         ],
         "prefetch": [
           "letters-D.js"
