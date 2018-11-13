@@ -111,14 +111,16 @@ class ChunkExtractor {
   getChunkAssets(chunks) {
     const one = chunk => {
       const chunkGroup = this.getChunkGroup(chunk)
-      return chunkGroup.assets.map(filename =>
-        this.createChunkAsset({
-          filename,
-          chunk,
-          type: 'mainAsset',
-          linkType: 'preload',
-        }),
-      )
+      return chunkGroup.assets
+        .map(filename =>
+          this.createChunkAsset({
+            filename,
+            chunk,
+            type: 'mainAsset',
+            linkType: 'preload',
+          }),
+        )
+        .filter(chunkAsset => chunkAsset.scriptType)
     }
 
     if (Array.isArray(chunks)) {
@@ -132,14 +134,16 @@ class ChunkExtractor {
     const one = chunk => {
       const chunkGroup = this.getChunkGroup(chunk)
       const assets = chunkGroup.childAssets[type] || []
-      return assets.map(filename =>
-        this.createChunkAsset({
-          filename,
-          chunk,
-          type: 'childAsset',
-          linkType: type,
-        }),
-      )
+      return assets
+        .map(filename =>
+          this.createChunkAsset({
+            filename,
+            chunk,
+            type: 'childAsset',
+            linkType: type,
+          }),
+        )
+        .filter(chunkAsset => chunkAsset.scriptType)
     }
 
     if (Array.isArray(chunks)) {
