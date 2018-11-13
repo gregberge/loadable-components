@@ -3,11 +3,11 @@ import createLoadable from './createLoadable'
 
 export const { loadable, lazy } = createLoadable({
   onLoad(result, props) {
-    if (result && props.ref) {
-      if (typeof props.ref === 'function') {
-        props.ref(result)
+    if (result && props.forwardedRef) {
+      if (typeof props.forwardedRef === 'function') {
+        props.forwardedRef(result)
       } else {
-        props.ref.current = result
+        props.forwardedRef.current = result
       }
     }
   },
