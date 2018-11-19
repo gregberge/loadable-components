@@ -35,8 +35,6 @@ Code splitting is supported out of the box by React using [`React.lazy`](https:/
 | `react-loadable`      | ❌       | 🔶  | ❌                | ❌                         |
 | `@loadable/component` | ✅       | ✅  | ✅                | ✅                         |
 
-Even if [`react-loadable` is recommended by React team](https://reactjs.org/docs/code-splitting.html#reactlazy), the project does not accept any GitHub issue and is no longer maintained.
-
 ## Getting started
 
 `loadable` lets you render a dynamic import as a regular component.
