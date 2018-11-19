@@ -9,4 +9,5 @@ export const smartRequire = modulePath => {
   return require(modulePath)
 }
 
-export const joinURLPath = (...paths) => paths.join('/').replace(/\/\//g, '/')
+export const joinURLPath = (...paths) =>
+  paths.join('/').replace(/(?<!:)\/\//g, '/')
