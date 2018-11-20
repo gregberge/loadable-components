@@ -76,6 +76,12 @@ function joinTags(tags) {
   return tags.join('\n')
 }
 
+const HOT_UPDATE_REGEXP = /\.hot-update\.js$/
+
+function isValidChunkAsset(chunkAsset) {
+  return chunkAsset.scriptType && !HOT_UPDATE_REGEXP.test(chunkAsset.filename)
+}
+
 class ChunkExtractor {
   constructor({ statsFile, stats, entrypoints = ['main'], outputPath } = []) {
     this.stats = stats || smartRequire(statsFile)
@@ -120,7 +126,7 @@ class ChunkExtractor {
             linkType: 'preload',
           }),
         )
-        .filter(chunkAsset => chunkAsset.scriptType)
+        .filter(isValidChunkAsset)
     }
 
     if (Array.isArray(chunks)) {
@@ -143,7 +149,7 @@ class ChunkExtractor {
             linkType: type,
           }),
         )
-        .filter(chunkAsset => chunkAsset.scriptType)
+        .filter(isValidChunkAsset)
     }
 
     if (Array.isArray(chunks)) {
