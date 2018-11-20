@@ -141,7 +141,8 @@
       ],
       "assets": [
         "main.css",
-        "main.js"
+        "main.js",
+        "main.hot-update.js"
       ],
       "children": {
         "preload": [
