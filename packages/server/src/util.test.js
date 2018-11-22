@@ -16,5 +16,11 @@ describe('util', () => {
         `${publicPath}/style.css`,
       )
     })
+    it('should join paths with protocol free public path', () => {
+      const publicPath = '//127.0.0.1/public'
+      expect(joinURLPath(publicPath, 'style.css')).toBe(
+        `${publicPath}/style.css`,
+      )
+    })
   })
 })

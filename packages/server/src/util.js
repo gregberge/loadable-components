@@ -10,4 +10,4 @@ export const smartRequire = modulePath => {
 }
 
 export const joinURLPath = (...paths) =>
-  paths.join('/').replace(/(?<!:)\/\//g, '/')
+  paths.join('/').replace(/(?<!http(s)?:)(?<=.)\/\//g, '/')
