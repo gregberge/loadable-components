@@ -20,6 +20,24 @@ module.exports = {
 }
 ```
 
+## API
+
+### LoadablePlugin
+
+Create a webpack loadable plugin.
+
+| Arguments             | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| `options`             | Optional options                                  |
+| `options.filename`    | Stats filename (default to `loadable-stats.json`) |
+| `options.writeToDisk` | Always write assets to disk (default to `false`)  |
+
+```js
+new LoadablePlugin({ filename: 'stats.json', writeToDisk: true })
+```
+
+> Writing file to disk can be useful if you are using `razzle` or `webpack-dev-server`.
+
 ## License
 
 MIT
