@@ -1,3 +1,4 @@
+import path from 'path';
 import React from 'react';
 import express from 'express';
 import { html as htmlTemplate, oneLineTrim } from 'common-tags';
@@ -5,14 +6,13 @@ import { renderToString } from 'react-dom/server';
 import { ServerLocation } from '@reach/router';
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 import App from './App';
-import stats from '../build/loadable-stats.json'; // eslint-disable-line import/no-unresolved
 
 const server = express();
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    const extractor = new ChunkExtractor({ stats, entrypoints: ['client'] });
+    const extractor = new ChunkExtractor({ statsFile: path.resolve('build/loadable-stats.json'), entrypoints: ['client'] });
 
     const html = renderToString(
       <ChunkExtractorManager extractor={extractor}>
