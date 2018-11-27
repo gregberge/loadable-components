@@ -4,6 +4,9 @@ const fs = require('fs')
 class LoadablePlugin {
   constructor({ filename = 'loadable-stats.json', writeToDisk = false } = {}) {
     this.opts = { filename, writeToDisk }
+
+    // The Webpack compiler instance 
+    this.compiler = null
   }
 
   handleEmit = (hookCompiler, callback) => {
@@ -104,6 +107,8 @@ class LoadablePlugin {
   }
 
   apply(compiler) {
+    this.compiler = compiler
+
     // Add a custom output.jsonpFunction: __LOADABLE_LOADED_CHUNKS__
     compiler.options.output.jsonpFunction = '__LOADABLE_LOADED_CHUNKS__'
 
