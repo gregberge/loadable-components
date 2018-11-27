@@ -1,7 +1,7 @@
 {
   "name": "@loadable/webpack-plugin",
   "description": "Webpack plugin for loadable (required for SSR).",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "main": "lib/index.js",
   "repository": "git@github.com:smooth-code/loadable-components.git",
   "author": "Greg Bergé <berge.greg@gmail.com>",

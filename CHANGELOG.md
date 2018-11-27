@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.1](https://github.com/smooth-code/loadable-components/compare/v5.2.0...v5.2.1) (2018-11-27)
+
+
+### Bug Fixes
+
+* **webpack-plugin:** fix TypeError when set writeToDisk true ([#170](https://github.com/smooth-code/loadable-components/issues/170)) ([2d1fb11](https://github.com/smooth-code/loadable-components/commit/2d1fb11))
+* upgrade hoist-non-react-statics@3.2.0 ([122b1ce](https://github.com/smooth-code/loadable-components/commit/122b1ce))
+
+
+
+
+
 # [5.2.0](https://github.com/smooth-code/loadable-components/compare/v5.1.3...v5.2.0) (2018-11-23)
 
 
