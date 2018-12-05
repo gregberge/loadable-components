@@ -1,0 +1,23 @@
+---
+menu: Guides
+title: Component Splitting
+order: 5
+---
+
+# Component Splitting
+
+`loadable` lets you easily import components and reuse it in your code.
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
+```

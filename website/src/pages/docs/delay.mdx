@@ -1,0 +1,19 @@
+---
+menu: Guides
+title: Delay
+order: 50
+---
+
+# Delay
+
+To avoid flashing a loader if the loading is very fast, you could implement a minimum delay. There is no built-in API in `@loadable/component` but you could do it using [`p-min-delay`](https://github.com/sindresorhus/p-min-delay).
+
+```js
+import loadable from '@loadable/component'
+import pMinDelay from 'p-min-delay'
+
+// Wait a minimum of 200ms before loading home.
+export const OtherComponent = loadable(() =>
+  pMinDelay(import('./OtherComponent'), 200)
+)
+```

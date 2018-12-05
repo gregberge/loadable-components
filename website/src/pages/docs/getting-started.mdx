@@ -1,0 +1,41 @@
+---
+menu: Introduction
+title: Getting Started
+order: 5
+---
+
+# Getting Started
+
+Follow these few steps to get ready with `@loadable/component`.
+
+## Installation
+
+Installing `@loadable/component` only takes a single command and you're ready to roll:
+
+```bash
+npm install @loadable/component
+# or use yarn
+yarn add @loadable/component
+```
+
+> `@loadable/server`, `@loadable/webpack-plugin` and `@loadable/babel-plugin` are only required for [Server Side Rendering](/docs/server-side-rendering).
+
+## Split your first component
+
+Loadable lets you render a dynamic import as a regular component.
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
+```
+
+That's it, `OtherComponent` will now be loaded in a separated bundle!

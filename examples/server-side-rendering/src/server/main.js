@@ -65,4 +65,5 @@ ${webExtractor.getStyleTags()}
   }),
 )
 
+// eslint-disable-next-line no-console
 app.listen(9000, () => console.log('Server started http://localhost:9000'))

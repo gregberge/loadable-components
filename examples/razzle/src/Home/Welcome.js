@@ -1,5 +1,5 @@
-import React from 'react';
+import React from 'react'
 
-const Welcome = () => <h2>Welcome to Razzle</h2>;
+const Welcome = () => <h2>Welcome to Razzle</h2>
 
-export default Welcome;
+export default Welcome

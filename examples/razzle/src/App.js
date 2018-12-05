@@ -1,12 +1,12 @@
-import React from 'react';
-import { Router, Link } from '@reach/router';
-import loadable from '@loadable/component';
-import './App.css';
+import React from 'react'
+import { Router, Link } from '@reach/router'
+import loadable from '@loadable/component'
+import './App.css'
 
-const NotFound = loadable(() => import('./NotFound'));
-const Home = loadable(() => import('./Home'));
-const About = loadable(() => import('./About'));
-const Contact = loadable(() => import('./Contact'));
+const NotFound = loadable(() => import('./NotFound'))
+const Home = loadable(() => import('./Home'))
+const About = loadable(() => import('./About'))
+const Contact = loadable(() => import('./Contact'))
 
 const App = () => (
   <React.Fragment>
@@ -20,6 +20,6 @@ const App = () => (
       <Contact path="/contact" fallback={<div>loading...</div>} />
     </Router>
   </React.Fragment>
-);
+)
 
-export default App;
+export default App

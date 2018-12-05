@@ -1,28 +1,32 @@
-import path from 'path';
-import React from 'react';
-import express from 'express';
-import { html as htmlTemplate, oneLineTrim } from 'common-tags';
-import { renderToString } from 'react-dom/server';
-import { ServerLocation } from '@reach/router';
-import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
-import App from './App';
+import path from 'path'
+import React from 'react'
+import express from 'express'
+import { html as htmlTemplate, oneLineTrim } from 'common-tags'
+import { renderToString } from 'react-dom/server'
+import { ServerLocation } from '@reach/router'
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server'
+import App from './App'
 
-const server = express();
+const server = express()
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
-    const extractor = new ChunkExtractor({ statsFile: path.resolve('build/loadable-stats.json'), entrypoints: ['client'] });
+    const extractor = new ChunkExtractor({
+      statsFile: path.resolve('build/loadable-stats.json'),
+      entrypoints: ['client'],
+    })
 
     const html = renderToString(
       <ChunkExtractorManager extractor={extractor}>
         <ServerLocation url={req.url}>
           <App />
         </ServerLocation>
-      </ChunkExtractorManager>
-    );
+      </ChunkExtractorManager>,
+    )
 
-    res.status(200).send(oneLineTrim(htmlTemplate`
+    res.status(200).send(
+      oneLineTrim(htmlTemplate`
       <!doctype html>
       <html lang="">
         <head>
@@ -38,7 +42,8 @@ server
           ${extractor.getScriptTags()}
         </body>
       </html>
-    `));
-  });
+    `),
+    )
+  })
 
-export default server;
+export default server

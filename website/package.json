@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "gatsby build",
+    "build:pp": "gatsby build --prefix-paths",
+    "dev": "gatsby develop",
+    "serve": "gatsby serve"
+  },
+  "dependencies": {
+    "gatsby": "^2.0.63",
+    "smooth-doc": "^0.0.1-alpha.5"
+  }
+}

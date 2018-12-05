@@ -1,0 +1,66 @@
+---
+menu: Introduction
+title: Code Splitting?
+order: 10
+---
+
+# Code Splitting?
+
+Code Splitting is an efficient way to reduce your bundle size: it speed up the loading of your application and reduce the payload size of your application.
+
+Bundling is great, but as your app grows, your bundle will grow too. Especially if you are including large third-party libraries. You need to keep an eye on the code you are including in your bundle so that you don’t accidentally make it so large that your app takes a long time to load.
+
+To avoid winding up with a large bundle, it’s good to get ahead of the problem and start “splitting” your bundle. Code-Splitting is a feature supported by bundlers like Webpack and Browserify (via factor-bundle) which can create multiple bundles that can be dynamically loaded at runtime.
+
+Code-splitting your app can help you “lazy-load” just the things that are currently needed by the user, which can dramatically improve the performance of your app. While you haven’t reduced the overall amount of code in your app, you’ve avoided loading code that the user may never need, and reduced the amount of code needed during the initial load.
+
+## `import()`
+
+The best way to introduce code-splitting into your app is through the dynamic `import()` syntax.
+
+**Before:**
+
+```js
+import { add } from './math'
+
+console.log(add(16, 26))
+```
+
+**After:**
+
+```js
+import('./math').then(math => {
+  console.log(math.add(16, 26))
+})
+```
+
+> Note:
+> The dynamic import() syntax is a ECMAScript (JavaScript) proposal not currently part of the language standard. It is expected to be accepted in the near future.
+
+When Webpack comes across this syntax, it automatically starts code-splitting your app.
+
+If you’re setting up Webpack yourself, you’ll probably want to read [Webpack’s guide on code splitting](https://webpack.js.org/guides/code-splitting/).
+
+When using Babel, you’ll need to make sure that Babel can parse the dynamic import syntax but is not transforming it. For that you will need [@babel/plugin-syntax-dynamic-import](https://www.npmjs.com/package/@babel/plugin-syntax-dynamic-import).
+
+## Code Splitting + React
+
+React supports code splitting out of the box with [`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy). However it has [some limitations](/docs/loadable-vs-react-lazy), this is why `@loadable/component` exists.
+
+In a React application, most of the time you want to split your components. Splitting a component implies to be able to wait for this component to be loaded (showing a fallack during loading) but also to handle errors.
+
+**Example of component splitting:**
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
+```

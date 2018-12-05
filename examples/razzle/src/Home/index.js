@@ -1,10 +1,10 @@
-import React from 'react';
-import loadable from '@loadable/component';
-import './Home.css';
+import React from 'react'
+import loadable from '@loadable/component'
+import './Home.css'
 
-const Intro = loadable(() => import('./Intro'));
-const Welcome = loadable(() => import('./Welcome'));
-const Logo = loadable(() => import('./Logo'));
+const Intro = loadable(() => import('./Intro'))
+const Welcome = loadable(() => import('./Welcome'))
+const Logo = loadable(() => import('./Logo'))
 
 const Home = () => (
   <div className="Home">
@@ -25,6 +25,6 @@ const Home = () => (
       </li>
     </ul>
   </div>
-);
+)
 
-export default Home;
+export default Home

@@ -8,7 +8,7 @@ We expect project participants to adhere to our Code of Conduct. Please read [th
 
 ## Open Development
 
-All work on SVGR happens directly on [GitHub](/). Both core team members and external contributors send pull requests which go through the same review process.
+All work on Loadable Components happens directly on [GitHub](/). Both core team members and external contributors send pull requests which go through the same review process.
 
 ### Workflow and Pull Requests
 

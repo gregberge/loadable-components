@@ -1,0 +1,29 @@
+---
+menu: Guides
+title: Suspense
+order: 30
+---
+
+# Suspense
+
+`@loadable/component` exposes a `lazy` method that acts similarly as `React.lazy` one.
+
+```js
+import { lazy } from '@loadable/component'
+
+const OtherComponent = lazy(() => import('./OtherComponent'))
+
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  )
+}
+```
+
+> Use `lazy.lib` for libraries.
+
+> ⚠️ Suspense is not yet available for server-side rendering.

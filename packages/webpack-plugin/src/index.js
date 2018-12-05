@@ -5,7 +5,7 @@ class LoadablePlugin {
   constructor({ filename = 'loadable-stats.json', writeToDisk = false } = {}) {
     this.opts = { filename, writeToDisk }
 
-    // The Webpack compiler instance 
+    // The Webpack compiler instance
     this.compiler = null
   }
 

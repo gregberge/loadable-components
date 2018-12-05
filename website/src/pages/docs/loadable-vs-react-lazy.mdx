@@ -1,0 +1,70 @@
+---
+menu: Introduction
+title: Comparison with React.lazy
+order: 20
+---
+
+# Comparison with React.lazy
+
+What are the differences between `React.lazy` and `@loadable/components`?
+
+[`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy) is the recommended solution for Code Splitting. It uses Suspense and it is maintained by React.
+
+If you are already using `React.lazy` and if you are good with it, you don't need `@loadable/component`.
+
+If you feel limited or if you need SSR, then `@loadable/component` is the solution.
+
+## Comparison table
+
+| Library               | Suspense | SSR | Library splitting | `` import(`./${value}`) `` |
+| --------------------- | -------- | --- | ----------------- | -------------------------- |
+| `React.lazy`          | ✅       | ❌  | ❌                | ❌                         |
+| `@loadable/component` | ✅       | ✅  | ✅                | ✅                         |
+
+## Suspense
+
+Suspense is supported by `React.lazy` and by `@loadable/component`. `@loadable/component` can also be used without Suspense.
+
+## Server Side Rendering
+
+Suspense is not available server-side and `React.lazy` can only works with Suspense. That's why today, `React.lazy` is not an option if you need Server Side Rendering.
+
+`@loadable/component` provides a complete solution to make [Server Side Rendering](/docs/server-side-rendering) possible.
+
+## Library splitting
+
+`@loadable/component` supports library splitting using render props. This is not possible with `React.lazy`.
+
+## Full dynamic import
+
+Full dynamic import also called agressive code splitting is a feature supported by Webpack. It consists of passing a dynamic value to the dynamic `import()` function.
+
+```js
+// All files that could match this pattern will be automatically code splitted.
+const loadFile = file => import(`./${file}`)
+```
+
+In React, it permits to create reusable components:
+
+```js
+import loadable from '@loadable/component'
+
+const AsyncPage = loadable(props => import(`./${props.page}`))
+
+function MyComponent() {
+  return (
+    <div>
+      <AsyncPage page="Home" />
+      <AsyncPage page="Contact" />
+    </div>
+  )
+}
+```
+
+This feature is not supported by `React.lazy`.
+
+## Note about `react-loadable`
+
+[react-loadable](https://github.com/jamiebuilds/react-loadable) was the recommended way for React code splitting for a long time. However, today it is not maintained any more and it is not compatible with Webpack v4+ and Babel v7+.
+
+If you use it, it is recommended to migrate to `React.lazy` or `@loadable/component`.
