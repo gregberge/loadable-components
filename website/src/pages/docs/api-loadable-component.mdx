@@ -1,0 +1,87 @@
+---
+menu: API
+title: '@loadable/component'
+order: 10
+---
+
+# @loadable/component
+
+## Loadable
+
+Create a loadable component.
+
+| Arguments          | Description                              |
+| ------------------ | ---------------------------------------- |
+| `loadFn`           | The function call to load the component. |
+| `options`          | Optional options.                        |
+| `options.fallback` | Fallback displayed during the loading.   |
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+```
+
+## Lazy
+
+Create a loadable component "Suspense" ready.
+
+| Arguments | Description                              |
+| --------- | ---------------------------------------- |
+| `loadFn`  | The function call to load the component. |
+
+```js
+import { lazy } from '@loadable/component'
+
+const OtherComponent = lazy(() => import('./OtherComponent'))
+```
+
+## LoadableComponent
+
+A component created using `loadable` or `lazy`.
+
+| Props      | Description                                       |
+| ---------- | ------------------------------------------------- |
+| `fallback` | Fallback displayed during the loading.            |
+| `...`      | Props are forwarded as first argument of `loadFn` |
+
+## loadable.lib
+
+Create a loadable library.
+
+| Arguments          | Description                              |
+| ------------------ | ---------------------------------------- |
+| `loadFn`           | The function call to load the component. |
+| `options`          | Optional options.                        |
+| `options.fallback` | Fallback displayed during the loading.   |
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib(() => import('moment'))
+```
+
+## lazy.lib
+
+Create a loadable library "Suspense" ready.
+
+| Arguments | Description                              |
+| --------- | ---------------------------------------- |
+| `loadFn`  | The function call to load the component. |
+
+```js
+import { lazy } from '@loadable/component'
+
+const Moment = lazy.lib(() => import('moment'))
+```
+
+## LoadableLibrary
+
+A component created using `loadable.lib` or `lazy.lib`.
+
+| Props      | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| `children` | Function called when the library is loaded.          |
+| `ref`      | Accepts a ref, populated when the library is loaded. |
+| `fallback` | Fallback displayed during the loading.               |
+| `...`      | Props are forwarded as first argument of `loadFn`    |

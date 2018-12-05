@@ -1,0 +1,124 @@
+---
+menu: API
+title: '@loadable/server'
+order: 20
+---
+
+# @loadable/server
+
+## ChunkExtractor
+
+Used to collect chunks server-side and get them as script tags or script elements.
+
+| Arguments             | Description                                                 |
+| --------------------- | ----------------------------------------------------------- |
+| `options`             | An object options.                                          |
+| `options.statsFile`   | Stats file path generated using `@loadable/webpack-plugin`. |
+| `options.stats`       | Stats generated using `@loadable/webpack-plugin`.           |
+| `options.entrypoints` | Webpack entrypoints to load (default to `["main"]`).        |
+| `options.outputPath`  | Optional output path (only for `requireEntrypoint`).        |
+
+You must specify either `statsFile` or `stats` to be able to use `ChunkExtractor`.
+
+Using `statsFile` will automatically reload stats for you if they change.
+
+```js
+import { ChunkExtractor } from '@loadable/server'
+
+const statsFile = path.resolve('../dist/loadable-stats.json')
+const chunkExtractor = new ChunkExtractor({ statsFile })
+```
+
+## chunkExtractor.collectChunks
+
+Wrap your application in a `ChunkExtractorManager`.
+
+| Arguments | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| `element` | JSX element that will be wrapped in `ChunkExtractorManager`. |
+
+```js
+const app = chunkExtractor.collectChunks(<YourApp />)
+```
+
+## chunkExtractor.requireEntrypoint
+
+Require the entrypoint of your application as a commonjs module.
+
+| Arguments | Description                                                      |
+| --------- | ---------------------------------------------------------------- |
+| `name`    | Optional name the entrypoint, default to the first one (`main`). |
+
+```js
+const { default: App } = chunkExtractor.requireEntrypoint()
+const app = <App />
+```
+
+## chunkExtractor.getScriptTags
+
+Get scripts as a string of `<script>` tags.
+
+```js
+const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()}</body>`
+```
+
+## chunkExtractor.getScriptElements
+
+Get scripts as an array of React `<script>` elements.
+
+```js
+const body = renderToString(
+  <body>
+    <div id="root" dangerouslySetInnerHtml={{ __html: html }} />
+    {chunkExtractor.getScriptElements()}
+  </body>,
+)
+```
+
+## chunkExtractor.getLinkTags
+
+Get "prefetch" and "preload" links as a string of `<link>` tags.
+
+```js
+const head = `<head>${chunkExtractor.getLinkTags()}</head>`
+```
+
+## chunkExtractor.getLinkElements
+
+Get "prefetch" and "preload" links as an array of React `<link>` elements.
+
+```js
+const head = renderToString(<head>{chunkExtractor.getLinkElements()}</head>)
+```
+
+## chunkExtractor.getStyleTags
+
+Get style links as a string of `<link>` tags.
+
+```js
+const head = `<head>${chunkExtractor.getStyleTags()}</head>`
+```
+
+## chunkExtractor.getStyleElements
+
+Get style links as an array of React `<link>` elements.
+
+```js
+const head = renderToString(<head>{chunkExtractor.getStyleElements()}</head>)
+```
+
+## ChunkExtractorManager
+
+Used to inject a `ChunkExtractor` in the context of your application.
+
+```js
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server'
+
+const extractor = new ChunkExtractor()
+
+const app = (
+  <ChunkExtractorManager extractor={extractor}>
+    <YourApp />
+  </ChunkExtractorManager>
+)
+```

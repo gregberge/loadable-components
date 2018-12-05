@@ -1,0 +1,19 @@
+---
+menu: Guides
+title: Timeout
+order: 55
+---
+
+# Timeout
+
+Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
+
+```js
+import loadable from '@loadable/component'
+import { timeout } from 'promise-timeout'
+
+// Wait a maximum of 2s before sending an error.
+export const OtherComponent = loadable(() =>
+  timeout(import('./OtherComponent'), 2000)
+)
+```

@@ -1,0 +1,37 @@
+---
+menu: Guides
+title: Fallback without Suspense
+order: 40
+---
+
+# Fallback without Suspense
+
+You can specify a `fallback` in `loadable` options.
+
+```js
+const OtherComponent = loadable(() => import('./OtherComponent'), {
+  fallback: <div>Loading...</div>,
+})
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
+```
+
+You can also specify a `fallback` in props:
+
+```js
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent fallback={<div>Loading...</div>} />
+    </div>
+  )
+}
+```

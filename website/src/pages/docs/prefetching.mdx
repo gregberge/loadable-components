@@ -1,0 +1,21 @@
+---
+menu: Guides
+title: Prefetching
+order: 60
+---
+
+# Prefetching
+
+Loadable Components is fully compatible with [webpack hints `webpackPrefetch` and `webpackPreload`](https://webpack.js.org/guides/code-splitting/#prefetching-preloading-modules).
+
+Most of the time, you want to "prefetch" a component, it means it will be loaded when the browser is idle. You can do it by adding `/* webpackPrefetch: true */` inside your import statement.
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() =>
+  import(/* webpackPrefetch: true */ './OtherComponent')
+)
+```
+
+> You can extract prefetched resources server-side to add `<link rel="prefetch">` in your head.

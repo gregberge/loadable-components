@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React from 'react'
 
 const Intro = () => (
   <p className="Home-intro">
     To get started, edit <code>src/App.js</code> or <code>src/Home.js</code> and
     save to reload.
   </p>
-);
+)
 
-export default Intro;
+export default Intro

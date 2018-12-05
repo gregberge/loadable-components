@@ -1,0 +1,24 @@
+---
+menu: Guides
+title: Full dynamic import
+order: 20
+---
+
+# Full dynamic import
+
+Webpack accepts [full dynamic imports](https://webpack.js.org/api/module-methods/#import-), you can use them to create a reusable Loadable Component.
+
+```js
+import loadable from '@loadable/component'
+
+const AsyncPage = loadable(props => import(`./${props.page}`))
+
+function MyComponent() {
+  return (
+    <div>
+      <AsyncPage page="Home" />
+      <AsyncPage page="Contact" />
+    </div>
+  )
+}
+```

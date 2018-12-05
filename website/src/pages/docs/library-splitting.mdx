@@ -1,0 +1,54 @@
+---
+menu: Guides
+title: Loading library
+order: 10
+---
+
+# Library Splitting
+
+`loadable.lib` lets you defer the loading of a library. It takes a render props called when the library is loaded.
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib(() => import('moment'))
+
+function FromNow({ date }) {
+  return (
+    <div>
+      <Moment fallback={date.toLocaleDateString()}>
+        {({ default: moment }) => moment(date).fromNow()}
+      </Moment>
+    </div>
+  )
+}
+```
+
+You can also use a `ref`, populated when the library is loaded.
+
+```js
+import loadable from '@loadable/component'
+
+const Moment = loadable.lib(() => import('moment'))
+
+class MyComponent {
+  moment = React.createRef()
+
+  handleClick = () => {
+    if (this.moment.current) {
+      return alert(this.moment.current.default.format('HH:mm'))
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}>What time is it?</button>
+        <Moment ref={this.moment} />
+      </div>
+    )
+  }
+}
+```
+
+> You can also pass a function to `ref`, called when the library is loaded.
