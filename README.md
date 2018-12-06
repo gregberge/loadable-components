@@ -18,7 +18,7 @@ npm install @loadable/component
 
 ## [Docs](https://www.smooth-code.com/open-source/loadable-components)
 
-**See the documentation at [smooth-code.com/open-source/loadable-components](https://www.smooth-code.com/open-source/loadable-components)** for more information about using `loadable components`!
+**See the documentation at [smooth-code.com/open-source/loadable-components](https://www.smooth-code.com/open-source/loadable-components)** for more information about using Loadable Components!
 
 Quicklinks to some of the most-visited pages:
 
@@ -42,7 +42,7 @@ function MyComponent() {
 }
 ```
 
-## Licence
+## License
 
 Licensed under the MIT License, Copyright © 2017-present Smooth Code.
 
