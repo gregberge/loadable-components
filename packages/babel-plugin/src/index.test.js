@@ -87,9 +87,25 @@ describe('plugin', () => {
     })
 
     describe('without "webpackChunkName"', () => {
-      it('should add it', () => {
+      it('should support simple request', () => {
         const result = testPlugin(`
           loadable(props => import(\`./\${props.foo}\`))
+        `)
+
+        expect(result).toMatchSnapshot()
+      })
+
+      it('should support complex request', () => {
+        const result = testPlugin(`
+          loadable(props => import(\`./dir/\${props.foo}/test\`))
+        `)
+
+        expect(result).toMatchSnapshot()
+      })
+
+      it('should support destructuring', () => {
+        const result = testPlugin(`
+          loadable(({ foo }) => import(\`./dir/\${foo}/test\`))
         `)
 
         expect(result).toMatchSnapshot()
