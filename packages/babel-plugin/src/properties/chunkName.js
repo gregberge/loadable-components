@@ -98,15 +98,15 @@ export default function chunkNameProperty({ types: t }) {
       chunkNameComment.remove()
     }
 
-    if (isAgressiveImport(callPath)) {
-      values.webpackChunkName = '[request]'
-    }
-
-    // const value = t.isTemplateLiteral(chunkName)
-    // ? chunkName.quasis[0].value.cooked
-    // : chunkName.value
-
     importArg.addComment('leading', writeWebpackCommentValues(values))
+  }
+
+  function chunkNameFromTemplateLiteral(node) {
+    const [q1, q2] = node.quasis
+    const v1 = q1 ? q1.value.cooked : ''
+    const v2 = q2 ? q2.value.cooked : ''
+    if (!node.expressions.length) return v1
+    return `${v1}[request]${v2}`
   }
 
   function replaceChunkName(callPath) {
@@ -120,7 +120,7 @@ export default function chunkNameProperty({ types: t }) {
 
     const chunkNameNode = generateChunkNameNode(callPath)
     const webpackChunkName = t.isTemplateLiteral(chunkNameNode)
-      ? chunkNameNode.quasis[0].value.cooked
+      ? chunkNameFromTemplateLiteral(chunkNameNode)
       : chunkNameNode.value
     addOrReplaceChunkNameComment(callPath, { webpackChunkName })
     return chunkNameNode

@@ -84,7 +84,91 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 });"
 `;
 
-exports[`plugin aggressive import without "webpackChunkName" should add it 1`] = `
+exports[`plugin aggressive import without "webpackChunkName" should support complex request 1`] = `
+"loadable({
+  chunkName(props) {
+    return \`dir-\${props.foo}-test\`;
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: props => import(
+  /* webpackChunkName: \\"dir-[request]-test\\" */
+  \`./dir/\${props.foo}/test\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve(props) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./dir/\${props.foo}/test\`);
+    }
+
+    return require('path').resolve(__dirname, \`./dir/\${props.foo}/test\`);
+  }
+
+});"
+`;
+
+exports[`plugin aggressive import without "webpackChunkName" should support destructuring 1`] = `
+"loadable({
+  chunkName({
+    foo
+  }) {
+    return \`dir-\${foo}-test\`;
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: ({
+    foo
+  }) => import(
+  /* webpackChunkName: \\"dir-[request]-test\\" */
+  \`./dir/\${foo}/test\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve({
+    foo
+  }) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./dir/\${foo}/test\`);
+    }
+
+    return require('path').resolve(__dirname, \`./dir/\${foo}/test\`);
+  }
+
+});"
+`;
+
+exports[`plugin aggressive import without "webpackChunkName" should support simple request 1`] = `
 "loadable({
   chunkName(props) {
     return \`\${props.foo}\`;
