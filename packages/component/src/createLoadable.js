@@ -59,10 +59,22 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       }
 
       componentDidMount() {
+        this.mounted = true
+
         if (this.state.loading) {
           this.loadAsync()
         } else if (!this.state.error) {
           this.triggerOnLoad()
+        }
+      }
+
+      componentWillUnmount() {
+        this.mounted = false
+      }
+
+      safeSetState(nextState, callback) {
+        if (this.mounted) {
+          this.setState(nextState, callback)
         }
       }
 
@@ -93,7 +105,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           ctor
             .requireAsync(this.props)
             .then(loadedModule => {
-              this.setState(
+              this.safeSetState(
                 {
                   result: resolve(loadedModule, { Loadable }),
                   loading: false,
@@ -102,7 +114,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
               )
             })
             .catch(error => {
-              this.setState({ error, loading: false })
+              this.safeSetState({ error, loading: false })
             })
 
         return this.promise
