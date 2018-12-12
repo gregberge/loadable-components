@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.2](https://github.com/smooth-code/loadable-components/compare/v5.2.1...v5.2.2) (2018-12-12)
+
+
+### Bug Fixes
+
+* **babel-plugin:** fix chunkName with aggressive code splitting ([e974933](https://github.com/smooth-code/loadable-components/commit/e974933)), closes [#182](https://github.com/smooth-code/loadable-components/issues/182)
+
+
+
+
+
 # [5.0.0](https://github.com/smooth-code/loadable-components/compare/v4.0.5...v5.0.0) (2018-11-10)
 
 
