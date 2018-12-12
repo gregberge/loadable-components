@@ -5,8 +5,10 @@ export const smartRequire = modulePath => {
     clearModuleCache(modulePath)
   }
 
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-  return require(modulePath)
+  // Use eval to prevent Webpack from compiling it
+  // when the server-side code is compiled with Webpack
+  // eslint-disable-next-line no-eval
+  return eval('module.require')(modulePath)
 }
 
 export const joinURLPath = (...paths) => {
