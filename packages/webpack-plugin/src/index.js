@@ -1,9 +1,13 @@
-const path = require('path')
+const nodePath = require('path')
 const fs = require('fs')
 
 class LoadablePlugin {
-  constructor({ filename = 'loadable-stats.json', writeToDisk = false } = {}) {
-    this.opts = { filename, writeToDisk }
+  constructor({
+    filename = 'loadable-stats.json',
+    path,
+    writeToDisk = false,
+  } = {}) {
+    this.opts = { filename, writeToDisk, path }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -32,70 +36,23 @@ class LoadablePlugin {
     }
 
     if (this.opts.writeToDisk) {
-      this.writeAssetsFile(result)
+      const outputFolder = this.opts.path || hookCompiler.options.output.path
+      this.writeAssetsFile(outputFolder, result)
     }
 
     callback()
   }
 
   /**
-   * Check if request is from Dev Server
-   * aka webpack-dev-server
-   * @method isRequestFromDevServer
-   * @returns {boolean} - True or False
-   */
-  isRequestFromDevServer = () => {
-    if (process.argv.some(arg => arg.includes('webpack-dev-server'))) {
-      return true
-    }
-    return (
-      this.compiler.outputFileSystem &&
-      this.compiler.outputFileSystem.constructor.name === 'MemoryFileSystem'
-    )
-  }
-
-  /**
-   * Get assets manifest output path
-   *
-   * @method getManifestOutputPath
-   * @returns {string} - Output path containing path + filename.
-   */
-  getManifestOutputPath = () => {
-    if (path.isAbsolute(this.opts.filename)) {
-      return this.opts.filename
-    }
-
-    if (this.isRequestFromDevServer() && this.compiler.options.devServer) {
-      let outputPath =
-        this.compiler.options.devServer.outputPath ||
-        this.compiler.outputPath ||
-        '/'
-
-      if (outputPath === '/') {
-        // eslint-disable-next-line no-console
-        console.warn(
-          'Please use an absolute path in options.output when using webpack-dev-server.',
-        )
-        outputPath = this.compiler.context || process.cwd()
-      }
-
-      return path.resolve(outputPath, this.opts.filename)
-    }
-
-    return path.resolve(this.compiler.outputPath, this.opts.filename)
-  }
-
-  /**
    * Write Assets Manifest file
    * @method writeAssetsFile
    */
-  writeAssetsFile = manifest => {
-    const filePath = this.getManifestOutputPath()
-    const fileDir = path.dirname(filePath)
+  writeAssetsFile = (outputFolder, manifest) => {
+    const outputFile = nodePath.resolve(outputFolder, this.opts.filename)
 
     try {
-      if (!fs.existsSync(fileDir)) {
-        fs.mkdirSync(fileDir)
+      if (!fs.existsSync(outputFolder)) {
+        fs.mkdirSync(outputFolder)
       }
     } catch (err) {
       if (err.code !== 'EEXIST') {
@@ -103,7 +60,7 @@ class LoadablePlugin {
       }
     }
 
-    fs.writeFileSync(filePath, manifest)
+    fs.writeFileSync(outputFile, manifest)
   }
 
   apply(compiler) {
