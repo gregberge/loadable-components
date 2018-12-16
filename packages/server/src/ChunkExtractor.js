@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import path from 'path'
+import fs from 'fs'
 import _ from 'lodash'
 import React from 'react'
 import { invariant, LOADABLE_REQUIRED_CHUNKS_KEY } from './sharedInternals'
@@ -44,6 +45,16 @@ function assetToStyleElement(asset) {
       data-chunk={asset.chunk}
       rel="stylesheet"
       href={asset.url}
+    />
+  )
+}
+
+function assetToStyleElementInline(asset) {
+  return (
+    <style
+      key={asset.url}
+      data-chunk={asset.chunk}
+      dangerouslySetInnerHTML={{ __html: fs.readFileSync(asset.path, 'utf8') }} 
     />
   )
 }
@@ -248,10 +259,15 @@ class ChunkExtractor {
     const mainAssets = this.getMainAssets('style')
     return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
   }
-
+  
   getStyleElements() {
     const mainAssets = this.getMainAssets('style')
     return mainAssets.map(asset => assetToStyleElement(asset))
+  }
+
+  getStyleInlineElements() {
+    const mainAssets = this.getMainAssets('style')
+    return mainAssets.map(asset => assetToStyleElementInline(asset))
   }
 
   // Pre assets
