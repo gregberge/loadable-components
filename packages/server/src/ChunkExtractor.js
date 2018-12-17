@@ -32,10 +32,21 @@ function assetToScriptElement(asset) {
   )
 }
 
+function assetToStyleString(asset) {
+  return fs.readFileSync(asset.path, 'utf8');
+}
+
 function assetToStyleTag(asset) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
   }">`
+}
+
+function assetToStyleTagInline(asset) {
+  return `<style data-chunk="${asset.chunk}">
+  ${fs.readFileSync(asset.path, 'utf8')}
+  </style>
+  `
 }
 
 function assetToStyleElement(asset) {
@@ -54,7 +65,7 @@ function assetToStyleElementInline(asset) {
     <style
       key={asset.url}
       data-chunk={asset.chunk}
-      dangerouslySetInnerHTML={{ __html: fs.readFileSync(asset.path, 'utf8') }} 
+      dangerouslySetInnerHTML={{ __html: fs.readFileSync(asset.path, 'utf8') }}
     />
   )
 }
@@ -255,19 +266,29 @@ class ChunkExtractor {
     return [requiredScriptElement, ...assetsScriptElements]
   }
 
-  getStyleTags() {
+  getCssString() {
     const mainAssets = this.getMainAssets('style')
+    return joinTags(mainAssets.map(asset => assetToStyleString(asset)))
+  }
+
+  getStyleTags(options = {
+    inline: false,
+  }) {
+    const mainAssets = this.getMainAssets('style')
+    if (options.inline === true) {
+      return mainAssets.map(asset => assetToStyleTagInline(asset))
+    }
     return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
   }
   
-  getStyleElements() {
+  getStyleElements(options = {
+    inline: false,
+  }) {
     const mainAssets = this.getMainAssets('style')
+    if (options.inline === true) {
+      return mainAssets.map(asset => assetToStyleElementInline(asset))
+    }
     return mainAssets.map(asset => assetToStyleElement(asset))
-  }
-
-  getStyleInlineElements() {
-    const mainAssets = this.getMainAssets('style')
-    return mainAssets.map(asset => assetToStyleElementInline(asset))
   }
 
   // Pre assets
