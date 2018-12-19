@@ -276,12 +276,32 @@ Get style links as a string of `<link>` tags.
 const head = `<head>${chunkExtractor.getStyleTags()}</head>`
 ```
 
+Get inline style links as a string of `<link>` tags.
+
+```js
+const head = `<head>${chunkExtractor.getStyleTags({ inline: true })}</head>`
+```
+
 ### chunkExtractor.getStyleElements
 
 Get style links as an array of React `<link>` elements.
 
 ```js
 const head = renderToString(<head>{chunkExtractor.getStyleElements()}</head>)
+```
+
+Get inline style links as an array of React `<link>` elements.
+
+```js
+const head = renderToString(<head>{chunkExtractor.getStyleElements({ inline: true })}</head>)
+```
+
+### chunkExtractor.getCssString
+
+Get css as a raw string for using directly within app (e.g. in custom AMP style tag)
+
+```js
+const cssString = chunkExtractor.getCssString()
 ```
 
 ### ChunkExtractorManager
