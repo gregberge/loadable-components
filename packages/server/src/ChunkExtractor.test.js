@@ -1,32 +1,38 @@
 import path from 'path'
-import stats from '../__fixtures__/stats.json'
+import stats from '../__fixtures__/stats'
 import ChunkExtractor from './ChunkExtractor'
 
 describe('ChunkExtrator', () => {
+  let extractor
+
+  beforeEach(() => {
+    extractor = new ChunkExtractor({
+      stats,
+      outputPath: path.resolve(__dirname, '../__fixtures__'),
+    })
+  })
+
   describe('#stats', () => {
     it('should load stats from file', () => {
-      const extractor = new ChunkExtractor({
-        statsFile: path.resolve(__dirname, '../__fixtures__/stats.json'),
+      extractor = new ChunkExtractor({
+        statsFile: path.resolve(__dirname, '../__fixtures__/stats'),
       })
 
       expect(extractor.stats).toBe(stats)
     })
 
     it('should load stats from stats', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.stats).toBe(stats)
     })
   })
 
   describe('#addChunk', () => {
     it('should reference chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('foo')
       expect(extractor.chunks).toEqual(['foo'])
     })
 
     it('should be uniq', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('a')
       extractor.addChunk('b')
       extractor.addChunk('b')
@@ -36,7 +42,6 @@ describe('ChunkExtrator', () => {
 
   describe('#getScriptTags', () => {
     it('should return main script tag without chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
 "<script>window.__LOADABLE_REQUIRED_CHUNKS__ = [];</script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
@@ -44,7 +49,6 @@ describe('ChunkExtrator', () => {
     })
 
     it('should return other chunks if referenced', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
 "<script>window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];</script>
@@ -56,7 +60,6 @@ describe('ChunkExtrator', () => {
 
   describe('#getScriptElements', () => {
     it('should return main script tag without chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
 Array [
   <script
@@ -76,7 +79,6 @@ Array [
     })
 
     it('should return other chunks if referenced', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('letters-A')
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
 Array [
@@ -104,25 +106,43 @@ Array [
 
   describe('#getStyleTags', () => {
     it('should return main style tag without chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.getStyleTags()).toMatchInlineSnapshot(
         `"<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">"`,
       )
     })
 
     it('should return other chunks if referenced', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('letters-A')
       expect(extractor.getStyleTags()).toMatchInlineSnapshot(`
 "<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\">
 <link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">"
 `)
     })
+
+    it('should return inline style tags with inline option parameter', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getStyleTags({ inline: true })).toMatchInlineSnapshot(`
+Array [
+  "<style data-chunk=\\"letters-A\\">
+  body {
+  background: pink;
+}
+
+  </style>
+  ",
+  "<style data-chunk=\\"main\\">
+  h1 {
+  color: cyan;
+}
+  </style>
+  ",
+]
+`)
+    })
   })
 
   describe('#getStyleElements', () => {
     it('should return main style tag without chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.getStyleElements()).toMatchInlineSnapshot(`
 Array [
   <link
@@ -135,7 +155,6 @@ Array [
     })
 
     it('should return other chunks if referenced', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('letters-A')
       expect(extractor.getStyleElements()).toMatchInlineSnapshot(`
 Array [
@@ -152,11 +171,55 @@ Array [
 ]
 `)
     })
+
+    it('should return inline style tags with inline option parameter', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getStyleElements({ inline: true }))
+        .toMatchInlineSnapshot(`
+Array [
+  <style
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "body {
+  background: pink;
+}
+",
+      }
+    }
+    data-chunk="letters-A"
+  />,
+  <style
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "h1 {
+  color: cyan;
+}",
+      }
+    }
+    data-chunk="main"
+  />,
+]
+`)
+    })
+  })
+
+  describe('#getCssString', () => {
+    it('should return a string of the referenced css files', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getCssString()).toMatchInlineSnapshot(`
+"body {
+  background: pink;
+}
+
+h1 {
+  color: cyan;
+}"
+`)
+    })
   })
 
   describe('#getLinkTags', () => {
     it('should return main script tag without chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.getLinkTags()).toMatchInlineSnapshot(`
 "<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
 <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
@@ -166,7 +229,6 @@ Array [
     })
 
     it('should return other chunks if referenced', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags()).toMatchInlineSnapshot(`
 "<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\">
@@ -181,7 +243,6 @@ Array [
 
   describe('#getLinkElements', () => {
     it('should return main script tag without chunk', () => {
-      const extractor = new ChunkExtractor({ stats })
       expect(extractor.getLinkElements()).toMatchInlineSnapshot(`
 Array [
   <link
@@ -213,7 +274,6 @@ Array [
     })
 
     it('should return other chunks if referenced', () => {
-      const extractor = new ChunkExtractor({ stats })
       extractor.addChunk('letters-A')
       expect(extractor.getLinkElements()).toMatchInlineSnapshot(`
 Array [
@@ -260,7 +320,6 @@ Array [
 
   describe('#requireEntryPoint', () => {
     it('should load the first entrypoint', () => {
-      const extractor = new ChunkExtractor({ stats })
       const x = extractor.requireEntrypoint()
       expect(x).toBe('hello')
     })
