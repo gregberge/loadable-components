@@ -1,5 +1,5 @@
 import path from 'path'
-import stats from '../__fixtures__/stats'
+import stats from '../__fixtures__/stats.json'
 import ChunkExtractor from './ChunkExtractor'
 
 describe('ChunkExtrator', () => {
