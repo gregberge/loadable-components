@@ -15,7 +15,7 @@ describe('ChunkExtrator', () => {
   describe('#stats', () => {
     it('should load stats from file', () => {
       extractor = new ChunkExtractor({
-        statsFile: path.resolve(__dirname, '../__fixtures__/stats'),
+        statsFile: path.resolve(__dirname, '../__fixtures__/stats.json'),
       })
 
       expect(extractor.stats).toBe(stats)
