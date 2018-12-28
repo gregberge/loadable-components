@@ -36,6 +36,15 @@ function assetToStyleString(asset) {
   return fs.readFileSync(asset.path, 'utf8');
 }
 
+function assetToStyleStringPromise(asset) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(asset.path, 'utf8', (err, data) => {
+      if (err) reject(err)
+      resolve(data);
+    })
+  })
+}
+
 function assetToStyleTag(asset) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
@@ -269,6 +278,12 @@ class ChunkExtractor {
   getCssString() {
     const mainAssets = this.getMainAssets('style')
     return joinTags(mainAssets.map(asset => assetToStyleString(asset)))
+  }
+
+  getCssStringPromise() {
+    const mainAssets = this.getMainAssets('style')
+    const promises = mainAssets.map((asset) => assetToStyleStringPromise(asset).then(data => data))
+    return Promise.all(promises).then(results => joinTags(results))
   }
 
   getStyleTags(options = {
