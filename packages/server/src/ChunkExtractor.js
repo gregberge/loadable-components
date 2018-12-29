@@ -33,16 +33,16 @@ function assetToScriptElement(asset) {
 }
 
 function assetToStyleString(asset) {
-  return fs.readFileSync(asset.path, 'utf8');
-}
-
-function assetToStyleStringPromise(asset) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
       if (err) reject(err)
       resolve(data);
     })
   })
+}
+
+function assetToStyleStringSync(asset) {
+  return fs.readFileSync(asset.path, 'utf8');
 }
 
 function assetToStyleTag(asset) {
@@ -52,6 +52,20 @@ function assetToStyleTag(asset) {
 }
 
 function assetToStyleTagInline(asset) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(asset.path, 'utf8', (err, data) => {
+      if (err) reject(err)
+      resolve(
+        `<style data-chunk="${asset.chunk}">
+        ${data}
+        </style>
+        `
+      );
+    })
+  })
+}
+
+function assetToStyleTagInlineSync(asset) {
   return `<style data-chunk="${asset.chunk}">
   ${fs.readFileSync(asset.path, 'utf8')}
   </style>
@@ -70,6 +84,21 @@ function assetToStyleElement(asset) {
 }
 
 function assetToStyleElementInline(asset) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(asset.path, 'utf8', (err, data) => {
+      if (err) reject(err)
+      resolve(
+        <style
+          key={asset.url}
+          data-chunk={asset.chunk}
+          dangerouslySetInnerHTML={{ __html: data }}
+        />
+      );
+    })
+  })
+}
+
+function assetToStyleElementInlineSync(asset) {
   return (
     <style
       key={asset.url}
@@ -275,33 +304,58 @@ class ChunkExtractor {
     return [requiredScriptElement, ...assetsScriptElements]
   }
 
-  getCssString() {
+  getCssString(options = {
+    sync: false,
+  }) {
     const mainAssets = this.getMainAssets('style')
-    return joinTags(mainAssets.map(asset => assetToStyleString(asset)))
-  }
-
-  getCssStringPromise() {
-    const mainAssets = this.getMainAssets('style')
-    const promises = mainAssets.map((asset) => assetToStyleStringPromise(asset).then(data => data))
+    if (options.sync === true) {
+      return joinTags(mainAssets.map(asset => assetToStyleStringSync(asset)))
+    }
+    const promises = mainAssets.map((asset) => assetToStyleString(asset).then(data => data))
     return Promise.all(promises).then(results => joinTags(results))
   }
 
   getStyleTags(options = {
     inline: false,
+    sync: false,
   }) {
     const mainAssets = this.getMainAssets('style')
     if (options.inline === true) {
-      return mainAssets.map(asset => assetToStyleTagInline(asset))
+      if (options.sync === true) {
+        return mainAssets.map(asset => assetToStyleTagInlineSync(asset))
+      }
+      const promises = mainAssets.map((asset) => assetToStyleTagInline(asset).then(data => data))
+      return Promise.all(promises).then(results => joinTags(results))
     }
     return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
   }
   
+  // getStyleElements() {
+  //   const mainAssets = this.getMainAssets('style')
+  //   return mainAssets.map(asset => assetToStyleElement(asset))
+  // }
+  
+  // getStyleElements(options = {
+  //   sync: false,
+  // }) {
+  //   const mainAssets = this.getMainAssets('style')
+  //   if (options.sync === true) {
+  //     return mainAssets.map(asset => assetToStyleElementInlineSync(asset))
+  //   }
+  //   return mainAssets.map(asset => assetToStyleElementInline(asset))
+  // }
+
   getStyleElements(options = {
     inline: false,
+    sync: false,
   }) {
     const mainAssets = this.getMainAssets('style')
     if (options.inline === true) {
-      return mainAssets.map(asset => assetToStyleElementInline(asset))
+      if (options.sync === true) {
+        return mainAssets.map(asset => assetToStyleElementInlineSync(asset))
+      }
+      const promises = mainAssets.map((asset) => assetToStyleElementInline(asset).then(data => data))
+      return Promise.all(promises).then(results => results)
     }
     return mainAssets.map(asset => assetToStyleElement(asset))
   }
