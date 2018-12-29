@@ -119,26 +119,27 @@ Array [
 `)
     })
 
-    it('should return inline style tags with inline option parameter', () => {
+    it('should return inline style tags with inline option parameter as a promise', () => {
       extractor.addChunk('letters-A')
-      expect(extractor.getStyleTags({ inline: true })).toMatchInlineSnapshot(`
-Array [
-  "<style data-chunk=\\"letters-A\\">
-  body {
+      expect.assertions(1)
+      return extractor.getStyleTags({ inline: true }).then(data => expect(data).toMatchInlineSnapshot(`
+"<style data-chunk=\\"letters-A\\">
+        body {
   background: pink;
 }
 
-  </style>
-  ",
-  "<style data-chunk=\\"main\\">
-  h1 {
+        </style>
+        
+<style data-chunk=\\"main\\">
+        h1 {
   color: cyan;
 }
-  </style>
-  ",
-]
-`)
+        </style>
+        "
+`),
+      )
     })
+
   })
 
   describe('#getStyleElements', () => {
@@ -172,10 +173,10 @@ Array [
 `)
     })
 
-    it('should return inline style tags with inline option parameter', () => {
+    it('should return inline style elements with inline option parameter as a promise', () => {
       extractor.addChunk('letters-A')
-      expect(extractor.getStyleElements({ inline: true }))
-        .toMatchInlineSnapshot(`
+      expect.assertions(1)
+      return extractor.getStyleElements({ inline: true }).then(data => expect(data).toMatchInlineSnapshot(`
 Array [
   <style
     dangerouslySetInnerHTML={
@@ -199,14 +200,17 @@ Array [
     data-chunk="main"
   />,
 ]
-`)
+`),
+      )
     })
+
   })
 
   describe('#getCssString', () => {
-    it('should return a string of the referenced css files', () => {
+    it('should return a string of the referenced css files as a promise', () => {
       extractor.addChunk('letters-A')
-      expect(extractor.getCssString()).toMatchInlineSnapshot(`
+      expect.assertions(1)
+      return extractor.getCssString().then(data => expect(data).toMatchInlineSnapshot(`
 "body {
   background: pink;
 }
@@ -214,8 +218,10 @@ Array [
 h1 {
   color: cyan;
 }"
-`)
+`),
+      )
     })
+    
   })
 
   describe('#getLinkTags', () => {
