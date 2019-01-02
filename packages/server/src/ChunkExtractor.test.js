@@ -119,10 +119,13 @@ Array [
 `)
     })
 
-    it('should return inline style tags with inline option parameter as a promise', () => {
+  })
+
+  describe('#getInlineStyleTags', () => {
+    it('should return inline style tags as a promise', () => {
       extractor.addChunk('letters-A')
       expect.assertions(1)
-      return extractor.getStyleTags({ inline: true }).then(data => expect(data).toMatchInlineSnapshot(`
+      return extractor.getInlineStyleTags().then(data => expect(data).toMatchInlineSnapshot(`
 "<style data-chunk=\\"letters-A\\">
         body {
   background: pink;
@@ -173,10 +176,13 @@ Array [
 `)
     })
 
-    it('should return inline style elements with inline option parameter as a promise', () => {
+  })
+
+  describe('#getInlineStyleElements', () => {
+    it('should return inline style elements as a promise', () => {
       extractor.addChunk('letters-A')
       expect.assertions(1)
-      return extractor.getStyleElements({ inline: true }).then(data => expect(data).toMatchInlineSnapshot(`
+      return extractor.getInlineStyleElements().then(data => expect(data).toMatchInlineSnapshot(`
 Array [
   <style
     dangerouslySetInnerHTML={

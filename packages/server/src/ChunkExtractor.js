@@ -289,26 +289,26 @@ class ChunkExtractor {
     return Promise.all(promises).then(results => joinTags(results))
   }
 
-  getStyleTags(options = {
-    inline: false,
-  }) {
+  getStyleTags() {
     const mainAssets = this.getMainAssets('style')
-    if (options.inline === true) {
-      const promises = mainAssets.map((asset) => assetToStyleTagInline(asset).then(data => data))
-      return Promise.all(promises).then(results => joinTags(results))
-    }
     return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
   }
-  
-  getStyleElements(options = {
-    inline: false,
-  }) {
+
+  getInlineStyleTags() {
     const mainAssets = this.getMainAssets('style')
-    if (options.inline === true) {
-      const promises = mainAssets.map((asset) => assetToStyleElementInline(asset).then(data => data))
-      return Promise.all(promises).then(results => results)
-    }
+    const promises = mainAssets.map((asset) => assetToStyleTagInline(asset).then(data => data))
+    return Promise.all(promises).then(results => joinTags(results))
+  }
+  
+  getStyleElements() {
+    const mainAssets = this.getMainAssets('style')
     return mainAssets.map(asset => assetToStyleElement(asset))
+  }
+  
+  getInlineStyleElements() {
+    const mainAssets = this.getMainAssets('style')
+    const promises = mainAssets.map((asset) => assetToStyleElementInline(asset).then(data => data))
+    return Promise.all(promises).then(results => results)
   }
 
   // Pre assets

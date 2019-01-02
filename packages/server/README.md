@@ -276,10 +276,12 @@ Get style links as a string of `<link>` tags.
 const head = `<head>${chunkExtractor.getStyleTags()}</head>`
 ```
 
+### chunkExtractor.getInlineStyleTags
+
 Get inline style links as a string of `<link>` tags (returns a promise).
 
 ```js
-chunkExtractor.getStyleTags({ inline: true })
+chunkExtractor.getInlineStyleTags()
 .then((styleTags) => {
   const head = `<head>${styleTags}</head>`
 }
@@ -293,10 +295,12 @@ Get style links as an array of React `<link>` elements.
 const head = renderToString(<head>{chunkExtractor.getStyleElements()}</head>)
 ```
 
+### chunkExtractor.getInlineStyleElements
+
 Get inline style links as an array of React `<link>` elements (returns a promise).
 
 ```js
-chunkExtractor.getStyleElements({ inline: true })
+chunkExtractor.getInlineStyleElements()
 .then((styleElements) => {
   const head = renderToString(<head>{styleElements}</head>)
 }
