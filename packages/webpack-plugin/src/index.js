@@ -5,7 +5,7 @@ class LoadablePlugin {
   constructor({
     filename = 'loadable-stats.json',
     path,
-    writeToDisk = false,
+    writeToDisk = {},
   } = {}) {
     this.opts = { filename, writeToDisk, path }
 
@@ -35,9 +35,8 @@ class LoadablePlugin {
       },
     }
 
-    if (this.opts.writeToDisk) {
-      const outputFolder = this.opts.path || hookCompiler.options.output.path
-      this.writeAssetsFile(outputFolder, result)
+    if (this.opts.writeToDisk.filename) {
+      this.writeAssetsFile(this.opts.writeToDisk.filename, result)
     }
 
     callback()
