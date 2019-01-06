@@ -35,7 +35,10 @@ function assetToScriptElement(asset) {
 function assetToStyleString(asset) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
-      if (err) reject(err)
+      if (err) {
+        reject(err);
+        return;
+      }
       resolve(data);
     })
   })
@@ -50,7 +53,10 @@ function assetToStyleTag(asset) {
 function assetToStyleTagInline(asset) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
-      if (err) reject(err)
+      if (err) {
+        reject(err);
+        return;
+      }
       resolve(
         `<style data-chunk="${asset.chunk}">
         ${data}
@@ -75,7 +81,10 @@ function assetToStyleElement(asset) {
 function assetToStyleElementInline(asset) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
-      if (err) reject(err)
+      if (err) {
+        reject(err);
+        return;
+      }
       resolve(
         <style
           key={asset.url}
