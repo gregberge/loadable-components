@@ -2,7 +2,6 @@ import path from 'path'
 import express from 'express'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import asyncHandler from 'express-async-handler'
 import { ChunkExtractor } from '@loadable/server'
 
 const app = express()
@@ -41,7 +40,7 @@ const webStats = path.resolve(
 
 app.get(
   '*',
-  asyncHandler(async (req, res) => {
+  (req, res) => {
     const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats })
     const { default: App } = nodeExtractor.requireEntrypoint()
 
@@ -62,7 +61,7 @@ ${webExtractor.getStyleTags()}
   ${webExtractor.getScriptTags()}
 </body>
 </html>`)
-  }),
+  },
 )
 
 // eslint-disable-next-line no-console
