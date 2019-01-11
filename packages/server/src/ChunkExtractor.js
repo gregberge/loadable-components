@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import path from 'path'
+import fs from 'fs'
 import _ from 'lodash'
 import React from 'react'
 import { invariant, LOADABLE_REQUIRED_CHUNKS_KEY } from './sharedInternals'
@@ -31,10 +32,39 @@ function assetToScriptElement(asset) {
   )
 }
 
+function assetToStyleString(asset) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(asset.path, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(data);
+    })
+  })
+}
+
 function assetToStyleTag(asset) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
   }">`
+}
+
+function assetToStyleTagInline(asset) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(asset.path, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(
+        `<style data-chunk="${asset.chunk}">
+        ${data}
+        </style>
+        `
+      );
+    })
+  })
 }
 
 function assetToStyleElement(asset) {
@@ -46,6 +76,24 @@ function assetToStyleElement(asset) {
       href={asset.url}
     />
   )
+}
+
+function assetToStyleElementInline(asset) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(asset.path, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(
+        <style
+          key={asset.url}
+          data-chunk={asset.chunk}
+          dangerouslySetInnerHTML={{ __html: data }}
+        />
+      );
+    })
+  })
 }
 
 const LINK_ASSET_HINTS = {
@@ -244,14 +292,32 @@ class ChunkExtractor {
     return [requiredScriptElement, ...assetsScriptElements]
   }
 
+  getCssString() {
+    const mainAssets = this.getMainAssets('style')
+    const promises = mainAssets.map((asset) => assetToStyleString(asset).then(data => data))
+    return Promise.all(promises).then(results => joinTags(results))
+  }
+
   getStyleTags() {
     const mainAssets = this.getMainAssets('style')
     return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
   }
 
+  getInlineStyleTags() {
+    const mainAssets = this.getMainAssets('style')
+    const promises = mainAssets.map((asset) => assetToStyleTagInline(asset).then(data => data))
+    return Promise.all(promises).then(results => joinTags(results))
+  }
+  
   getStyleElements() {
     const mainAssets = this.getMainAssets('style')
     return mainAssets.map(asset => assetToStyleElement(asset))
+  }
+  
+  getInlineStyleElements() {
+    const mainAssets = this.getMainAssets('style')
+    const promises = mainAssets.map((asset) => assetToStyleElementInline(asset).then(data => data))
+    return Promise.all(promises).then(results => results)
   }
 
   // Pre assets
