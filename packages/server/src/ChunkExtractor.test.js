@@ -118,31 +118,28 @@ Array [
 <link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">"
 `)
     })
-
   })
 
   describe('#getInlineStyleTags', () => {
     it('should return inline style tags as a promise', () => {
       extractor.addChunk('letters-A')
       expect.assertions(1)
-      return extractor.getInlineStyleTags().then(data => expect(data).toMatchInlineSnapshot(`
-"<style data-chunk=\\"letters-A\\">
-        body {
+      return extractor.getInlineStyleTags().then(data =>
+        expect(data).toMatchInlineSnapshot(`
+"<style type=\\"text/css\\" data-chunk=\\"letters-A\\">
+body {
   background: pink;
 }
 
-        </style>
-        
-<style data-chunk=\\"main\\">
-        h1 {
+</style>
+<style type=\\"text/css\\" data-chunk=\\"main\\">
+h1 {
   color: cyan;
 }
-        </style>
-        "
+</style>"
 `),
       )
     })
-
   })
 
   describe('#getStyleElements', () => {
@@ -175,14 +172,14 @@ Array [
 ]
 `)
     })
-
   })
 
   describe('#getInlineStyleElements', () => {
     it('should return inline style elements as a promise', () => {
       extractor.addChunk('letters-A')
       expect.assertions(1)
-      return extractor.getInlineStyleElements().then(data => expect(data).toMatchInlineSnapshot(`
+      return extractor.getInlineStyleElements().then(data =>
+        expect(data).toMatchInlineSnapshot(`
 Array [
   <style
     dangerouslySetInnerHTML={
@@ -209,14 +206,14 @@ Array [
 `),
       )
     })
-
   })
 
   describe('#getCssString', () => {
     it('should return a string of the referenced css files as a promise', () => {
       extractor.addChunk('letters-A')
       expect.assertions(1)
-      return extractor.getCssString().then(data => expect(data).toMatchInlineSnapshot(`
+      return extractor.getCssString().then(data =>
+        expect(data).toMatchInlineSnapshot(`
 "body {
   background: pink;
 }
@@ -227,7 +224,6 @@ h1 {
 `),
       )
     })
-    
   })
 
   describe('#getLinkTags', () => {
