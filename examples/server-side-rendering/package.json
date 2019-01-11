@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "express": "^4.16.4",
-    "express-async-handler": "^1.1.4",
     "moment": "^2.22.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0"
