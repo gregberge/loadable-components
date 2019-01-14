@@ -5,9 +5,10 @@ class LoadablePlugin {
   constructor({
     filename = 'loadable-stats.json',
     path,
-    writeToDisk = {},
+    writeToDisk,
+    outputAsset = true,
   } = {}) {
-    this.opts = { filename, writeToDisk, path }
+    this.opts = { filename, writeToDisk, outputAsset, path }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -26,17 +27,19 @@ class LoadablePlugin {
     })
     const result = JSON.stringify(stats, null, 2)
 
-    hookCompiler.assets[this.opts.filename] = {
-      source() {
-        return result
-      },
-      size() {
-        return result.length
-      },
+    if (this.opts.outputAsset) {
+      hookCompiler.assets[this.opts.filename] = {
+        source() {
+          return result
+        },
+        size() {
+          return result.length
+        },
+      }
     }
 
-    if (this.opts.writeToDisk.filename) {
-      this.writeAssetsFile(this.opts.writeToDisk.filename, result)
+    if (this.opts.writeToDisk) {
+      this.writeAssetsFile(result)
     }
 
     callback()
@@ -46,7 +49,10 @@ class LoadablePlugin {
    * Write Assets Manifest file
    * @method writeAssetsFile
    */
-  writeAssetsFile = (outputFolder, manifest) => {
+  writeAssetsFile = manifest => {
+    const outputFolder =
+      this.opts.writeToDisk.filename || this.compiler.options.output.path
+
     const outputFile = nodePath.resolve(outputFolder, this.opts.filename)
 
     try {

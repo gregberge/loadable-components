@@ -12,7 +12,10 @@ module.exports = {
 
       appConfig.plugins = [
         ...appConfig.plugins,
-        new LoadableWebpackPlugin({ writeToDisk: { filename } }),
+        new LoadableWebpackPlugin({
+          outputAsset: false,
+          writeToDisk: { filename },
+        }),
       ]
     }
 
