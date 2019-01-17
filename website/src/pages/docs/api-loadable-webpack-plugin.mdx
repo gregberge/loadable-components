@@ -10,11 +10,10 @@ order: 30
 
 Create a webpack loadable plugin.
 
-| Arguments             | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `options`             | Optional options                                  |
-| `options.filename`    | Stats filename (default to `loadable-stats.json`) |
-| `options.writeToDisk` | Always write assets to disk (default to `false`)  |
+| Arguments                      | Description                                       |
+| ------------------------------ | ------------------------------------------------- |
+| `options`                      | Optional options                                  |
+| `options.writeToDisk.filename` | Write assets to disk at given `filename` location |
 
 ```js
 new LoadablePlugin({ filename: 'stats.json', writeToDisk: true })

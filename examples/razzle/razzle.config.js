@@ -8,11 +8,14 @@ module.exports = {
     const appConfig = Object.assign({}, config)
 
     if (target === 'web') {
-      const filename = path.resolve(__dirname, 'build/loadable-stats.json')
+      const filename = path.resolve(__dirname, 'build')
 
       appConfig.plugins = [
         ...appConfig.plugins,
-        new LoadableWebpackPlugin({ writeToDisk: true, filename }),
+        new LoadableWebpackPlugin({
+          outputAsset: false,
+          writeToDisk: { filename },
+        }),
       ]
     }
 

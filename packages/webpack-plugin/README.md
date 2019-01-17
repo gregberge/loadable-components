@@ -26,11 +26,12 @@ module.exports = {
 
 Create a webpack loadable plugin.
 
-| Arguments             | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `options`             | Optional options                                  |
-| `options.filename`    | Stats filename (default to `loadable-stats.json`) |
-| `options.writeToDisk` | Always write assets to disk (default to `false`)  |
+| Arguments             | Description                                               |
+| --------------------- | -------------------------------------------------         |
+| `options`             | Optional options                                          |
+| `options.filename`    | Stats filename (default to `loadable-stats.json`)         |
+| `options.path`        | Stats file path (default to webpack config `output.path`) |
+| `options.writeToDisk` | Always write assets to disk (default to `false`)          |
 
 ```js
 new LoadablePlugin({ filename: 'stats.json', writeToDisk: true })

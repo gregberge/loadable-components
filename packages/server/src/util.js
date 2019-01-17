@@ -5,10 +5,16 @@ export const smartRequire = modulePath => {
     clearModuleCache(modulePath)
   }
 
-  // Use eval to prevent Webpack from compiling it
+  // Use __non_webpack_require__ to prevent Webpack from compiling it
   // when the server-side code is compiled with Webpack
-  // eslint-disable-next-line no-eval
-  return eval('module.require')(modulePath)
+  // eslint-disable-next-line camelcase
+  if (typeof __non_webpack_require__ !== 'undefined') {
+    // eslint-disable-next-line no-undef
+    return __non_webpack_require__(modulePath)
+  }
+
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  return require(modulePath)
 }
 
 export const joinURLPath = (...paths) => {
