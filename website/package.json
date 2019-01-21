@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "gatsby": "^2.0.91",
-    "smooth-doc": "^0.0.2"
+    "smooth-code-landers": "^1.2.2",
+    "smooth-doc": "^0.1.0"
   }
 }
