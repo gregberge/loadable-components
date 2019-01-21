@@ -9,6 +9,6 @@
   "dependencies": {
     "gatsby": "^2.0.91",
     "smooth-code-landers": "^1.2.2",
-    "smooth-doc": "^0.2.1"
+    "smooth-doc": "^0.2.2"
   }
 }
