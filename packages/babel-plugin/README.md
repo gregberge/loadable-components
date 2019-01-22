@@ -1,6 +1,6 @@
 # @loadable/babel-plugin
 
-This plugin is required only if you use Server Side Rendering in your application. [See `@loadable/server` for more information](https://github.com/smooth-code/loadable-components/tree/master/packages/server).
+This plugin is required only if you use Server Side Rendering in your application. [See `@loadable/server` for more information](https://www.smooth-code.com/open-source/loadable-components/docs/api-loadable-server/).
 
 ## Install
 
@@ -8,15 +8,9 @@ This plugin is required only if you use Server Side Rendering in your applicatio
 npm install --save-dev @loadable/babel-plugin
 ```
 
-## Usage
+## Documentation
 
-**.babelrc**
-
-```json
-{
-  "plugins": ["@loadable/babel-plugin"]
-}
-```
+👉 [See full documentation](https://www.smooth-code.com/open-source/loadable-components/)
 
 ## License
 

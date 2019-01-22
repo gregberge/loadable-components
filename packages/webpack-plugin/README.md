@@ -1,6 +1,6 @@
 # @loadable/webpack-plugin
 
-This plugin is required only if you use Server Side Rendering in your application. [See `@loadable/server` for more information](https://github.com/smooth-code/loadable-components/tree/master/packages/server).
+This plugin is required only if you use Server Side Rendering in your application. [See `@loadable/server` for more information](https://www.smooth-code.com/open-source/loadable-components/docs/api-loadable-server/).
 
 ## Install
 
@@ -8,36 +8,9 @@ This plugin is required only if you use Server Side Rendering in your applicatio
 npm install --save-dev @loadable/webpack-plugin
 ```
 
-## Usage
+## Documentation
 
-**webpack.config.js**
-
-```js
-const LoadablePlugin = require('@loadable/webpack-plugin')
-
-module.exports = {
-  plugins: [new LoadablePlugin()],
-}
-```
-
-## API
-
-### LoadablePlugin
-
-Create a webpack loadable plugin.
-
-| Arguments                      | Description                                                                         |
-| ------------------------------ | ----------------------------------------------------------------------------------- |
-| `options`                      | Optional options                                                                    |
-| `options.filename`             | Stats filename (default to `loadable-stats.json`)                                   |
-| `options.writeToDisk`          | Accepts `boolean` or `object`. Always write stats file to disk. Default to `false`. |
-| `options.writeToDisk.filename` | Write assets to disk at given `filename` location                                   |
-
-```js
-new LoadablePlugin({ filename: 'stats.json', writeToDisk: true })
-```
-
-> Writing file to disk can be useful if you are using `razzle` or `webpack-dev-server`.
+👉 [See full documentation](https://www.smooth-code.com/open-source/loadable-components/)
 
 ## License
 
