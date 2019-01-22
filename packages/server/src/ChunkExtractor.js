@@ -20,15 +20,19 @@ function getAssets(chunks, getAsset) {
   return _.uniqBy(_.flatMap(chunks, chunk => getAsset(chunk)), 'url')
 }
 
-function assetToScriptTag(asset) {
-  return `<script async data-chunk="${asset.chunk}" src="${
-    asset.url
-  }"></script>`
+function extraPropsToString(extraProps) {
+  return Object.keys(extraProps).reduce((acc, key) => `${acc} ${key}="${extraProps[key]}"`, '');
 }
 
-function assetToScriptElement(asset) {
+function assetToScriptTag(asset, extraProps) {
+  return `<script async data-chunk="${asset.chunk}" src="${
+    asset.url
+  }"${extraPropsToString(extraProps)}></script>`
+}
+
+function assetToScriptElement(asset, extraProps) {
   return (
-    <script key={asset.url} async data-chunk={asset.chunk} src={asset.url} />
+    <script key={asset.url} async data-chunk={asset.chunk} src={asset.url} {...extraProps} />
   )
 }
 
@@ -44,13 +48,13 @@ function assetToStyleString(asset) {
   })
 }
 
-function assetToStyleTag(asset) {
+function assetToStyleTag(asset, extraProps) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
-  }">`
+  }"${extraPropsToString(extraProps)}>`
 }
 
-function assetToStyleTagInline(asset) {
+function assetToStyleTagInline(asset, extraProps) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -58,7 +62,7 @@ function assetToStyleTagInline(asset) {
         return
       }
       resolve(
-        `<style type="text/css" data-chunk="${asset.chunk}">
+        `<style type="text/css" data-chunk="${asset.chunk}"${extraPropsToString(extraProps)}>
 ${data}
 </style>`,
       )
@@ -66,18 +70,19 @@ ${data}
   })
 }
 
-function assetToStyleElement(asset) {
+function assetToStyleElement(asset, extraProps) {
   return (
     <link
       key={asset.url}
       data-chunk={asset.chunk}
       rel="stylesheet"
       href={asset.url}
+      {...extraProps}
     />
   )
 }
 
-function assetToStyleElementInline(asset) {
+function assetToStyleElementInline(asset, extraProps) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -89,6 +94,7 @@ function assetToStyleElementInline(asset) {
           key={asset.url}
           data-chunk={asset.chunk}
           dangerouslySetInnerHTML={{ __html: data }}
+          {...extraProps}
         />,
       )
     })
@@ -225,17 +231,18 @@ class ChunkExtractor {
     )};`
   }
 
-  getRequiredChunksScriptTag() {
-    return `<script>${this.getRequiredChunksScriptContent()}</script>`
+  getRequiredChunksScriptTag(extraProps) {
+    return `<script${extraPropsToString(extraProps)}>${this.getRequiredChunksScriptContent()}</script>`
   }
 
-  getRequiredChunksScriptElement() {
+  getRequiredChunksScriptElement(extraProps) {
     return (
       <script
         key="required"
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
+        {...extraProps}
       />
     )
   }
@@ -275,18 +282,18 @@ class ChunkExtractor {
     return assets
   }
 
-  getScriptTags() {
-    const requiredScriptTag = this.getRequiredChunksScriptTag()
+  getScriptTags(extraProps = {}) {
+    const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
-    const assetsScriptTags = mainAssets.map(asset => assetToScriptTag(asset))
+    const assetsScriptTags = mainAssets.map(asset => assetToScriptTag(asset, extraProps))
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
 
-  getScriptElements() {
-    const requiredScriptElement = this.getRequiredChunksScriptElement()
+  getScriptElements(extraProps = {}) {
+    const requiredScriptElement = this.getRequiredChunksScriptElement(extraProps)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>
-      assetToScriptElement(asset),
+      assetToScriptElement(asset, extraProps),
     )
     return [requiredScriptElement, ...assetsScriptElements]
   }
@@ -299,28 +306,28 @@ class ChunkExtractor {
     return Promise.all(promises).then(results => joinTags(results))
   }
 
-  getStyleTags() {
+  getStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
+    return joinTags(mainAssets.map(asset => assetToStyleTag(asset, extraProps)))
   }
 
-  getInlineStyleTags() {
+  getInlineStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleTagInline(asset).then(data => data),
+      assetToStyleTagInline(asset, extraProps).then(data => data),
     )
     return Promise.all(promises).then(results => joinTags(results))
   }
 
-  getStyleElements() {
+  getStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return mainAssets.map(asset => assetToStyleElement(asset))
+    return mainAssets.map(asset => assetToStyleElement(asset, extraProps))
   }
 
-  getInlineStyleElements() {
+  getInlineStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleElementInline(asset).then(data => data),
+      assetToStyleElementInline(asset, extraProps).then(data => data),
     )
     return Promise.all(promises).then(results => results)
   }
