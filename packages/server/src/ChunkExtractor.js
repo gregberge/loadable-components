@@ -48,13 +48,13 @@ function assetToStyleString(asset) {
   })
 }
 
-function assetToStyleTag(asset) {
+function assetToStyleTag(asset, extraProps) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
-  }">`
+  }"${extraPropsToString(extraProps)}>`
 }
 
-function assetToStyleTagInline(asset) {
+function assetToStyleTagInline(asset, extraProps) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -62,7 +62,7 @@ function assetToStyleTagInline(asset) {
         return
       }
       resolve(
-        `<style type="text/css" data-chunk="${asset.chunk}">
+        `<style type="text/css" data-chunk="${asset.chunk}"${extraPropsToString(extraProps)}>
 ${data}
 </style>`,
       )
@@ -70,18 +70,19 @@ ${data}
   })
 }
 
-function assetToStyleElement(asset) {
+function assetToStyleElement(asset, extraProps) {
   return (
     <link
       key={asset.url}
       data-chunk={asset.chunk}
       rel="stylesheet"
       href={asset.url}
+      {...extraProps}
     />
   )
 }
 
-function assetToStyleElementInline(asset) {
+function assetToStyleElementInline(asset, extraProps) {
   return new Promise((resolve, reject) => {
     fs.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -93,6 +94,7 @@ function assetToStyleElementInline(asset) {
           key={asset.url}
           data-chunk={asset.chunk}
           dangerouslySetInnerHTML={{ __html: data }}
+          {...extraProps}
         />,
       )
     })
@@ -304,28 +306,28 @@ class ChunkExtractor {
     return Promise.all(promises).then(results => joinTags(results))
   }
 
-  getStyleTags() {
+  getStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return joinTags(mainAssets.map(asset => assetToStyleTag(asset)))
+    return joinTags(mainAssets.map(asset => assetToStyleTag(asset, extraProps)))
   }
 
-  getInlineStyleTags() {
+  getInlineStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleTagInline(asset).then(data => data),
+      assetToStyleTagInline(asset, extraProps).then(data => data),
     )
     return Promise.all(promises).then(results => joinTags(results))
   }
 
-  getStyleElements() {
+  getStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return mainAssets.map(asset => assetToStyleElement(asset))
+    return mainAssets.map(asset => assetToStyleElement(asset, extraProps))
   }
 
-  getInlineStyleElements() {
+  getInlineStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleElementInline(asset).then(data => data),
+      assetToStyleElementInline(asset, extraProps).then(data => data),
     )
     return Promise.all(promises).then(results => results)
   }

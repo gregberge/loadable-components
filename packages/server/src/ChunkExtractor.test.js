@@ -157,6 +157,15 @@ Array [
 <link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">"
 `)
     })
+
+    it('should add extraProps if specified', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getStyleTags({ nonce: 'testnonce' }))
+        .toMatchInlineSnapshot(`
+"<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">"
+`)
+    })
   })
 
   describe('#getInlineStyleTags', () => {
@@ -172,6 +181,26 @@ body {
 
 </style>
 <style type=\\"text/css\\" data-chunk=\\"main\\">
+h1 {
+  color: cyan;
+}
+</style>"
+`),
+      )
+    })
+
+    it('should add extraProps if specified', () => {
+      extractor.addChunk('letters-A')
+      expect.assertions(1)
+      return extractor.getInlineStyleTags({ nonce: 'testnonce' }).then(data =>
+        expect(data).toMatchInlineSnapshot(`
+"<style type=\\"text/css\\" data-chunk=\\"letters-A\\" nonce=\\"testnonce\\">
+body {
+  background: pink;
+}
+
+</style>
+<style type=\\"text/css\\" data-chunk=\\"main\\" nonce=\\"testnonce\\">
 h1 {
   color: cyan;
 }
@@ -206,6 +235,27 @@ Array [
   <link
     data-chunk="main"
     href="/dist/node/main.css"
+    rel="stylesheet"
+  />,
+]
+`)
+    })
+
+    it('should add extraProps if specified', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getStyleElements({ nonce: 'testnonce' }))
+        .toMatchInlineSnapshot(`
+Array [
+  <link
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
+    nonce="testnonce"
+    rel="stylesheet"
+  />,
+  <link
+    data-chunk="main"
+    href="/dist/node/main.css"
+    nonce="testnonce"
     rel="stylesheet"
   />,
 ]
