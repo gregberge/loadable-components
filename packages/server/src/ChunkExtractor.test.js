@@ -56,6 +56,16 @@ describe('ChunkExtrator', () => {
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
 `)
     })
+
+    it('should add extra props if specified', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getScriptTags({ nonce: 'testnonce' }))
+        .toMatchInlineSnapshot(`
+"<script nonce=\\"testnonce\\">window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];</script>
+<script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\"></script>
+<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"testnonce\\"></script>"
+`)
+    })
   })
 
   describe('#getScriptElements', () => {

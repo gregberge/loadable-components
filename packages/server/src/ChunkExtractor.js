@@ -20,10 +20,14 @@ function getAssets(chunks, getAsset) {
   return _.uniqBy(_.flatMap(chunks, chunk => getAsset(chunk)), 'url')
 }
 
-function assetToScriptTag(asset) {
+function extraPropsToString(extraProps) {
+  return Object.keys(extraProps).reduce((acc, key) => `${acc} ${key}="${extraProps[key]}"`, '');
+}
+
+function assetToScriptTag(asset, extraProps) {
   return `<script async data-chunk="${asset.chunk}" src="${
     asset.url
-  }"></script>`
+  }"${extraPropsToString(extraProps)}></script>`
 }
 
 function assetToScriptElement(asset) {
@@ -225,8 +229,8 @@ class ChunkExtractor {
     )};`
   }
 
-  getRequiredChunksScriptTag() {
-    return `<script>${this.getRequiredChunksScriptContent()}</script>`
+  getRequiredChunksScriptTag(extraProps) {
+    return `<script${extraPropsToString(extraProps)}>${this.getRequiredChunksScriptContent()}</script>`
   }
 
   getRequiredChunksScriptElement() {
@@ -275,10 +279,10 @@ class ChunkExtractor {
     return assets
   }
 
-  getScriptTags() {
-    const requiredScriptTag = this.getRequiredChunksScriptTag()
+  getScriptTags(extraProps = {} ) {
+    const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
-    const assetsScriptTags = mainAssets.map(asset => assetToScriptTag(asset))
+    const assetsScriptTags = mainAssets.map(asset => assetToScriptTag(asset, extraProps))
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
 
