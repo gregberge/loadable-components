@@ -30,9 +30,9 @@ function assetToScriptTag(asset, extraProps) {
   }"${extraPropsToString(extraProps)}></script>`
 }
 
-function assetToScriptElement(asset) {
+function assetToScriptElement(asset, extraProps) {
   return (
-    <script key={asset.url} async data-chunk={asset.chunk} src={asset.url} />
+    <script key={asset.url} async data-chunk={asset.chunk} src={asset.url} {...extraProps} />
   )
 }
 
@@ -233,13 +233,14 @@ class ChunkExtractor {
     return `<script${extraPropsToString(extraProps)}>${this.getRequiredChunksScriptContent()}</script>`
   }
 
-  getRequiredChunksScriptElement() {
+  getRequiredChunksScriptElement(extraProps) {
     return (
       <script
         key="required"
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
+        {...extraProps}
       />
     )
   }
@@ -279,18 +280,18 @@ class ChunkExtractor {
     return assets
   }
 
-  getScriptTags(extraProps = {} ) {
+  getScriptTags(extraProps = {}) {
     const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptTags = mainAssets.map(asset => assetToScriptTag(asset, extraProps))
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
 
-  getScriptElements() {
-    const requiredScriptElement = this.getRequiredChunksScriptElement()
+  getScriptElements(extraProps = {}) {
+    const requiredScriptElement = this.getRequiredChunksScriptElement(extraProps)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>
-      assetToScriptElement(asset),
+      assetToScriptElement(asset, extraProps),
     )
     return [requiredScriptElement, ...assetsScriptElements]
   }

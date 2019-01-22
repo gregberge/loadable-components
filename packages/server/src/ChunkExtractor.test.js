@@ -112,6 +112,35 @@ Array [
 ]
 `)
     })
+
+    it('should add extra props if specified', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getScriptElements({ nonce: 'testnonce' }))
+        .toMatchInlineSnapshot(`
+Array [
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];",
+      }
+    }
+    nonce="testnonce"
+  />,
+  <script
+    async={true}
+    data-chunk="letters-A"
+    nonce="testnonce"
+    src="/dist/node/letters-A.js"
+  />,
+  <script
+    async={true}
+    data-chunk="main"
+    nonce="testnonce"
+    src="/dist/node/main.js"
+  />,
+]
+`)
+    })
   })
 
   describe('#getStyleTags', () => {
