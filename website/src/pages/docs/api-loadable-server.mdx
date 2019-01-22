@@ -58,6 +58,10 @@ const app = <App />
 
 Get scripts as a string of `<script>` tags.
 
+| Arguments    | Description                               |
+| ------------ | ----------------------------------------- |
+| `attributes` | Optional attributes added to script tags. |
+
 ```js
 const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()}</body>`
 ```
@@ -65,6 +69,10 @@ const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()
 ## chunkExtractor.getScriptElements
 
 Get scripts as an array of React `<script>` elements.
+
+| Arguments    | Description                                   |
+| ------------ | --------------------------------------------- |
+| `attributes` | Optional attributes added to script elements. |
 
 ```js
 const body = renderToString(
@@ -79,6 +87,10 @@ const body = renderToString(
 
 Get "prefetch" and "preload" links as a string of `<link>` tags.
 
+| Arguments    | Description                             |
+| ------------ | --------------------------------------- |
+| `attributes` | Optional attributes added to link tags. |
+
 ```js
 const head = `<head>${chunkExtractor.getLinkTags()}</head>`
 ```
@@ -86,6 +98,10 @@ const head = `<head>${chunkExtractor.getLinkTags()}</head>`
 ## chunkExtractor.getLinkElements
 
 Get "prefetch" and "preload" links as an array of React `<link>` elements.
+
+| Arguments    | Description                                 |
+| ------------ | ------------------------------------------- |
+| `attributes` | Optional attributes added to link elements. |
 
 ```js
 const head = renderToString(<head>{chunkExtractor.getLinkElements()}</head>)
@@ -95,19 +111,12 @@ const head = renderToString(<head>{chunkExtractor.getLinkElements()}</head>)
 
 Get style links as a string of `<link>` tags.
 
+| Arguments    | Description                              |
+| ------------ | ---------------------------------------- |
+| `attributes` | Optional attributes added to style tags. |
+
 ```js
 const head = `<head>${chunkExtractor.getStyleTags()}</head>`
-```
-
-## chunkExtractor.getInlineStyleTags
-
-Get inline style links as a string of `<link>` tags (returns a promise).
-
-```js
-chunkExtractor.getInlineStyleTags()
-.then((styleTags) => {
-  const head = `<head>${styleTags}</head>`
-}
 ```
 
 ## chunkExtractor.getStyleElements
@@ -118,9 +127,28 @@ Get style links as an array of React `<link>` elements.
 const head = renderToString(<head>{chunkExtractor.getStyleElements()}</head>)
 ```
 
+## chunkExtractor.getInlineStyleTags
+
+Get inline style links as a string of `<link>` tags (returns a promise).
+
+| Arguments    | Description                              |
+| ------------ | ---------------------------------------- |
+| `attributes` | Optional attributes added to style tags. |
+
+```js
+chunkExtractor.getInlineStyleTags()
+.then((styleTags) => {
+  const head = `<head>${styleTags}</head>`
+}
+```
+
 ## chunkExtractor.getInlineStyleElements
 
 Get inline style links as an array of React `<link>` elements (returns a promise).
+
+| Arguments    | Description                                  |
+| ------------ | -------------------------------------------- |
+| `attributes` | Optional attributes added to style elements. |
 
 ```js
 chunkExtractor.getInlineStyleElements()
