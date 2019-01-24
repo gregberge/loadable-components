@@ -336,6 +336,19 @@ h1 {
 <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
 `)
     })
+
+    it('should add extraProps if specified', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getLinkTags({ nonce: 'testnonce' }))
+        .toMatchInlineSnapshot(`
+"<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"testnonce\\">
+<link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"testnonce\\">
+<link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"testnonce\\">"
+`)
+    })
   })
 
   describe('#getLinkElements', () => {
@@ -408,6 +421,57 @@ Array [
     as="script"
     data-parent-chunk="main"
     href="/dist/node/letters-D.js"
+    rel="prefetch"
+  />,
+]
+`)
+    })
+
+    it('should add extraProps if specified', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getLinkElements({ nonce: 'testnonce' }))
+        .toMatchInlineSnapshot(`
+Array [
+  <link
+    as="style"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.js"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="style"
+    data-chunk="main"
+    href="/dist/node/main.css"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-chunk="main"
+    href="/dist/node/main.js"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-parent-chunk="main"
+    href="/dist/node/letters-C.js"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-parent-chunk="main"
+    href="/dist/node/letters-D.js"
+    nonce="testnonce"
     rel="prefetch"
   />,
 ]
