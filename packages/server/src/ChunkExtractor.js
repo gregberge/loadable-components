@@ -21,7 +21,10 @@ function getAssets(chunks, getAsset) {
 }
 
 function extraPropsToString(extraProps) {
-  return Object.keys(extraProps).reduce((acc, key) => `${acc} ${key}="${extraProps[key]}"`, '');
+  return Object.keys(extraProps).reduce(
+    (acc, key) => `${acc} ${key}="${extraProps[key]}"`,
+    '',
+  )
 }
 
 function assetToScriptTag(asset, extraProps) {
@@ -32,7 +35,13 @@ function assetToScriptTag(asset, extraProps) {
 
 function assetToScriptElement(asset, extraProps) {
   return (
-    <script key={asset.url} async data-chunk={asset.chunk} src={asset.url} {...extraProps} />
+    <script
+      key={asset.url}
+      async
+      data-chunk={asset.chunk}
+      src={asset.url}
+      {...extraProps}
+    />
   )
 }
 
@@ -62,7 +71,9 @@ function assetToStyleTagInline(asset, extraProps) {
         return
       }
       resolve(
-        `<style type="text/css" data-chunk="${asset.chunk}"${extraPropsToString(extraProps)}>
+        `<style type="text/css" data-chunk="${asset.chunk}"${extraPropsToString(
+          extraProps,
+        )}>
 ${data}
 </style>`,
       )
@@ -106,14 +117,14 @@ const LINK_ASSET_HINTS = {
   childAsset: 'data-parent-chunk',
 }
 
-function assetToLinkTag(asset) {
+function assetToLinkTag(asset, extraProps) {
   const hint = LINK_ASSET_HINTS[asset.type]
   return `<link ${hint}="${asset.chunk}" rel="${asset.linkType}" as="${
     asset.scriptType
-  }" href="${asset.url}">`
+  }" href="${asset.url}"${extraPropsToString(extraProps)}>`
 }
 
-function assetToLinkElement(asset) {
+function assetToLinkElement(asset, extraProps) {
   const hint = LINK_ASSET_HINTS[asset.type]
   const props = {
     key: asset.url,
@@ -121,6 +132,7 @@ function assetToLinkElement(asset) {
     rel: asset.linkType,
     as: asset.scriptType,
     href: asset.url,
+    ...extraProps,
   }
   return <link {...props} />
 }
@@ -232,7 +244,9 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptTag(extraProps) {
-    return `<script${extraPropsToString(extraProps)}>${this.getRequiredChunksScriptContent()}</script>`
+    return `<script${extraPropsToString(
+      extraProps,
+    )}>${this.getRequiredChunksScriptContent()}</script>`
   }
 
   getRequiredChunksScriptElement(extraProps) {
@@ -285,12 +299,16 @@ class ChunkExtractor {
   getScriptTags(extraProps = {}) {
     const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
-    const assetsScriptTags = mainAssets.map(asset => assetToScriptTag(asset, extraProps))
+    const assetsScriptTags = mainAssets.map(asset =>
+      assetToScriptTag(asset, extraProps),
+    )
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
 
   getScriptElements(extraProps = {}) {
-    const requiredScriptElement = this.getRequiredChunksScriptElement(extraProps)
+    const requiredScriptElement = this.getRequiredChunksScriptElement(
+      extraProps,
+    )
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>
       assetToScriptElement(asset, extraProps),
@@ -342,15 +360,15 @@ class ChunkExtractor {
     return [...mainAssets, ...preloadAssets, ...prefetchAssets]
   }
 
-  getLinkTags() {
+  getLinkTags(extraProps = {}) {
     const assets = this.getPreAssets()
-    const linkTags = assets.map(asset => assetToLinkTag(asset))
+    const linkTags = assets.map(asset => assetToLinkTag(asset, extraProps))
     return joinTags(linkTags)
   }
 
-  getLinkElements() {
+  getLinkElements(extraProps = {}) {
     const assets = this.getPreAssets()
-    return assets.map(asset => assetToLinkElement(asset))
+    return assets.map(asset => assetToLinkElement(asset, extraProps))
   }
 }
 
