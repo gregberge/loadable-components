@@ -9,6 +9,7 @@ order: 30
 `@loadable/component` exposes a `lazy` method that acts similarly as `React.lazy` one.
 
 ```js
+import React, { Suspense } from 'react'
 import { lazy } from '@loadable/component'
 
 const OtherComponent = lazy(() => import('./OtherComponent'))
