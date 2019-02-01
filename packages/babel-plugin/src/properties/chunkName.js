@@ -2,6 +2,8 @@ import vm from 'vm'
 import { getImportArg } from '../util'
 
 const WEBPACK_CHUNK_NAME_REGEXP = /webpackChunkName/
+// https://github.com/webpack/webpack/blob/master/lib/Template.js
+const WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\-^°]+/g
 
 function readWebpackCommentValues(str) {
   try {
@@ -39,11 +41,11 @@ function getRawChunkNameFromCommments(importArg) {
 }
 
 function moduleToChunk(str) {
-  return str ? str.replace(/^[./]+|(\.js$)/g, '').replace(/\//, '-') : ''
+  return str ? str.replace(/^[./]+|(\.js$)/g, '').replace(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX, '-') : ''
 }
 
 function replaceQuasiValue(str) {
-  return str ? str.replace(/\//g, '-') : str
+  return str ? str.replace(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX, '-') : str
 }
 
 export default function chunkNameProperty({ types: t }) {
@@ -109,6 +111,19 @@ export default function chunkNameProperty({ types: t }) {
     return `${v1}[request]${v2}`
   }
 
+  function sanitizeChunkNameTemplateLiteral(node) {
+    return t.callExpression(
+      t.memberExpression(
+        node,
+        t.identifier('replace')
+      ),
+      [
+        t.regExpLiteral(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX.source, 'g'),
+        t.stringLiteral('-')
+      ]
+    )
+  }
+
   function replaceChunkName(callPath) {
     const agressiveImport = isAgressiveImport(callPath)
     const values = getExistingChunkNameComment(callPath)
@@ -118,13 +133,21 @@ export default function chunkNameProperty({ types: t }) {
       return t.stringLiteral(values.webpackChunkName)
     }
 
-    const chunkNameNode = generateChunkNameNode(callPath)
-    const webpackChunkName = t.isTemplateLiteral(chunkNameNode)
-      ? chunkNameFromTemplateLiteral(chunkNameNode)
-      : chunkNameNode.value
+    let chunkNameNode = generateChunkNameNode(callPath)
+    let webpackChunkName
+
+    if (t.isTemplateLiteral(chunkNameNode)) {
+      webpackChunkName = chunkNameFromTemplateLiteral(chunkNameNode)
+      chunkNameNode = sanitizeChunkNameTemplateLiteral(chunkNameNode)
+    } else {
+      webpackChunkName = chunkNameNode.value
+    }
+
     addOrReplaceChunkNameComment(callPath, { webpackChunkName })
     return chunkNameNode
   }
+
+
 
   return ({ callPath, funcPath }) => {
     const chunkName = replaceChunkName(callPath)
