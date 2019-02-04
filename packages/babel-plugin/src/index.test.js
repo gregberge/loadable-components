@@ -122,4 +122,44 @@ describe('plugin', () => {
       expect(result).toMatchSnapshot()
     })
   })
+
+  describe('Magic comment', () => {
+    it('should transpile shortand properties', () => {
+      const result = testPlugin(`
+        const obj = {
+          /* #__LOADABLE__ */
+          load() {
+            return import('moment')
+          }
+        }
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should transpile arrow functions', () => {
+      const result = testPlugin(`
+        const load = /* #__LOADABLE__ */ () => import('moment')
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should transpile function expression', () => {
+      const result = testPlugin(`
+        const load = /* #__LOADABLE__ */ function () {
+          return import('moment')
+        }
+      `)
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should remove only needed comments', () => {
+      const result = testPlugin(`
+        const load = /* #__LOADABLE__ */ /* IMPORTANT! */ () => import('moment')
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
 })
