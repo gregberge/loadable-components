@@ -122,4 +122,26 @@ describe('plugin', () => {
       expect(result).toMatchSnapshot()
     })
   })
+
+  describe('Magic comment', () => {
+    it('should transpile variable decalrations', () => {
+      const result = testPlugin(`
+      /* #__LOADABLE__ */
+      const loader = () => import('moment');
+    `)
+
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should transpile object properties', () => {
+      const result = testPlugin(`
+      export default {
+        /* #__LOADABLE__ */
+        loader: () => import('moment')
+      }
+    `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
 })

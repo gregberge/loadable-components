@@ -13,6 +13,8 @@ const properties = [
   resolveProperty,
 ]
 
+const LOADABLE_COMMENT = '#__LOADABLE__'
+
 const loadablePlugin = api => {
   const { types: t } = api
 
@@ -42,34 +44,51 @@ const loadablePlugin = api => {
     )
   }
 
+  function transformImport(path) {
+    const callPaths = collectImportCallPaths(path)
+
+    // Ignore loadable function that does not have any "import" call
+    if (callPaths.length === 0) return
+
+    // Multiple imports call is not supported
+    if (callPaths.length > 1) {
+      throw new Error(
+        'loadable: multiple import calls inside `loadable()` function are not supported.',
+      )
+    }
+
+    const [callPath] = callPaths
+    const funcPath = path.get('arguments.0')
+    funcPath.node.params = funcPath.node.params || []
+
+    funcPath.replaceWith(
+      t.objectExpression(
+        propertyFactories.map(getProperty =>
+          getProperty({ path, callPath, funcPath }),
+        ),
+      ),
+    )
+  }
+
   return {
     inherits: syntaxDynamicImport,
     visitor: {
       CallExpression(path) {
         if (!isValidIdentifier(path)) return
-
-        const callPaths = collectImportCallPaths(path)
-
-        // Ignore loadable function that does not have any "import" call
-        if (callPaths.length === 0) return
-
-        // Multiple imports call is not supported
-        if (callPaths.length > 1) {
-          throw new Error(
-            'loadable: multiple import calls inside `loadable()` function are not supported.',
-          )
+        transformImport(path)
+      },
+      'VariableDeclaration|Property': path => {
+        const comments = path.node.leadingComments
+        const hasLoadableComment =
+          comments &&
+          comments.some(comment => comment.value.includes(LOADABLE_COMMENT))
+        if (!hasLoadableComment) {
+          return
         }
-
-        const [callPath] = callPaths
-        const funcPath = path.get('arguments.0')
-
-        funcPath.replaceWith(
-          t.objectExpression(
-            propertyFactories.map(getProperty =>
-              getProperty({ path, callPath, funcPath }),
-            ),
-          ),
-        )
+        path.node.leadingComments = []
+        path.traverse({
+          CallExpression: transformImport,
+        })
       },
     },
   }
