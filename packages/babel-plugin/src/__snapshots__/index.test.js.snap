@@ -1,5 +1,169 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`plugin Magic comment should remove only needed comments 1`] = `
+"const load =
+/* IMPORTANT! */
+{
+  chunkName() {
+    return \\"moment\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"moment\\" */
+  'moment'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"moment\\");
+    }
+
+    return require('path').resolve(__dirname, \\"moment\\");
+  }
+
+};"
+`;
+
+exports[`plugin Magic comment should transpile arrow functions 1`] = `
+"const load = {
+  chunkName() {
+    return \\"moment\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"moment\\" */
+  'moment'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"moment\\");
+    }
+
+    return require('path').resolve(__dirname, \\"moment\\");
+  }
+
+};"
+`;
+
+exports[`plugin Magic comment should transpile function expression 1`] = `
+"const load = {
+  chunkName() {
+    return \\"moment\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: function () {
+    return import(
+    /* webpackChunkName: \\"moment\\" */
+    'moment');
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"moment\\");
+    }
+
+    return require('path').resolve(__dirname, \\"moment\\");
+  }
+
+};"
+`;
+
+exports[`plugin Magic comment should transpile shortand properties 1`] = `
+"const obj = {
+  load: {
+    chunkName() {
+      return \\"moment\\";
+    },
+
+    isReady(props) {
+      if (typeof __webpack_modules__ !== 'undefined') {
+        return !!__webpack_modules__[this.resolve(props)];
+      }
+
+      return false;
+    },
+
+    requireAsync: () => {
+      return import(
+      /* webpackChunkName: \\"moment\\" */
+      'moment');
+    },
+
+    requireSync(props) {
+      const id = this.resolve(props);
+
+      if (typeof __webpack_require__ !== 'undefined') {
+        return __webpack_require__(id);
+      }
+
+      return eval('module.require')(id);
+    },
+
+    resolve() {
+      if (require.resolveWeak) {
+        return require.resolveWeak(\\"moment\\");
+      }
+
+      return require('path').resolve(__dirname, \\"moment\\");
+    }
+
+  }
+};"
+`;
+
 exports[`plugin aggressive import should work with destructuration 1`] = `
 "loadable({
   chunkName({

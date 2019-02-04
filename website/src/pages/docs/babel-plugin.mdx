@@ -1,0 +1,117 @@
+---
+menu: Guides
+title: Babel plugin
+order: 70
+---
+
+# Babel plugin
+
+This plugin adds support for [Server Side Rendering](/docs/server-side-rendering) and automatic chunk names.
+
+## Usage
+
+Install the babel plugin first:
+
+```bash
+npm install --save-dev @loadable/babel-plugin
+```
+
+Then add it to your babel configuration like so:
+
+```json
+{
+  "plugins": ["@loadable/babel-plugin"]
+}
+```
+
+## Transformation
+
+The plugin transforms your code to be ready for Server Side Rendering, it turns a loadable call:
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+```
+
+into another one with some informations required for Server Side Rendering:
+
+```js
+import loadable from '@loadable/component'
+const OtherComponent = loadable({
+  chunkName() {
+    return 'OtherComponent'
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)]
+    }
+
+    return false
+  },
+
+  requireAsync: () =>
+    import(/* webpackChunkName: "OtherComponent" */
+    './OtherComponent'),
+
+  requireSync(props) {
+    const id = this.resolve(props)
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id)
+    }
+
+    return eval('module.require')(id)
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak('./OtherComponent')
+    }
+
+    return require('path').resolve(__dirname, './OtherComponent')
+  },
+})
+```
+
+As you can see the "webpackChunkName" annotation is automatically added.
+
+On client side, the two code are completely compatible.
+
+## Loadable detection
+
+The detection of a loadable component is based on the keyword "loadable". It is an opiniated choice, it gives you flexibility but it could also be restrictive.
+
+This code will not be transformed by the babel plugin:
+
+```js
+import load from '@loadable/component'
+const OtherComponent = load(() => import('./OtherComponent'))
+```
+
+The `load` function is not detected, you have to name it `loadable`.
+
+It is restrictive, yes but it could gives you some flexibility. You can create your own loadable function. In the following example we create a custom loadable function with a custom fallback:
+
+```js
+import baseLoadable from '@loadable/component'
+
+function loadable(func) {
+  return baseLoadable(func, { fallback: <div>Loading...</div> })
+}
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+```
+
+## Magic comments
+
+To gives you flexibility and portability, the babel plugin supports magic comment. This way you can create portable "load" functions. To create a "load" function, you have to add `/* #__LOADABLE__ */` comment above the declaration of your function (variable or property):
+
+```js
+const loadOther = /* #__LOADABLE__ */ () => import('./OtherComponent')
+
+const OtherComponent = loadable(loadOther)
+```
+
+The `loadOther` function will be transformed into an object, this way you can manipulate function and it is still portable!
