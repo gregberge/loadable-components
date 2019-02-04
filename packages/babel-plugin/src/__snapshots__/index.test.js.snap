@@ -5,7 +5,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
   chunkName({
     foo
   }) {
-    return \`\${foo}\`;
+    return \`\${foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
@@ -48,7 +48,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
 "loadable({
   chunkName(props) {
-    return \`\${props.foo}\`;
+    return \`\${props.foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
@@ -87,7 +87,7 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 exports[`plugin aggressive import without "webpackChunkName" should support complex request 1`] = `
 "loadable({
   chunkName(props) {
-    return \`dir-\${props.foo}-test\`;
+    return \`dir-\${props.foo}-test\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
@@ -128,7 +128,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
   chunkName({
     foo
   }) {
-    return \`dir-\${foo}-test\`;
+    return \`dir-\${foo}-test\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
@@ -171,7 +171,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
 exports[`plugin aggressive import without "webpackChunkName" should support simple request 1`] = `
 "loadable({
   chunkName(props) {
-    return \`\${props.foo}\`;
+    return \`\${props.foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
@@ -327,7 +327,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 exports[`plugin simple import should work with template literal 1`] = `
 "loadable({
   chunkName() {
-    return \`ModA\`;
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
