@@ -6,7 +6,7 @@ order: 10
 
 # @loadable/component
 
-## Loadable
+## loadable
 
 Create a loadable component.
 
@@ -23,7 +23,7 @@ import loadable from '@loadable/component'
 const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
 
-## Lazy
+## lazy
 
 Create a loadable component "Suspense" ready.
 
@@ -45,6 +45,22 @@ A component created using `loadable` or `lazy`.
 | ---------- | ------------------------------------------------- |
 | `fallback` | Fallback displayed during the loading.            |
 | `...`      | Props are forwarded as first argument of `loadFn` |
+
+## LoadableComponent.preload
+
+Force the loading of a component.
+
+| Arguments | Description                        |
+| --------- | ---------------------------------- |
+| `args`    | Props passed to the load function. |
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+OtherComponent.preload()
+```
 
 ## loadable.lib
 

@@ -163,6 +163,13 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       <EnhancedInnerLoadable forwardedRef={ref} {...props} />
     ))
 
+    Loadable.preload = props => {
+      if (typeof window === 'undefined') {
+        throw new Error('`preload` cannot be called server-side')
+      }
+      ctor.requireAsync(props)
+    }
+
     return Loadable
   }
 

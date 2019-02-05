@@ -14,8 +14,40 @@ Most of the time, you want to "prefetch" a component, it means it will be loaded
 import loadable from '@loadable/component'
 
 const OtherComponent = loadable(() =>
-  import(/* webpackPrefetch: true */ './OtherComponent')
+  import(/* webpackPrefetch: true */ './OtherComponent'),
 )
 ```
 
 > You can extract prefetched resources server-side to add `<link rel="prefetch">` in your head.
+
+## Manually preload a component
+
+It is possible to _force_ the preload of a component. It has the same effect as if the component is rendered for the first time.
+
+It can be useful to trigger a `preload` on mouse over:
+
+```js
+import loadable from '@loadable/component'
+
+const Infos = () => loadable(() => './Infos')
+
+function App() {
+  const [show, setShow] = useState(false)
+  return (
+    <div>
+      <a onMouseOver={() => Infos.preload()} onClick={() => setShow(true)}>
+        Show Infos
+      </a>
+      {show && <Infos />}
+    </div>
+  )
+}
+
+const OtherComponent = loadable(() =>
+  import(/* webpackPrefetch: true */ './OtherComponent'),
+)
+```
+
+> `preload` is not available server-side, you should only call it client-side. If you want to use prefetching server-side, use webpack hints instead.
+
+> `preload` is aggressive and doesn't take care of network condition and data saving preference of the user. You should call it carefully.
