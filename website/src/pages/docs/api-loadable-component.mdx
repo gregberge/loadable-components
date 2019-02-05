@@ -10,11 +10,12 @@ order: 10
 
 Create a loadable component.
 
-| Arguments          | Description                              |
-| ------------------ | ---------------------------------------- |
-| `loadFn`           | The function call to load the component. |
-| `options`          | Optional options.                        |
-| `options.fallback` | Fallback displayed during the loading.   |
+| Arguments          | Description                                                          |
+| ------------------ | -------------------------------------------------------------------- |
+| `loadFn`           | The function call to load the component.                             |
+| `options`          | Optional options.                                                    |
+| `options.fallback` | Fallback displayed during the loading.                               |
+| `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
 
 ```js
 import loadable from '@loadable/component'

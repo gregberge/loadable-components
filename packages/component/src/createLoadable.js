@@ -40,6 +40,11 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         // Server-side
         if (props.__chunkExtractor) {
+          // This module has been marked with no SSR
+          if (options.ssr === false) {
+            return
+          }
+
           // We run load function, we assume that it won't fail and that it
           // triggers a synchronous loading of the module
           ctor.requireAsync(props).catch(() => {})

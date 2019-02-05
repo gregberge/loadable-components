@@ -188,3 +188,14 @@ const extractor = new ChunkExtractor({ statsFile })
 const html = renderToString(extractor.collectChunks(<YourApp />))
 const styleTags = extractor.getStyleTags() // or extractor.getStyleElements();
 ```
+
+## Disable SSR on a specific loadable
+
+Disable SSR on a specific loadable component with `ssr: false`:
+
+```js
+import loadable from '@loadable/component'
+
+// This dynamic import will not be processed server-side
+const Other = loadable(() => import('./Other'), { ssr: false })
+```
