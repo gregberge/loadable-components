@@ -9,3 +9,6 @@
   base    = "website"
   publish = "website/public"
   command = "yarn build:pp"
+
+[context.deploy-preview]
+  command = "yarn build"
