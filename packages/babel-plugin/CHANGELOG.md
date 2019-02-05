@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/smooth-code/loadable-components/compare/v5.5.0...v5.6.0) (2019-02-05)
+
+
+### Bug Fixes
+
+* **server:** fix chunkName resolving ([#219](https://github.com/smooth-code/loadable-components/issues/219)) ([ef11e11](https://github.com/smooth-code/loadable-components/commit/ef11e11))
+
+
+### Features
+
+* **babel-plugin:** transform code annotated with magic comment ([4f832dc](https://github.com/smooth-code/loadable-components/commit/4f832dc)), closes [#192](https://github.com/smooth-code/loadable-components/issues/192)
+
+
+
+
+
 # [5.5.0](https://github.com/smooth-code/loadable-components/compare/v5.4.0...v5.5.0) (2019-01-22)
 
 **Note:** Version bump only for package @loadable/babel-plugin

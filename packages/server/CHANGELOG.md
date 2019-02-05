@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/smooth-code/loadable-components/compare/v5.5.0...v5.6.0) (2019-02-05)
+
+
+### Bug Fixes
+
+* Add extra props option for links ([#212](https://github.com/smooth-code/loadable-components/issues/212)) ([6714d2a](https://github.com/smooth-code/loadable-components/commit/6714d2a))
+
+
+
+
+
 # [5.5.0](https://github.com/smooth-code/loadable-components/compare/v5.4.0...v5.5.0) (2019-01-22)
 
 
