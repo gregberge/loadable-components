@@ -170,7 +170,7 @@ class ChunkExtractor {
   createChunkAsset({ filename, chunk, type, linkType }) {
     return {
       filename,
-      scriptType: extensionToScriptType(path.extname(filename).toLowerCase()),
+      scriptType: extensionToScriptType(path.extname(filename).split('?')[0].toLowerCase()),
       chunk,
       url: this.resolvePublicUrl(filename),
       path: path.join(this.outputPath, filename),
