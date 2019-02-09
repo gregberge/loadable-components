@@ -163,9 +163,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       <EnhancedInnerLoadable forwardedRef={ref} {...props} />
     ))
 
-    Loadable.preload = props => {
-      return ctor.requireAsync(props)
-    }
+    Loadable.preload = props => ctor.requireAsync(props)
 
     return Loadable
   }
