@@ -165,6 +165,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
     Loadable.preload = props => {
       if (typeof window === 'undefined') {
+        if (typeof ctor.requireSync === 'function') {
+          return ctor.requireSync(props)
+        }
         throw new Error('`preload` cannot be called server-side')
       }
       return ctor.requireAsync(props)
