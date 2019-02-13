@@ -13,6 +13,10 @@
     "letters-B": "letters-B.js",
     "letters-C": "letters-C.js",
     "letters-D": "letters-D.js",
+    "letters-E": [
+      "letters-E.css?param",
+      "letters-E.js?param"
+    ],
     "main": [
       "main.css",
       "main.js"
@@ -67,6 +71,26 @@
       ],
       "chunkNames": [
         "letters-D"
+      ]
+    },
+    {
+      "name": "letters-E.css?param",
+      "size": 517,
+      "chunks": [
+        "letters-E"
+      ],
+      "chunkNames": [
+        "letters-E"
+      ]
+    },
+    {
+      "name": "letters-E.js?param",
+      "size": 517,
+      "chunks": [
+        "letters-E"
+      ],
+      "chunkNames": [
+        "letters-E"
       ]
     },
     {
@@ -215,6 +239,17 @@
       ],
       "assets": [
         "letters-D.js"
+      ],
+      "children": {},
+      "childAssets": {}
+    },
+    "letters-E": {
+      "chunks": [
+        "letters-E"
+      ],
+      "assets": [
+        "letters-E.css?param",
+        "letters-E.js?param"
       ],
       "children": {},
       "childAssets": {}
