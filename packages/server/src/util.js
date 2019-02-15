@@ -13,8 +13,8 @@ export const smartRequire = modulePath => {
     return __non_webpack_require__(modulePath)
   }
 
-  // eslint-disable-next-line global-require, import/no-dynamic-require
-  return require(modulePath)
+  // eslint-disable-next-line global-require, import/no-dynamic-require, no-eval
+  return eval('module.require')(modulePath)
 }
 
 export const joinURLPath = (...paths) => {
