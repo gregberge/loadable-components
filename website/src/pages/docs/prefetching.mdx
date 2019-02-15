@@ -29,7 +29,7 @@ It can be useful to trigger a `preload` on mouse over:
 ```js
 import loadable from '@loadable/component'
 
-const Infos = () => loadable(() => './Infos')
+const Infos = loadable(() => import('./Infos'))
 
 function App() {
   const [show, setShow] = useState(false)
