@@ -79,6 +79,8 @@ As you can see the "webpackChunkName" annotation is automatically added.
 
 On client side, the two code are completely compatible.
 
+Please note that babel must not be configured [to strip comments](https://babeljs.io/docs/en/options#comments), since the chunk name is defined in a comment.
+
 ## Loadable detection
 
 The detection of a loadable component is based on the keyword "loadable". It is an opiniated choice, it gives you flexibility but it could also be restrictive.
