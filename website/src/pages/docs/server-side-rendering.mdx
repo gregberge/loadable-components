@@ -175,6 +175,32 @@ const html = `<html>
 
 > It only works with `renderToString` API. Since `<link>` must be added in the `<head>`, you can't do it using `renderToNodeStream`.
 
+## Named Exports
+
+You can specify a `named` export in `loadable` options:
+
+**OtherComponent.js**
+
+```js
+export const OtherComponent = () => 'Other Component'
+```
+
+**App.js**
+
+```js
+const OtherComponent = loadable(() => import('./OtherComponent'), {
+  named: 'OtherComponent',
+})
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
+```
+
 ## CSS
 
 Extracted CSS using plugins like ["mini-css-extract-plugin"](https://github.com/webpack-contrib/mini-css-extract-plugin) are automatically collected, you can get them using `getStyleTags` or `getStyleElements`.

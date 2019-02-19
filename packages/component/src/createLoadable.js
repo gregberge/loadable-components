@@ -97,7 +97,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         try {
           const loadedModule = ctor.requireSync(this.props)
           const result = resolve(loadedModule, { Loadable })
-          this.state.result = result
+          this.state.result = options.named ? result[options.named] : result
           this.state.loading = false
         } catch (error) {
           this.state.error = error
