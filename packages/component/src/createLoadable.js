@@ -22,19 +22,11 @@ const identity = v => v
 function createLoadable({ resolve = identity, render, onLoad }) {
   function loadable(loadableConstructor, ...additionalArguments) {
     const ctor = resolveConstructor(loadableConstructor)
-    let componentName
-    let options = {}
+    let [componentName, options = {}] = additionalArguments;
 
-    if (additionalArguments.length) {
-      if (additionalArguments.length === 2) {
-        [componentName, options] = additionalArguments
-      } else if (additionalArguments.length === 1) {
-        if (typeof additionalArguments[0] === 'string') {
-          [componentName] = additionalArguments
-        } else if (typeof additionalArguments[0] === 'object') {
-          [options] = additionalArguments
-        }
-      }
+    if (typeof additionalArguments[0] === "object") {
+      componentName = undefined;
+      options = additionalArguments[0];
     }
 
     class InnerLoadable extends React.Component {
