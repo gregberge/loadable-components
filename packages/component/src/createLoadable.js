@@ -26,7 +26,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
     if (typeof additionalArguments[0] === "object") {
       componentName = undefined;
-      options = additionalArguments[0];
+      [options] = additionalArguments;
     }
 
     class InnerLoadable extends React.Component {
