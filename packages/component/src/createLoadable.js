@@ -20,8 +20,22 @@ const withChunkExtractor = Component => props => (
 const identity = v => v
 
 function createLoadable({ resolve = identity, render, onLoad }) {
-  function loadable(loadableConstructor, options = {}) {
+  function loadable(loadableConstructor, ...additionalArguments) {
     const ctor = resolveConstructor(loadableConstructor)
+    let componentName
+    let options = {}
+
+    if (additionalArguments.length) {
+      if (additionalArguments.length === 2) {
+        [componentName, options] = additionalArguments
+      } else if (additionalArguments.length === 1) {
+        if (typeof additionalArguments[0] === 'string') {
+          [componentName] = additionalArguments
+        } else if (typeof additionalArguments[0] === 'object') {
+          [options] = additionalArguments
+        }
+      }
+    }
 
     class InnerLoadable extends React.Component {
       constructor(props) {
@@ -97,7 +111,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         try {
           const loadedModule = ctor.requireSync(this.props)
           const result = resolve(loadedModule, { Loadable })
-          this.state.result = options.named ? result[options.named] : result
+          this.state.result = componentName ? result[componentName] : result
           this.state.loading = false
         } catch (error) {
           this.state.error = error
