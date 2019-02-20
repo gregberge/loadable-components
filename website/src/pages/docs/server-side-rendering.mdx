@@ -188,9 +188,7 @@ export const OtherComponent = () => 'Other Component'
 **App.js**
 
 ```js
-const OtherComponent = loadable(() => import('./OtherComponent'), {
-  named: 'OtherComponent',
-})
+const OtherComponent = loadable(() => import('./OtherComponent'), 'OtherComponent', { /* options */ })
 
 function MyComponent() {
   return (
