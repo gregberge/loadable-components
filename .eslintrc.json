@@ -13,6 +13,7 @@
     "react/no-unused-state": "off",
     "react/destructuring-assignment": "off",
     "react/prop-types": "off",
+    "react/sort-comp": "off",
     "import/prefer-default-export": "off"
   }
 }

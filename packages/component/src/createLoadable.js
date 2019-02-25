@@ -22,6 +22,7 @@ const identity = v => v
 function createLoadable({ resolve = identity, render, onLoad }) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
+    const cache = {}
 
     class InnerLoadable extends React.Component {
       constructor(props) {
@@ -104,12 +105,28 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         }
       }
 
+      getCacheKey() {
+        return JSON.stringify(this.props)
+      }
+
+      getCache() {
+        return cache[this.getCacheKey()]
+      }
+
+      setCache(value) {
+        cache[this.getCacheKey()] = value
+      }
+
       loadAsync() {
         this.promise =
           this.promise ||
           ctor
             .requireAsync(this.props)
             .then(loadedModule => {
+              const result = resolve(loadedModule, { Loadable })
+              if (options.suspense) {
+                this.setCache(result)
+              }
               this.safeSetState(
                 {
                   result: resolve(loadedModule, { Loadable }),
@@ -134,8 +151,16 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         } = this.props
         const { error, loading, result } = this.state
 
-        if (loading && options.suspense) {
-          throw this.loadAsync()
+        if (options.suspense) {
+          const cachedResult = this.getCache()
+          if (!cachedResult) throw this.loadAsync()
+          return render({
+            loading: false,
+            fallback: null,
+            result: cachedResult,
+            options,
+            props: { ...props, ref: forwardedRef },
+          })
         }
 
         if (error) {
