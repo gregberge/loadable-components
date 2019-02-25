@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.1](https://github.com/smooth-code/loadable-components/compare/v5.6.0...v5.6.1) (2019-02-25)
+
+
+### Bug Fixes
+
+* **component:** better ES Modules handling ([#228](https://github.com/smooth-code/loadable-components/issues/228)) ([3628363](https://github.com/smooth-code/loadable-components/commit/3628363))
+* **suspense:** fix suspense mode in React v16.8+ ([#251](https://github.com/smooth-code/loadable-components/issues/251)) ([d04e1c9](https://github.com/smooth-code/loadable-components/commit/d04e1c9))
+
+
+
+
+
 # [5.6.0](https://github.com/smooth-code/loadable-components/compare/v5.5.0...v5.6.0) (2019-02-05)
 
 
