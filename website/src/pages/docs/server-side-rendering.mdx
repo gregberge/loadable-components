@@ -60,7 +60,7 @@ const html = renderToString(jsx)
 const scriptTags = extractor.getScriptTags() // or extractor.getScriptElements();
 
 // You can also collect your "preload/prefetch" links
-const scriptTags = extractor.getLinkTags() // or extractor.getLinkElements();
+const linkTags = extractor.getLinkTags() // or extractor.getLinkElements();
 
 // And you can even collect your style tags (if you use "mini-css-extract-plugin")
 const styleTags = extractor.getStyleTags() // or extractor.getStyleElements();
