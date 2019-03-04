@@ -36,7 +36,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         invariant(
           !props.__chunkExtractor || ctor.requireSync,
-          'SSR requires `@loadable/babel`, please install it',
+          'SSR requires `@loadable/babel-plugin`, please install it',
         )
 
         // Server-side
