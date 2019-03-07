@@ -41,7 +41,7 @@ const getConfig = target => ({
   output: {
     path: path.join(DIST_PATH, target),
     filename: production ? '[name]-bundle-[chunkhash:8].js' : '[name].js',
-    publicPath: `/dist/${target}`,
+    publicPath: `/dist/${target}/`,
     libraryTarget: target === 'node' ? 'commonjs2' : undefined,
   },
   plugins: [new LoadablePlugin(), new MiniCssExtractPlugin()],
