@@ -43,7 +43,7 @@ describe('ChunkExtrator', () => {
   describe('#getScriptTags', () => {
     it('should return main script tag without chunk', () => {
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
-"<script>window.__LOADABLE_REQUIRED_CHUNKS__ = [];</script>
+"<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[]</script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
 `)
     })
@@ -51,7 +51,7 @@ describe('ChunkExtrator', () => {
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
-"<script>window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];</script>
+"<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
 <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
 `)
@@ -60,7 +60,7 @@ describe('ChunkExtrator', () => {
     it('should allow for query params in chunk names', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
-"<script>window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-E\\"];</script>
+"<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-E\\"]</script>
 <script async data-chunk=\\"letters-E\\" src=\\"/dist/node/letters-E.js?param\\"></script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
 `)
@@ -70,7 +70,7 @@ describe('ChunkExtrator', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
-"<script nonce=\\"testnonce\\">window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];</script>
+"<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\" nonce=\\"testnonce\\">[\\"letters-A\\"]</script>
 <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\"></script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"testnonce\\"></script>"
 `)
@@ -84,9 +84,11 @@ Array [
   <script
     dangerouslySetInnerHTML={
       Object {
-        "__html": "window.__LOADABLE_REQUIRED_CHUNKS__ = [];",
+        "__html": "[]",
       }
     }
+    id="__LOADABLE_REQUIRED_CHUNKS__"
+    type="application/json"
   />,
   <script
     async={true}
@@ -104,9 +106,11 @@ Array [
   <script
     dangerouslySetInnerHTML={
       Object {
-        "__html": "window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];",
+        "__html": "[\\"letters-A\\"]",
       }
     }
+    id="__LOADABLE_REQUIRED_CHUNKS__"
+    type="application/json"
   />,
   <script
     async={true}
@@ -129,9 +133,11 @@ Array [
   <script
     dangerouslySetInnerHTML={
       Object {
-        "__html": "window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-E\\"];",
+        "__html": "[\\"letters-E\\"]",
       }
     }
+    id="__LOADABLE_REQUIRED_CHUNKS__"
+    type="application/json"
   />,
   <script
     async={true}
@@ -155,10 +161,12 @@ Array [
   <script
     dangerouslySetInnerHTML={
       Object {
-        "__html": "window.__LOADABLE_REQUIRED_CHUNKS__ = [\\"letters-A\\"];",
+        "__html": "[\\"letters-A\\"]",
       }
     }
+    id="__LOADABLE_REQUIRED_CHUNKS__"
     nonce="testnonce"
+    type="application/json"
   />,
   <script
     async={true}

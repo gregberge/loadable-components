@@ -12,7 +12,13 @@ export default function loadableReady(done = () => {}) {
     return Promise.resolve()
   }
 
-  const requiredChunks = BROWSER ? window[LOADABLE_REQUIRED_CHUNKS_KEY] : null
+  let requiredChunks = null
+  if (BROWSER) {
+    const dataElement = document.getElementById(LOADABLE_REQUIRED_CHUNKS_KEY)
+    if (dataElement) {
+      requiredChunks = JSON.parse(dataElement.textContent)
+    }
+  }
 
   if (!requiredChunks) {
     warn(

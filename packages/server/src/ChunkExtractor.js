@@ -170,7 +170,12 @@ class ChunkExtractor {
   createChunkAsset({ filename, chunk, type, linkType }) {
     return {
       filename,
-      scriptType: extensionToScriptType(path.extname(filename).split('?')[0].toLowerCase()),
+      scriptType: extensionToScriptType(
+        path
+          .extname(filename)
+          .split('?')[0]
+          .toLowerCase(),
+      ),
       chunk,
       url: this.resolvePublicUrl(filename),
       path: path.join(this.outputPath, filename),
@@ -238,13 +243,11 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptContent() {
-    return `window.${LOADABLE_REQUIRED_CHUNKS_KEY} = ${JSON.stringify(
-      this.getChunkDependencies(this.chunks),
-    )};`
+    return JSON.stringify(this.getChunkDependencies(this.chunks))
   }
 
   getRequiredChunksScriptTag(extraProps) {
-    return `<script${extraPropsToString(
+    return `<script id="${LOADABLE_REQUIRED_CHUNKS_KEY}" type="application/json"${extraPropsToString(
       extraProps,
     )}>${this.getRequiredChunksScriptContent()}</script>`
   }
@@ -253,6 +256,8 @@ class ChunkExtractor {
     return (
       <script
         key="required"
+        id={LOADABLE_REQUIRED_CHUNKS_KEY}
+        type="application/json"
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
