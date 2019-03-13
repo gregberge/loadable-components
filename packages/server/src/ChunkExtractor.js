@@ -293,7 +293,7 @@ class ChunkExtractor {
   // Main assets
 
   getMainAssets(scriptType) {
-    const chunks = [...this.chunks, ...this.entrypoints]
+    const chunks = [...this.entrypoints, ...this.chunks]
     const assets = this.getChunkAssets(chunks)
     if (scriptType) {
       return assets.filter(asset => asset.scriptType === scriptType)
@@ -359,7 +359,7 @@ class ChunkExtractor {
 
   getPreAssets() {
     const mainAssets = this.getMainAssets()
-    const chunks = [...this.chunks, ...this.entrypoints]
+    const chunks = [...this.entrypoints, ...this.chunks]
     const preloadAssets = this.getChunkChildAssets(chunks, 'preload')
     const prefetchAssets = this.getChunkChildAssets(chunks, 'prefetch')
     return [...mainAssets, ...preloadAssets, ...prefetchAssets]

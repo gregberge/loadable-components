@@ -52,8 +52,8 @@ describe('ChunkExtrator', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
 "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
-<script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>
-<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
+<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
+<script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>"
 `)
     })
 
@@ -61,8 +61,8 @@ describe('ChunkExtrator', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
 "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-E\\"]</script>
-<script async data-chunk=\\"letters-E\\" src=\\"/dist/node/letters-E.js?param\\"></script>
-<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
+<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
+<script async data-chunk=\\"letters-E\\" src=\\"/dist/node/letters-E.js?param\\"></script>"
 `)
     })
 
@@ -71,8 +71,8 @@ describe('ChunkExtrator', () => {
       expect(extractor.getScriptTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
 "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\" nonce=\\"testnonce\\">[\\"letters-A\\"]</script>
-<script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\"></script>
-<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"testnonce\\"></script>"
+<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"testnonce\\"></script>
+<script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\"></script>"
 `)
     })
   })
@@ -114,13 +114,13 @@ Array [
   />,
   <script
     async={true}
-    data-chunk="letters-A"
-    src="/dist/node/letters-A.js"
+    data-chunk="main"
+    src="/dist/node/main.js"
   />,
   <script
     async={true}
-    data-chunk="main"
-    src="/dist/node/main.js"
+    data-chunk="letters-A"
+    src="/dist/node/letters-A.js"
   />,
 ]
 `)
@@ -141,13 +141,13 @@ Array [
   />,
   <script
     async={true}
-    data-chunk="letters-E"
-    src="/dist/node/letters-E.js?param"
+    data-chunk="main"
+    src="/dist/node/main.js"
   />,
   <script
     async={true}
-    data-chunk="main"
-    src="/dist/node/main.js"
+    data-chunk="letters-E"
+    src="/dist/node/letters-E.js?param"
   />,
 ]
 `)
@@ -170,15 +170,15 @@ Array [
   />,
   <script
     async={true}
-    data-chunk="letters-A"
-    nonce="testnonce"
-    src="/dist/node/letters-A.js"
-  />,
-  <script
-    async={true}
     data-chunk="main"
     nonce="testnonce"
     src="/dist/node/main.js"
+  />,
+  <script
+    async={true}
+    data-chunk="letters-A"
+    nonce="testnonce"
+    src="/dist/node/letters-A.js"
   />,
 ]
 `)
@@ -195,16 +195,16 @@ Array [
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getStyleTags()).toMatchInlineSnapshot(`
-"<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\">
-<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">"
+"<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">
+<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\">"
 `)
     })
 
     it('should allow for query params in chunk names', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getStyleTags()).toMatchInlineSnapshot(`
-"<link data-chunk=\\"letters-E\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-E.css?param\\">
-<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">"
+"<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\">
+<link data-chunk=\\"letters-E\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-E.css?param\\">"
 `)
     })
 
@@ -212,8 +212,8 @@ Array [
       extractor.addChunk('letters-A')
       expect(extractor.getStyleTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
-"<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
-<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">"
+"<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">"
 `)
     })
   })
@@ -224,16 +224,16 @@ Array [
       expect.assertions(1)
       return extractor.getInlineStyleTags().then(data =>
         expect(data).toMatchInlineSnapshot(`
-"<style type=\\"text/css\\" data-chunk=\\"letters-A\\">
+"<style type=\\"text/css\\" data-chunk=\\"main\\">
+h1 {
+  color: cyan;
+}
+</style>
+<style type=\\"text/css\\" data-chunk=\\"letters-A\\">
 body {
   background: pink;
 }
 
-</style>
-<style type=\\"text/css\\" data-chunk=\\"main\\">
-h1 {
-  color: cyan;
-}
 </style>"
 `),
       )
@@ -244,16 +244,16 @@ h1 {
       expect.assertions(1)
       return extractor.getInlineStyleTags({ nonce: 'testnonce' }).then(data =>
         expect(data).toMatchInlineSnapshot(`
-"<style type=\\"text/css\\" data-chunk=\\"letters-A\\" nonce=\\"testnonce\\">
+"<style type=\\"text/css\\" data-chunk=\\"main\\" nonce=\\"testnonce\\">
+h1 {
+  color: cyan;
+}
+</style>
+<style type=\\"text/css\\" data-chunk=\\"letters-A\\" nonce=\\"testnonce\\">
 body {
   background: pink;
 }
 
-</style>
-<style type=\\"text/css\\" data-chunk=\\"main\\" nonce=\\"testnonce\\">
-h1 {
-  color: cyan;
-}
 </style>"
 `),
       )
@@ -278,13 +278,13 @@ Array [
       expect(extractor.getStyleElements()).toMatchInlineSnapshot(`
 Array [
   <link
-    data-chunk="letters-A"
-    href="/dist/node/letters-A.css"
+    data-chunk="main"
+    href="/dist/node/main.css"
     rel="stylesheet"
   />,
   <link
-    data-chunk="main"
-    href="/dist/node/main.css"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
     rel="stylesheet"
   />,
 ]
@@ -296,13 +296,13 @@ Array [
       expect(extractor.getStyleElements()).toMatchInlineSnapshot(`
 Array [
   <link
-    data-chunk="letters-E"
-    href="/dist/node/letters-E.css?param"
+    data-chunk="main"
+    href="/dist/node/main.css"
     rel="stylesheet"
   />,
   <link
-    data-chunk="main"
-    href="/dist/node/main.css"
+    data-chunk="letters-E"
+    href="/dist/node/letters-E.css?param"
     rel="stylesheet"
   />,
 ]
@@ -315,14 +315,14 @@ Array [
         .toMatchInlineSnapshot(`
 Array [
   <link
-    data-chunk="letters-A"
-    href="/dist/node/letters-A.css"
+    data-chunk="main"
+    href="/dist/node/main.css"
     nonce="testnonce"
     rel="stylesheet"
   />,
   <link
-    data-chunk="main"
-    href="/dist/node/main.css"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
     nonce="testnonce"
     rel="stylesheet"
   />,
@@ -341,6 +341,16 @@ Array [
   <style
     dangerouslySetInnerHTML={
       Object {
+        "__html": "h1 {
+  color: cyan;
+}",
+      }
+    }
+    data-chunk="main"
+  />,
+  <style
+    dangerouslySetInnerHTML={
+      Object {
         "__html": "body {
   background: pink;
 }
@@ -348,16 +358,6 @@ Array [
       }
     }
     data-chunk="letters-A"
-  />,
-  <style
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "h1 {
-  color: cyan;
-}",
-      }
-    }
-    data-chunk="main"
   />,
 ]
 `),
@@ -371,13 +371,13 @@ Array [
       expect.assertions(1)
       return extractor.getCssString().then(data =>
         expect(data).toMatchInlineSnapshot(`
-"body {
+"h1 {
+  color: cyan;
+}
+body {
   background: pink;
 }
-
-h1 {
-  color: cyan;
-}"
+"
 `),
       )
     })
@@ -396,10 +396,10 @@ h1 {
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags()).toMatchInlineSnapshot(`
-"<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\">
-<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\">
-<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
+"<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
 <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\">
 <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\">
 <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
 `)
@@ -408,10 +408,10 @@ h1 {
     it('should allow for query params in chunk names', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getLinkTags()).toMatchInlineSnapshot(`
-"<link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-E.css?param\\">
-<link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-E.js?param\\">
-<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
+"<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
 <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
+<link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-E.css?param\\">
+<link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-E.js?param\\">
 <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\">
 <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
 `)
@@ -421,10 +421,10 @@ h1 {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
-"<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
-<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\">
-<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
+"<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
 <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\">
 <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"testnonce\\">
 <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"testnonce\\">"
 `)
@@ -469,18 +469,6 @@ Array [
 Array [
   <link
     as="style"
-    data-chunk="letters-A"
-    href="/dist/node/letters-A.css"
-    rel="preload"
-  />,
-  <link
-    as="script"
-    data-chunk="letters-A"
-    href="/dist/node/letters-A.js"
-    rel="preload"
-  />,
-  <link
-    as="style"
     data-chunk="main"
     href="/dist/node/main.css"
     rel="preload"
@@ -489,6 +477,18 @@ Array [
     as="script"
     data-chunk="main"
     href="/dist/node/main.js"
+    rel="preload"
+  />,
+  <link
+    as="style"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.js"
     rel="preload"
   />,
   <link
@@ -513,18 +513,6 @@ Array [
 Array [
   <link
     as="style"
-    data-chunk="letters-E"
-    href="/dist/node/letters-E.css?param"
-    rel="preload"
-  />,
-  <link
-    as="script"
-    data-chunk="letters-E"
-    href="/dist/node/letters-E.js?param"
-    rel="preload"
-  />,
-  <link
-    as="style"
     data-chunk="main"
     href="/dist/node/main.css"
     rel="preload"
@@ -533,6 +521,18 @@ Array [
     as="script"
     data-chunk="main"
     href="/dist/node/main.js"
+    rel="preload"
+  />,
+  <link
+    as="style"
+    data-chunk="letters-E"
+    href="/dist/node/letters-E.css?param"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-chunk="letters-E"
+    href="/dist/node/letters-E.js?param"
     rel="preload"
   />,
   <link
@@ -558,20 +558,6 @@ Array [
 Array [
   <link
     as="style"
-    data-chunk="letters-A"
-    href="/dist/node/letters-A.css"
-    nonce="testnonce"
-    rel="preload"
-  />,
-  <link
-    as="script"
-    data-chunk="letters-A"
-    href="/dist/node/letters-A.js"
-    nonce="testnonce"
-    rel="preload"
-  />,
-  <link
-    as="style"
     data-chunk="main"
     href="/dist/node/main.css"
     nonce="testnonce"
@@ -581,6 +567,20 @@ Array [
     as="script"
     data-chunk="main"
     href="/dist/node/main.js"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="style"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
+    nonce="testnonce"
+    rel="preload"
+  />,
+  <link
+    as="script"
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.js"
     nonce="testnonce"
     rel="preload"
   />,
