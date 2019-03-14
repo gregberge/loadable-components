@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.7.0](https://github.com/smooth-code/loadable-components/compare/v5.6.1...v5.7.0) (2019-03-14)
+
+
+### Bug Fixes
+
+* **server:** fix loading order of assets ([#266](https://github.com/smooth-code/loadable-components/issues/266)) ([4c8ae60](https://github.com/smooth-code/loadable-components/commit/4c8ae60))
+
+
+### Features
+
+* use inline JSON to enabling CSP without `unsafe-inline` ([05e5500](https://github.com/smooth-code/loadable-components/commit/05e5500))
+
+
+### Performance Improvements
+
+* **build:** add build target for Node ([#267](https://github.com/smooth-code/loadable-components/issues/267)) ([97ff6ac](https://github.com/smooth-code/loadable-components/commit/97ff6ac))
+
+
+
+
+
 ## [5.6.1](https://github.com/smooth-code/loadable-components/compare/v5.6.0...v5.6.1) (2019-02-25)
 
 

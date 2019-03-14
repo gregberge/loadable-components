@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.7.0](https://github.com/smooth-code/loadable-components/compare/v5.6.1...v5.7.0) (2019-03-14)
+
+
+### Bug Fixes
+
+* **component:** fix warning message about babel ([#255](https://github.com/smooth-code/loadable-components/issues/255)) ([7cb68a1](https://github.com/smooth-code/loadable-components/commit/7cb68a1)), closes [#253](https://github.com/smooth-code/loadable-components/issues/253)
+
+
+### Features
+
+* use inline JSON to enabling CSP without `unsafe-inline` ([05e5500](https://github.com/smooth-code/loadable-components/commit/05e5500))
+
+
+
+
+
 ## [5.6.1](https://github.com/smooth-code/loadable-components/compare/v5.6.0...v5.6.1) (2019-02-25)
 
 
