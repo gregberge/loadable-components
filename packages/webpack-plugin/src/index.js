@@ -1,5 +1,6 @@
 const nodePath = require('path')
 const fs = require('fs')
+const mkdirp = require('mkdirp')
 
 class LoadablePlugin {
   constructor({
@@ -57,7 +58,7 @@ class LoadablePlugin {
 
     try {
       if (!fs.existsSync(outputFolder)) {
-        fs.mkdirSync(outputFolder)
+        mkdirp.sync(outputFolder)
       }
     } catch (err) {
       if (err.code !== 'EEXIST') {
