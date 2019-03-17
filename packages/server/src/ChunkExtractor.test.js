@@ -66,13 +66,26 @@ describe('ChunkExtrator', () => {
 `)
     })
 
-    it('should add extra props if specified', () => {
+    it('should add extra props if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
 "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\" nonce=\\"testnonce\\">[\\"letters-A\\"]</script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"testnonce\\"></script>
 <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\"></script>"
+`)
+    })
+
+    it('should add extra props if specified - function argument', () => {
+      extractor.addChunk('letters-A')
+      expect(
+        extractor.getScriptTags(asset => {
+          return { nonce: asset ? asset.chunk : 'anonymous' }
+        }),
+      ).toMatchInlineSnapshot(`
+"<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\" nonce=\\"anonymous\\">[\\"letters-A\\"]</script>
+<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"main\\"></script>
+<script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"letters-A\\"></script>"
 `)
     })
   })
@@ -153,7 +166,7 @@ Array [
 `)
     })
 
-    it('should add extra props if specified', () => {
+    it('should add extra props if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptElements({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
@@ -178,6 +191,40 @@ Array [
     async={true}
     data-chunk="letters-A"
     nonce="testnonce"
+    src="/dist/node/letters-A.js"
+  />,
+]
+`)
+    })
+
+    it('should add extra props if specified - function argument', () => {
+      extractor.addChunk('letters-A')
+      expect(
+        extractor.getScriptElements(asset => {
+          return { nonce: asset ? asset.chunk : 'anonymous' }
+        }),
+      ).toMatchInlineSnapshot(`
+Array [
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "[\\"letters-A\\"]",
+      }
+    }
+    id="__LOADABLE_REQUIRED_CHUNKS__"
+    nonce="anonymous"
+    type="application/json"
+  />,
+  <script
+    async={true}
+    data-chunk="main"
+    nonce="main"
+    src="/dist/node/main.js"
+  />,
+  <script
+    async={true}
+    data-chunk="letters-A"
+    nonce="letters-A"
     src="/dist/node/letters-A.js"
   />,
 ]
@@ -208,12 +255,24 @@ Array [
 `)
     })
 
-    it('should add extraProps if specified', () => {
+    it('should add extraProps if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getStyleTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
 "<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
 <link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">"
+`)
+    })
+
+    it('should add extraProps if specified - function argument', () => {
+      extractor.addChunk('letters-A')
+      expect(
+        extractor.getStyleTags(asset => ({
+          nonce: asset ? asset.chunk : 'anonymous',
+        })),
+      ).toMatchInlineSnapshot(`
+"<link data-chunk=\\"main\\" rel=\\"stylesheet\\" href=\\"/dist/node/main.css\\" nonce=\\"main\\">
+<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"letters-A\\">"
 `)
     })
   })
@@ -239,7 +298,7 @@ body {
       )
     })
 
-    it('should add extraProps if specified', () => {
+    it('should add extraProps if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect.assertions(1)
       return extractor.getInlineStyleTags({ nonce: 'testnonce' }).then(data =>
@@ -257,6 +316,28 @@ body {
 </style>"
 `),
       )
+    })
+
+    it('should add extraProps if specified - function argument', () => {
+      extractor.addChunk('letters-A')
+      expect.assertions(1)
+      return extractor
+        .getInlineStyleTags(asset => ({ nonce: asset.chunk }))
+        .then(data =>
+          expect(data).toMatchInlineSnapshot(`
+"<style type=\\"text/css\\" data-chunk=\\"main\\" nonce=\\"main\\">
+h1 {
+  color: cyan;
+}
+</style>
+<style type=\\"text/css\\" data-chunk=\\"letters-A\\" nonce=\\"letters-A\\">
+body {
+  background: pink;
+}
+
+</style>"
+`),
+        )
     })
   })
 
@@ -309,7 +390,7 @@ Array [
 `)
     })
 
-    it('should add extraProps if specified', () => {
+    it('should add extraProps if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getStyleElements({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
@@ -324,6 +405,27 @@ Array [
     data-chunk="letters-A"
     href="/dist/node/letters-A.css"
     nonce="testnonce"
+    rel="stylesheet"
+  />,
+]
+`)
+    })
+
+    it('should add extraProps if specified - function argument', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getStyleElements(asset => ({ nonce: asset.chunk })))
+        .toMatchInlineSnapshot(`
+Array [
+  <link
+    data-chunk="main"
+    href="/dist/node/main.css"
+    nonce="main"
+    rel="stylesheet"
+  />,
+  <link
+    data-chunk="letters-A"
+    href="/dist/node/letters-A.css"
+    nonce="letters-A"
     rel="stylesheet"
   />,
 ]
@@ -417,7 +519,7 @@ body {
 `)
     })
 
-    it('should add extraProps if specified', () => {
+    it('should add extraProps if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
@@ -427,6 +529,19 @@ body {
 <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\">
 <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"testnonce\\">
 <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"testnonce\\">"
+`)
+    })
+
+    it('should add extraProps if specified - function argument', () => {
+      extractor.addChunk('letters-A')
+      expect(extractor.getLinkTags(asset => ({ nonce: asset.chunk })))
+        .toMatchInlineSnapshot(`
+"<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"main\\">
+<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"main\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"letters-A\\">
+<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"letters-A\\">
+<link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"main\\">
+<link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"main\\">"
 `)
     })
   })
