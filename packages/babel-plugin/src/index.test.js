@@ -21,6 +21,14 @@ describe('plugin', () => {
       expect(result).toMatchSnapshot()
     })
 
+    it('should work with custom name', () => {
+      const result = testPlugin(`
+        loadable(() => import(\`./foo*\`))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+
     it('should transform path into "chunk-friendly" name', () => {
       const result = testPlugin(`
         loadable(() => import('../foo/bar'))
