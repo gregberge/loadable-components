@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.1](https://github.com/smooth-code/loadable-components/compare/v5.7.0...v5.7.1) (2019-03-19)
+
+
+### Bug Fixes
+
+* **babel-plugin:** handle special chars in file names ([#279](https://github.com/smooth-code/loadable-components/issues/279)) ([4da39ff](https://github.com/smooth-code/loadable-components/commit/4da39ff))
+
+
+
+
+
 # [5.7.0](https://github.com/smooth-code/loadable-components/compare/v5.6.1...v5.7.0) (2019-03-14)
 
 
