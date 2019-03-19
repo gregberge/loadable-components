@@ -258,7 +258,7 @@ class ChunkExtractor {
     )}>${this.getRequiredChunksScriptContent()}</script>`
   }
 
-  getRequiredChunksScriptElement(asset, extraProps) {
+  getRequiredChunksScriptElement(extraProps) {
     return (
       <script
         key="required"
@@ -267,7 +267,7 @@ class ChunkExtractor {
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
-        {...handleExtraProps(asset, extraProps)}
+        {...handleExtraProps(null, extraProps)}
       />
     )
   }
@@ -318,7 +318,6 @@ class ChunkExtractor {
 
   getScriptElements(extraProps = {}) {
     const requiredScriptElement = this.getRequiredChunksScriptElement(
-      null,
       extraProps,
     )
     const mainAssets = this.getMainAssets('script')
