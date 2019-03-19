@@ -488,6 +488,45 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 });"
 `;
 
+exports[`plugin simple import should work with custom name 1`] = `
+"loadable({
+  chunkName() {
+    return \`foo\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"foo\\" */
+  \`./foo*\`),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./foo*\`);
+    }
+
+    return require('path').resolve(__dirname, \`./foo*\`);
+  }
+
+});"
+`;
+
 exports[`plugin simple import should work with template literal 1`] = `
 "loadable({
   chunkName() {

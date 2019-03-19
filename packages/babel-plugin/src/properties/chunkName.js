@@ -1,9 +1,12 @@
 import vm from 'vm'
 import { getImportArg } from '../util'
 
-const WEBPACK_CHUNK_NAME_REGEXP = /webpackChunkName/
+const JS_PATH_REGEXP = /^[./]+|(\.js$)/g
+const MATCH_LEFT_HYPHENS_REPLACE_REGEX = /^-/g
 // https://github.com/webpack/webpack/blob/master/lib/Template.js
+const WEBPACK_CHUNK_NAME_REGEXP = /webpackChunkName/
 const WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\-^°]+/g
+const WEBPACK_MATCH_PADDED_HYPHENS_REPLACE_REGEX = /^-|-$/g
 
 function readWebpackCommentValues(str) {
   try {
@@ -41,29 +44,30 @@ function getRawChunkNameFromCommments(importArg) {
 }
 
 function moduleToChunk(str) {
-  return str ? str.replace(/^[./]+|(\.js$)/g, '').replace(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX, '-') : ''
+  if (typeof str !== 'string') return ''
+  return str
+    .replace(JS_PATH_REGEXP, '')
+    .replace(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX, '-')
+    .replace(WEBPACK_MATCH_PADDED_HYPHENS_REPLACE_REGEX, '')
 }
 
-function replaceQuasiValue(str) {
-  return str ? str.replace(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX, '-') : str
+function replaceQuasi(str, stripLeftHyphen) {
+  if (!str) return ''
+  const result = str.replace(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX, '-')
+  if (!stripLeftHyphen) return result
+  return result.replace(MATCH_LEFT_HYPHENS_REPLACE_REGEX, '')
 }
 
 export default function chunkNameProperty({ types: t }) {
-  function transformQuasi(quasi, index) {
-    if (index === 0) {
-      return t.templateElement(
-        {
-          raw: moduleToChunk(quasi.value.raw),
-          cooked: moduleToChunk(quasi.value.cooked),
-        },
-        quasi.tail,
-      )
-    }
-
+  function transformQuasi(quasi, first, single) {
     return t.templateElement(
       {
-        raw: replaceQuasiValue(quasi.value.raw),
-        cooked: replaceQuasiValue(quasi.value.cooked),
+        raw: single
+          ? moduleToChunk(quasi.value.raw)
+          : replaceQuasi(quasi.value.raw, first),
+        cooked: single
+          ? moduleToChunk(quasi.value.cooked)
+          : replaceQuasi(quasi.value.cooked, first),
       },
       quasi.tail,
     )
@@ -73,7 +77,13 @@ export default function chunkNameProperty({ types: t }) {
     const importArg = getImportArg(callPath)
     if (importArg.isTemplateLiteral()) {
       return t.templateLiteral(
-        importArg.node.quasis.map(transformQuasi),
+        importArg.node.quasis.map((quasi, index) =>
+          transformQuasi(
+            quasi,
+            index === 0,
+            importArg.node.quasis.length === 1,
+          ),
+        ),
         importArg.node.expressions,
       )
     }
@@ -112,16 +122,10 @@ export default function chunkNameProperty({ types: t }) {
   }
 
   function sanitizeChunkNameTemplateLiteral(node) {
-    return t.callExpression(
-      t.memberExpression(
-        node,
-        t.identifier('replace')
-      ),
-      [
-        t.regExpLiteral(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX.source, 'g'),
-        t.stringLiteral('-')
-      ]
-    )
+    return t.callExpression(t.memberExpression(node, t.identifier('replace')), [
+      t.regExpLiteral(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX.source, 'g'),
+      t.stringLiteral('-'),
+    ])
   }
 
   function replaceChunkName(callPath) {
@@ -146,8 +150,6 @@ export default function chunkNameProperty({ types: t }) {
     addOrReplaceChunkNameComment(callPath, { webpackChunkName })
     return chunkNameNode
   }
-
-
 
   return ({ callPath, funcPath }) => {
     const chunkName = replaceChunkName(callPath)
