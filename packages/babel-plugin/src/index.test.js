@@ -21,7 +21,7 @@ describe('plugin', () => {
       expect(result).toMatchSnapshot()
     })
 
-    it('should work with custom name', () => {
+    it('should work with * in name', () => {
       const result = testPlugin(`
         loadable(() => import(\`./foo*\`))
       `)
