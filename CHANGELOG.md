@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.2](https://github.com/smooth-code/loadable-components/compare/v5.7.1...v5.7.2) (2019-03-20)
+
+
+### Bug Fixes
+
+* **babel-plugin:** handle "-" at the end of request ([c0f325b](https://github.com/smooth-code/loadable-components/commit/c0f325b))
+
+
+
+
+
 ## [5.7.1](https://github.com/smooth-code/loadable-components/compare/v5.7.0...v5.7.1) (2019-03-19)
 
 
