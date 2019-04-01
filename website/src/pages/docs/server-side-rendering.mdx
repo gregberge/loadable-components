@@ -199,3 +199,18 @@ import loadable from '@loadable/component'
 // This dynamic import will not be processed server-side
 const Other = loadable(() => import('./Other'), { ssr: false })
 ```
+
+## Override `stats.publicPath` at runtime
+
+To override `stats.publicPath` at runtime, pass in a custom `publicPath` to the `ChunkExtractor` constructor:
+
+```js
+import { ChunkExtractor } from '@loadable/server'
+
+const statsFile = path.resolve('../dist/loadable-stats.json')
+
+const extractor = new ChunkExtractor({
+  statsFile,
+  publicPath: 'https://cdn.example.org/v1.1.0/',
+})
+```
