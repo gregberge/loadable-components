@@ -58,9 +58,9 @@ const app = <App />
 
 Get scripts as a string of `<script>` tags.
 
-| Arguments    | Description                               |
-| ------------ | ----------------------------------------- |
-| `attributes` | Optional attributes added to script tags. |
+| Arguments                | Description                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to script tags, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()}</body>`
@@ -70,9 +70,9 @@ const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()
 
 Get scripts as an array of React `<script>` elements.
 
-| Arguments    | Description                                   |
-| ------------ | --------------------------------------------- |
-| `attributes` | Optional attributes added to script elements. |
+| Arguments                | Description                                                                                                     |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to script elements, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 const body = renderToString(
@@ -87,9 +87,9 @@ const body = renderToString(
 
 Get "prefetch" and "preload" links as a string of `<link>` tags.
 
-| Arguments    | Description                             |
-| ------------ | --------------------------------------- |
-| `attributes` | Optional attributes added to link tags. |
+| Arguments                | Description                                                                                               |
+| ------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to link tags, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 const head = `<head>${chunkExtractor.getLinkTags()}</head>`
@@ -99,9 +99,9 @@ const head = `<head>${chunkExtractor.getLinkTags()}</head>`
 
 Get "prefetch" and "preload" links as an array of React `<link>` elements.
 
-| Arguments    | Description                                 |
-| ------------ | ------------------------------------------- |
-| `attributes` | Optional attributes added to link elements. |
+| Arguments                | Description                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to link elements, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 const head = renderToString(<head>{chunkExtractor.getLinkElements()}</head>)
@@ -111,9 +111,9 @@ const head = renderToString(<head>{chunkExtractor.getLinkElements()}</head>)
 
 Get style links as a string of `<link>` tags.
 
-| Arguments    | Description                              |
-| ------------ | ---------------------------------------- |
-| `attributes` | Optional attributes added to style tags. |
+| Arguments                | Description                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to style tags, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 const head = `<head>${chunkExtractor.getStyleTags()}</head>`
@@ -131,9 +131,9 @@ const head = renderToString(<head>{chunkExtractor.getStyleElements()}</head>)
 
 Get inline style links as a string of `<link>` tags (returns a promise).
 
-| Arguments    | Description                              |
-| ------------ | ---------------------------------------- |
-| `attributes` | Optional attributes added to style tags. |
+| Arguments                | Description                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to style tags, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 chunkExtractor.getInlineStyleTags()
@@ -146,9 +146,9 @@ chunkExtractor.getInlineStyleTags()
 
 Get inline style links as an array of React `<link>` elements (returns a promise).
 
-| Arguments    | Description                                  |
-| ------------ | -------------------------------------------- |
-| `attributes` | Optional attributes added to style elements. |
+| Arguments                | Description                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to style elements, or a function that receives a `chunk` and returns the attributes. |
 
 ```js
 chunkExtractor.getInlineStyleElements()

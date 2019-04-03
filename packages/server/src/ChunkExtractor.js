@@ -20,9 +20,13 @@ function getAssets(chunks, getAsset) {
   return _.uniqBy(_.flatMap(chunks, chunk => getAsset(chunk)), 'url')
 }
 
-function extraPropsToString(extraProps) {
-  return Object.keys(extraProps).reduce(
-    (acc, key) => `${acc} ${key}="${extraProps[key]}"`,
+function handleExtraProps(asset, extraProps) {
+  return typeof extraProps === 'function' ? extraProps(asset) : extraProps
+}
+
+function extraPropsToString(asset, extraProps) {
+  return Object.entries(handleExtraProps(asset, extraProps)).reduce(
+    (acc, [key, value]) => `${acc} ${key}="${value}"`,
     '',
   )
 }
@@ -30,7 +34,7 @@ function extraPropsToString(extraProps) {
 function assetToScriptTag(asset, extraProps) {
   return `<script async data-chunk="${asset.chunk}" src="${
     asset.url
-  }"${extraPropsToString(extraProps)}></script>`
+  }"${extraPropsToString(asset, extraProps)}></script>`
 }
 
 function assetToScriptElement(asset, extraProps) {
@@ -40,7 +44,7 @@ function assetToScriptElement(asset, extraProps) {
       async
       data-chunk={asset.chunk}
       src={asset.url}
-      {...extraProps}
+      {...handleExtraProps(asset, extraProps)}
     />
   )
 }
@@ -60,7 +64,7 @@ function assetToStyleString(asset) {
 function assetToStyleTag(asset, extraProps) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
-  }"${extraPropsToString(extraProps)}>`
+  }"${extraPropsToString(asset, extraProps)}>`
 }
 
 function assetToStyleTagInline(asset, extraProps) {
@@ -72,6 +76,7 @@ function assetToStyleTagInline(asset, extraProps) {
       }
       resolve(
         `<style type="text/css" data-chunk="${asset.chunk}"${extraPropsToString(
+          asset,
           extraProps,
         )}>
 ${data}
@@ -88,7 +93,7 @@ function assetToStyleElement(asset, extraProps) {
       data-chunk={asset.chunk}
       rel="stylesheet"
       href={asset.url}
-      {...extraProps}
+      {...handleExtraProps(asset, extraProps)}
     />
   )
 }
@@ -105,7 +110,7 @@ function assetToStyleElementInline(asset, extraProps) {
           key={asset.url}
           data-chunk={asset.chunk}
           dangerouslySetInnerHTML={{ __html: data }}
-          {...extraProps}
+          {...handleExtraProps(asset, extraProps)}
         />,
       )
     })
@@ -121,7 +126,7 @@ function assetToLinkTag(asset, extraProps) {
   const hint = LINK_ASSET_HINTS[asset.type]
   return `<link ${hint}="${asset.chunk}" rel="${asset.linkType}" as="${
     asset.scriptType
-  }" href="${asset.url}"${extraPropsToString(extraProps)}>`
+  }" href="${asset.url}"${extraPropsToString(asset, extraProps)}>`
 }
 
 function assetToLinkElement(asset, extraProps) {
@@ -132,7 +137,7 @@ function assetToLinkElement(asset, extraProps) {
     rel: asset.linkType,
     as: asset.scriptType,
     href: asset.url,
-    ...extraProps,
+    ...handleExtraProps(asset, extraProps),
   }
   return <link {...props} />
 }
@@ -248,6 +253,7 @@ class ChunkExtractor {
 
   getRequiredChunksScriptTag(extraProps) {
     return `<script id="${LOADABLE_REQUIRED_CHUNKS_KEY}" type="application/json"${extraPropsToString(
+      null,
       extraProps,
     )}>${this.getRequiredChunksScriptContent()}</script>`
   }
@@ -261,7 +267,7 @@ class ChunkExtractor {
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
-        {...extraProps}
+        {...handleExtraProps(null, extraProps)}
       />
     )
   }
