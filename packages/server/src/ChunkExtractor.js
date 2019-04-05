@@ -153,8 +153,15 @@ function isValidChunkAsset(chunkAsset) {
 }
 
 class ChunkExtractor {
-  constructor({ statsFile, stats, entrypoints = ['main'], outputPath } = []) {
+  constructor({
+    statsFile,
+    stats,
+    entrypoints = ['main'],
+    outputPath,
+    publicPath,
+  } = {}) {
     this.stats = stats || smartRequire(statsFile)
+    this.publicPath = publicPath || this.stats.publicPath
     this.outputPath = outputPath || this.stats.outputPath
     this.statsFile = statsFile
     this.entrypoints = Array.isArray(entrypoints) ? entrypoints : [entrypoints]
@@ -162,8 +169,7 @@ class ChunkExtractor {
   }
 
   resolvePublicUrl(filename) {
-    const { publicPath } = this.stats
-    return joinURLPath(publicPath, filename)
+    return joinURLPath(this.publicPath, filename)
   }
 
   getChunkGroup(chunk) {

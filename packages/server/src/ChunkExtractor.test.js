@@ -12,6 +12,26 @@ describe('ChunkExtrator', () => {
     })
   })
 
+  describe('#resolvePublicUrl', () => {
+    it('should default to using stats.publicPath', () => {
+      expect(extractor.resolvePublicUrl('main.js')).toEqual(
+        '/dist/node/main.js',
+      )
+    })
+
+    it('should use publicPath from ChunkExtractor options', () => {
+      extractor = new ChunkExtractor({
+        stats,
+        publicPath: 'https://cdn.example.org/v1.1.0/',
+        outputPath: path.resolve(__dirname, '../__fixtures__'),
+      })
+
+      expect(extractor.resolvePublicUrl('main.js')).toEqual(
+        'https://cdn.example.org/v1.1.0/main.js',
+      )
+    })
+  })
+
   describe('#stats', () => {
     it('should load stats from file', () => {
       extractor = new ChunkExtractor({
@@ -226,6 +246,33 @@ Array [
     data-chunk="letters-A"
     nonce="letters-A"
     src="/dist/node/letters-A.js"
+  />,
+]
+`)
+    })
+
+    it('should use publicPath from options', () => {
+      extractor = new ChunkExtractor({
+        stats,
+        publicPath: 'https://cdn.example.org/v1.1.0/',
+        outputPath: path.resolve(__dirname, '../__fixtures__'),
+      })
+
+      expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
+Array [
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "[]",
+      }
+    }
+    id="__LOADABLE_REQUIRED_CHUNKS__"
+    type="application/json"
+  />,
+  <script
+    async={true}
+    data-chunk="main"
+    src="https://cdn.example.org/v1.1.0/main.js"
   />,
 ]
 `)
