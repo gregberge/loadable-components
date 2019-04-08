@@ -25,6 +25,7 @@ yarn add @loadable/server && yarn add --dev @loadable/babel-plugin @loadable/web
   "plugins": ["@loadable/babel-plugin"]
 }
 ```
+*Note: If you do not need to transpile JSX, the `@loadable/babel-plugin` is not needed.*
 
 ### 2. Install `@loadable/webpack-plugin`
 
@@ -39,6 +40,8 @@ module.exports = {
 }
 ```
 
+*Note: If the `stats.json` file you generate with Webpack is the same format as what is expected from `loadable-stats.json`, the `@loadable/webpack-plugin` is not needed.*
+
 ### 3. Setup `ChunkExtractor` server-side
 
 ```js
@@ -51,7 +54,22 @@ const statsFile = path.resolve('../dist/loadable-stats.json')
 const extractor = new ChunkExtractor({ statsFile })
 
 // Wrap your application using "collectChunks"
+// Note that if you're not using the babel plugin, you can also utilize React.createElement(YourApp);
+// You will need to require YourApp via its path: require("path-to-app");
 const jsx = extractor.collectChunks(<YourApp />)
+
+/* 
+* If you need to reference the entrypoints on server-side, 
+* you can utilize `requireEntrypoint` instead of `collectChunks`.
+* This ensures that the require cache is cleaned in development.
+*/
+
+const nodeStats = path.resolve(
+  __dirname,
+  '../../public/dist/node/loadable-stats.json',
+);
+const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats });
+const { default: App } = nodeExtractor.requireEntrypoint();
 
 // Render your application
 const html = renderToString(jsx)
@@ -68,7 +86,7 @@ const styleTags = extractor.getStyleTags() // or extractor.getStyleElements();
 
 ### 4. Add `loadableReady` client-side
 
-Loadable components loads all your scripts asynchronously to ensure optimal performances. All scripts are loaded in parallel, so you have to wait for them to be ready using `loadableReady`.
+Loadable components loads all your scripts asynchronously to ensure optimal performances. All scripts are loaded in parallel, so you have to wait for them to be ready using `loadableReady`.*
 
 ```js
 import { loadableReady } from '@loadable/component'
