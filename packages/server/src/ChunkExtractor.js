@@ -1,7 +1,9 @@
 /* eslint-disable react/no-danger */
 import path from 'path'
 import fs from 'fs'
-import _ from 'lodash'
+import uniq from 'lodash/uniq'
+import uniqBy from 'lodash/uniqBy'
+import flatMap from 'lodash/flatMap'
 import React from 'react'
 import { invariant, LOADABLE_REQUIRED_CHUNKS_KEY } from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
@@ -17,7 +19,7 @@ function extensionToScriptType(extension) {
 }
 
 function getAssets(chunks, getAsset) {
-  return _.uniqBy(_.flatMap(chunks, chunk => getAsset(chunk)), 'url')
+  return uniqBy(flatMap(chunks, chunk => getAsset(chunk)), 'url')
 }
 
 function handleExtraProps(asset, extraProps) {
@@ -247,7 +249,7 @@ class ChunkExtractor {
     }
 
     if (Array.isArray(chunks)) {
-      return _.uniq(_.flatMap(chunks, one))
+      return uniq(flatMap(chunks, one))
     }
 
     return one(chunks)
