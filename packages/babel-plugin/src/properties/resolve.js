@@ -6,7 +6,7 @@ export default function resolveProperty({ types: t, template }) {
       return require.resolveWeak(ID)
     }
 
-    return require('path').resolve(__dirname, ID)
+    return eval('require.resolve')(ID)
   `
 
   function getCallValue(callPath) {
