@@ -35,7 +35,7 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
       return require.resolveWeak(\\"moment\\");
     }
 
-    return require('path').resolve(__dirname, \\"moment\\");
+    return eval('require.resolve')(\\"moment\\");
   }
 
 };"
@@ -74,7 +74,7 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
       return require.resolveWeak(\\"moment\\");
     }
 
-    return require('path').resolve(__dirname, \\"moment\\");
+    return eval('require.resolve')(\\"moment\\");
   }
 
 };"
@@ -115,7 +115,7 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
       return require.resolveWeak(\\"moment\\");
     }
 
-    return require('path').resolve(__dirname, \\"moment\\");
+    return eval('require.resolve')(\\"moment\\");
   }
 
 };"
@@ -157,7 +157,7 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
         return require.resolveWeak(\\"moment\\");
       }
 
-      return require('path').resolve(__dirname, \\"moment\\");
+      return eval('require.resolve')(\\"moment\\");
     }
 
   }
@@ -203,7 +203,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
       return require.resolveWeak(\`./\${foo}\`);
     }
 
-    return require('path').resolve(__dirname, \`./\${foo}\`);
+    return eval('require.resolve')(\`./\${foo}\`);
   }
 
 });"
@@ -242,7 +242,7 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
       return require.resolveWeak(\`./\${props.foo}\`);
     }
 
-    return require('path').resolve(__dirname, \`./\${props.foo}\`);
+    return eval('require.resolve')(\`./\${props.foo}\`);
   }
 
 });"
@@ -281,7 +281,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
       return require.resolveWeak(\`./dir/\${props.foo}/test\`);
     }
 
-    return require('path').resolve(__dirname, \`./dir/\${props.foo}/test\`);
+    return eval('require.resolve')(\`./dir/\${props.foo}/test\`);
   }
 
 });"
@@ -326,7 +326,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
       return require.resolveWeak(\`./dir/\${foo}/test\`);
     }
 
-    return require('path').resolve(__dirname, \`./dir/\${foo}/test\`);
+    return eval('require.resolve')(\`./dir/\${foo}/test\`);
   }
 
 });"
@@ -365,7 +365,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
       return require.resolveWeak(\`./\${props.foo}\`);
     }
 
-    return require('path').resolve(__dirname, \`./\${props.foo}\`);
+    return eval('require.resolve')(\`./\${props.foo}\`);
   }
 
 });"
@@ -404,7 +404,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
       return require.resolveWeak(\\"moment\\");
     }
 
-    return require('path').resolve(__dirname, \\"moment\\");
+    return eval('require.resolve')(\\"moment\\");
   }
 
 });"
@@ -443,7 +443,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
       return require.resolveWeak(\\"./ModA\\");
     }
 
-    return require('path').resolve(__dirname, \\"./ModA\\");
+    return eval('require.resolve')(\\"./ModA\\");
   }
 
 });"
@@ -482,7 +482,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
       return require.resolveWeak(\\"../foo/bar\\");
     }
 
-    return require('path').resolve(__dirname, \\"../foo/bar\\");
+    return eval('require.resolve')(\\"../foo/bar\\");
   }
 
 });"
@@ -521,7 +521,7 @@ exports[`plugin simple import should work with * in name 1`] = `
       return require.resolveWeak(\`./foo*\`);
     }
 
-    return require('path').resolve(__dirname, \`./foo*\`);
+    return eval('require.resolve')(\`./foo*\`);
   }
 
 });"
@@ -560,7 +560,7 @@ exports[`plugin simple import should work with template literal 1`] = `
       return require.resolveWeak(\`./ModA\`);
     }
 
-    return require('path').resolve(__dirname, \`./ModA\`);
+    return eval('require.resolve')(\`./ModA\`);
   }
 
 });"
@@ -599,7 +599,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
       return require.resolveWeak(\\"./ModA\\");
     }
 
-    return require('path').resolve(__dirname, \\"./ModA\\");
+    return eval('require.resolve')(\\"./ModA\\");
   }
 
 });"
@@ -638,7 +638,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
       return require.resolveWeak(\\"./ModA\\");
     }
 
-    return require('path').resolve(__dirname, \\"./ModA\\");
+    return eval('require.resolve')(\\"./ModA\\");
   }
 
 });"
@@ -677,7 +677,7 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
       return require.resolveWeak(\\"./ModA\\");
     }
 
-    return require('path').resolve(__dirname, \\"./ModA\\");
+    return eval('require.resolve')(\\"./ModA\\");
   }
 
 });"
