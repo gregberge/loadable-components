@@ -1,8 +1,5 @@
 {
-  "name": "client-side",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "start": "webpack-dev-server"
   },

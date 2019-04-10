@@ -1,8 +1,5 @@
 {
-  "name": "client-side",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "nodemon src/server/main.js",
     "build": "NODE_ENV=production yarn build:webpack && yarn build:lib",

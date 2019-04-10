@@ -1,7 +1,5 @@
 {
-  "name": "razzle-examples-with-loadable",
-  "version": "3.0.0-alpha.0",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",
