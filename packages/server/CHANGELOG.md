@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.8.0](https://github.com/smooth-code/loadable-components/compare/v5.7.2...v5.8.0) (2019-04-10)
+
+
+### Features
+
+* **ChunkExtractor:** support publicPath override ([#292](https://github.com/smooth-code/loadable-components/issues/292)) ([9731e9c](https://github.com/smooth-code/loadable-components/commit/9731e9c))
+* **server:** support function in attributes ([#277](https://github.com/smooth-code/loadable-components/issues/277)) ([c172324](https://github.com/smooth-code/loadable-components/commit/c172324))
+
+
+### Performance Improvements
+
+* **server:** improve lodash imports for serverless bundles ([#298](https://github.com/smooth-code/loadable-components/issues/298)) ([96841f2](https://github.com/smooth-code/loadable-components/commit/96841f2))
+
+
+
+
+
 # [5.7.0](https://github.com/smooth-code/loadable-components/compare/v5.6.1...v5.7.0) (2019-03-14)
 
 

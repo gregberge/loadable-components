@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.8.0](https://github.com/smooth-code/loadable-components/compare/v5.7.2...v5.8.0) (2019-04-10)
+
+
+### Bug Fixes
+
+* **babel-plugin:** Use require.resolve instead of relative path resolution ([#303](https://github.com/smooth-code/loadable-components/issues/303)) ([bad7f1f](https://github.com/smooth-code/loadable-components/commit/bad7f1f))
+
+
+
+
+
 ## [5.7.2](https://github.com/smooth-code/loadable-components/compare/v5.7.1...v5.7.2) (2019-03-20)
 
 
