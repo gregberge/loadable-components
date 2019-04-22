@@ -4,6 +4,7 @@
 <p align="center" style="font-size: 1.2rem;">React code splitting made easy. Reduce your bundle size without stress ✂️✨.</p>
 
 [![License](https://img.shields.io/npm/l/@loadable/component.svg)](https://github.com/smooth-code/loadable-components/blob/master/LICENSE)
+[![Donate](https://opencollective.com/loadable/backers/badge.svg)](https://opencollective.com/loadable/donate)
 [![npm package](https://img.shields.io/npm/v/@loadable/component/latest.svg)](https://www.npmjs.com/package/@loadable/component)
 [![npm downloads](https://img.shields.io/npm/dm/@loadable/component.svg)](https://www.npmjs.com/package/@loadable/component)
 [![Build Status](https://img.shields.io/travis/smooth-code/loadable-components.svg)](https://travis-ci.org/smooth-code/loadable-components)
@@ -41,6 +42,18 @@ function MyComponent() {
   )
 }
 ```
+
+## Supporting Loadable Components
+
+Loadable Components is an MIT-licensed open source project. It's an independent project with ongoing development made possible thanks to the support of these awesome [backers](/BACKERS.md). If you'd like to join them, please consider:
+
+- [Become a backer or sponsor on OpenCollective](https://opencollective.com/loadable).
+
+### Gold Sponsors
+
+Gold Sponsors are those who have pledged \$100/month and more to loadable.
+
+![gold-sponsors](https://opencollective.com/loadable/tiers/gold-sponsors.svg?avatarHeight=120&width=600)
 
 ## License
 
