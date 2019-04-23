@@ -156,12 +156,14 @@ function isValidChunkAsset(chunkAsset) {
 
 class ChunkExtractor {
   constructor({
+    appName = '',
     statsFile,
     stats,
     entrypoints = ['main'],
     outputPath,
     publicPath,
   } = {}) {
+    this.appName = appName
     this.stats = stats || smartRequire(statsFile)
     this.publicPath = publicPath || this.stats.publicPath
     this.outputPath = outputPath || this.stats.outputPath
@@ -260,7 +262,7 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptTag(extraProps) {
-    return `<script id="${LOADABLE_REQUIRED_CHUNKS_KEY}" type="application/json"${extraPropsToString(
+    return `<script id="${this.appName}${LOADABLE_REQUIRED_CHUNKS_KEY}" type="application/json"${extraPropsToString(
       null,
       extraProps,
     )}>${this.getRequiredChunksScriptContent()}</script>`
@@ -270,7 +272,7 @@ class ChunkExtractor {
     return (
       <script
         key="required"
-        id={LOADABLE_REQUIRED_CHUNKS_KEY}
+        id={this.appName + LOADABLE_REQUIRED_CHUNKS_KEY}
         type="application/json"
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),

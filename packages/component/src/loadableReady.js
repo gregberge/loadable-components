@@ -5,7 +5,7 @@ import { LOADABLE_REQUIRED_CHUNKS_KEY } from './sharedInternals'
 
 const BROWSER = typeof window !== 'undefined'
 
-export default function loadableReady(done = () => {}) {
+export default function loadableReady(done = () => {}, appName = '') {
   if (!BROWSER) {
     warn('`loadableReady()` must be called in browser only')
     done()
@@ -14,7 +14,7 @@ export default function loadableReady(done = () => {}) {
 
   let requiredChunks = null
   if (BROWSER) {
-    const dataElement = document.getElementById(LOADABLE_REQUIRED_CHUNKS_KEY)
+    const dataElement = document.getElementById(appName + LOADABLE_REQUIRED_CHUNKS_KEY)
     if (dataElement) {
       requiredChunks = JSON.parse(dataElement.textContent)
     }
