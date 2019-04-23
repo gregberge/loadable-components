@@ -51,9 +51,9 @@ function assetToScriptElement(asset, extraProps) {
   )
 }
 
-function assetToStyleString(asset) {
+function assetToStyleString(asset, { inputFileSystem }) {
   return new Promise((resolve, reject) => {
-    fs.readFile(asset.path, 'utf8', (err, data) => {
+    inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
         reject(err)
         return
@@ -69,9 +69,9 @@ function assetToStyleTag(asset, extraProps) {
   }"${extraPropsToString(asset, extraProps)}>`
 }
 
-function assetToStyleTagInline(asset, extraProps) {
+function assetToStyleTagInline(asset, extraProps, { inputFileSystem }) {
   return new Promise((resolve, reject) => {
-    fs.readFile(asset.path, 'utf8', (err, data) => {
+    inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
         reject(err)
         return
@@ -100,9 +100,9 @@ function assetToStyleElement(asset, extraProps) {
   )
 }
 
-function assetToStyleElementInline(asset, extraProps) {
+function assetToStyleElementInline(asset, extraProps, { inputFileSystem }) {
   return new Promise((resolve, reject) => {
-    fs.readFile(asset.path, 'utf8', (err, data) => {
+    inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
         reject(err)
         return
@@ -162,6 +162,7 @@ class ChunkExtractor {
     namespace = '',
     outputPath,
     publicPath,
+    inputFileSystem = fs,
   } = {}) {
     this.namespace = namespace
     this.stats = stats || smartRequire(statsFile)
@@ -170,6 +171,7 @@ class ChunkExtractor {
     this.statsFile = statsFile
     this.entrypoints = Array.isArray(entrypoints) ? entrypoints : [entrypoints]
     this.chunks = []
+    this.inputFileSystem = inputFileSystem
   }
 
   resolvePublicUrl(filename) {
@@ -342,7 +344,7 @@ class ChunkExtractor {
   getCssString() {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleString(asset).then(data => data),
+      assetToStyleString(asset, this).then(data => data),
     )
     return Promise.all(promises).then(results => joinTags(results))
   }
@@ -355,7 +357,7 @@ class ChunkExtractor {
   getInlineStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleTagInline(asset, extraProps).then(data => data),
+      assetToStyleTagInline(asset, extraProps, this).then(data => data),
     )
     return Promise.all(promises).then(results => joinTags(results))
   }
@@ -368,7 +370,7 @@ class ChunkExtractor {
   getInlineStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     const promises = mainAssets.map(asset =>
-      assetToStyleElementInline(asset, extraProps).then(data => data),
+      assetToStyleElementInline(asset, extraProps, this).then(data => data),
     )
     return Promise.all(promises).then(results => results)
   }
