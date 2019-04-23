@@ -62,6 +62,8 @@ const OtherComponent = loadable(() => import('./OtherComponent'))
 OtherComponent.preload()
 ```
 
+> This method does not return a Promise intentionnally. See https://github.com/smooth-code/loadable-components/pull/226.
+
 ## loadable.lib
 
 Create a loadable library.
