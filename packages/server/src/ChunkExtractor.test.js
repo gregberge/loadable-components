@@ -70,7 +70,7 @@ describe('ChunkExtrator', () => {
 
     it('should return main script tag without chunk with namespaced required chunks id', () => {
       extractor = new ChunkExtractor({
-        appName: 'testapp',
+        namespace: 'testapp',
         stats,
         outputPath: path.resolve(__dirname, '../__fixtures__'),
       })
@@ -78,7 +78,7 @@ describe('ChunkExtrator', () => {
 "<script id=\\"testapp__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[]</script>
 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
 `)
-    });
+    })
 
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
@@ -125,7 +125,7 @@ describe('ChunkExtrator', () => {
   describe('#getScriptElements', () => {
     it('should return main script tag without chunk with namespaced id for loadable chunks', () => {
       extractor = new ChunkExtractor({
-        appName: 'testapp',
+        namespace: 'testapp',
         stats,
         outputPath: path.resolve(__dirname, '../__fixtures__'),
       })
