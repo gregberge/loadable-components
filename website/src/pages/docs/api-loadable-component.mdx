@@ -102,3 +102,22 @@ A component created using `loadable.lib` or `lazy.lib`.
 | `ref`      | Accepts a ref, populated when the library is loaded. |
 | `fallback` | Fallback displayed during the loading.               |
 | `...`      | Props are forwarded as first argument of `loadFn`    |
+
+## loadableReady
+
+Wait for all loadable components to be loaded. This method must only be used with Server Side Rendering, see [Server Side Rendering guide](/docs/server-side-rendering/).
+
+| Arguments           | Description                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------------- |
+| `done`              | Function called when all components are loaded.                                           |
+| `options`           | Optional options.                                                                         |
+| `options.namespace` | Namespace of your application (use only if you have several React apps on the same page). |
+
+```js
+import { loadableReady } from '@loadable/component'
+
+loadableReady(() => {
+  const root = document.getElementById('main')
+  hydrate(<App />, root)
+})
+```

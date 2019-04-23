@@ -68,6 +68,18 @@ describe('ChunkExtrator', () => {
 `)
     })
 
+    it('should return main script tag without chunk with namespaced required chunks id', () => {
+      extractor = new ChunkExtractor({
+        namespace: 'testapp',
+        stats,
+        outputPath: path.resolve(__dirname, '../__fixtures__'),
+      })
+      expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
+"<script id=\\"testapp__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[]</script>
+<script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
+`)
+    })
+
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
@@ -111,6 +123,32 @@ describe('ChunkExtrator', () => {
   })
 
   describe('#getScriptElements', () => {
+    it('should return main script tag without chunk with namespaced id for loadable chunks', () => {
+      extractor = new ChunkExtractor({
+        namespace: 'testapp',
+        stats,
+        outputPath: path.resolve(__dirname, '../__fixtures__'),
+      })
+      expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
+Array [
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "[]",
+      }
+    }
+    id="testapp__LOADABLE_REQUIRED_CHUNKS__"
+    type="application/json"
+  />,
+  <script
+    async={true}
+    data-chunk="main"
+    src="/dist/node/main.js"
+  />,
+]
+`)
+    })
+
     it('should return main script tag without chunk', () => {
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
 Array [

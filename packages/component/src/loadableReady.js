@@ -1,11 +1,14 @@
 /* eslint-disable no-underscore-dangle, camelcase */
 /* eslint-env browser */
 import { warn } from './util'
-import { LOADABLE_REQUIRED_CHUNKS_KEY } from './sharedInternals'
+import { getRequiredChunkKey } from './sharedInternals'
 
 const BROWSER = typeof window !== 'undefined'
 
-export default function loadableReady(done = () => {}) {
+export default function loadableReady(
+  done = () => {},
+  { namespace = '' } = {},
+) {
   if (!BROWSER) {
     warn('`loadableReady()` must be called in browser only')
     done()
@@ -14,7 +17,7 @@ export default function loadableReady(done = () => {}) {
 
   let requiredChunks = null
   if (BROWSER) {
-    const dataElement = document.getElementById(LOADABLE_REQUIRED_CHUNKS_KEY)
+    const dataElement = document.getElementById(getRequiredChunkKey(namespace))
     if (dataElement) {
       requiredChunks = JSON.parse(dataElement.textContent)
     }

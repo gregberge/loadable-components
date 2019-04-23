@@ -5,7 +5,7 @@ import uniq from 'lodash/uniq'
 import uniqBy from 'lodash/uniqBy'
 import flatMap from 'lodash/flatMap'
 import React from 'react'
-import { invariant, LOADABLE_REQUIRED_CHUNKS_KEY } from './sharedInternals'
+import { invariant, getRequiredChunkKey } from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
 import { smartRequire, joinURLPath } from './util'
 
@@ -159,9 +159,11 @@ class ChunkExtractor {
     statsFile,
     stats,
     entrypoints = ['main'],
+    namespace = '',
     outputPath,
     publicPath,
   } = {}) {
+    this.namespace = namespace
     this.stats = stats || smartRequire(statsFile)
     this.publicPath = publicPath || this.stats.publicPath
     this.outputPath = outputPath || this.stats.outputPath
@@ -260,7 +262,9 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptTag(extraProps) {
-    return `<script id="${LOADABLE_REQUIRED_CHUNKS_KEY}" type="application/json"${extraPropsToString(
+    return `<script id="${getRequiredChunkKey(
+      this.namespace,
+    )}" type="application/json"${extraPropsToString(
       null,
       extraProps,
     )}>${this.getRequiredChunksScriptContent()}</script>`
@@ -270,7 +274,7 @@ class ChunkExtractor {
     return (
       <script
         key="required"
-        id={LOADABLE_REQUIRED_CHUNKS_KEY}
+        id={getRequiredChunkKey(this.namespace)}
         type="application/json"
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
