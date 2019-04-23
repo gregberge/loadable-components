@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.9.0](https://github.com/smooth-code/loadable-components/compare/v5.8.0...v5.9.0) (2019-04-23)
+
+
+### Features
+
+* support multiple react apps ([#317](https://github.com/smooth-code/loadable-components/issues/317)) ([dc54050](https://github.com/smooth-code/loadable-components/commit/dc54050)), closes [#311](https://github.com/smooth-code/loadable-components/issues/311)
+* **server:** authorize custom filesystem ([#318](https://github.com/smooth-code/loadable-components/issues/318)) ([f2a6bbd](https://github.com/smooth-code/loadable-components/commit/f2a6bbd)), closes [#315](https://github.com/smooth-code/loadable-components/issues/315)
+
+
+
+
+
 # [5.8.0](https://github.com/smooth-code/loadable-components/compare/v5.7.2...v5.8.0) (2019-04-10)
 
 
