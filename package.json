@@ -41,6 +41,7 @@
     "lerna": "^3.13.2",
     "prettier": "^1.16.4",
     "react": "^16.8.6",
+    "regenerator-runtime": "^0.13.2",
     "rollup": "^1.9.3",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
