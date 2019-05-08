@@ -6,7 +6,7 @@
   "bundlesize": [
     {
       "path": "./packages/component/dist/loadable.min.js",
-      "maxSize": "3 kB"
+      "maxSize": "3.2 kB"
     }
   ],
   "scripts": {
@@ -38,9 +38,12 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.7.1",
+    "jest-dom": "^3.2.2",
     "lerna": "^3.13.2",
     "prettier": "^1.16.4",
     "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-testing-library": "^7.0.0",
     "regenerator-runtime": "^0.13.2",
     "rollup": "^1.9.3",
     "rollup-plugin-babel": "^4.3.2",

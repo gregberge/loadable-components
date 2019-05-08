@@ -22,3 +22,26 @@ function MyComponent() {
   )
 }
 ```
+
+## Use a dynamic property
+
+If you use [Babel plugin](/docs/babel-plugin/), dynamic properties are supported out of the box. Else you have to add `cacheKey` function: it takes props and returns a cache key.
+
+```js
+import loadable from '@loadable/component'
+
+const AsyncPage = loadable(props => import(`./${props.page}`), {
+  cacheKey: props => props.page,
+})
+
+function MyComponent() {
+  const [page, setPage] = useState('Home')
+  return (
+    <div>
+      <button onClick={() => setPage('Home')}>Go to home</button>
+      <button onClick={() => setPage('Contact')}>Go to contact</button>
+      {page && <AsyncPage page={page} />}
+    </div>
+  )
+}
+```
