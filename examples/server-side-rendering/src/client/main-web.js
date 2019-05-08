@@ -1,3 +1,4 @@
+import 'core-js'
 import React from 'react'
 import { hydrate } from 'react-dom'
 // eslint-disable-next-line import/no-extraneous-dependencies

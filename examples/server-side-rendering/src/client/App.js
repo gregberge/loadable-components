@@ -9,6 +9,7 @@ const C = loadable(() => import(/* webpackPreload: true */ './letters/C'))
 const D = loadable(() => import(/* webpackPrefetch: true */ './letters/D'))
 const E = loadable(() => import('./letters/E'), { ssr: false })
 const X = loadable(props => import(`./letters/${props.letter}`))
+const Sub = loadable(props => import(`./letters/${props.letter}/file`))
 
 // We keep some references to prevent uglify remove
 A.C = C
@@ -24,7 +25,11 @@ const App = () => (
     <br />
     <X letter="A" />
     <br />
+    <X letter="F" />
+    <br />
     <E />
+    <br />
+    <Sub letter="Z" />
     <br />
     <Moment>{moment => moment().format('HH:mm')}</Moment>
   </div>
