@@ -195,6 +195,13 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       ctor.requireAsync(props)
     }
 
+    Loadable.load = props => {
+      if (typeof window === 'undefined') {
+        throw new Error('`load` cannot be called server-side')
+      }
+      return ctor.requireAsync(props)
+    }
+
     return Loadable
   }
 

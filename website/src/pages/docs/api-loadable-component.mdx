@@ -48,7 +48,7 @@ A component created using `loadable` or `lazy`.
 
 ## LoadableComponent.preload
 
-Force the loading of a component.
+Triggers the loading of a component.
 
 | Arguments | Description                        |
 | --------- | ---------------------------------- |
@@ -62,7 +62,27 @@ const OtherComponent = loadable(() => import('./OtherComponent'))
 OtherComponent.preload()
 ```
 
-> This method does not return a Promise intentionnally. See https://github.com/smooth-code/loadable-components/pull/226.
+> This method does not return a Promise intentionnally. Use `load` if you need to wait for the component to be loaded.
+
+## LoadableComponent.load
+
+Force the loading of a component synchronously, returns a Promise.
+
+| Arguments | Description                        |
+| --------- | ---------------------------------- |
+| `args`    | Props passed to the load function. |
+
+```js
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+OtherComponent.load().then(() => {
+  console.log('Component is loaded!')
+})
+```
+
+> If you don't need to know when the component will be loaded, you should use `preload` instead.
 
 ## loadable.lib
 
