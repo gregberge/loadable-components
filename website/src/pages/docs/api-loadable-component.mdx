@@ -16,6 +16,7 @@ Create a loadable component.
 | `options`          | Optional options.                                                    |
 | `options.fallback` | Fallback displayed during the loading.                               |
 | `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
+| `options.cacheKey` | Cache key function (see [dynamic import](/docs/dynamic-import))      |
 
 ```js
 import loadable from '@loadable/component'
@@ -88,11 +89,13 @@ OtherComponent.load().then(() => {
 
 Create a loadable library.
 
-| Arguments          | Description                              |
-| ------------------ | ---------------------------------------- |
-| `loadFn`           | The function call to load the component. |
-| `options`          | Optional options.                        |
-| `options.fallback` | Fallback displayed during the loading.   |
+| Arguments          | Description                                                          |
+| ------------------ | -------------------------------------------------------------------- |
+| `loadFn`           | The function call to load the component.                             |
+| `options`          | Optional options.                                                    |
+| `options.fallback` | Fallback displayed during the loading.                               |
+| `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
+| `options.cacheKey` | Cache key function (see [dynamic import](/docs/dynamic-import))      |
 
 ```js
 import loadable from '@loadable/component'

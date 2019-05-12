@@ -8,6 +8,7 @@
   "rules": {
     "no-plusplus": "off",
     "no-param-reassign": "off",
+    "no-nested-ternary": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js"] }],
     "react/jsx-wrap-multilines": "off",
     "react/no-unused-state": "off",

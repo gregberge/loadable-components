@@ -23,8 +23,26 @@ function createLoadable({ resolve = identity, render, onLoad }) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
     const cache = {}
+    function getCacheKey(props) {
+      if (options.cacheKey) {
+        return options.cacheKey(props)
+      }
+      if (ctor.resolve) {
+        return ctor.resolve(props)
+      }
+      return null
+    }
 
     class InnerLoadable extends React.Component {
+      static getDerivedStateFromProps(props, state) {
+        const cacheKey = getCacheKey(props)
+        return {
+          ...state,
+          cacheKey,
+          loading: state.loading || state.cacheKey !== cacheKey,
+        }
+      }
+
       constructor(props) {
         super(props)
 
@@ -32,7 +50,10 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           result: null,
           error: null,
           loading: true,
+          cacheKey: getCacheKey(props),
         }
+
+        this.promise = null
 
         invariant(
           !props.__chunkExtractor || ctor.requireSync,
@@ -74,6 +95,14 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         }
       }
 
+      componentDidUpdate(prevProps, prevState) {
+        // Component is reloaded if the cacheKey has changed
+        if (!Object.is(prevState.cacheKey, this.state.cacheKey)) {
+          this.promise = null
+          this.loadAsync()
+        }
+      }
+
       componentWillUnmount() {
         this.mounted = false
       }
@@ -106,7 +135,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       }
 
       getCacheKey() {
-        return JSON.stringify(this.props)
+        return getCacheKey(this.props) || JSON.stringify(this.props)
       }
 
       getCache() {
@@ -118,10 +147,10 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       }
 
       loadAsync() {
-        this.promise =
-          this.promise ||
-          ctor
-            .requireAsync(this.props)
+        if (!this.promise) {
+          const { __chunkExtractor, forwardedRef, ...props } = this.props
+          this.promise = ctor
+            .requireAsync(props)
             .then(loadedModule => {
               const result = resolve(loadedModule, { Loadable })
               if (options.suspense) {
@@ -138,6 +167,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
             .catch(error => {
               this.safeSetState({ error, loading: false })
             })
+        }
 
         return this.promise
       }
