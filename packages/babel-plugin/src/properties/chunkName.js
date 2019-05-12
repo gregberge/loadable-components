@@ -114,11 +114,10 @@ export default function chunkNameProperty({ types: t }) {
   }
 
   function chunkNameFromTemplateLiteral(node) {
-    const [q1, q2] = node.quasis
+    const [q1] = node.quasis
     const v1 = q1 ? q1.value.cooked : ''
-    const v2 = q2 ? q2.value.cooked : ''
     if (!node.expressions.length) return v1
-    return `${v1}[request]${v2}`
+    return `${v1}[request]`
   }
 
   function sanitizeChunkNameTemplateLiteral(node) {
