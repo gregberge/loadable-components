@@ -263,7 +263,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
   },
 
   requireAsync: props => import(
-  /* webpackChunkName: \\"dir-[request]-test\\" */
+  /* webpackChunkName: \\"dir-[request]\\" */
   \`./dir/\${props.foo}/test\`),
 
   requireSync(props) {
@@ -306,7 +306,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
   requireAsync: ({
     foo
   }) => import(
-  /* webpackChunkName: \\"dir-[request]-test\\" */
+  /* webpackChunkName: \\"dir-[request]\\" */
   \`./dir/\${foo}/test\`),
 
   requireSync(props) {
