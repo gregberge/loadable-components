@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.10.0](https://github.com/smooth-code/loadable-components/compare/v5.9.0...v5.10.0) (2019-05-13)
+
+
+### Features
+
+* add `load` method that returns a Promise ([#329](https://github.com/smooth-code/loadable-components/issues/329)) ([a10a9d5](https://github.com/smooth-code/loadable-components/commit/a10a9d5)), closes [#226](https://github.com/smooth-code/loadable-components/issues/226)
+* support reactive dynamic loadable ([#330](https://github.com/smooth-code/loadable-components/issues/330)) ([d65c5bb](https://github.com/smooth-code/loadable-components/commit/d65c5bb)), closes [#284](https://github.com/smooth-code/loadable-components/issues/284)
+
+
+### Performance Improvements
+
+* optimize rollup config ([c94760b](https://github.com/smooth-code/loadable-components/commit/c94760b))
+
+
+
+
+
 # [5.9.0](https://github.com/smooth-code/loadable-components/compare/v5.8.0...v5.9.0) (2019-04-23)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.10.0](https://github.com/smooth-code/loadable-components/compare/v5.9.0...v5.10.0) (2019-05-13)
+
+
+### Bug Fixes
+
+* fix chunkname mismatch ([#332](https://github.com/smooth-code/loadable-components/issues/332)) ([7ffaa4c](https://github.com/smooth-code/loadable-components/commit/7ffaa4c)), closes [#331](https://github.com/smooth-code/loadable-components/issues/331)
+
+
+
+
+
 # [5.8.0](https://github.com/smooth-code/loadable-components/compare/v5.7.2...v5.8.0) (2019-04-10)
 
 
