@@ -35,6 +35,7 @@ describe('#loadable', () => {
   })
 
   afterEach(() => {
+    // eslint-disable-next-line no-console
     console.error.mockRestore()
   })
 
