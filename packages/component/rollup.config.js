@@ -1,82 +1,84 @@
-/* eslint-disable import/no-extraneous-dependencies, import/no-mutable-exports */
-import path from 'path'
-import resolve from 'rollup-plugin-node-resolve'
+/* eslint-disable import/no-extraneous-dependencies */
+import nodeResolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
-import { uglify } from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
+import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import pkg from './package.json'
 
-// eslint-disable-next-line
-const babelConfig = require('../../babel.config.js')
-const SOURCE_DIR = path.resolve(__dirname, 'src')
-const DIST_DIR = path.resolve(__dirname, 'dist')
-const buildName = 'loadable'
-
-const baseConfig = {
-  input: `${SOURCE_DIR}/index.js`,
-  plugins: [babel({ exclude: '**/node_modules/**', ...babelConfig })],
+const input = 'src/index.js'
+const name = 'loadable'
+const globals = {
+  react: 'React',
+  'hoist-non-react-statics': 'hoistNonReactStatics',
 }
 
-const esConfig = Object.assign({}, baseConfig, {
-  output: {
-    file: `${DIST_DIR}/${buildName}.es.js`,
-    format: 'es',
-  },
-  external: [
-    ...Object.keys(pkg.peerDependencies),
-    ...Object.keys(pkg.dependencies),
-  ],
-})
+const external = id => !id.startsWith('.') && !id.startsWith('/')
 
-const cjsConfig = Object.assign({}, esConfig, {
-  output: {
-    file: `${DIST_DIR}/${buildName}.cjs.js`,
-    format: 'cjs',
-    exports: 'named',
-  },
-})
-
-const globals = { react: 'React' }
-
-const umdConfig = Object.assign({}, baseConfig, {
-  output: {
-    name: 'loadable',
-    file: `${DIST_DIR}/${buildName}.js`,
-    format: 'umd',
-    globals,
-    exports: 'named',
-    sourcemap: false,
-  },
-  external: Object.keys(globals),
-  plugins: [...baseConfig.plugins, resolve({ browser: true }), commonjs()],
-})
-
-const minConfig = Object.assign({}, umdConfig, {
-  output: {
-    ...umdConfig.output,
-    file: `${DIST_DIR}/${buildName}.min.js`,
-  },
+const getBabelOptions = ({ useESModules }) => ({
+  exclude: '**/node_modules/**',
+  runtimeHelpers: true,
+  presets: [['@babel/preset-react', { useBuiltIns: true }]],
   plugins: [
-    ...umdConfig.plugins,
-    replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-    uglify({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
-    }),
+    '@babel/plugin-proposal-class-properties',
+    'babel-plugin-annotate-pure-calls',
+    ['@babel/plugin-transform-runtime', { useESModules }],
   ],
 })
 
-let configs
-
-if (process.env.WATCH_MODE) {
-  configs = [esConfig]
-}
-
-configs = [esConfig, cjsConfig, umdConfig, minConfig]
-
-export default configs
+export default [
+  // umd
+  {
+    input,
+    output: {
+      file: `dist/loadable.js`,
+      format: 'umd',
+      name,
+      globals,
+      exports: 'named',
+      sourcemap: false,
+    },
+    external: Object.keys(globals),
+    plugins: [
+      babel(getBabelOptions({ useESModules: true })),
+      nodeResolve(),
+      commonjs(),
+      replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+    ],
+  },
+  // min
+  {
+    input,
+    output: {
+      file: 'dist/loadable.min.js',
+      format: 'umd',
+      name,
+      globals,
+      exports: 'named',
+      sourcemap: false,
+    },
+    external: Object.keys(globals),
+    plugins: [
+      babel(getBabelOptions({ useESModules: true })),
+      nodeResolve(),
+      commonjs(),
+      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+      terser(),
+    ],
+  },
+  // cjs
+  {
+    input,
+    output: { file: pkg.main, format: 'cjs', exports: 'named' },
+    external,
+    plugins: [babel(getBabelOptions({ useESModules: false })), sizeSnapshot()],
+  },
+  // esm
+  {
+    input,
+    output: { file: pkg.module, format: 'esm' },
+    external,
+    plugins: [babel(getBabelOptions({ useESModules: true })), sizeSnapshot()],
+  },
+]
