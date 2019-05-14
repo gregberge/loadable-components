@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.1](https://github.com/smooth-code/loadable-components/compare/v5.10.0...v5.10.1) (2019-05-14)
+
+
+### Bug Fixes
+
+* add @babel/preset-env in rollup config ([#336](https://github.com/smooth-code/loadable-components/issues/336)) ([8b50c94](https://github.com/smooth-code/loadable-components/commit/8b50c94)), closes [#335](https://github.com/smooth-code/loadable-components/issues/335)
+
+
+
+
+
 # [5.10.0](https://github.com/smooth-code/loadable-components/compare/v5.9.0...v5.10.0) (2019-05-13)
 
 
