@@ -80,7 +80,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         // Client-side with `isReady` method present (SSR probably)
         // If module is already loaded, we use a synchronous loading
-        if (ctor.isReady && ctor.isReady(props)) {
+        // Only perform this synchronous loading if the component has not
+        // been marked with no SSR, else we risk hydration mismatches
+        if (options.ssr !== false && ctor.isReady && ctor.isReady(props)) {
           this.loadSync()
         }
       }
