@@ -17,7 +17,10 @@ export const smartRequire = modulePath => {
   return eval('module.require')(modulePath)
 }
 
-export const joinURLPath = (...paths) => {
-  const cleanPaths = paths.map(path => path.replace(/\/$/, ''))
-  return cleanPaths.join('/')
+export const joinURLPath = (publicPath, filename) => {
+  if (publicPath.substr(-1) === '/') {
+    return `${publicPath}${filename}`
+  }
+
+  return `${publicPath}/${filename}`
 }
