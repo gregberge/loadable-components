@@ -2,7 +2,7 @@
 import 'regenerator-runtime/runtime'
 import 'jest-dom/extend-expect'
 import React from 'react'
-import { render, cleanup, wait } from 'react-testing-library'
+import { render, cleanup, wait } from '@testing-library/react'
 import loadable, { lazy } from './index'
 
 afterEach(cleanup)
