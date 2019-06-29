@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import './polyfill'
 import * as sharedInternals from './sharedInternals'
 import * as loadableExports from './loadable'
 import * as libraryExports from './library'
