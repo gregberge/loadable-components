@@ -2,6 +2,7 @@
 import React from 'react'
 import { invariant } from './util'
 import Context from './Context'
+import objectIs from './ponyfills/objectIs';
 
 function resolveConstructor(ctor) {
   if (typeof ctor === 'function') {
@@ -97,7 +98,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
       componentDidUpdate(prevProps, prevState) {
         // Component is reloaded if the cacheKey has changed
-        if (!Object.is(prevState.cacheKey, this.state.cacheKey)) {
+        if (!objectIs(prevState.cacheKey, this.state.cacheKey)) {
           this.promise = null
           this.loadAsync()
         }
