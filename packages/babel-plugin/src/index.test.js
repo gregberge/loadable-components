@@ -2,10 +2,13 @@
 import { transform } from '@babel/core'
 import plugin from '.'
 
-const testPlugin = code => {
+const defaultFilename = './baz/fiz.js';
+
+const testPlugin = (code, opts = { filename: defaultFilename }) => {
   const result = transform(code, {
     plugins: [plugin],
     configFile: false,
+    ...opts
   })
 
   return result.code
@@ -36,6 +39,19 @@ describe('plugin', () => {
 
       expect(result).toMatchSnapshot()
     })
+
+    it('should transform to same chunk name when import paths are different', () => {
+      const result1= testPlugin(`
+          loadable(() => import('./foo/bar'))
+        `, { filename: './baz/fiz.js', root: '/homedir/projects/projectRoot' });
+      expect(result1).toMatchSnapshot();
+
+      const result2 = testPlugin(`
+          loadable(() => import('./bar'))
+      `, { filename: './baz/foo/biz.js' , root: '/homedir/projects/projectRoot' });
+
+      expect(result2).toMatchSnapshot();
+    });
 
     describe('with "webpackChunkName" comment', () => {
       it('should use it', () => {

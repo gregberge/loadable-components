@@ -1,4 +1,5 @@
 import vm from 'vm'
+import path from 'path'
 import { getImportArg } from '../util'
 
 const JS_PATH_REGEXP = /^[./]+|(\.js$)/g
@@ -73,8 +74,10 @@ export default function chunkNameProperty({ types: t }) {
     )
   }
 
-  function generateChunkNameNode(callPath) {
+  function generateChunkNameNode(callPath, state) {
     const importArg = getImportArg(callPath)
+    const fileDirName = path.dirname(state.file.opts.filename)
+
     if (importArg.isTemplateLiteral()) {
       return t.templateLiteral(
         importArg.node.quasis.map((quasi, index) =>
@@ -87,7 +90,10 @@ export default function chunkNameProperty({ types: t }) {
         importArg.node.expressions,
       )
     }
-    return t.stringLiteral(moduleToChunk(importArg.node.value))
+    const importFilePath = path.resolve(fileDirName, importArg.node.value)
+    const relativeImportFilePath = path.relative(state.file.opts.root, importFilePath)
+
+    return t.stringLiteral(moduleToChunk(relativeImportFilePath))
   }
 
   function getExistingChunkNameComment(callPath) {
@@ -127,7 +133,7 @@ export default function chunkNameProperty({ types: t }) {
     ])
   }
 
-  function replaceChunkName(callPath) {
+  function replaceChunkName(callPath, state) {
     const agressiveImport = isAgressiveImport(callPath)
     const values = getExistingChunkNameComment(callPath)
 
@@ -136,7 +142,7 @@ export default function chunkNameProperty({ types: t }) {
       return t.stringLiteral(values.webpackChunkName)
     }
 
-    let chunkNameNode = generateChunkNameNode(callPath)
+    let chunkNameNode = generateChunkNameNode(callPath, state)
     let webpackChunkName
 
     if (t.isTemplateLiteral(chunkNameNode)) {
@@ -150,8 +156,8 @@ export default function chunkNameProperty({ types: t }) {
     return chunkNameNode
   }
 
-  return ({ callPath, funcPath }) => {
-    const chunkName = replaceChunkName(callPath)
+  return ({ callPath, funcPath, state }) => {
+    const chunkName = replaceChunkName(callPath, state)
 
     return t.objectMethod(
       'method',

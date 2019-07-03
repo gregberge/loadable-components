@@ -67,7 +67,7 @@ const loadablePlugin = api => {
     return funcPath
   }
 
-  function transformImport(path) {
+  function transformImport(path, state) {
     const callPaths = collectImportCallPaths(path)
 
     // Ignore loadable function that does not have any "import" call
@@ -89,7 +89,7 @@ const loadablePlugin = api => {
 
     const object = t.objectExpression(
       propertyFactories.map(getProperty =>
-        getProperty({ path, callPath, funcPath }),
+        getProperty({ path, callPath, funcPath, state }),
       ),
     )
 
@@ -105,13 +105,13 @@ const loadablePlugin = api => {
   return {
     inherits: syntaxDynamicImport,
     visitor: {
-      CallExpression(path) {
+      CallExpression(path, state) {
         if (!isValidIdentifier(path)) return
-        transformImport(path)
+        transformImport(path, state)
       },
-      'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
+      'ArrowFunctionExpression|FunctionExpression|ObjectMethod': (path, state) => {
         if (!hasLoadableComment(path)) return
-        transformImport(path)
+        transformImport(path, state)
       },
     },
   }
