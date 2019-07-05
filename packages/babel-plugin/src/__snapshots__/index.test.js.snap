@@ -491,7 +491,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 exports[`plugin simple import should transform to same chunk name when import paths are different 1`] = `
 "loadable({
   chunkName() {
-    return \\"Users-dthonse-workspace-loadable-components-baz-foo-bar\\";
+    return \\"home-travis-build-smooth-code-loadable-components-baz-foo-bar\\";
   },
 
   isReady(props) {
@@ -503,7 +503,7 @@ exports[`plugin simple import should transform to same chunk name when import pa
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"Users-dthonse-workspace-loadable-components-baz-foo-bar\\" */
+  /* webpackChunkName: \\"home-travis-build-smooth-code-loadable-components-baz-foo-bar\\" */
   './foo/bar'),
 
   requireSync(props) {
@@ -530,7 +530,7 @@ exports[`plugin simple import should transform to same chunk name when import pa
 exports[`plugin simple import should transform to same chunk name when import paths are different 2`] = `
 "loadable({
   chunkName() {
-    return \\"Users-dthonse-workspace-loadable-components-baz-foo-bar\\";
+    return \\"home-travis-build-smooth-code-loadable-components-baz-foo-bar\\";
   },
 
   isReady(props) {
@@ -542,7 +542,7 @@ exports[`plugin simple import should transform to same chunk name when import pa
   },
 
   requireAsync: () => import(
-  /* webpackChunkName: \\"Users-dthonse-workspace-loadable-components-baz-foo-bar\\" */
+  /* webpackChunkName: \\"home-travis-build-smooth-code-loadable-components-baz-foo-bar\\" */
   './bar'),
 
   requireSync(props) {
