@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies, react/no-multi-comp */
 import 'regenerator-runtime/runtime'
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import React from 'react'
 import { render, cleanup, wait } from '@testing-library/react'
 import loadable, { lazy } from './index'
