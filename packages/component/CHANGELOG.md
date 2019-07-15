@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.2](https://github.com/smooth-code/loadable-components/compare/v5.10.1...v5.10.2) (2019-07-15)
+
+
+### Bug Fixes
+
+* use === instead of Object.is ([c88cd82](https://github.com/smooth-code/loadable-components/commit/c88cd82)), closes [#371](https://github.com/smooth-code/loadable-components/issues/371)
+
+
+
+
+
 ## [5.10.1](https://github.com/smooth-code/loadable-components/compare/v5.10.0...v5.10.1) (2019-05-14)
 
 

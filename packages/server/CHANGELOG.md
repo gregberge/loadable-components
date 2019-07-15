@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.2](https://github.com/smooth-code/loadable-components/compare/v5.10.1...v5.10.2) (2019-07-15)
+
+
+### Performance Improvements
+
+* use more performant url join impl ([#353](https://github.com/smooth-code/loadable-components/issues/353)) ([c3fbbef](https://github.com/smooth-code/loadable-components/commit/c3fbbef))
+
+
+
+
+
 # [5.9.0](https://github.com/smooth-code/loadable-components/compare/v5.8.0...v5.9.0) (2019-04-23)
 
 
