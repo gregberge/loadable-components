@@ -21,6 +21,8 @@ module.exports = {
       appConfig.output.filename = dev
         ? 'static/js/[name].js'
         : 'static/js/[name].[chunkhash:8].js'
+      
+      appConfig.node = { fs: 'empty' } // fix "Cannot find module 'fs'" problem.
 
       appConfig.optimization = Object.assign({}, appConfig.optimization, {
         runtimeChunk: true,
