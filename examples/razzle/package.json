@@ -7,6 +7,7 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
+    "babel-jest": "^24.8.0",
     "@babel/runtime": "^7.1.5",
     "@reach/router": "^1.2.1",
     "common-tags": "^1.8.0",
@@ -15,5 +16,11 @@
     "razzle": "^3.0.0-alpha.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "@babel/template": "^7.4.4",
+    "@loadable/babel-plugin": "^5.10.0",
+    "@loadable/webpack-plugin": "^5.7.1",
+    "check-prop-types": "^1.1.2"
   }
 }
