@@ -41,7 +41,7 @@ export default function loadableReady(
     function checkReadyState() {
       if (
         requiredChunks.every(chunk =>
-          loadedChunks.some(([chunks]) => chunks.includes(chunk)),
+          loadedChunks.some(([chunks]) => chunks.indexOf(chunk) > -1),
         )
       ) {
         if (!resolved) {
