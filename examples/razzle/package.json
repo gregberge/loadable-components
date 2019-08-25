@@ -7,9 +7,11 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
-    "babel-jest": "^24.8.0",
     "@babel/runtime": "^7.1.5",
+    "@loadable/component": "^5.10.2",
+    "@loadable/server": "^5.10.2",
     "@reach/router": "^1.2.1",
+    "babel-jest": "^24.8.0",
     "common-tags": "^1.8.0",
     "express": "^4.16.2",
     "normalize.css": "^8.0.1",
