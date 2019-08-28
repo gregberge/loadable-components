@@ -1,3 +1,4 @@
+/* eslint-disable prefer-object-spread */
 const path = require('path')
 const LoadableWebpackPlugin = require('@loadable/webpack-plugin')
 const LoadableBabelPlugin = require('@loadable/babel-plugin')
@@ -21,7 +22,7 @@ module.exports = {
       appConfig.output.filename = dev
         ? 'static/js/[name].js'
         : 'static/js/[name].[chunkhash:8].js'
-      
+
       appConfig.node = { fs: 'empty' } // fix "Cannot find module 'fs'" problem.
 
       appConfig.optimization = Object.assign({}, appConfig.optimization, {
