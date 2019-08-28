@@ -9,7 +9,7 @@ const About = loadable(() => import('./About'))
 const Contact = loadable(() => import('./Contact'))
 
 const App = () => (
-  <React.Fragment>
+  <>
     <Link to="/">Home</Link>
     <Link to="/about">About</Link>
     <Link to="/contact">Contact</Link>
@@ -19,7 +19,7 @@ const App = () => (
       <About path="/about" fallback={<div>loading...</div>} />
       <Contact path="/contact" fallback={<div>loading...</div>} />
     </Router>
-  </React.Fragment>
+  </>
 )
 
 export default App
