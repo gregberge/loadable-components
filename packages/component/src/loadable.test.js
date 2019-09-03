@@ -197,6 +197,15 @@ describe('#loadable', () => {
     load.reject(new Error('boom'))
     await wait(() => expect(container).toHaveTextContent('error'))
   })
+
+  it('render error component when an error occurs and error option specified', async () => {
+    const load = createLoadFunction()
+    const Component = loadable(load, { error: 'errorProp' })
+    const { container } = render(<Component />)
+    expect(container).toBeEmpty()
+    load.reject(new Error('boom'))
+    await wait(() => expect(container).toHaveTextContent('errorProp'))
+  })
 })
 
 describe('#lazy', () => {

@@ -194,6 +194,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         }
 
         if (error) {
+          if (options.error !== undefined) {
+            return options.error
+          }
           throw error
         }
 
