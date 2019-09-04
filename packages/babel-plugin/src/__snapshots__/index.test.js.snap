@@ -527,6 +527,45 @@ exports[`plugin simple import should work with * in name 1`] = `
 });"
 `;
 
+exports[`plugin simple import should work with + concatenation 1`] = `
+"loadable({
+  chunkName() {
+    return \\"\\";
+  },
+
+  isReady(props) {
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[this.resolve(props)];
+    }
+
+    return false;
+  },
+
+  requireAsync: () => import(
+  /* webpackChunkName: \\"\\" */
+  './Mod' + 'A'),
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak('./Mod' + 'A');
+    }
+
+    return eval('require.resolve')('./Mod' + 'A');
+  }
+
+});"
+`;
+
 exports[`plugin simple import should work with template literal 1`] = `
 "loadable({
   chunkName() {

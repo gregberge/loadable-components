@@ -16,6 +16,12 @@ export default function resolveProperty({ types: t, template }) {
         importArg.node.quasis,
         importArg.node.expressions,
       )
+    } else if (importArg.isBinaryExpression()) {
+      return t.BinaryExpression(
+        importArg.node.operator,
+        importArg.node.left,
+        importArg.node.right,
+      )
     }
     return t.stringLiteral(importArg.node.value)
   }
