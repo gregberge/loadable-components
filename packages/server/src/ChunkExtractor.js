@@ -307,6 +307,21 @@ class ChunkExtractor {
     const assets = this.getChunkAssets(entrypoint)
     const mainAsset = assets.find(asset => asset.scriptType === 'script')
     invariant(mainAsset, 'asset not found')
+
+    this.stats.assets
+      .filter(({ name }) => {
+        const type = extensionToScriptType(
+          path
+            .extname(name)
+            .split('?')[0]
+            .toLowerCase(),
+        )
+        return type === 'script'
+      })
+      .forEach(({ name }) => {
+        smartRequire(path.join(this.outputPath, name.split('?')[0]))
+      })
+
     return smartRequire(mainAsset.path)
   }
 
