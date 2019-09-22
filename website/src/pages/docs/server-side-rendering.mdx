@@ -116,6 +116,18 @@ The `extractor.getScriptTags()` returns a string of multiple `<script>` tags mar
 
 Alternatively the `ChunkExtractor` also has a `getScriptElements()` method that returns an array of React elements.
 
+### Entrypoints
+
+By default, `ChunkExtractor` will collect chunks from the `main` entrypoint (which is the default behaviour of `webpack`), if you would
+like to change this, you can pass an `entrypoints` option like so.
+
+```js
+const extractor = new ChunkExtractor({ 
+  statsFile, 
+  entrypoints: ['client'] // name of the proper webpack endpoint (default: main)
+})
+```
+
 ## Streaming rendering
 
 Loadable is compatible with streaming rendering, if you use it you have to include script when the stream is complete.
