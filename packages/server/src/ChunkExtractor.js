@@ -33,10 +33,17 @@ function extraPropsToString(asset, extraProps) {
   )
 }
 
+function getSriHtmlAttributes(asset) {
+  if (!asset.integrity) {
+    return ''
+  }
+  return ` integrity="${asset.integrity}"`
+}
+
 function assetToScriptTag(asset, extraProps) {
   return `<script async data-chunk="${asset.chunk}" src="${
     asset.url
-  }"${extraPropsToString(asset, extraProps)}></script>`
+  }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}></script>`
 }
 
 function assetToScriptElement(asset, extraProps) {
@@ -66,7 +73,7 @@ function assetToStyleString(asset, { inputFileSystem }) {
 function assetToStyleTag(asset, extraProps) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
-  }"${extraPropsToString(asset, extraProps)}>`
+  }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
 }
 
 function assetToStyleTagInline(asset, extraProps, { inputFileSystem }) {
@@ -128,7 +135,7 @@ function assetToLinkTag(asset, extraProps) {
   const hint = LINK_ASSET_HINTS[asset.type]
   return `<link ${hint}="${asset.chunk}" rel="${asset.linkType}" as="${
     asset.scriptType
-  }" href="${asset.url}"${extraPropsToString(asset, extraProps)}>`
+  }" href="${asset.url}"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
 }
 
 function assetToLinkElement(asset, extraProps) {
@@ -325,6 +332,24 @@ class ChunkExtractor {
     return smartRequire(mainAsset.path)
   }
 
+  getSriFromFileName(filename) {
+    if (!filename) {
+      return null
+    }
+
+    const asset = this.stats.assets.find(x => x.name === filename)
+    if (!asset) {
+      return null
+    }
+
+    const { integrity } = asset
+    if (!integrity) {
+      return null
+    }
+
+    return { integrity }
+  }
+
   // Main assets
 
   getMainAssets(scriptType) {
@@ -340,7 +365,10 @@ class ChunkExtractor {
     const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptTags = mainAssets.map(asset =>
-      assetToScriptTag(asset, extraProps),
+      assetToScriptTag({
+        ...asset,
+        ...this.getSriFromFileName(asset.filename),
+      }, extraProps)
     )
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
@@ -351,7 +379,10 @@ class ChunkExtractor {
     )
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>
-      assetToScriptElement(asset, extraProps),
+      assetToScriptElement({
+        ...asset,
+        ...this.getSriFromFileName(asset.filename),
+      }, extraProps),
     )
     return [requiredScriptElement, ...assetsScriptElements]
   }
@@ -366,7 +397,12 @@ class ChunkExtractor {
 
   getStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return joinTags(mainAssets.map(asset => assetToStyleTag(asset, extraProps)))
+    return joinTags(mainAssets.map(asset =>
+      assetToStyleTag({
+        ...asset,
+        ...this.getSriFromFileName(asset.filename),
+      }, extraProps)
+    ))
   }
 
   getInlineStyleTags(extraProps = {}) {
@@ -379,7 +415,12 @@ class ChunkExtractor {
 
   getStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return mainAssets.map(asset => assetToStyleElement(asset, extraProps))
+    return mainAssets.map(asset =>
+      assetToStyleElement({
+        ...asset,
+        ...this.getSriFromFileName(asset.filename),
+      }, extraProps)
+    )
   }
 
   getInlineStyleElements(extraProps = {}) {

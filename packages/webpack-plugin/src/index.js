@@ -4,12 +4,19 @@ const mkdirp = require('mkdirp')
 
 class LoadablePlugin {
   constructor({
+    additionalAssetAttributes = [],
     filename = 'loadable-stats.json',
     path,
     writeToDisk,
     outputAsset = true,
   } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path }
+    this.opts = {
+      additionalAssetAttributes,
+      filename,
+      writeToDisk,
+      outputAsset,
+      path,
+    }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -26,6 +33,24 @@ class LoadablePlugin {
       errorDetails: false,
       timings: false,
     })
+
+    // include extra asset keys if present
+    stats.assets = stats.assets.map((asset) => {
+      const assetAttributes = hookCompiler.assets[asset.name];
+
+      const validAssetAttributes = Object.keys(assetAttributes)
+        .filter(key => this.opts.additionalAssetAttributes.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = assetAttributes[key];
+          return obj;
+        }, {});
+    
+      return ({
+        ...asset,
+        ...validAssetAttributes,
+      })
+    })
+
     const result = JSON.stringify(stats, null, 2)
 
     if (this.opts.outputAsset) {
