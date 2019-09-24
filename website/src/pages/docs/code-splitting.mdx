@@ -43,6 +43,25 @@ If you’re setting up Webpack yourself, you’ll probably want to read [Webpack
 
 When using Babel, you’ll need to make sure that Babel can parse the dynamic import syntax but is not transforming it. For that you will need [@babel/plugin-syntax-dynamic-import](https://www.npmjs.com/package/@babel/plugin-syntax-dynamic-import).
 
+## Named `import()`
+
+Weckpack's default behaviour, is to name them as `x.js` where x is an incremental number depending on how many dynamic
+chunks you are importing in your code.
+
+This will give a very poorly view of which file is loading what code.
+
+To fix that, webpack introduced magic comments, with which a chunck can be named as follows (ie: `math.js`). 
+
+```js
+import(/* webpackChunkName: "math" */ './math').then(math => {
+  console.log(math.add(16, 26))
+})
+```
+
+>NOTE: 
+>When using [Server Side Rendering](/docs/server-side-rendering/), make sure comment and file path are exacly in the same order as above.
+
+
 ## Code Splitting + React
 
 React supports code splitting out of the box with [`React.lazy`](https://reactjs.org/docs/code-splitting.html#reactlazy). However it has [some limitations](/docs/loadable-vs-react-lazy), this is why `@loadable/component` exists.
