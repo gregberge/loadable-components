@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.3](https://github.com/smooth-code/loadable-components/compare/v5.10.2...v5.10.3) (2019-09-24)
+
+
+### Bug Fixes
+
+* **babel-plugin:** fix bug when using + concatenation instead of a template literal ([#425](https://github.com/smooth-code/loadable-components/issues/425)) ([d98dd27](https://github.com/smooth-code/loadable-components/commit/d98dd27))
+
+
+
+
+
 # [5.10.0](https://github.com/smooth-code/loadable-components/compare/v5.9.0...v5.10.0) (2019-05-13)
 
 

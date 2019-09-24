@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.3](https://github.com/smooth-code/loadable-components/compare/v5.10.2...v5.10.3) (2019-09-24)
+
+
+### Bug Fixes
+
+* support IE 11 without polyfill ([#416](https://github.com/smooth-code/loadable-components/issues/416)) ([80ee809](https://github.com/smooth-code/loadable-components/commit/80ee809)), closes [#397](https://github.com/smooth-code/loadable-components/issues/397)
+
+
+
+
+
 ## [5.10.2](https://github.com/smooth-code/loadable-components/compare/v5.10.1...v5.10.2) (2019-07-15)
 
 
