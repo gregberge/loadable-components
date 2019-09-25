@@ -347,7 +347,7 @@ class ChunkExtractor {
     const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptTags = mainAssets.map(asset =>
-      assetToScriptTag(asset, extraProps)
+      assetToScriptTag(asset, extraProps),
     )
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
@@ -373,9 +373,7 @@ class ChunkExtractor {
 
   getStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return joinTags(mainAssets.map(asset =>
-      assetToStyleTag(asset, extraProps)
-    ))
+    return joinTags(mainAssets.map(asset => assetToStyleTag(asset, extraProps)))
   }
 
   getInlineStyleTags(extraProps = {}) {
@@ -388,9 +386,7 @@ class ChunkExtractor {
 
   getStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
-    return mainAssets.map(asset =>
-      assetToStyleElement(asset, extraProps)
-    )
+    return mainAssets.map(asset => assetToStyleElement(asset, extraProps))
   }
 
   getInlineStyleElements(extraProps = {}) {
