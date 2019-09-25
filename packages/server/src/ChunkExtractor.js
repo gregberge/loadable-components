@@ -33,10 +33,17 @@ function extraPropsToString(asset, extraProps) {
   )
 }
 
+function getSriHtmlAttributes(asset) {
+  if (!asset.integrity) {
+    return ''
+  }
+  return ` integrity="${asset.integrity}"`
+}
+
 function assetToScriptTag(asset, extraProps) {
   return `<script async data-chunk="${asset.chunk}" src="${
     asset.url
-  }"${extraPropsToString(asset, extraProps)}></script>`
+  }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}></script>`
 }
 
 function assetToScriptElement(asset, extraProps) {
@@ -66,7 +73,7 @@ function assetToStyleString(asset, { inputFileSystem }) {
 function assetToStyleTag(asset, extraProps) {
   return `<link data-chunk="${asset.chunk}" rel="stylesheet" href="${
     asset.url
-  }"${extraPropsToString(asset, extraProps)}>`
+  }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
 }
 
 function assetToStyleTagInline(asset, extraProps, { inputFileSystem }) {
@@ -128,7 +135,7 @@ function assetToLinkTag(asset, extraProps) {
   const hint = LINK_ASSET_HINTS[asset.type]
   return `<link ${hint}="${asset.chunk}" rel="${asset.linkType}" as="${
     asset.scriptType
-  }" href="${asset.url}"${extraPropsToString(asset, extraProps)}>`
+  }" href="${asset.url}"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
 }
 
 function assetToLinkElement(asset, extraProps) {
