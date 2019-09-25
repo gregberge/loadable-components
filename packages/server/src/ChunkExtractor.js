@@ -332,24 +332,6 @@ class ChunkExtractor {
     return smartRequire(mainAsset.path)
   }
 
-  getSriFromFileName(filename) {
-    if (!filename) {
-      return null
-    }
-
-    const asset = this.stats.assets.find(x => x.name === filename)
-    if (!asset) {
-      return null
-    }
-
-    const { integrity } = asset
-    if (!integrity) {
-      return null
-    }
-
-    return { integrity }
-  }
-
   // Main assets
 
   getMainAssets(scriptType) {
@@ -365,10 +347,7 @@ class ChunkExtractor {
     const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptTags = mainAssets.map(asset =>
-      assetToScriptTag({
-        ...asset,
-        ...this.getSriFromFileName(asset.filename),
-      }, extraProps)
+      assetToScriptTag(asset, extraProps)
     )
     return joinTags([requiredScriptTag, ...assetsScriptTags])
   }
@@ -379,10 +358,7 @@ class ChunkExtractor {
     )
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>
-      assetToScriptElement({
-        ...asset,
-        ...this.getSriFromFileName(asset.filename),
-      }, extraProps),
+      assetToScriptElement(asset, extraProps),
     )
     return [requiredScriptElement, ...assetsScriptElements]
   }
@@ -398,10 +374,7 @@ class ChunkExtractor {
   getStyleTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     return joinTags(mainAssets.map(asset =>
-      assetToStyleTag({
-        ...asset,
-        ...this.getSriFromFileName(asset.filename),
-      }, extraProps)
+      assetToStyleTag(asset, extraProps)
     ))
   }
 
@@ -416,10 +389,7 @@ class ChunkExtractor {
   getStyleElements(extraProps = {}) {
     const mainAssets = this.getMainAssets('style')
     return mainAssets.map(asset =>
-      assetToStyleElement({
-        ...asset,
-        ...this.getSriFromFileName(asset.filename),
-      }, extraProps)
+      assetToStyleElement(asset, extraProps)
     )
   }
 
