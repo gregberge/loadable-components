@@ -50,17 +50,19 @@ app.get(
     const html = renderToString(jsx)
 
     res.set('content-type', 'text/html')
-    res.send(`<!DOCTYPE html>
-<html>
-<head>
-${webExtractor.getLinkTags()}
-${webExtractor.getStyleTags()}
-</head>
-<body>
-  <div id="main">${html}</div>
-  ${webExtractor.getScriptTags()}
-</body>
-</html>`)
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+        ${webExtractor.getLinkTags()}
+        ${webExtractor.getStyleTags()}
+        </head>
+        <body>
+          <div id="main">${html}</div>
+          ${webExtractor.getScriptTags()}
+        </body>
+      </html>
+    `)
   },
 )
 
