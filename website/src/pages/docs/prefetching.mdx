@@ -44,7 +44,7 @@ function App() {
 }
 
 const OtherComponent = loadable(() =>
-  import(/* webpackPrefetch: true */ './OtherComponent'),
+  import(/* webpackPreload: true */ './OtherComponent'),
 )
 ```
 
