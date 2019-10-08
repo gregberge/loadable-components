@@ -9,5 +9,5 @@ export default function requireAsyncProperty({ types: t }) {
   }
 
   return ({ funcPath }) =>
-    t.objectProperty(t.identifier('requireAsync'), getFunc(funcPath))
+    t.objectProperty(t.identifier('importAsync'), getFunc(funcPath))
 }
