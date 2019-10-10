@@ -74,7 +74,13 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           // So we can require now the module synchronously
           this.loadSync()
 
-          props.__chunkExtractor.addChunk(ctor.chunkName(props))
+          const chunkExtractors = Array.isArray(props.__chunkExtractor)
+            ? props.__chunkExtractor
+            : [props.__chunkExtractor]
+          chunkExtractors.forEach(extractor =>
+            extractor.addChunk(ctor.chunkName(props)),
+          )
+
           return
         }
 
