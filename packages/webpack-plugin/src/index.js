@@ -52,7 +52,7 @@ class LoadablePlugin {
    */
   writeAssetsFile = manifest => {
     const outputFolder =
-      this.path || this.opts.writeToDisk.filename || this.compiler.options.output.path
+      this.opts.path || this.opts.writeToDisk.filename || this.compiler.options.output.path
 
     const outputFile = nodePath.resolve(outputFolder, this.opts.filename)
 
