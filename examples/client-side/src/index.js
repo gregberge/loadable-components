@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { render } from 'react-dom'
-import loadable from '../../../packages/component'
+import loadable from '@loadable/component'
 
 const Hello = loadable(() => import('./Hello'))
 const Dynamic = loadable(p => import(`./${p.name}`), {

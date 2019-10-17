@@ -1,9 +1,13 @@
 {
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "dev": "webpack-dev-server"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-react": "^7.6.3",
     "babel-loader": "^8.0.4",
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.30.0",
@@ -11,6 +15,7 @@
     "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
+    "@loadable/component": "^5.10.3",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
