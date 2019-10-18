@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { render } from 'react-dom'
-import { lazy } from '../../../packages/component'
+import { lazy } from '@loadable/component'
 
 const Hello = lazy(() => import('./Hello'))
 const Moment = lazy.lib(() => import('moment'))
