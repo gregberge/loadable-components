@@ -2,9 +2,9 @@ export default function requireAsyncProperty({types: t, template}) {
 
   const tracking = template.ast(`
     const key = this.resolve(props)
-    this.loading[key] = true
+    this.resolved[key] = false
     return this.importAsync(props).then(resolved => {
-     this.loading[key] = false;
+     this.resolved[key] = true
      return resolved;
     });        
   `);

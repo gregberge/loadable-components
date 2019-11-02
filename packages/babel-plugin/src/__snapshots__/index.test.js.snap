@@ -4,7 +4,7 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
 "const load =
 /* IMPORTANT! */
 {
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"moment\\";
@@ -13,7 +13,7 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -30,9 +30,9 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -60,7 +60,7 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
 
 exports[`plugin Magic comment should transpile arrow functions 1`] = `
 "const load = {
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"moment\\";
@@ -69,7 +69,7 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -86,9 +86,9 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -116,7 +116,7 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
 
 exports[`plugin Magic comment should transpile function expression 1`] = `
 "const load = {
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"moment\\";
@@ -125,7 +125,7 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -144,9 +144,9 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -175,7 +175,7 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
 exports[`plugin Magic comment should transpile shortand properties 1`] = `
 "const obj = {
   load: {
-    loading: {},
+    resolved: {},
 
     chunkName() {
       return \\"moment\\";
@@ -184,7 +184,7 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
     isReady(props) {
       const key = this.resolve(props);
 
-      if (this.loading[key]) {
+      if (this.resolved[key] === false) {
         return false;
       }
 
@@ -203,9 +203,9 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
 
     requireAsync(props) {
       const key = this.resolve(props);
-      this.loading[key] = true;
+      this.resolved[key] = false;
       return this.importAsync(props).then(resolved => {
-        this.loading[key] = false;
+        this.resolved[key] = true;
         return resolved;
       });
     },
@@ -234,7 +234,7 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
 
 exports[`plugin aggressive import should work with destructuration 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName({
     foo
@@ -245,7 +245,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -264,9 +264,9 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -296,7 +296,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 
 exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName(props) {
     return \`\${props.foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
@@ -305,7 +305,7 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -322,9 +322,9 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -352,7 +352,7 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 
 exports[`plugin aggressive import without "webpackChunkName" should support complex request 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName(props) {
     return \`dir-\${props.foo}-test\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
@@ -361,7 +361,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -378,9 +378,9 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -408,7 +408,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
 
 exports[`plugin aggressive import without "webpackChunkName" should support destructuring 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName({
     foo
@@ -419,7 +419,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -438,9 +438,9 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -470,7 +470,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
 
 exports[`plugin aggressive import without "webpackChunkName" should support simple request 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName(props) {
     return \`\${props.foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
@@ -479,7 +479,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -496,9 +496,9 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -526,7 +526,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
 
 exports[`plugin loadable.lib should be transpiled too 1`] = `
 "loadable.lib({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"moment\\";
@@ -535,7 +535,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -552,9 +552,9 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -582,7 +582,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 
 exports[`plugin simple import in a complex promise should work 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"ModA\\";
@@ -591,7 +591,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -608,9 +608,9 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -638,7 +638,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 
 exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"foo-bar\\";
@@ -647,7 +647,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -664,9 +664,9 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -694,7 +694,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 
 exports[`plugin simple import should work with * in name 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \`foo\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
@@ -703,7 +703,7 @@ exports[`plugin simple import should work with * in name 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -720,9 +720,9 @@ exports[`plugin simple import should work with * in name 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -750,7 +750,7 @@ exports[`plugin simple import should work with * in name 1`] = `
 
 exports[`plugin simple import should work with + concatenation 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"\\";
@@ -759,7 +759,7 @@ exports[`plugin simple import should work with + concatenation 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -776,9 +776,9 @@ exports[`plugin simple import should work with + concatenation 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -806,7 +806,7 @@ exports[`plugin simple import should work with + concatenation 1`] = `
 
 exports[`plugin simple import should work with template literal 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
@@ -815,7 +815,7 @@ exports[`plugin simple import should work with template literal 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -832,9 +832,9 @@ exports[`plugin simple import should work with template literal 1`] = `
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -862,7 +862,7 @@ exports[`plugin simple import should work with template literal 1`] = `
 
 exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"ChunkA\\";
@@ -871,7 +871,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -888,9 +888,9 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -918,7 +918,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
 
 exports[`plugin simple import with "webpackChunkName" comment should use it even if comment is separated by "," 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"ChunkA\\";
@@ -927,7 +927,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -944,9 +944,9 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
@@ -974,7 +974,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
 
 exports[`plugin simple import without "webpackChunkName" comment should add it 1`] = `
 "loadable({
-  loading: {},
+  resolved: {},
 
   chunkName() {
     return \\"ModA\\";
@@ -983,7 +983,7 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.loading[key]) {
+    if (this.resolved[key] === false) {
       return false;
     }
 
@@ -1000,9 +1000,9 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.loading[key] = true;
+    this.resolved[key] = false;
     return this.importAsync(props).then(resolved => {
-      this.loading[key] = false;
+      this.resolved[key] = true;
       return resolved;
     });
   },
