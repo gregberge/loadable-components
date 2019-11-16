@@ -5,7 +5,7 @@
   "repository": "git@github.com:smooth-code/loadable-components.git",
   "author": "Jacky Efendi <jacky.efendi1@gmail.com>",
   "bin": {
-    "@loadable/codemod": "./bin/main.js"
+    "loadable-codemod": "./bin/main.js"
   },
   "publishConfig": {
     "access": "public"
