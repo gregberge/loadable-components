@@ -1,5 +1,5 @@
 {
-  "name": "@loadable/codemod",
+  "name": "loadable-codemod",
   "description": "Various codemods related to @loadable/components for easier migration/ugprades",
   "version": "0.0.1",
   "repository": "git@github.com:smooth-code/loadable-components.git",
