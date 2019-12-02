@@ -180,6 +180,12 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           ...props
         } = this.props
         const { error, loading, result } = this.state
+        const loadableProps = {};
+
+        if (props.__chunkExtractor) {
+          loadableProps.loadableChunkName = ctor.chunkName(this.props);
+          loadableProps.loadableChunkExtractor = __chunkExtractor;
+        }
 
         if (options.suspense) {
           const cachedResult = this.getCache()
@@ -189,7 +195,11 @@ function createLoadable({ resolve = identity, render, onLoad }) {
             fallback: null,
             result: cachedResult,
             options,
-            props: { ...props, ref: forwardedRef },
+            props: {
+              ...loadableProps,
+              ...props,
+              ref: forwardedRef,
+            },
           })
         }
 
@@ -208,7 +218,11 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           fallback,
           result,
           options,
-          props: { ...props, ref: forwardedRef },
+          props: {
+            ...loadableProps,
+            ...props,
+            ref: forwardedRef,
+          },
         })
       }
     }
