@@ -1,13 +1,17 @@
 import syntaxDynamicImport from '@babel/plugin-syntax-dynamic-import'
 import chunkNameProperty from './properties/chunkName'
 import isReadyProperty from './properties/isReady'
+import importAsyncProperty from './properties/importAsync'
 import requireAsyncProperty from './properties/requireAsync'
 import requireSyncProperty from './properties/requireSync'
 import resolveProperty from './properties/resolve'
+import stateProperty from './properties/state';
 
 const properties = [
+  stateProperty,
   chunkNameProperty,
   isReadyProperty,
+  importAsyncProperty,
   requireAsyncProperty,
   requireSyncProperty,
   resolveProperty,

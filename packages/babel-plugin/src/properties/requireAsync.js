@@ -1,13 +1,19 @@
-export default function requireAsyncProperty({ types: t }) {
-  function getFunc(funcPath) {
-    if (funcPath.isObjectMethod()) {
-      const { params, body, async } = funcPath.node
-      return t.arrowFunctionExpression(params, body, async)
-    }
+export default function requireAsyncProperty({types: t, template}) {
 
-    return funcPath.node
-  }
+  const tracking = template.ast(`
+    const key = this.resolve(props)
+    this.resolved[key] = false
+    return this.importAsync(props).then(resolved => {
+     this.resolved[key] = true
+     return resolved;
+    });        
+  `);
 
-  return ({ funcPath }) =>
-    t.objectProperty(t.identifier('requireAsync'), getFunc(funcPath))
+  return () =>
+    t.objectMethod(
+      'method',
+      t.identifier('requireAsync'),
+      [t.identifier('props')],
+      t.blockStatement(tracking),
+    )
 }

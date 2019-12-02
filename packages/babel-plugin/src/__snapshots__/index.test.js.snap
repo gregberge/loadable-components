@@ -4,21 +4,38 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
 "const load =
 /* IMPORTANT! */
 {
+  resolved: {},
+
   chunkName() {
     return \\"moment\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"moment\\" */
   'moment'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -43,21 +60,38 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
 
 exports[`plugin Magic comment should transpile arrow functions 1`] = `
 "const load = {
+  resolved: {},
+
   chunkName() {
     return \\"moment\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"moment\\" */
   'moment'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -82,22 +116,39 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
 
 exports[`plugin Magic comment should transpile function expression 1`] = `
 "const load = {
+  resolved: {},
+
   chunkName() {
     return \\"moment\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: function () {
+  importAsync: function () {
     return import(
     /* webpackChunkName: \\"moment\\" */
     'moment');
+  },
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
   },
 
   requireSync(props) {
@@ -124,22 +175,39 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
 exports[`plugin Magic comment should transpile shortand properties 1`] = `
 "const obj = {
   load: {
+    resolved: {},
+
     chunkName() {
       return \\"moment\\";
     },
 
     isReady(props) {
+      const key = this.resolve(props);
+
+      if (this.resolved[key] === false) {
+        return false;
+      }
+
       if (typeof __webpack_modules__ !== 'undefined') {
-        return !!__webpack_modules__[this.resolve(props)];
+        return !!__webpack_modules__[key];
       }
 
       return false;
     },
 
-    requireAsync: () => {
+    importAsync: () => {
       return import(
       /* webpackChunkName: \\"moment\\" */
       'moment');
+    },
+
+    requireAsync(props) {
+      const key = this.resolve(props);
+      this.resolved[key] = false;
+      return this.importAsync(props).then(resolved => {
+        this.resolved[key] = true;
+        return resolved;
+      });
     },
 
     requireSync(props) {
@@ -166,6 +234,8 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
 
 exports[`plugin aggressive import should work with destructuration 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName({
     foo
   }) {
@@ -173,18 +243,33 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: ({
+  importAsync: ({
     foo
   }) => import(
   /* webpackChunkName: \\"[request]\\" */
   \`./\${foo}\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -211,21 +296,38 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 
 exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName(props) {
     return \`\${props.foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: props => import(
+  importAsync: props => import(
   /* webpackChunkName: \\"[request]\\" */
   \`./\${props.foo}\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -250,21 +352,38 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 
 exports[`plugin aggressive import without "webpackChunkName" should support complex request 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName(props) {
     return \`dir-\${props.foo}-test\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: props => import(
+  importAsync: props => import(
   /* webpackChunkName: \\"dir-[request]\\" */
   \`./dir/\${props.foo}/test\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -289,6 +408,8 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
 
 exports[`plugin aggressive import without "webpackChunkName" should support destructuring 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName({
     foo
   }) {
@@ -296,18 +417,33 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: ({
+  importAsync: ({
     foo
   }) => import(
   /* webpackChunkName: \\"dir-[request]\\" */
   \`./dir/\${foo}/test\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -334,21 +470,38 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
 
 exports[`plugin aggressive import without "webpackChunkName" should support simple request 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName(props) {
     return \`\${props.foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: props => import(
+  importAsync: props => import(
   /* webpackChunkName: \\"[request]\\" */
   \`./\${props.foo}\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -373,21 +526,38 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
 
 exports[`plugin loadable.lib should be transpiled too 1`] = `
 "loadable.lib({
+  resolved: {},
+
   chunkName() {
     return \\"moment\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"moment\\" */
   'moment'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -412,21 +582,38 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 
 exports[`plugin simple import in a complex promise should work 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \\"ModA\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => timeout(import(
+  importAsync: () => timeout(import(
   /* webpackChunkName: \\"ModA\\" */
   './ModA'), 2000),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -451,21 +638,38 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 
 exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \\"foo-bar\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"foo-bar\\" */
   '../foo/bar'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -490,21 +694,38 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 
 exports[`plugin simple import should work with * in name 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \`foo\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"foo\\" */
   \`./foo*\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -529,21 +750,38 @@ exports[`plugin simple import should work with * in name 1`] = `
 
 exports[`plugin simple import should work with + concatenation 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \\"\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"\\" */
   './Mod' + 'A'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -568,21 +806,38 @@ exports[`plugin simple import should work with + concatenation 1`] = `
 
 exports[`plugin simple import should work with template literal 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"ModA\\" */
   \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -607,21 +862,38 @@ exports[`plugin simple import should work with template literal 1`] = `
 
 exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \\"ChunkA\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"ChunkA\\" */
   './ModA'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -646,21 +918,38 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
 
 exports[`plugin simple import with "webpackChunkName" comment should use it even if comment is separated by "," 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \\"ChunkA\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackPrefetch: true, webpackChunkName: \\"ChunkA\\" */
   './ModA'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
@@ -685,21 +974,38 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
 
 exports[`plugin simple import without "webpackChunkName" comment should add it 1`] = `
 "loadable({
+  resolved: {},
+
   chunkName() {
     return \\"ModA\\";
   },
 
   isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
     if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[this.resolve(props)];
+      return !!__webpack_modules__[key];
     }
 
     return false;
   },
 
-  requireAsync: () => import(
+  importAsync: () => import(
   /* webpackChunkName: \\"ModA\\" */
   './ModA'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
 
   requireSync(props) {
     const id = this.resolve(props);
