@@ -42,10 +42,6 @@ function App() {
     </div>
   )
 }
-
-const OtherComponent = loadable(() =>
-  import(/* webpackPrefetch: true */ './OtherComponent'),
-)
 ```
 
 > `preload` is not available server-side, you should only call it client-side. If you want to use prefetching server-side, use webpack hints instead.
