@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.11.0](https://github.com/smooth-code/loadable-components/compare/v5.10.3...v5.11.0) (2019-12-02)
+
+
+### Bug Fixes
+
+* fix isReady problem ([#445](https://github.com/smooth-code/loadable-components/issues/445)) ([3024348](https://github.com/smooth-code/loadable-components/commit/30243482be917e89515d057e2368e7278e34696c)), closes [#400](https://github.com/smooth-code/loadable-components/issues/400)
+
+
+
+
+
 ## [5.10.3](https://github.com/smooth-code/loadable-components/compare/v5.10.2...v5.10.3) (2019-09-24)
 
 

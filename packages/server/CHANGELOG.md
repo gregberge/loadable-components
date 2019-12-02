@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.11.0](https://github.com/smooth-code/loadable-components/compare/v5.10.3...v5.11.0) (2019-12-02)
+
+
+### Bug Fixes
+
+* **server:** use require instead of module.require ([#457](https://github.com/smooth-code/loadable-components/issues/457)) ([064b4f8](https://github.com/smooth-code/loadable-components/commit/064b4f83b291e8a7d73bc44fe4196dc9ddc81fe8)), closes [#455](https://github.com/smooth-code/loadable-components/issues/455)
+
+
+### Features
+
+* add support for SRI (integrity) (with webpack-subresource-integrity) ([#436](https://github.com/smooth-code/loadable-components/issues/436)) ([586ad0a](https://github.com/smooth-code/loadable-components/commit/586ad0af6e172e3a0bffdbe0c8ab682c0d8b0eab))
+
+
+
+
+
 ## [5.10.3](https://github.com/smooth-code/loadable-components/compare/v5.10.2...v5.10.3) (2019-09-24)
 
 
