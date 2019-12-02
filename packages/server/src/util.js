@@ -14,7 +14,7 @@ export const smartRequire = modulePath => {
   }
 
   // eslint-disable-next-line global-require, import/no-dynamic-require, no-eval
-  return eval('module.require')(modulePath)
+  return eval('require')(modulePath)
 }
 
 export const joinURLPath = (publicPath, filename) => {
