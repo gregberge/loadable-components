@@ -3,3 +3,4 @@ dist/
 lib/
 /coverage/
 examples/*/yarn.lock
+.idea
