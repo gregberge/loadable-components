@@ -182,7 +182,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         const { error, loading, result } = this.state
         const loadableProps = {};
 
-        if (props.__chunkExtractor) {
+        if (__chunkExtractor) {
           loadableProps.loadableChunkName = ctor.chunkName(this.props);
           loadableProps.loadableChunkExtractor = __chunkExtractor;
         }
