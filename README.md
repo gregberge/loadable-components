@@ -16,15 +16,15 @@
 npm install @loadable/component
 ```
 
-## [Docs](https://www.gregberge.com/open-source/loadable-components)
+## [Docs](https://loadable-components.com)
 
-**See the documentation at [gregberge.com/open-source/loadable-components](https://www.gregberge.com/open-source/loadable-components)** for more information about using Loadable Components!
+**See the documentation at [loadable-components.com](https://loadable-components.com)** for more information about using Loadable Components!
 
 Quicklinks to some of the most-visited pages:
 
-- [**Getting started**](https://www.gregberge.com/open-source/loadable-components/docs/getting-started/)
-- [Comparison with React.lazy](https://www.gregberge.com/open-source/loadable-components/docs/loadable-vs-react-lazy/)
-- [Server Side Rendering](https://www.gregberge.com/open-source/loadable-components/docs/server-side-rendering/)
+- [**Getting started**](https://loadable-components.com/docs/getting-started/)
+- [Comparison with React.lazy](https://loadable-components.com/docs/loadable-vs-react-lazy/)
+- [Server Side Rendering](https://loadable-components.com/docs/server-side-rendering/)
 
 ## Example
 
