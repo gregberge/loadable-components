@@ -11626,10 +11626,10 @@ slugify@^1.3.6:
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.3.6.tgz#ba5fd6159b570fe4811d02ea9b1f4906677638c3"
   integrity sha512-wA9XS475ZmGNlEnYYLPReSfuz/c3VQsEMoU43mi6OnKMCdbnFXd4/Yg7J0lBv8jkPolacMpOrWEaoYxuE1+hoQ==
 
-smooth-doc@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/smooth-doc/-/smooth-doc-3.2.1.tgz#6bfac9440f1feda877380349aba78ee7920c3fca"
-  integrity sha512-lKsD45rfv8rLiQFDpRQ+Oh4IQVrimUdW6RHV/8GKmEQHSTAmq+lG43KC5VlbEXyQQINtt/b7JCPdLzrQnkN//w==
+smooth-doc@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/smooth-doc/-/smooth-doc-3.3.0.tgz#6e3c5770089e9aaeb472d596628786564cb01d81"
+  integrity sha512-BdsmTWdT8PeWo19R16eKaHRTXK7k6C3i5X8fDd5tIyIAgCe+PnxNSkZJyxVPzV/XdC8N7o7XF7QjLdOIkjGUaA==
   dependencies:
     "@mdx-js/mdx" "^1.5.1"
     "@mdx-js/react" "^1.5.1"
