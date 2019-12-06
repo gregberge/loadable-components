@@ -12,6 +12,7 @@ module.exports = {
         menu: ['Introduction', 'Guides', 'API'],
         nav: [{ title: 'Docs', url: '/docs/' }],
         codeFundProperty: 268,
+        googleAnalytics: 'UA-154156493-1',
         algoliaDocSearch: {
           apiKey: 'e6a731577a7b94aefdbb1fb7dcc71e68',
           indexName: 'smooth-code-loadable-components',
