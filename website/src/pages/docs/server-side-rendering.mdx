@@ -79,7 +79,7 @@ loadableReady(() => {
 })
 ```
 
-**🚀 [Checkout the complete example in this repository](https://github.com/smooth-code/loadable-components/tree/master/examples/server-side-rendering)**
+**🚀 [Checkout the complete example in this repository](https://github.com/gregberge/loadable-components/tree/master/examples/server-side-rendering)**
 
 ## Collecting chunks
 
@@ -135,10 +135,7 @@ const jsx = chunkExtractor.collectChunks(<YourApp />)
 const stream = renderToNodeStream(jsx)
 
 // you'd then pipe the stream into the response object until it's done
-stream.pipe(
-  res,
-  { end: false },
-)
+stream.pipe(res, { end: false })
 
 // and finalize the response with closing HTML
 stream.on('end', () =>
@@ -228,19 +225,20 @@ The default behaviour of webpack, is to create an asset called `main.js` if no n
 
 ```js
 module.exports = {
-  entry: './src/index.js'
+  entry: './src/index.js',
   // ...
 }
 ```
+
 [Checkout webpack's entry naming configuration](https://webpack.js.org/configuration/entry-context/#naming).
 
->`ChunkExtractor` will try to find your `main.js`, and will look into `loadable-stats.json` to confirm it's there.
+> `ChunkExtractor` will try to find your `main.js`, and will look into `loadable-stats.json` to confirm it's there.
 
 If for instance, your wish is to get a different named entry, you will need to pass an `entrypoints` option.
 
 ```js
 const extractor = new ChunkExtractor({
   statsFile,
-  entrypoints: ['client'] // array of webpack entries (default: ['main'])
+  entrypoints: ['client'], // array of webpack entries (default: ['main'])
 })
 ```

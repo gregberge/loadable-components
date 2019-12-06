@@ -10,7 +10,7 @@ npm install @loadable/component
 
 ## Documentation
 
-👉 [See full documentation](https://www.smooth-code.com/open-source/loadable-components/)
+👉 [See full documentation](https://loadable-components.com/)
 
 ## License
 

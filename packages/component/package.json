@@ -4,7 +4,7 @@
   "version": "5.11.0",
   "main": "dist/loadable.cjs.js",
   "module": "dist/loadable.esm.js",
-  "repository": "git@github.com:smooth-code/loadable-components.git",
+  "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "publishConfig": {
     "access": "public"
@@ -22,6 +22,10 @@
   ],
   "engines": {
     "node": ">=8"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/gregberge"
   },
   "license": "MIT",
   "scripts": {

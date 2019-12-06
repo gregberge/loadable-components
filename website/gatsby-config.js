@@ -8,7 +8,7 @@ module.exports = {
         author: 'Greg Bergé',
         description: 'The recommended Code Splitting library for React.',
         siteUrl: 'https://loadable-components.com',
-        github: 'https://github.com/smooth-code/loadable-components',
+        github: 'https://github.com/gregberge/loadable-components',
         menu: ['Introduction', 'Guides', 'API'],
         nav: [{ title: 'Docs', url: '/docs/' }],
         codeFundProperty: 268,
