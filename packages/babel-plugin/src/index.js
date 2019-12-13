@@ -32,6 +32,49 @@ const loadablePlugin = api => {
     return imports
   }
 
+  function isImportCall(path) {
+    if (path.type === 'CallExpression') {
+      const { callee } = path;
+      if (callee.type === 'Import') {
+        return true;
+      }
+    }
+    return false
+  }
+
+  function isFunctionBodyWhichReturnsImportCall(path) {
+    if (path.type === 'BlockStatement') {
+      const { body: methodBody } = path;
+      if (methodBody.length === 1) {
+        const [statement] = methodBody;
+        if (statement.type === 'ReturnStatement') {
+          const { argument: returnExpression } = statement;
+          if (isImportCall(returnExpression)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  function isFunctionAndOnlyReturnsImport(importCreator) {
+    if (importCreator.type === 'ArrowFunctionExpression') {
+      const { body } = importCreator;
+      if (isImportCall(body) || isFunctionBodyWhichReturnsImportCall(body)) {
+        return true;
+      }
+    }
+
+    if (['ObjectMethod', 'FunctionExpression'].indexOf(importCreator.type) !== -1) {
+      const { body } = importCreator;
+      if (isFunctionBodyWhichReturnsImportCall(body)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const propertyFactories = properties.map(init => init(api))
 
   function isValidIdentifier(path) {
@@ -72,10 +115,18 @@ const loadablePlugin = api => {
   }
 
   function transformImport(path) {
-    const callPaths = collectImportCallPaths(path)
+    const importCreator = path.node.type === 'CallExpression'
+      ? path.node.arguments[0] // loadable((...) => import(...)) or loadable.lib
+      : path.node; // /* #__LOADABLE__ */ () => import(...)
 
-    // Ignore loadable function that does not have any "import" call
-    if (callPaths.length === 0) return
+      if (!isFunctionAndOnlyReturnsImport(importCreator)) {
+      throw new Error(
+        'The first argument to `loadable()` must be a function with a single statement that returns a call to `import()`' +
+        'See https://loadable-components.com/docs/api-loadable-component/#loadfn for more information',
+      );
+    }
+
+    const callPaths = collectImportCallPaths(path)
 
     // Multiple imports call is not supported
     if (callPaths.length > 1) {

@@ -25,6 +25,13 @@ import loadable from '@loadable/component'
 const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
 
+### `loadFn`
+This is a function that returns a promise which resolves to the module where the component is exported.
+
+**Note:** It is highly recommended that you do not do anything in this function except returning an `import()` statement.
+This is because such functionality [will not work](/docs/babel-plugin/#detection-of-wrapped-imports) when using the [Babel plugin](/docs/babel-plugin/) or during [server side rendering](/docs/server-side-rendering/).
+For most use cases you can instead use the [`guard`](/docs/api-loadable-component/#optionsguard) option (e.g. for delays/timeouts), or the [`resolveComponent`](/docs/api-loadable-component/#optionsresolvecomponent) option (e.g. for wrapping the imported component).
+
 
 ### `options.guard`
 

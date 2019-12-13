@@ -580,62 +580,6 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 });"
 `;
 
-exports[`plugin simple import in a complex promise should work 1`] = `
-"loadable({
-  resolved: {},
-
-  chunkName() {
-    return \\"ModA\\";
-  },
-
-  isReady(props) {
-    const key = this.resolve(props);
-
-    if (this.resolved[key] === false) {
-      return false;
-    }
-
-    if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[key];
-    }
-
-    return false;
-  },
-
-  importAsync: () => timeout(import(
-  /* webpackChunkName: \\"ModA\\" */
-  './ModA'), 2000),
-
-  requireAsync(props) {
-    const key = this.resolve(props);
-    this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
-      this.resolved[key] = true;
-      return resolved;
-    });
-  },
-
-  requireSync(props) {
-    const id = this.resolve(props);
-
-    if (typeof __webpack_require__ !== 'undefined') {
-      return __webpack_require__(id);
-    }
-
-    return eval('module.require')(id);
-  },
-
-  resolve() {
-    if (require.resolveWeak) {
-      return require.resolveWeak(\\"./ModA\\");
-    }
-
-    return eval('require.resolve')(\\"./ModA\\");
-  }
-
-});"
-`;
-
 exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
 "loadable({
   resolved: {},
@@ -940,6 +884,120 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
 
   importAsync: () => import(
   /* webpackPrefetch: true, webpackChunkName: \\"ChunkA\\" */
+  './ModA'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"./ModA\\");
+    }
+
+    return eval('require.resolve')(\\"./ModA\\");
+  }
+
+});"
+`;
+
+exports[`plugin simple import with arrow function with body 1`] = `
+"loadable({
+  resolved: {},
+
+  chunkName() {
+    return \\"ModA\\";
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => {
+    return import(
+    /* webpackChunkName: \\"ModA\\" */
+    './ModA');
+  },
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\\"./ModA\\");
+    }
+
+    return eval('require.resolve')(\\"./ModA\\");
+  }
+
+});"
+`;
+
+exports[`plugin simple import with async arrow function 1`] = `
+"loadable({
+  resolved: {},
+
+  chunkName() {
+    return \\"ModA\\";
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: async () => import(
+  /* webpackChunkName: \\"ModA\\" */
   './ModA'),
 
   requireAsync(props) {

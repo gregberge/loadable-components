@@ -73,13 +73,39 @@ describe('plugin', () => {
       })
     })
 
-    describe('in a complex promise', () => {
-      it('should work', () => {
-        const result = testPlugin(`
-          loadable(() => timeout(import('./ModA'), 2000))
-        `)
+    it('with arrow function with body', () => {
+      const result = testPlugin(`
+        loadable(() => { return import('./ModA') })
+      `)
 
-        expect(result).toMatchSnapshot()
+      expect(result).toMatchSnapshot()
+    })
+
+    it('with async arrow function', () => {
+      const result = testPlugin(`
+        loadable(async () => import('./ModA'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('reject wrapping of import', () => {
+    describe('in a wrapped promise', () => {
+      it('should fail', () => {
+        expect(() => testPlugin(`
+          loadable(() => timeout(import('./ModA'), 2000))
+        `)).toThrow()
+      })
+    })
+
+    describe('returning an await statement', () => {
+      it('should fail', () => {
+        expect(() => testPlugin(`
+          loadable(async () => {
+            return await import('./ModA');
+          })
+        `)).toThrow()
       })
     })
   })

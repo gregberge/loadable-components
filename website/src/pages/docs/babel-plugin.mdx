@@ -81,6 +81,26 @@ On client side, the two code are completely compatible.
 
 Please note that babel must not be configured [to strip comments](https://babeljs.io/docs/en/options#comments), since the chunk name is defined in a comment.
 
+## Detection of wrapped imports
+
+During server side rendering, it is necessary for imported components to be resolved synchronously.
+Normally, the Babel plugin automatically transforms asynchronous `import()` statements into the appropriate code to synchronously load the component on the server side.
+
+However, there are some patterns which are not compatible with this process.
+To work consistently in server side rendering, the [`loadFn`](/docs/api-loadable-component/#loadable) must **directly** return an import statement.
+For example, the following code will cause an error when using the babel plugin:
+
+```js
+loadable(() => import('./component').then((imported) => imported))
+loadable(() => pMinDelay(import('./component')))
+```
+
+To avoid this error the `loadFn` must directly return an import promise:
+
+```js
+loadable(() => import('./component'))
+```
+
 ## Loadable detection
 
 The detection of a loadable component is based on the keyword "loadable". It is an opinionated choice, it gives you flexibility but it could also be restrictive.
