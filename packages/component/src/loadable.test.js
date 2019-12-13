@@ -17,6 +17,10 @@ function createLoadFunction() {
   return fn
 }
 
+function flushPromises() {
+  return new Promise((resolve) => setImmediate(resolve))
+}
+
 class Catch extends React.Component {
   state = { error: false }
 
@@ -73,7 +77,8 @@ describe('#loadable', () => {
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
     load.resolve({ default: () => 'loaded' })
-    await wait(() => expect(container).toHaveTextContent('loaded'))
+    await flushPromises()
+    expect(container).toHaveTextContent('loaded')
   })
 
   it('supports preload', async () => {
@@ -86,7 +91,8 @@ describe('#loadable', () => {
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
     load.resolve({ default: () => 'loaded' })
-    await wait(() => expect(container).toHaveTextContent('loaded'))
+    await flushPromises()
+    expect(container).toHaveTextContent('loaded')
     expect(load).toHaveBeenCalledTimes(2)
   })
 
@@ -95,7 +101,8 @@ describe('#loadable', () => {
     const Component = loadable(load)
     const { container } = render(<Component />)
     load.resolve(() => 'loaded')
-    await wait(() => expect(container).toHaveTextContent('loaded'))
+    await flushPromises()
+    expect(container).toHaveTextContent('loaded')
   })
 
   it('forwards props', async () => {
@@ -103,7 +110,8 @@ describe('#loadable', () => {
     const Component = loadable(load)
     const { container } = render(<Component name="James Bond" />)
     load.resolve({ default: ({ name }) => name })
-    await wait(() => expect(container).toHaveTextContent('James Bond'))
+    await flushPromises()
+    expect(container).toHaveTextContent('James Bond')
   })
 
   it('should update component if props change', async () => {
@@ -111,9 +119,11 @@ describe('#loadable', () => {
     const Component = loadable(load)
     const { container } = render(<Component value="first" />)
     load.resolve({ default: ({ value }) => value })
-    await wait(() => expect(container).toHaveTextContent('first'))
+    await flushPromises()
+    expect(container).toHaveTextContent('first')
     render(<Component value="second" />, { container })
-    await wait(() => expect(container).toHaveTextContent('second'))
+    await flushPromises()
+    expect(container).toHaveTextContent('second')
     expect(load).toHaveBeenCalledTimes(1)
   })
 
@@ -122,10 +132,12 @@ describe('#loadable', () => {
     const Component = loadable(load, { cacheKey: ({ value }) => value })
     const { container } = render(<Component value="first" />)
     load.resolve({ default: ({ value }) => value })
-    await wait(() => expect(container).toHaveTextContent('first'))
+    await flushPromises()
+    expect(container).toHaveTextContent('first')
     expect(load).toHaveBeenCalledTimes(1)
     render(<Component value="second" />, { container })
-    await wait(() => expect(container).toHaveTextContent('second'))
+    await flushPromises()
+    expect(container).toHaveTextContent('second')
     expect(load).toHaveBeenCalledTimes(2)
   })
 
@@ -137,10 +149,12 @@ describe('#loadable', () => {
     })
     const { container } = render(<Component value="first" />)
     load.resolve({ default: ({ value }) => value })
-    await wait(() => expect(container).toHaveTextContent('first'))
+    await flushPromises()
+    expect(container).toHaveTextContent('first')
     expect(load).toHaveBeenCalledTimes(1)
     render(<Component value="second" />, { container })
-    await wait(() => expect(container).toHaveTextContent('second'))
+    await flushPromises()
+    expect(container).toHaveTextContent('second')
     expect(load).toHaveBeenCalledTimes(2)
   })
 
@@ -154,17 +168,20 @@ describe('#loadable', () => {
     })
     const Component = loadable(load, { cacheKey: ({ name }) => name })
     const { container } = render(<Component name="A" id={0} />)
-    await wait(() => expect(container).toHaveTextContent('A-0'))
+    await flushPromises()
+    expect(container).toHaveTextContent('A-0')
     expect(load).toHaveBeenCalledTimes(1)
     expect(load).toHaveBeenCalledWith({ name: 'A', id: 0 })
     expect(A).toHaveBeenCalledTimes(1)
     expect(A).toHaveBeenCalledWith({ name: 'A', id: 0 }, {})
     render(<Component name="A" id={1} />, { container })
-    await wait(() => expect(container).toHaveTextContent('A-1'))
+    await flushPromises()
+    expect(container).toHaveTextContent('A-1')
     expect(A).toHaveBeenCalledTimes(2)
     expect(A).toHaveBeenCalledWith({ name: 'A', id: 1 }, {})
     render(<Component name="B" id={2} />, { container })
-    await wait(() => expect(container).toHaveTextContent('B-2'))
+    await flushPromises()
+    expect(container).toHaveTextContent('B-2')
     expect(load).toHaveBeenCalledTimes(2)
     expect(load).toHaveBeenCalledWith({ name: 'B', id: 2 })
     expect(B).toHaveBeenCalledTimes(1)
@@ -182,7 +199,8 @@ describe('#loadable', () => {
     load.resolve({
       default: React.forwardRef((props, fref) => <div {...props} ref={fref} />),
     })
-    await wait(() => expect(ref.current.tagName).toBe('DIV'))
+    await flushPromises()
+    expect(ref.current.tagName).toBe('DIV')
   })
 
   it('throws when an error occurs', async () => {
@@ -195,7 +213,8 @@ describe('#loadable', () => {
     )
     expect(container).toBeEmpty()
     load.reject(new Error('boom'))
-    await wait(() => expect(container).toHaveTextContent('error'))
+    await flushPromises()
+    expect(container).toHaveTextContent('error')
   })
 })
 
@@ -223,7 +242,8 @@ describe('#loadable.lib', () => {
     expect(container).toBeEmpty()
     const library = { it: 'is', a: 'lib' }
     load.resolve(library)
-    await wait(() => expect(container).toHaveTextContent('loaded'))
+    await flushPromises()
+    expect(container).toHaveTextContent('loaded')
     expect(renderFn).toHaveBeenCalledWith(library)
   })
 })
