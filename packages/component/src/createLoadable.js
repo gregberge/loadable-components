@@ -33,6 +33,13 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       return null
     }
 
+    function guard(importPromise, props) {
+      if (options.guard) {
+        return options.guard(importPromise.then(() => {}), props)
+      }
+      return importPromise.then(() => {});
+    }
+
     class InnerLoadable extends React.Component {
       static getDerivedStateFromProps(props, state) {
         const cacheKey = getCacheKey(props)
@@ -151,9 +158,10 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       loadAsync() {
         if (!this.promise) {
           const { __chunkExtractor, forwardedRef, ...props } = this.props
-          this.promise = ctor
-            .requireAsync(props)
-            .then(loadedModule => {
+          const importPromise = ctor.requireAsync(props);
+          this.promise = Promise.all([importPromise, guard(importPromise, this.props)])
+            .then((results) => {
+              const loadedModule = results[0];
               const result = resolve(loadedModule, { Loadable })
               if (options.suspense) {
                 this.setCache(result)

@@ -10,19 +10,33 @@ order: 10
 
 Create a loadable component.
 
-| Arguments          | Description                                                          |
-| ------------------ | -------------------------------------------------------------------- |
-| `loadFn`           | The function call to load the component.                             |
-| `options`          | Optional options.                                                    |
-| `options.fallback` | Fallback displayed during the loading.                               |
-| `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
-| `options.cacheKey` | Cache key function (see [dynamic import](/docs/dynamic-import/))      |
+| Arguments                  | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `loadFn`                   | The function call to load the component.                             |
+| `options`                  | Optional options.                                                    |
+| `options.guard`            | Function returning a promise that can delay or cancel loading.       |
+| `options.fallback`         | Fallback displayed during the loading.                               |
+| `options.ssr`              | If `false`, it will not be processed server-side. Default to `true`. |
+| `options.cacheKey`         | Cache key function (see [dynamic import](/docs/dynamic-import/))     |
 
 ```js
 import loadable from '@loadable/component'
 
 const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
+
+
+### `options.guard`
+
+`options.guard` is a function that creates a promise, which can delay or cancel the loading of the component.
+It can be useful to implement timeouts or delays.
+
+It receives a promise as an argument that resolves or rejects when the asynchronous import succeeds or fails.
+It also receives the props as the second argument.
+When/if the returned promise resolves, the component is rendered normally.
+When/if the returned promise rejects, the import is considered to have failed.
+
+For examples, see the documentation on implementing [delays](/docs/delay/) and [timeouts](/docs/timeout/).
 
 ## lazy
 
@@ -89,13 +103,14 @@ OtherComponent.load().then(() => {
 
 Create a loadable library.
 
-| Arguments          | Description                                                          |
-| ------------------ | -------------------------------------------------------------------- |
-| `loadFn`           | The function call to load the component.                             |
-| `options`          | Optional options.                                                    |
-| `options.fallback` | Fallback displayed during the loading.                               |
-| `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
-| `options.cacheKey` | Cache key function (see [dynamic import](/docs/dynamic-import))      |
+| Arguments                  | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `loadFn`                   | The function call to load the component.                             |
+| `options`                  | Optional options.                                                    |
+| `options.guard`            | Function returning a promise that can delay or cancel loading.       |
+| `options.fallback`         | Fallback displayed during the loading.                               |
+| `options.ssr`              | If `false`, it will not be processed server-side. Default to `true`. |
+| `options.cacheKey`         | Cache key function (see [dynamic import](/docs/dynamic-import))      |
 
 ```js
 import loadable from '@loadable/component'

@@ -6,14 +6,25 @@ order: 55
 
 # Timeout
 
-Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
+Infinite loading is not good for user experience, to avoid it implementing a timeout is a good workaround. You can do it using the [`guard` option](/docs/api-loadable-component/#optionsguard) and a third party module like [`promise-timeout`](https://github.com/building5/promise-timeout):
 
 ```js
 import loadable from '@loadable/component'
 import { timeout } from 'promise-timeout'
 
 // Wait a maximum of 2s before sending an error.
-export const OtherComponent = loadable(() =>
-  timeout(import('./OtherComponent'), 2000)
+export const OtherComponent = loadable(
+  () => import('./OtherComponent'),
+  {
+    guard: (importPromise) => timeout(importPromise, 2000)
+  }
+)
+
+// Wait a different maximum time before sending an error, depending on props.
+export const OtherComponent = loadable(
+  () => import('./OtherComponent'),
+  {
+    guard: (importPromise, props) => timeout(importPromise, props.timeout)
+  }
 )
 ```
