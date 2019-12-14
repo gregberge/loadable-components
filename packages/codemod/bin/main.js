@@ -34,9 +34,8 @@ try {
     })
   }
 
-  const result = execa.sync(
-    jscodeshiftExecutable,
-    ['--parser babylon', `-t ${transformsDir}/${selectedCodemod}.js`],
+  const result = execa.commandSync(
+    `${jscodeshiftExecutable} --parser babylon -t ${transformsDir}/${selectedCodemod}.js ${directoryToApplyTo}`,
     {
       stdio: 'inherit',
       stripEof: false,
@@ -62,7 +61,7 @@ try {
   if (err.type === 'Unrecognised transform') {
     console.error(`Unrecognised transform passed: '${err.payload}'`)
 
-    process.exit(1)
+    process.exit(2)
   }
 
   // For other errors, just re-throw it
