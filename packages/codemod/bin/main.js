@@ -5,6 +5,7 @@ const yargs = require('yargs')
 const execa = require('execa')
 const path = require('path')
 const fs = require('fs')
+const chalk = require('chalk')
 const CodemodError = require('./utils/CodemodError')
 
 const jscodeshiftExecutable = require.resolve('.bin/jscodeshift')
@@ -47,19 +48,23 @@ try {
   }
 } catch (err) {
   if (err.type === 'Invalid params') {
-    console.error('Invalid params passed!')
+    console.error(chalk.red('Invalid params passed!'))
     console.error(
-      'loadable-codemod requires 2 params to be passed, the name of the codemod, and a directory to apply the codemod to.',
+      chalk.red(
+        'loadable-codemod requires 2 params to be passed, the name of the codemod, and a directory to apply the codemod to.',
+      ),
     )
     console.error(
-      'Example: npx loadable-codemod react-loadable-to-loadable-component ./src/client',
+      chalk.red(
+        'Example: npx loadable-codemod react-loadable-to-loadable-component ./src/client',
+      ),
     )
 
     process.exit(1)
   }
 
   if (err.type === 'Unrecognised transform') {
-    console.error(`Unrecognised transform passed: '${err.payload}'`)
+    console.error(chalk.red(`Unrecognised transform passed: '${err.payload}'`))
 
     process.exit(2)
   }
