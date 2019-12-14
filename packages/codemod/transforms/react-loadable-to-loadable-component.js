@@ -37,15 +37,34 @@ export default (file, api) => {
 
           /**
            * react-loadable accepts a Function that returns JSX as the `loading` arg.
-           * @loadable/component accepts a React.Element (what returned from React.createElement(calls))
+           * @loadable/component accepts a React.Element (what returned from React.createElement() calls)
            * 
            */
           if (prop.value.type === 'ArrowFunctionExpression') {
             // if it's an ArrowFunctionExpression like `() => <div>loading...</div>`, 
             
             if (prop.value.params && prop.value.params.length > 0) {
-              // If the function accept params, we can't safely transform it. We can just make it null
-              prop.value = 'null';
+              // If the function accept props, we can invoke it and pass it a mocked-up props to get the component to 
+              // a should-be-acceptable default state, while also logs out a warning.
+              // {
+              //   pastDelay: true,
+              //   error: false,
+              //   timedOut: false,
+              // }
+              
+              const defaultPropsObjProperties = [];
+              defaultPropsObjProperties.push(j.objectProperty(j.identifier('pastDelay'), j.booleanLiteral(true)));
+              defaultPropsObjProperties.push(j.objectProperty(j.identifier('error'), j.booleanLiteral(false)));
+              defaultPropsObjProperties.push(j.objectProperty(j.identifier('timedOut'), j.booleanLiteral(false)));
+
+              const defaultPropsObj = j.objectExpression(defaultPropsObjProperties);
+
+              const callExpr = j.callExpression(
+                prop.value, 
+                [defaultPropsObj],
+              );
+
+              prop.value = callExpr;
             } else {
               // If the function doesn't accept any params, we can safely just invoke it directly
               // we can change it to `(() => <div>loading...</div>)()`
@@ -57,9 +76,20 @@ export default (file, api) => {
               prop.value = callExpr;
             }
           } else if (prop.value.type === 'Identifier') {
-            // if it's an identifier like `Loading`, we can't know if it accept params or not, 
-            // so just set it to null
-            prop.value = 'null';
+            // if it's an identifier like `Loading`, let's just invoke it with a mocked-up props
+            const defaultPropsObjProperties = [];
+            defaultPropsObjProperties.push(j.objectProperty(j.identifier('pastDelay'), j.booleanLiteral(true)));
+            defaultPropsObjProperties.push(j.objectProperty(j.identifier('error'), j.booleanLiteral(false)));
+            defaultPropsObjProperties.push(j.objectProperty(j.identifier('timedOut'), j.booleanLiteral(false)));
+
+            const defaultPropsObj = j.objectExpression(defaultPropsObjProperties);
+
+            const callExpr = j.callExpression(
+              prop.value, 
+              [defaultPropsObj],
+            );
+
+            prop.value = callExpr;
           }
 
           return prop;

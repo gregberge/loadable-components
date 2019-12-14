@@ -11,5 +11,9 @@ const Loading = props => {
 
 const CustomLinkLoadable = loadable(() =>
   import(/* webpackChunkName: "custom-link" */ '@components/CustomLink/Link'), {
-  fallback: null,
+  fallback: Loading({
+    pastDelay: true,
+    error: false,
+    timedOut: false,
+  }),
 })
