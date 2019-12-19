@@ -50,7 +50,7 @@ chunks you are importing in your code.
 
 This will give a very poorly view of which file is loading what code.
 
-To fix that, webpack introduced magic comments, with which a chunck can be named as follows (ie: `math.js`). 
+To fix that, webpack introduced magic comments, with which a chunk can be named as follows (ie: `math.js`). 
 
 ```js
 import(/* webpackChunkName: "math" */ './math').then(math => {
