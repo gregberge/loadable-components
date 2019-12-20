@@ -20,6 +20,7 @@
     "format": "prettier --write \"**/*.{js,json,md}\"",
     "lint": "eslint .",
     "release": "lerna publish --conventional-commits && conventional-github-releaser --preset angular",
+    "release-to-git": "./scripts/git-release.sh",
     "test": "jest"
   },
   "devDependencies": {
@@ -47,6 +48,7 @@
     "eslint-plugin-react": "^7.17.0",
     "jest": "^24.9.0",
     "lerna": "^3.19.0",
+    "npm-publish-git": "git://github.com/hedgepigdaniel/npm-publish-git.git",
     "prettier": "^1.19.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

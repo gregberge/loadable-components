@@ -6900,6 +6900,10 @@ npm-pick-manifest@^3.0.0:
     npm-package-arg "^6.0.0"
     semver "^5.4.1"
 
+"npm-publish-git@git://github.com/hedgepigdaniel/npm-publish-git.git":
+  version "0.0.10"
+  resolved "git://github.com/hedgepigdaniel/npm-publish-git.git#c6ebdd98043ad0b014e537d95a00004ec0951486"
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
