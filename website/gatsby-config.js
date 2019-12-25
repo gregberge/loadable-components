@@ -10,7 +10,7 @@ module.exports = {
         siteUrl: 'https://loadable-components.com',
         github: 'https://github.com/gregberge/loadable-components',
         menu: ['Introduction', 'Guides', 'API'],
-        nav: [{ title: 'Docs', url: '/docs/' }],
+        nav: [{ title: 'Docs', url: '/docs/getting-started/' }],
         codeFundProperty: 268,
         googleAnalytics: 'UA-154156493-1',
         algoliaDocSearch: {
