@@ -1,5 +1,4 @@
-export default function requireAsyncProperty({types: t, template}) {
-
+export default function requireAsyncProperty({ types: t, template }) {
   const tracking = template.ast(`
     const key = this.resolve(props)
     this.resolved[key] = false
@@ -7,7 +6,7 @@ export default function requireAsyncProperty({types: t, template}) {
      this.resolved[key] = true
      return resolved;
     });        
-  `);
+  `)
 
   return () =>
     t.objectMethod(

@@ -5,7 +5,7 @@ import importAsyncProperty from './properties/importAsync'
 import requireAsyncProperty from './properties/requireAsync'
 import requireSyncProperty from './properties/requireSync'
 import resolveProperty from './properties/resolve'
-import stateProperty from './properties/state';
+import stateProperty from './properties/state'
 
 const properties = [
   stateProperty,
@@ -109,13 +109,19 @@ const loadablePlugin = api => {
   return {
     inherits: syntaxDynamicImport,
     visitor: {
-      CallExpression(path) {
-        if (!isValidIdentifier(path)) return
-        transformImport(path)
-      },
-      'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
-        if (!hasLoadableComment(path)) return
-        transformImport(path)
+      Program: {
+        enter(programPath) {
+          programPath.traverse({
+            CallExpression(path) {
+              if (!isValidIdentifier(path)) return
+              transformImport(path)
+            },
+            'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
+              if (!hasLoadableComment(path)) return
+              transformImport(path)
+            },
+          })
+        },
       },
     },
   }

@@ -38,19 +38,17 @@ const webStats = path.resolve(
   '../../public/dist/web/loadable-stats.json',
 )
 
-app.get(
-  '*',
-  (req, res) => {
-    const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats })
-    const { default: App } = nodeExtractor.requireEntrypoint()
+app.get('*', (req, res) => {
+  const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats })
+  const { default: App } = nodeExtractor.requireEntrypoint()
 
-    const webExtractor = new ChunkExtractor({ statsFile: webStats })
-    const jsx = webExtractor.collectChunks(<App />)
+  const webExtractor = new ChunkExtractor({ statsFile: webStats })
+  const jsx = webExtractor.collectChunks(<App />)
 
-    const html = renderToString(jsx)
+  const html = renderToString(jsx)
 
-    res.set('content-type', 'text/html')
-    res.send(`
+  res.set('content-type', 'text/html')
+  res.send(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -63,8 +61,7 @@ app.get(
         </body>
       </html>
     `)
-  },
-)
+})
 
 // eslint-disable-next-line no-console
 app.listen(9000, () => console.log('Server started http://localhost:9000'))
