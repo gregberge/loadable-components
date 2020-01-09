@@ -75,7 +75,9 @@ class LoadablePlugin {
     // Add a custom output.jsonpFunction: __LOADABLE_LOADED_CHUNKS__
     compiler.options.output.jsonpFunction = '__LOADABLE_LOADED_CHUNKS__'
 
-    compiler.hooks.emit.tapAsync('@loadable/webpack-plugin', this.handleEmit)
+    if (this.opts.outputAsset || this.opts.writeToDisk) {
+      compiler.hooks.emit.tapAsync('@loadable/webpack-plugin', this.handleEmit)
+    }
   }
 }
 

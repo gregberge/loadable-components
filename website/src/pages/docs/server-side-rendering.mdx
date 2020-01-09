@@ -242,3 +242,25 @@ const extractor = new ChunkExtractor({
   entrypoints: ['client'], // array of webpack entries (default: ['main'])
 })
 ```
+
+## Using your own stats file
+
+By default, the webpack plugin adds an asset to the webpack build called `loadable-stats.json`. This contains the result of running webpack's [`stats.toJson()`](https://webpack.js.org/api/node/#statstojsonoptions) with the following options:
+
+```js
+{
+  hash: true,
+  publicPath: true,
+  assets: true,
+  chunks: false,
+  modules: false,
+  source: false,
+  errorDetails: false,
+  timings: false,
+}
+```
+
+`stats.toJson()` is an expensive operation, and it can significantly slow down webpack watching recompiles.
+If you already have a webpack stats file in your build that includes the necessary options, you may choose to use your existing stats object instead of creating a new one. You can do this as follows:
+ - pass your existing stats object into [`ChunkExtractor`](/docs/api-loadable-server/#chunkextractor) via the `stats` option
+ - disable both the `outputAsset` and `writeToDisk` options in the [webpack plugin](/docs/api-loadable-webpack-plugin/#loadableplugin) to prevent it from calling `stats.toJson()`
