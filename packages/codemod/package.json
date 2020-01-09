@@ -1,8 +1,8 @@
 {
   "name": "loadable-codemod",
-  "description": "Various codemods related to @loadable/components for easier migration/ugprades",
-  "version": "0.0.1",
-  "repository": "git@github.com:smooth-code/loadable-components.git",
+  "description": "Various codemods related to @loadable/components for easier migration/ugprades.",
+  "version": "5.11.0",
+  "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Jacky Efendi <jacky.efendi1@gmail.com>",
   "bin": {
     "loadable-codemod": "./bin/main.js"

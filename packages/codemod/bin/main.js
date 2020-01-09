@@ -36,7 +36,7 @@ try {
   }
 
   const result = execa.commandSync(
-    `${jscodeshiftExecutable} --parser babylon -t ${transformsDir}/${selectedCodemod}.js ${directoryToApplyTo}`,
+    `${jscodeshiftExecutable} -t ${transformsDir}/${selectedCodemod}.js ${directoryToApplyTo}`,
     {
       stdio: 'inherit',
       stripEof: false,
