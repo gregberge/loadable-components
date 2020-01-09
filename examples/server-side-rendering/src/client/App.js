@@ -12,6 +12,16 @@ const X = loadable(props => import(`./letters/${props.letter}`))
 const Sub = loadable(props => import(`./letters/${props.letter}/file`))
 const RootSub = loadable(props => import(`./${props.letter}/file`))
 
+// Load the 'G' component twice: once in SSR and once fully client-side
+const GClient = loadable(() => import('./letters/G'), {
+  ssr: false,
+  fallback: <span className="loading-state">ssr: false - Loading...</span>,
+})
+const GServer = loadable(() => import('./letters/G'), {
+  ssr: true,
+  fallback: <span className="loading-state">ssr: true - Loading...</span>,
+})
+
 // We keep some references to prevent uglify remove
 A.C = C
 A.D = D
@@ -29,6 +39,10 @@ const App = () => (
     <X letter="F" />
     <br />
     <E />
+    <br />
+    <GClient prefix="ssr: false" />
+    <br />
+    <GServer prefix="ssr: true" />
     <br />
     <Sub letter="Z" />
     <br />
