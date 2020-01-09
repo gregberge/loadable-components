@@ -20,6 +20,7 @@
     "format": "prettier --write \"**/*.{js,json,md}\"",
     "lint": "eslint .",
     "release": "lerna publish --conventional-commits && conventional-github-releaser --preset angular",
+    "release-to-git": "./scripts/git-release.sh",
     "test": "jest"
   },
   "devDependencies": {
@@ -30,6 +31,7 @@
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
+    "@hedgepigdaniel/npm-publish-git": "^0.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "babel-core": "^7.0.0-bridge.0",
