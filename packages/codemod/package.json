@@ -28,8 +28,8 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0",
-    "execa": "^3.3.0",
-    "jscodeshift": "0.6.4",
-    "yargs": "^14.2.0"
+    "execa": "^4.0.0",
+    "jscodeshift": "0.7.0",
+    "yargs": "^15.1.0"
   }
 }
