@@ -89,7 +89,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         this.mounted = true
 
         if (this.state.loading) {
-          this.loadAsync()
+          setTimeout(() => {
+            this.loadAsync()
+          })
         } else if (!this.state.error) {
           this.triggerOnLoad()
         }
@@ -183,7 +185,15 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         if (options.suspense) {
           const cachedResult = this.getCache()
-          if (!cachedResult) throw this.loadAsync()
+          if (!cachedResult) throw new Promise(resolve0 => {
+            setTimeout(() => {
+              setTimeout(() => {
+                this.loadAsync().then(res => {
+                  resolve0(res)
+                })
+              })
+            })
+          })
           return render({
             loading: false,
             fallback: null,
