@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
+
+
+### Bug Fixes
+
+* apply loadable transformations before any other, fixes [#466](https://github.com/gregberge/loadable-components/issues/466) ([ac5ba45](https://github.com/gregberge/loadable-components/commit/ac5ba45862bad68b971a969e6e8713874add51a6))
+
+
+### Features
+
+* add codemods to migrate from react-loadable ([#463](https://github.com/gregberge/loadable-components/issues/463)) ([a82d5ad](https://github.com/gregberge/loadable-components/commit/a82d5ad1e17cd64d3579aa207abfc18346ff0107))
+* avoid synchronous loading on client if options.ssr is false ([#346](https://github.com/gregberge/loadable-components/issues/346)) ([338bf55](https://github.com/gregberge/loadable-components/commit/338bf555adc68986b12c8dd4e304875425119ca2))
+* loadable-components.com ([e515b0e](https://github.com/gregberge/loadable-components/commit/e515b0e1a73a240fae1ab32f5abd6df23d35efcf))
+
+
+### Performance Improvements
+
+* avoid calling stats.toJson if possible ([87698de](https://github.com/gregberge/loadable-components/commit/87698de079cb742317a4f6570430ccd5cd526d3e))
+
+
+
+
+
 # [5.11.0](https://github.com/smooth-code/loadable-components/compare/v5.10.3...v5.11.0) (2019-12-02)
 
 

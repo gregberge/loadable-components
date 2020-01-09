@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
+
+
+### Bug Fixes
+
+* apply loadable transformations before any other, fixes [#466](https://github.com/gregberge/loadable-components/issues/466) ([ac5ba45](https://github.com/gregberge/loadable-components/commit/ac5ba45862bad68b971a969e6e8713874add51a6))
+
+
+### Features
+
+* avoid synchronous loading on client if options.ssr is false ([#346](https://github.com/gregberge/loadable-components/issues/346)) ([338bf55](https://github.com/gregberge/loadable-components/commit/338bf555adc68986b12c8dd4e304875425119ca2))
+
+
+
+
+
 # [5.11.0](https://github.com/smooth-code/loadable-components/compare/v5.10.3...v5.11.0) (2019-12-02)
 
 

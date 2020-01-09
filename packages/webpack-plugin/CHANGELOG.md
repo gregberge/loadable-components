@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
+
+
+### Performance Improvements
+
+* avoid calling stats.toJson if possible ([87698de](https://github.com/gregberge/loadable-components/commit/87698de079cb742317a4f6570430ccd5cd526d3e))
+
+
+
+
+
 ## [5.7.1](https://github.com/smooth-code/loadable-components/compare/v5.7.0...v5.7.1) (2019-03-19)
 
 
