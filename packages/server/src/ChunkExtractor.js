@@ -43,7 +43,10 @@ function getSriHtmlAttributes(asset) {
 function assetToScriptTag(asset, extraProps) {
   return `<script async data-chunk="${asset.chunk}" src="${
     asset.url
-  }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}></script>`
+  }"${getSriHtmlAttributes(asset)}${extraPropsToString(
+    asset,
+    extraProps,
+  )}></script>`
 }
 
 function assetToScriptElement(asset, extraProps) {
@@ -135,7 +138,10 @@ function assetToLinkTag(asset, extraProps) {
   const hint = LINK_ASSET_HINTS[asset.type]
   return `<link ${hint}="${asset.chunk}" rel="${asset.linkType}" as="${
     asset.scriptType
-  }" href="${asset.url}"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
+  }" href="${asset.url}"${getSriHtmlAttributes(asset)}${extraPropsToString(
+    asset,
+    extraProps,
+  )}>`
 }
 
 function assetToLinkElement(asset, extraProps) {

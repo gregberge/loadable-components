@@ -1,8 +1,4 @@
-export default function requireAsyncProperty({types: t}) {
-
+export default function requireAsyncProperty({ types: t }) {
   return () =>
-    t.objectProperty(
-      t.identifier('resolved'),
-      t.objectExpression([])
-    )
+    t.objectProperty(t.identifier('resolved'), t.objectExpression([]))
 }
