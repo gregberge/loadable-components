@@ -8,3 +8,4 @@
 !/types/tsconfig.json
 __fixtures__
 *.test.js
+.size-snapshot.json
