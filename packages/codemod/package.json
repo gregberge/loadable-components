@@ -1,0 +1,35 @@
+{
+  "name": "loadable-codemod",
+  "description": "Various codemods related to @loadable/components for easier migration/ugprades",
+  "version": "0.0.1",
+  "repository": "git@github.com:smooth-code/loadable-components.git",
+  "author": "Jacky Efendi <jacky.efendi1@gmail.com>",
+  "bin": {
+    "loadable-codemod": "./bin/main.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "ssr",
+    "webpack",
+    "code-splitting",
+    "react-router",
+    "server-side-rendering",
+    "dynamic-import",
+    "react-loadable",
+    "react-async-components",
+    "codemod"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "execa": "^3.3.0",
+    "jscodeshift": "0.6.4",
+    "yargs": "^14.2.0"
+  }
+}

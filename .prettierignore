@@ -7,3 +7,4 @@ package.json
 lerna.json
 /website/.cache/
 /website/public/
+__testfixtures__/

@@ -1,0 +1,46 @@
+---
+menu: Guides
+title: Using Codemod
+order: 90
+---
+
+# Using Codemod
+
+Codemods are tools that can help us make changes in our code automatically. Think of it like 'find and replace', but more flexible. 
+
+Loadable provides `loadable-codemod` to help with some use cases. 
+For example, you can use `loadable-codemod` to help you migrate from another react code-splitting library to `@loadable/components`. 
+Simply run the following to get started.
+```
+npx loadable-codemod [name-of-transform] [path-to-your-project]
+```
+
+For now, only 1 transform is available, which is: `react-loadable-to-loadable-component`.
+
+## Transforms
+### react-loadable-to-loadable-component
+This transformation helps you make the changes necessary to update your codebase that is using [`react-loadable`](https://github.com/jamiebuilds/react-loadable) to `@loadable/component`.
+
+#### Usage 
+```sh
+npx loadable-codemod react-loadable-to-loadable-component ./client/src
+```
+#### Caveats
+Since `react-loadable` and `@loadable/component` do have differences, it is not possible to make a 100% fully automated codemod to handle all of the change needed.
+You still need to set up server-side rendering yourself.
+  - Updating your server side rendering code to use `ChunkExtractor`
+  - Updating your webpack configuration to use `@loadable`
+  - Using `loadableReady` to hydrate your app on the client side.
+
+Please also note that `react-loadable` comes with stuffs like `Loadable.Map`, `pastDelay`, `timedOut`, `delay`, etc that do not exist in `@loadable/components`.
+If your code were using those features, you will still need to migrate them manually. 
+
+For `loading` placeholder, this codemod already tries to render the loader as usual, but with a mocked up props as follows:
+```javascript
+{
+  pastDelay: true,
+  error: false,
+  timedOut: false,
+}
+```
+Your app should still works, but this means some of your app logic will be lost because `@loadable/component` simply does not support these features out of the box yet. 

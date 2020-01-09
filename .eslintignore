@@ -5,3 +5,4 @@ lib/
 build/
 /website/.cache/
 /website/public/
+__testfixtures__/
