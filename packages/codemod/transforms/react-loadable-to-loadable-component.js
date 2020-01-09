@@ -36,7 +36,7 @@ const invokeWithMockedUpProp = (jscodeshift, file, prop) => {
   )
 }
 
-export default (file, api) => {
+module.exports = (file, api) => {
   const { source } = file
   const { jscodeshift: j } = api
 
@@ -127,3 +127,5 @@ export default (file, api) => {
 
   return root.toSource({ quote: 'single', trailingComma: true })
 }
+
+module.exports.parser = 'babylon'

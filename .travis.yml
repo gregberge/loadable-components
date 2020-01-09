@@ -1,15 +1,8 @@
 language: node_js
 
 node_js:
-  - 8
   - 10
-
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.10.1
-  - export PATH="$HOME/.yarn/bin:$PATH"
-
-script:
-  - yarn ci
+  - 12
 
 notifications:
   email: false
@@ -22,3 +15,14 @@ cache:
 
 git:
   depth: 5
+
+branches:
+  only:
+  - master
+  - stable
+
+script:
+  - yarn ci
+
+notifications:
+  email: false
