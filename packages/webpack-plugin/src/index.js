@@ -8,15 +8,7 @@ class LoadablePlugin {
     path,
     writeToDisk,
     outputAsset = true,
-  } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path }
-
-    // The Webpack compiler instance
-    this.compiler = null
-  }
-
-  handleEmit = (hookCompiler, callback) => {
-    const stats = hookCompiler.getStats().toJson({
+    statsOption = {
       hash: true,
       publicPath: true,
       assets: true,
@@ -25,7 +17,16 @@ class LoadablePlugin {
       source: false,
       errorDetails: false,
       timings: false,
-    })
+    },
+  } = {}) {
+    this.opts = { filename, writeToDisk, outputAsset, path, statsOption }
+
+    // The Webpack compiler instance
+    this.compiler = null
+  }
+
+  handleEmit = (hookCompiler, callback) => {
+    const stats = hookCompiler.getStats().toJson(this.opts.statsOption)
     const result = JSON.stringify(stats, null, 2)
 
     if (this.opts.outputAsset) {
