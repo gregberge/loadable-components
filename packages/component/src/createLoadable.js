@@ -129,6 +129,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         try {
           const loadedModule = ctor.requireSync(this.props)
           const result = resolve(loadedModule, { Loadable })
+          if (options.suspense) {
+            this.setCache(result)
+          }
           this.state.result = result
           this.state.loading = false
         } catch (error) {
