@@ -31,7 +31,7 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -87,7 +87,7 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -145,7 +145,7 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -204,7 +204,7 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
     requireAsync(props) {
       const key = this.resolve(props);
       this.resolved[key] = false;
-      return this.importAsync(props).then(resolved => {
+      return Promise.resolve(this.importAsync(props)).then(resolved => {
         this.resolved[key] = true;
         return resolved;
       });
@@ -265,7 +265,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -323,7 +323,7 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -379,7 +379,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -439,7 +439,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -497,7 +497,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -553,7 +553,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -609,7 +609,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -665,7 +665,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -721,7 +721,7 @@ exports[`plugin simple import should work with * in name 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -777,7 +777,7 @@ exports[`plugin simple import should work with + concatenation 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -833,7 +833,7 @@ exports[`plugin simple import should work with template literal 1`] = `
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -889,7 +889,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -945,7 +945,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
@@ -1001,7 +1001,7 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
   requireAsync(props) {
     const key = this.resolve(props);
     this.resolved[key] = false;
-    return this.importAsync(props).then(resolved => {
+    return Promise.resolve(this.importAsync(props)).then(resolved => {
       this.resolved[key] = true;
       return resolved;
     });
