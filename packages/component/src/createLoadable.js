@@ -186,7 +186,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         } = this.props
         const { error, loading, result } = this.state
 
-        if (options.suspense) {
+        if (options.suspense && !this.promise) {
           const cachedResponse = this.getCache()
           if (!cachedResponse) throw this.loadAsync()
           if (cachedResponse.error) throw cachedResponse.error
