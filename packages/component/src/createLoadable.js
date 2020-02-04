@@ -156,7 +156,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
             .then(loadedModule => {
               const result = resolve(loadedModule, { Loadable })
               if (options.suspense) {
-                this.setCache(result)
+                this.setCache({ result })
               }
               this.safeSetState(
                 {
@@ -167,6 +167,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
               )
             })
             .catch(error => {
+              if (options.suspense) {
+                this.setCache({ error })
+              }
               this.safeSetState({ error, loading: false })
             })
         }
@@ -184,12 +187,14 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         const { error, loading, result } = this.state
 
         if (options.suspense) {
-          const cachedResult = this.getCache()
-          if (!cachedResult) throw this.loadAsync()
+          const cachedResponse = this.getCache()
+          if (!cachedResponse) throw this.loadAsync()
+          if (!cachedResponse.error) throw cachedResult.error
+
           return render({
             loading: false,
             fallback: null,
-            result: cachedResult,
+            result: cachedResponse.result,
             options,
             props: { ...props, ref: forwardedRef },
           })
