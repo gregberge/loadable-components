@@ -189,7 +189,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         if (options.suspense) {
           const cachedResponse = this.getCache()
           if (!cachedResponse) throw this.loadAsync()
-          if (!cachedResponse.error) throw cachedResponse.error
+          if (cachedResponse.error) throw cachedResponse.error
 
           return render({
             loading: false,
