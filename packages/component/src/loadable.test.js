@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable import/no-extraneous-dependencies, react/no-multi-comp */
 import 'regenerator-runtime/runtime'
 import '@testing-library/jest-dom/extend-expect'
@@ -26,6 +27,27 @@ class Catch extends React.Component {
 
   render() {
     return this.state.error ? 'error' : this.props.children
+  }
+}
+
+class ErrorBoundary extends React.Component {
+  state = {
+    error: false,
+  }
+
+  componentDidCatch() {
+    this.setState({ error: true })
+  }
+
+  render() {
+    const { children, fallback } = this.props
+    const { error } = this.state
+
+    if (error) {
+      return fallback || null
+    }
+
+    return children || null
   }
 }
 
@@ -212,6 +234,21 @@ describe('#lazy', () => {
     load.resolve({ default: () => 'loaded' })
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
+
+  it('supports Error Boundary', async () => {
+    const load = createLoadFunction()
+    const Component = lazy(load)
+    const { container } = render(
+      <ErrorBoundary fallback="error">
+        <React.Suspense fallback="progress">
+          <Component />
+        </React.Suspense>
+      </ErrorBoundary>,
+    )
+    expect(container).toHaveTextContent('progress')
+    load.reject(new Error('Error Boundary'))
+    await wait(() => expect(container).toHaveTextContent('error'))
+  })
 })
 
 describe('#loadable.lib', () => {
@@ -242,6 +279,21 @@ describe('#lazy.lib', () => {
     const library = { it: 'is', a: 'lib' }
     load.resolve(library)
     await wait(() => expect(container).toHaveTextContent('loaded'))
-    expect(container).toHaveTextContent('loaded')
+  })
+
+  it('supports Error Boundary', async () => {
+    const load = createLoadFunction()
+    const Lib = lazy.lib(load)
+    const renderFn = jest.fn(() => 'loaded')
+    const { container } = render(
+      <ErrorBoundary fallback="error">
+        <React.Suspense fallback="progress">
+          <Lib>{renderFn}</Lib>
+        </React.Suspense>
+      </ErrorBoundary>,
+    )
+    expect(container).toHaveTextContent('progress')
+    load.reject(new Error('Error Boundary'))
+    await wait(() => expect(container).toHaveTextContent('error'))
   })
 })
