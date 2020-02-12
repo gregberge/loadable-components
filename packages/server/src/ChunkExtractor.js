@@ -14,6 +14,18 @@ const EXTENSION_SCRIPT_TYPES = {
   '.css': 'style',
 }
 
+// Micro-optimisation so we only do 1 lookup instead of 4 series of IFs when creating script tags
+// the key format is <async><defer>
+// Example: 'truefalse' means async is true, but defer is false
+const ASYNC_DEFER_MAP = {
+  // there might be a use case to use both at the same time
+  // https://stackoverflow.com/questions/50615101/what-does-async-defer-do-when-used-together
+  'truetrue': 'async defer ', 
+  'truefalse': 'async ',
+  'falsetrue': 'defer ',
+  'falsefalse': 'async ', // fallback to default value to prevent breaking changes
+}
+
 function extensionToScriptType(extension) {
   return EXTENSION_SCRIPT_TYPES[extension] || null
 }
@@ -41,11 +53,15 @@ function getSriHtmlAttributes(asset) {
 }
 
 function assetToScriptTag(asset, extraProps) {
-  return `<script async data-chunk="${asset.chunk}" src="${
+  const props = handleExtraProps(asset, extraProps);
+  const { async, defer, ...rest } = props;
+  const asyncDeferAttribute = ASYNC_DEFER_MAP[`${Boolean(async)}${Boolean(defer)}`];
+
+  return `<script ${asyncDeferAttribute}data-chunk="${asset.chunk}" src="${
     asset.url
   }"${getSriHtmlAttributes(asset)}${extraPropsToString(
     asset,
-    extraProps,
+    rest,
   )}></script>`
 }
 
@@ -277,11 +293,18 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptTag(extraProps) {
+    const props = handleExtraProps(
+      null,
+      extraProps,
+    );
+
+    const { async, defer, ...rest } = props;
+
     return `<script id="${getRequiredChunkKey(
       this.namespace,
     )}" type="application/json"${extraPropsToString(
       null,
-      extraProps,
+      rest,
     )}>${this.getRequiredChunksScriptContent()}</script>`
   }
 

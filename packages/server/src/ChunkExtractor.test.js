@@ -121,6 +121,34 @@ describe('ChunkExtrator', () => {
                 <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" nonce=\\"main\\"></script>
                 <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\" nonce=\\"letters-A\\"></script>"
             `)
+
+      expect(extractor.getScriptTags({ async: true })
+      ).toMatchInlineSnapshot(`
+                "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
+                <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
+                <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>"
+            `)
+
+      expect(extractor.getScriptTags({ defer: true })
+      ).toMatchInlineSnapshot(`
+                "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
+                <script defer data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
+                <script defer data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>"
+            `)
+
+      expect(extractor.getScriptTags({ async: true, defer: true })
+      ).toMatchInlineSnapshot(`
+                "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
+                <script async defer data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
+                <script async defer data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>"
+            `)
+
+      expect(extractor.getScriptTags()
+      ).toMatchInlineSnapshot(`
+                "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
+                <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
+                <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>"
+            `)
     })
   })
 
