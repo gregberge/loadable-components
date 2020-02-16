@@ -26,5 +26,8 @@
   },
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.7.4"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0-0"
   }
 }
