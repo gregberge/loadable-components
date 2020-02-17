@@ -14,24 +14,15 @@ const EXTENSION_SCRIPT_TYPES = {
   '.css': 'style',
 }
 
-// Micro-optimisation so we only do 1 lookup instead of 4 series of IFs when creating script tags
-// the key format is <async><defer>
-// Example: 'truefalse' means async is true, but defer is false
-const ASYNC_DEFER_MAP = {
-  // there might be a use case to use both at the same time
-  // https://stackoverflow.com/questions/50615101/what-does-async-defer-do-when-used-together
-  'truetrue': 'async defer ', 
-  'truefalse': 'async ',
-  'falsetrue': 'defer ',
-  'falsefalse': 'async ', // fallback to default value to prevent breaking changes
-}
-
 function extensionToScriptType(extension) {
   return EXTENSION_SCRIPT_TYPES[extension] || null
 }
 
 function getAssets(chunks, getAsset) {
-  return uniqBy(flatMap(chunks, chunk => getAsset(chunk)), 'url')
+  return uniqBy(
+    flatMap(chunks, chunk => getAsset(chunk)),
+    'url',
+  )
 }
 
 function handleExtraProps(asset, extraProps) {
@@ -53,26 +44,29 @@ function getSriHtmlAttributes(asset) {
 }
 
 function assetToScriptTag(asset, extraProps) {
-  const props = handleExtraProps(asset, extraProps);
-  const { async, defer, ...rest } = props;
-  const asyncDeferAttribute = ASYNC_DEFER_MAP[`${Boolean(async)}${Boolean(defer)}`];
+  const props = handleExtraProps(asset, extraProps)
+  const { async = true, defer = false, ...rest } = props
 
-  return `<script ${asyncDeferAttribute}data-chunk="${asset.chunk}" src="${
-    asset.url
-  }"${getSriHtmlAttributes(asset)}${extraPropsToString(
+  return `<script ${async ? 'async ' : ''}${defer ? 'defer ' : ''}data-chunk="${
+    asset.chunk
+  }" src="${asset.url}"${getSriHtmlAttributes(asset)}${extraPropsToString(
     asset,
     rest,
   )}></script>`
 }
 
 function assetToScriptElement(asset, extraProps) {
+  const props = handleExtraProps(asset, extraProps)
+  const { async = true, defer = false, ...rest } = props
+
   return (
     <script
       key={asset.url}
-      async
+      async={async}
       data-chunk={asset.chunk}
+      defer={defer}
       src={asset.url}
-      {...handleExtraProps(asset, extraProps)}
+      {...handleExtraProps(asset, rest)}
     />
   )
 }
@@ -293,18 +287,11 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptTag(extraProps) {
-    const props = handleExtraProps(
-      null,
-      extraProps,
-    );
-
-    const { async, defer, ...rest } = props;
-
     return `<script id="${getRequiredChunkKey(
       this.namespace,
     )}" type="application/json"${extraPropsToString(
       null,
-      rest,
+      extraProps,
     )}>${this.getRequiredChunksScriptContent()}</script>`
   }
 
@@ -373,7 +360,11 @@ class ChunkExtractor {
   }
 
   getScriptTags(extraProps = {}) {
-    const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
+    const props = handleExtraProps(null, extraProps)
+    const { async, defer, ...rest } = props
+
+    // not sure if inline scripts are affected by async/defer, so I deliberately omit it for now
+    const requiredScriptTag = this.getRequiredChunksScriptTag(rest)
     const mainAssets = this.getMainAssets('script')
     const assetsScriptTags = mainAssets.map(asset =>
       assetToScriptTag(asset, extraProps),
@@ -382,8 +373,12 @@ class ChunkExtractor {
   }
 
   getScriptElements(extraProps = {}) {
+    const props = handleExtraProps(null, extraProps)
+    const { async, defer, ...rest } = props
+
+    // not sure if inline scripts are affected by async/defer, so I deliberately omit it for now
     const requiredScriptElement = this.getRequiredChunksScriptElement(
-      extraProps,
+      rest,
     )
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>

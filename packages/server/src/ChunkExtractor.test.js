@@ -129,7 +129,7 @@ describe('ChunkExtrator', () => {
                 <script async data-chunk=\\"letters-A\\" src=\\"/dist/node/letters-A.js\\"></script>"
             `)
 
-      expect(extractor.getScriptTags({ defer: true })
+      expect(extractor.getScriptTags({ defer: true, async: false })
       ).toMatchInlineSnapshot(`
                 "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[\\"letters-A\\"]</script>
                 <script defer data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>
@@ -173,6 +173,7 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     src="/dist/node/main.js"
                   />,
                 ]
@@ -194,10 +195,69 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     src="/dist/node/main.js"
                   />,
                 ]
             `)
+      expect(extractor.getScriptElements({ async: false, defer: true })).toMatchInlineSnapshot(`
+                Array [
+                  <script
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "[]",
+                      }
+                    }
+                    id="__LOADABLE_REQUIRED_CHUNKS__"
+                    type="application/json"
+                  />,
+                  <script
+                    async={false}
+                    data-chunk="main"
+                    defer={true}
+                    src="/dist/node/main.js"
+                  />,
+                ]
+      `)
+
+      expect(extractor.getScriptElements({ async: true, defer: true })).toMatchInlineSnapshot(`
+                Array [
+                  <script
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "[]",
+                      }
+                    }
+                    id="__LOADABLE_REQUIRED_CHUNKS__"
+                    type="application/json"
+                  />,
+                  <script
+                    async={true}
+                    data-chunk="main"
+                    defer={true}
+                    src="/dist/node/main.js"
+                  />,
+                ]
+      `)
+      expect(extractor.getScriptElements({ async: false, defer: false })).toMatchInlineSnapshot(`
+                Array [
+                  <script
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "[]",
+                      }
+                    }
+                    id="__LOADABLE_REQUIRED_CHUNKS__"
+                    type="application/json"
+                  />,
+                  <script
+                    async={false}
+                    data-chunk="main"
+                    defer={false}
+                    src="/dist/node/main.js"
+                  />,
+                ]
+      `)
     })
 
     it('should return other chunks if referenced', () => {
@@ -216,11 +276,13 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     src="/dist/node/main.js"
                   />,
                   <script
                     async={true}
                     data-chunk="letters-A"
+                    defer={false}
                     src="/dist/node/letters-A.js"
                   />,
                 ]
@@ -243,11 +305,13 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     src="/dist/node/main.js"
                   />,
                   <script
                     async={true}
                     data-chunk="letters-E"
+                    defer={false}
                     src="/dist/node/letters-E.js?param"
                   />,
                 ]
@@ -272,12 +336,14 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     nonce="testnonce"
                     src="/dist/node/main.js"
                   />,
                   <script
                     async={true}
                     data-chunk="letters-A"
+                    defer={false}
                     nonce="testnonce"
                     src="/dist/node/letters-A.js"
                   />,
@@ -306,12 +372,14 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     nonce="main"
                     src="/dist/node/main.js"
                   />,
                   <script
                     async={true}
                     data-chunk="letters-A"
+                    defer={false}
                     nonce="letters-A"
                     src="/dist/node/letters-A.js"
                   />,
@@ -340,6 +408,7 @@ describe('ChunkExtrator', () => {
                   <script
                     async={true}
                     data-chunk="main"
+                    defer={false}
                     src="https://cdn.example.org/v1.1.0/main.js"
                   />,
                 ]
