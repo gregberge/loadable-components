@@ -61,9 +61,9 @@ const app = <App />
 
 Get scripts as a string of `<script>` tags.
 
-| Arguments                | Description                                                                                                 |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| `attributes` or `attrFn` | Optional attributes added to script tags, or a function that receives a `chunk` and returns the attributes. |
+| Arguments                | Description                                                                                                                                                                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to script tags, or a function that receives a `chunk` and returns the attributes. Adding `async` or `defer` will also affect how the script will be loaded by the browser. (Default: `async: true, defer: false`) |
 
 ```js
 const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()}</body>`
@@ -73,9 +73,9 @@ const body = `<body><div id="root">${html}</div>${chunkExtractor.getScriptTags()
 
 Get scripts as an array of React `<script>` elements.
 
-| Arguments                | Description                                                                                                     |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| `attributes` or `attrFn` | Optional attributes added to script elements, or a function that receives a `chunk` and returns the attributes. |
+| Arguments                | Description                                                                                                                                                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `attributes` or `attrFn` | Optional attributes added to script elements, or a function that receives a `chunk` and returns the attributes. Adding `async` or `defer` will also affect how the script will be loaded by the browser. (Default: `async: true, defer: false`) |
 
 ```js
 const body = renderToString(
