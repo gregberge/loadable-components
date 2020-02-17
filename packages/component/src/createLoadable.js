@@ -151,25 +151,25 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       loadAsync() {
         if (!this.promise) {
           const { __chunkExtractor, forwardedRef, ...props } = this.props
-          this.promise = ctor
-            .requireAsync(props)
+
+          const cachedPromise = this.getCache()
+
+          this.promise = cachedPromise || ctor.requireAsync(props)
+
+          if (options.suspense) this.setCache(this.promise)
+
+          this.promise = this.promise
             .then(loadedModule => {
               const result = resolve(loadedModule, { Loadable })
-              if (options.suspense) {
-                this.setCache({ result })
-              }
               this.safeSetState(
                 {
-                  result: resolve(loadedModule, { Loadable }),
+                  result,
                   loading: false,
                 },
                 () => this.triggerOnLoad(),
               )
             })
             .catch(error => {
-              if (options.suspense) {
-                this.setCache({ error })
-              }
               this.safeSetState({ error, loading: false })
             })
         }
@@ -186,18 +186,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         } = this.props
         const { error, loading, result } = this.state
 
-        if (options.suspense && !this.promise) {
-          const cachedResponse = this.getCache()
-          if (!cachedResponse) throw this.loadAsync()
-          if (cachedResponse.error) throw cachedResponse.error
-
-          return render({
-            loading: false,
-            fallback: null,
-            result: cachedResponse.result,
-            options,
-            props: { ...props, ref: forwardedRef },
-          })
+        if (options.suspense) {
+          const cachedPromise = this.getCache()
+          if (!cachedPromise) throw this.loadAsync()
         }
 
         if (error) {
