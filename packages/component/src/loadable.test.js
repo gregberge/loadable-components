@@ -33,18 +33,22 @@ class Catch extends React.Component {
 class ErrorBoundary extends React.Component {
   state = {
     error: false,
+    retries: this.props.retries || 0,
   }
 
   componentDidCatch() {
-    this.setState({ error: true })
+    this.setState(prevState => ({
+      error: true,
+      retries: prevState.retries - 1,
+    }))
   }
 
   render() {
     const { children, fallback } = this.props
-    const { error } = this.state
+    const { error, retries } = this.state
 
     if (error) {
-      return fallback || null
+      return (retries > 0 && children) || fallback || null
     }
 
     return children || null
