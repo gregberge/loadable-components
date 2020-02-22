@@ -235,6 +235,58 @@ describe('#lazy', () => {
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
+  it('renders multiple elements of the same async component', async () => {
+    const load = createLoadFunction()
+    const Component = lazy(load)
+    const { container } = render(
+      <React.Suspense fallback="progress">
+        <>
+          <Component text="A" />
+          <Component text="B" />
+        </>
+      </React.Suspense>,
+    )
+    expect(container).toHaveTextContent('progress')
+    load.resolve({ default: ({ text }) => text })
+    await wait(() => expect(container).toHaveTextContent('AB'))
+  })
+
+  it('multiple elements of same async component resolve in the render loop', async () => {
+    const load = createLoadFunction()
+    const Component = lazy(load)
+    const { container } = render(
+      <>
+        <React.Suspense fallback="progressA">
+          <Component text="A" />
+        </React.Suspense>
+        <React.Suspense fallback=" progressB">
+          <Component text="B" />
+        </React.Suspense>
+      </>,
+    )
+    load.resolve({ default: ({ text }) => text })
+    expect(container).toHaveTextContent('progressA progressB')
+    await wait(() => expect(container).toHaveTextContent('AB'))
+  })
+
+  it("doesn't trigger nested Suspense for same lazy component", async () => {
+    const load = createLoadFunction()
+    const Component = lazy(load)
+    const { container } = render(
+      <>
+        <React.Suspense fallback="progressA">
+          <Component text="A" />
+          <React.Suspense fallback="progressB">
+            <Component text="B" />
+          </React.Suspense>
+        </React.Suspense>
+      </>,
+    )
+    load.resolve({ default: ({ text }) => text })
+    expect(container).toHaveTextContent('progressA')
+    await wait(() => expect(container).toHaveTextContent('AB'))
+  })
+
   it('supports Error Boundary', async () => {
     const load = createLoadFunction()
     const Component = lazy(load)
