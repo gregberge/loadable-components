@@ -251,7 +251,7 @@ describe('#lazy', () => {
     await wait(() => expect(container).toHaveTextContent('AB'))
   })
 
-  it('multiple elements of same async component resolve in the render loop', async () => {
+  it("renders multiple elements of the same async component under contextual Suspense'", async () => {
     const load = createLoadFunction()
     const Component = lazy(load)
     const { container } = render(
