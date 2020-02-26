@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
-import { invariant, statusAware, STATUS_PENDING, STATUS_REJECTED } from './util'
+import { invariant, statusAware, STATUS_REJECTED } from './util'
 import Context from './Context'
 
 function resolveConstructor(ctor) {
