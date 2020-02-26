@@ -8,15 +8,7 @@ import loadable, { lazy } from './index'
 
 afterEach(cleanup)
 
-function createLoadFunction() {
-  const ref = {}
-  const fn = jest.fn(() => ref.promise)
-  ref.promise = new Promise((resolve, reject) => {
-    fn.resolve = resolve
-    fn.reject = reject
-  })
-  return fn
-}
+const unresolvableLoad = jest.fn(() => new Promise(() => {}))
 
 class Catch extends React.Component {
   state = { error: false }
@@ -31,9 +23,13 @@ class Catch extends React.Component {
 }
 
 class ErrorBoundary extends React.Component {
-  state = {
-    error: false,
-    retries: this.props.retries || 0,
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      error: false,
+      retries: props.retries || 0,
+    }
   }
 
   componentDidCatch() {
@@ -48,7 +44,7 @@ class ErrorBoundary extends React.Component {
     const { error, retries } = this.state
 
     if (error) {
-      return (retries > 0 && children) || fallback || null
+      return (retries >= 0 && children) || fallback || null
     }
 
     return children || null
@@ -66,44 +62,39 @@ describe('#loadable', () => {
   })
 
   it('renders nothing without a fallback', () => {
-    const load = createLoadFunction()
-    const Component = loadable(load)
+    const Component = loadable(unresolvableLoad)
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
   })
 
   it('uses option fallback if specified', () => {
-    const load = createLoadFunction()
-    const Component = loadable(load, { fallback: 'progress' })
+    const Component = loadable(unresolvableLoad, { fallback: 'progress' })
     const { container } = render(<Component />)
     expect(container).toHaveTextContent('progress')
   })
 
   it('uses props fallback if specified', () => {
-    const load = createLoadFunction()
-    const Component = loadable(load)
+    const Component = loadable(unresolvableLoad)
     const { container } = render(<Component fallback="progress" />)
     expect(container).toHaveTextContent('progress')
   })
 
   it('should use props fallback instead of option fallback if specified', () => {
-    const load = createLoadFunction()
-    const Component = loadable(load, { fallback: 'opt fallback' })
+    const Component = loadable(unresolvableLoad, { fallback: 'opt fallback' })
     const { container } = render(<Component fallback="prop fallback" />)
     expect(container).toHaveTextContent('prop fallback')
   })
 
   it('mounts component when loaded', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: () => 'loaded' })
     const Component = loadable(load)
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
-    load.resolve({ default: () => 'loaded' })
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
   it('supports preload', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: () => 'loaded' })
     const Component = loadable(load)
     expect(load).not.toHaveBeenCalled()
     Component.preload({ foo: 'bar' })
@@ -111,32 +102,28 @@ describe('#loadable', () => {
     expect(load).toHaveBeenCalledTimes(1)
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
-    load.resolve({ default: () => 'loaded' })
     await wait(() => expect(container).toHaveTextContent('loaded'))
     expect(load).toHaveBeenCalledTimes(2)
   })
 
   it('supports non-default export', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue(() => 'loaded')
     const Component = loadable(load)
     const { container } = render(<Component />)
-    load.resolve(() => 'loaded')
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
   it('forwards props', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: ({ name }) => name })
     const Component = loadable(load)
     const { container } = render(<Component name="James Bond" />)
-    load.resolve({ default: ({ name }) => name })
     await wait(() => expect(container).toHaveTextContent('James Bond'))
   })
 
   it('should update component if props change', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: ({ value }) => value })
     const Component = loadable(load)
     const { container } = render(<Component value="first" />)
-    load.resolve({ default: ({ value }) => value })
     await wait(() => expect(container).toHaveTextContent('first'))
     render(<Component value="second" />, { container })
     await wait(() => expect(container).toHaveTextContent('second'))
@@ -144,10 +131,9 @@ describe('#loadable', () => {
   })
 
   it('calls load func if cacheKey change', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: ({ value }) => value })
     const Component = loadable(load, { cacheKey: ({ value }) => value })
     const { container } = render(<Component value="first" />)
-    load.resolve({ default: ({ value }) => value })
     await wait(() => expect(container).toHaveTextContent('first'))
     expect(load).toHaveBeenCalledTimes(1)
     render(<Component value="second" />, { container })
@@ -156,13 +142,12 @@ describe('#loadable', () => {
   })
 
   it('calls load func if resolve change', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: ({ value }) => value })
     const Component = loadable({
       requireAsync: load,
       resolve: ({ value }) => value,
     })
     const { container } = render(<Component value="first" />)
-    load.resolve({ default: ({ value }) => value })
     await wait(() => expect(container).toHaveTextContent('first'))
     expect(load).toHaveBeenCalledTimes(1)
     render(<Component value="second" />, { container })
@@ -201,18 +186,17 @@ describe('#loadable', () => {
   })
 
   it('forwards ref', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({
+      default: React.forwardRef((props, fref) => <div {...props} ref={fref} />),
+    })
     const Component = loadable(load)
     const ref = React.createRef()
     render(<Component ref={ref} />)
-    load.resolve({
-      default: React.forwardRef((props, fref) => <div {...props} ref={fref} />),
-    })
     await wait(() => expect(ref.current.tagName).toBe('DIV'))
   })
 
   it('throws when an error occurs', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockRejectedValue(new Error('boom'))
     const Component = loadable(load)
     const { container } = render(
       <Catch>
@@ -220,14 +204,13 @@ describe('#loadable', () => {
       </Catch>,
     )
     expect(container).toBeEmpty()
-    load.reject(new Error('boom'))
     await wait(() => expect(container).toHaveTextContent('error'))
   })
 })
 
 describe('#lazy', () => {
   it('supports Suspense', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: () => 'loaded' })
     const Component = lazy(load)
     const { container } = render(
       <React.Suspense fallback="progress">
@@ -235,12 +218,11 @@ describe('#lazy', () => {
       </React.Suspense>,
     )
     expect(container).toHaveTextContent('progress')
-    load.resolve({ default: () => 'loaded' })
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
   it('renders multiple elements of the same async component', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
     const Component = lazy(load)
     const { container } = render(
       <React.Suspense fallback="progress">
@@ -251,12 +233,11 @@ describe('#lazy', () => {
       </React.Suspense>,
     )
     expect(container).toHaveTextContent('progress')
-    load.resolve({ default: ({ text }) => text })
     await wait(() => expect(container).toHaveTextContent('AB'))
   })
 
-  it("renders multiple elements of the same async component under contextual Suspense'", async () => {
-    const load = createLoadFunction()
+  it("should rejder multiple elements of the same async component under contextual Suspense'", async () => {
+    const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
     const Component = lazy(load)
     const { container } = render(
       <>
@@ -268,31 +249,29 @@ describe('#lazy', () => {
         </React.Suspense>
       </>,
     )
-    load.resolve({ default: ({ text }) => text })
     expect(container).toHaveTextContent('progressA progressB')
     await wait(() => expect(container).toHaveTextContent('AB'))
   })
 
-  it("doesn't trigger nested Suspense for same lazy component", async () => {
-    const load = createLoadFunction()
+  it("shouldn't trigger nested Suspense for same lazy component", async () => {
+    const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
     const Component = lazy(load)
     const { container } = render(
       <>
         <React.Suspense fallback="progressA">
           <Component text="A" />
-          <React.Suspense fallback="progressB">
+          <React.Suspense fallback=" progressB">
             <Component text="B" />
           </React.Suspense>
         </React.Suspense>
       </>,
     )
-    load.resolve({ default: ({ text }) => text })
-    expect(container).toHaveTextContent('progressA')
+    expect(container).not.toHaveTextContent('progressA progressB')
     await wait(() => expect(container).toHaveTextContent('AB'))
   })
 
   it('supports Error Boundary', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockRejectedValue(new Error('Error Boundary'))
     const Component = lazy(load)
     const { container } = render(
       <ErrorBoundary fallback="error">
@@ -302,20 +281,41 @@ describe('#lazy', () => {
       </ErrorBoundary>,
     )
     expect(container).toHaveTextContent('progress')
-    load.reject(new Error('Error Boundary'))
     await wait(() => expect(container).toHaveTextContent('error'))
+
+    expect(load).toHaveBeenCalledTimes(1)
+  })
+
+  it('supports retry from Error Boundary', async () => {
+    const load = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('Error Boundary'))
+      .mockResolvedValueOnce({ default: () => 'loaded' })
+
+    const Component = lazy(load)
+    const { container } = render(
+      <ErrorBoundary fallback="error" retries={2}>
+        <React.Suspense fallback="progress">
+          <Component />
+        </React.Suspense>
+      </ErrorBoundary>,
+    )
+    expect(container).toHaveTextContent('progress')
+
+    await wait(() => expect(container).toHaveTextContent('loaded'))
+
+    expect(load).toHaveBeenCalledTimes(2)
   })
 })
 
 describe('#loadable.lib', () => {
   it('loads library as render prop', async () => {
-    const load = createLoadFunction()
+    const library = { it: 'is', a: 'lib' }
+    const load = jest.fn().mockResolvedValue(library)
     const Lib = loadable.lib(load)
     const renderFn = jest.fn(() => 'loaded')
     const { container } = render(<Lib>{renderFn}</Lib>)
     expect(container).toBeEmpty()
-    const library = { it: 'is', a: 'lib' }
-    load.resolve(library)
     await wait(() => expect(container).toHaveTextContent('loaded'))
     expect(renderFn).toHaveBeenCalledWith(library)
   })
@@ -323,7 +323,8 @@ describe('#loadable.lib', () => {
 
 describe('#lazy.lib', () => {
   it('supports Suspense', async () => {
-    const load = createLoadFunction()
+    const library = { it: 'is', a: 'lib' }
+    const load = jest.fn().mockResolvedValue(library)
     const Lib = lazy.lib(load)
     const renderFn = jest.fn(() => 'loaded')
     const { container } = render(
@@ -332,13 +333,11 @@ describe('#lazy.lib', () => {
       </React.Suspense>,
     )
     expect(container).toHaveTextContent('progress')
-    const library = { it: 'is', a: 'lib' }
-    load.resolve(library)
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
   it('supports Error Boundary', async () => {
-    const load = createLoadFunction()
+    const load = jest.fn().mockRejectedValue(new Error('Error Boundary'))
     const Lib = lazy.lib(load)
     const renderFn = jest.fn(() => 'loaded')
     const { container } = render(
@@ -349,7 +348,6 @@ describe('#lazy.lib', () => {
       </ErrorBoundary>,
     )
     expect(container).toHaveTextContent('progress')
-    load.reject(new Error('Error Boundary'))
     await wait(() => expect(container).toHaveTextContent('error'))
   })
 })

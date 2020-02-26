@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
-import { invariant } from './util'
+import { invariant, statusAware, STATUS_REJECTED, STATUS_PENDING } from './util'
 import Context from './Context'
 
 function resolveConstructor(ctor) {
@@ -100,8 +100,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       componentDidUpdate(prevProps, prevState) {
         // Component is reloaded if the cacheKey has changed
         if (prevState.cacheKey !== this.state.cacheKey) {
-          this.promise = null
           this.loadAsync()
+        } else if (this.state.error && !prevState.error) {
+          this.setCache()
         }
       }
 
@@ -149,32 +150,28 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       }
 
       loadAsync() {
-        if (!this.promise) {
-          const { __chunkExtractor, forwardedRef, ...props } = this.props
+        const { __chunkExtractor, forwardedRef, ...props } = this.props
 
-          const cachedPromise = this.getCache()
+        let promise = this.getCache() || statusAware(ctor.requireAsync(props))
 
-          this.promise = cachedPromise || ctor.requireAsync(props)
+        this.setCache(promise)
 
-          if (options.suspense) this.setCache(this.promise)
+        promise = promise
+          .then(loadedModule => {
+            const result = resolve(loadedModule, { Loadable })
+            this.safeSetState(
+              {
+                result,
+                loading: false,
+              },
+              () => this.triggerOnLoad(),
+            )
+          })
+          .catch(error => {
+            this.safeSetState({ error, loading: false })
+          })
 
-          this.promise = this.promise
-            .then(loadedModule => {
-              const result = resolve(loadedModule, { Loadable })
-              this.safeSetState(
-                {
-                  result,
-                  loading: false,
-                },
-                () => this.triggerOnLoad(),
-              )
-            })
-            .catch(error => {
-              this.safeSetState({ error, loading: false })
-            })
-        }
-
-        return this.promise
+        return promise
       }
 
       render() {
@@ -188,7 +185,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         if (options.suspense) {
           const cachedPromise = this.getCache()
-          if (!cachedPromise) throw this.loadAsync()
+          if (!cachedPromise) {
+            throw this.loadAsync()
+          }
         }
 
         if (error) {
