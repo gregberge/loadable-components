@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
-import { invariant, statusAware, STATUS_REJECTED, STATUS_PENDING } from './util'
+import { invariant, statusAware, STATUS_PENDING, STATUS_REJECTED } from './util'
 import Context from './Context'
 
 function resolveConstructor(ctor) {
@@ -90,7 +90,17 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       componentDidMount() {
         this.mounted = true
 
-        if (this.state.loading) {
+        const cachedPromise = this.getCache()
+
+        if (cachedPromise && cachedPromise.status === STATUS_REJECTED) {
+          this.setCache()
+          this.setState({
+            error: undefined,
+            loading: true,
+          })
+
+          if (!options.suspense) this.loadAsync()
+        } else if (this.state.loading) {
           this.loadAsync()
         } else if (!this.state.error) {
           this.triggerOnLoad()
@@ -101,8 +111,6 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         // Component is reloaded if the cacheKey has changed
         if (prevState.cacheKey !== this.state.cacheKey) {
           this.loadAsync()
-        } else if (this.state.error && !prevState.error) {
-          this.setCache()
         }
       }
 

@@ -19,14 +19,10 @@ export const STATUS_REJECTED = 'REJECTED'
 
 export function statusAware(promise) {
   let status = STATUS_PENDING
-  let error
-  let result
 
   const proxy = new Proxy(promise, {
     get(target, prop) {
       if (prop === 'status') return status
-      if (prop === 'error') return error
-      if (prop === 'result') return result
 
       const value = target[prop]
 
@@ -37,12 +33,10 @@ export function statusAware(promise) {
   })
 
   promise
-    .then(r => {
-      result = r
+    .then(() => {
       status = STATUS_RESOLVED
     })
-    .catch(e => {
-      error = e
+    .catch(() => {
       status = STATUS_REJECTED
     })
 

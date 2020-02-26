@@ -206,6 +206,23 @@ describe('#loadable', () => {
     expect(container).toBeEmpty()
     await wait(() => expect(container).toHaveTextContent('error'))
   })
+
+  it('supports retry from Error Boundary', async () => {
+    const load = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('Error Boundary'))
+      .mockResolvedValueOnce({ default: () => 'loaded' })
+
+    const Component = loadable(load)
+    const { container } = render(
+      <ErrorBoundary fallback="error" retries={1}>
+        <Component />
+      </ErrorBoundary>,
+    )
+    expect(container).toBeEmpty()
+
+    await wait(() => expect(container).toHaveTextContent('loaded'))
+  })
 })
 
 describe('#lazy', () => {
@@ -282,8 +299,6 @@ describe('#lazy', () => {
     )
     expect(container).toHaveTextContent('progress')
     await wait(() => expect(container).toHaveTextContent('error'))
-
-    expect(load).toHaveBeenCalledTimes(1)
   })
 
   it('supports retry from Error Boundary', async () => {
@@ -294,7 +309,7 @@ describe('#lazy', () => {
 
     const Component = lazy(load)
     const { container } = render(
-      <ErrorBoundary fallback="error" retries={2}>
+      <ErrorBoundary fallback="error" retries={1}>
         <React.Suspense fallback="progress">
           <Component />
         </React.Suspense>
@@ -303,8 +318,6 @@ describe('#lazy', () => {
     expect(container).toHaveTextContent('progress')
 
     await wait(() => expect(container).toHaveTextContent('loaded'))
-
-    expect(load).toHaveBeenCalledTimes(2)
   })
 })
 
