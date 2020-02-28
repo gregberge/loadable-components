@@ -10,7 +10,7 @@
     },
     {
       "path": "./packages/component/dist/loadable.esm.js",
-      "maxSize": "3.5 kB"
+      "maxSize": "3.6 kB"
     }
   ],
   "scripts": {
