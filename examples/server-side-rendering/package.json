@@ -2,10 +2,10 @@
   "private": true,
   "scripts": {
     "dev": "nodemon src/server/main.js",
-    "build": "NODE_ENV=production yarn build:webpack && yarn build:lib",
+    "build": "cross-env NODE_ENV=production yarn build:webpack && yarn build:lib",
     "build:webpack": "webpack",
     "build:lib": "babel -d lib src",
-    "start": "NODE_ENV=production node lib/server/main.js"
+    "start": "cross-env NODE_ENV=production node lib/server/main.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "core-js": "^3.0.1",
+    "cross-env": "^7.0.0",
     "express": "^4.16.4",
     "moment": "^2.24.0",
     "react": "^16.8.6",
