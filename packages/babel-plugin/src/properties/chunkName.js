@@ -132,7 +132,6 @@ export default function chunkNameProperty({ types: t }) {
     const values = getExistingChunkNameComment(callPath)
 
     if (!agressiveImport && values) {
-      addOrReplaceChunkNameComment(callPath, values)
       return t.stringLiteral(values.webpackChunkName)
     }
 
