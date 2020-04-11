@@ -100,6 +100,14 @@ describe('plugin', () => {
 
         expect(result).toMatchSnapshot()
       })
+	  
+	    it('should keep it', () => {
+        const result = testPlugin(`
+          loadable(props => import(/* webpackChunkName: "pages/[request]" */ \`./pages/\${props.path}\`))
+        `)
+
+        expect(result).toMatchSnapshot()
+      })
     })
 
     describe('without "webpackChunkName"', () => {

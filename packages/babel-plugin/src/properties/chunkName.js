@@ -7,6 +7,7 @@ const MATCH_LEFT_HYPHENS_REPLACE_REGEX = /^-/g
 const WEBPACK_CHUNK_NAME_REGEXP = /webpackChunkName/
 const WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\-^°]+/g
 const WEBPACK_MATCH_PADDED_HYPHENS_REPLACE_REGEX = /^-|-$/g
+const WEBPACK_CHUNK_NAME_VALUE = /(.+?)\[(request|index)\]$/
 
 function readWebpackCommentValues(str) {
   try {
@@ -73,10 +74,16 @@ export default function chunkNameProperty({ types: t }) {
     )
   }
 
-  function generateChunkNameNode(callPath) {
+  function generateChunkNameNode(callPath, prefix) {
     const importArg = getImportArg(callPath)
     if (importArg.isTemplateLiteral()) {
-      return t.templateLiteral(
+      return prefix ? t.binaryExpression(
+        '+',
+        t.stringLiteral(prefix),
+        sanitizeChunkNameTemplateLiteral(
+          combineExpressions(importArg.node)
+        )
+      ) : t.templateLiteral(
         importArg.node.quasis.map((quasi, index) =>
           transformQuasi(
             quasi,
@@ -88,6 +95,20 @@ export default function chunkNameProperty({ types: t }) {
       )
     }
     return t.stringLiteral(moduleToChunk(importArg.node.value))
+  }
+
+  function combineExpressions(node) {
+    const { expressions } = node
+    const { length } = expressions
+
+    if (length === 1) {
+      return expressions[0];
+    }
+
+    return expressions.slice(1).reduce(
+      (r, p) => t.binaryExpression('+', r, p), 
+      expressions[0]
+    )
   }
 
   function getExistingChunkNameComment(callPath) {
@@ -109,7 +130,7 @@ export default function chunkNameProperty({ types: t }) {
     if (chunkNameComment) {
       chunkNameComment.remove()
     }
-
+    
     importArg.addComment('leading', writeWebpackCommentValues(values))
   }
 
@@ -130,24 +151,37 @@ export default function chunkNameProperty({ types: t }) {
   function replaceChunkName(callPath) {
     const agressiveImport = isAgressiveImport(callPath)
     const values = getExistingChunkNameComment(callPath)
+    let { webpackChunkName } = values || {}
 
     if (!agressiveImport && values) {
       addOrReplaceChunkNameComment(callPath, values)
-      return t.stringLiteral(values.webpackChunkName)
+      return t.stringLiteral(webpackChunkName)
     }
 
-    let chunkNameNode = generateChunkNameNode(callPath)
-    let webpackChunkName
+    let chunkNameNode = generateChunkNameNode(
+      callPath, 
+      getChunkNamePrefix(webpackChunkName)
+    )
 
     if (t.isTemplateLiteral(chunkNameNode)) {
       webpackChunkName = chunkNameFromTemplateLiteral(chunkNameNode)
       chunkNameNode = sanitizeChunkNameTemplateLiteral(chunkNameNode)
-    } else {
+    } else if (t.isStringLiteral(chunkNameNode)) {
       webpackChunkName = chunkNameNode.value
-    }
+    } 
 
-    addOrReplaceChunkNameComment(callPath, { webpackChunkName })
+    addOrReplaceChunkNameComment(callPath, { ...values, webpackChunkName })
     return chunkNameNode
+  }
+
+  function getChunkNamePrefix(chunkName) {
+    let match;
+    if (typeof chunkName !== 'string' ||
+      !(match = chunkName.match(WEBPACK_CHUNK_NAME_VALUE))
+    ) {
+      return ''
+    }
+    return match[1]
   }
 
   return ({ callPath, funcPath }) => {
