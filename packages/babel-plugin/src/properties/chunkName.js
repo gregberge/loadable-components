@@ -73,10 +73,37 @@ export default function chunkNameProperty({ types: t }) {
     )
   }
 
-  function generateChunkNameNode(callPath) {
+  function sanitizeChunkNameTemplateLiteral(node) {
+    return t.callExpression(t.memberExpression(node, t.identifier('replace')), [
+      t.regExpLiteral(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX.source, 'g'),
+      t.stringLiteral('-'),
+    ])
+  }
+
+  function combineExpressions(node) {
+    const { expressions } = node
+    const { length } = expressions
+
+    if (length === 1) {
+      return expressions[0];
+    }
+
+    return expressions.slice(1).reduce(
+      (r, p) => t.binaryExpression('+', r, p), 
+      expressions[0]
+    )
+  }
+
+  function generateChunkNameNode(callPath, prefix) {
     const importArg = getImportArg(callPath)
     if (importArg.isTemplateLiteral()) {
-      return t.templateLiteral(
+      return prefix ? t.binaryExpression(
+        '+',
+        t.stringLiteral(prefix),
+        sanitizeChunkNameTemplateLiteral(
+          combineExpressions(importArg.node)
+        )
+      ) : t.templateLiteral(
         importArg.node.quasis.map((quasi, index) =>
           transformQuasi(
             quasi,
@@ -109,7 +136,7 @@ export default function chunkNameProperty({ types: t }) {
     if (chunkNameComment) {
       chunkNameComment.remove()
     }
-
+    
     importArg.addComment('leading', writeWebpackCommentValues(values))
   }
 
@@ -120,33 +147,35 @@ export default function chunkNameProperty({ types: t }) {
     return `${v1}[request]`
   }
 
-  function sanitizeChunkNameTemplateLiteral(node) {
-    return t.callExpression(t.memberExpression(node, t.identifier('replace')), [
-      t.regExpLiteral(WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX.source, 'g'),
-      t.stringLiteral('-'),
-    ])
+  function getChunkNamePrefix(chunkName) {
+    if (typeof chunkName !== 'string') return ''
+    const match = chunkName.match(/(.+?)\[(request|index)\]$/)
+    return match ? match[1] : ''
   }
 
   function replaceChunkName(callPath) {
     const agressiveImport = isAgressiveImport(callPath)
     const values = getExistingChunkNameComment(callPath)
+    let { webpackChunkName } = values || {}
 
     if (!agressiveImport && values) {
       addOrReplaceChunkNameComment(callPath, values)
-      return t.stringLiteral(values.webpackChunkName)
+      return t.stringLiteral(webpackChunkName)
     }
 
-    let chunkNameNode = generateChunkNameNode(callPath)
-    let webpackChunkName
+    let chunkNameNode = generateChunkNameNode(
+      callPath, 
+      getChunkNamePrefix(webpackChunkName)
+    )
 
     if (t.isTemplateLiteral(chunkNameNode)) {
       webpackChunkName = chunkNameFromTemplateLiteral(chunkNameNode)
       chunkNameNode = sanitizeChunkNameTemplateLiteral(chunkNameNode)
-    } else {
+    } else if (t.isStringLiteral(chunkNameNode)) {
       webpackChunkName = chunkNameNode.value
-    }
+    } 
 
-    addOrReplaceChunkNameComment(callPath, { webpackChunkName })
+    addOrReplaceChunkNameComment(callPath, { ...values, webpackChunkName })
     return chunkNameNode
   }
 
