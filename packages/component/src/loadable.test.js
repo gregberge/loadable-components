@@ -264,8 +264,7 @@ describe('#lazy', () => {
     )
     expect(container).toHaveTextContent('progress')
     await wait(() => expect(container).not.toHaveTextContent('progress'))
-    expect(container.textContent).not.toBe('A')
-    await wait(() => expect(container.textContent).toBe('AB'))
+    expect(container.textContent).toBe('AB')
   })
 
   it("should render multiple elements of the same async component under contextual Suspense'", async () => {
