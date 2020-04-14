@@ -299,7 +299,7 @@ describe('#lazy', () => {
         </React.Suspense>
       </>,
     )
-    expect(container).not.toHaveTextContent('progressA progressB')
+    expect(container.textContent).toBe('progressA')
 
     await wait(() =>
       expect(container).not.toHaveTextContent('progressA progressB'),
