@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
-import { invariant, statusAware, STATUS_REJECTED } from './util'
+import { invariant, statusAware, STATUS_REJECTED, STATUS_PENDING } from './util'
 import Context from './Context'
 
 function resolveConstructor(ctor) {
@@ -195,6 +195,8 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           const cachedPromise = this.getCache()
           if (!cachedPromise) {
             throw this.loadAsync()
+          } else if (cachedPromise.status === STATUS_PENDING) {
+            throw cachedPromise
           }
         }
 

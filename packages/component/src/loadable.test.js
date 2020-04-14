@@ -10,6 +10,13 @@ afterEach(cleanup)
 
 const unresolvableLoad = jest.fn(() => new Promise(() => {}))
 
+function mockDelayedResolvedValue(resolvedValue) {
+  return this.mockImplementation(
+    () =>
+      new Promise(resolve => setTimeout(() => resolve(resolvedValue), 1000)),
+  )
+}
+
 class Catch extends React.Component {
   state = { error: false }
 
@@ -235,12 +242,18 @@ describe('#lazy', () => {
       </React.Suspense>,
     )
     expect(container).toHaveTextContent('progress')
-    await wait(() => expect(container).toHaveTextContent('loaded'))
+    await wait(() => expect(container).not.toHaveTextContent('progress'))
+    expect(container).toHaveTextContent('loaded')
   })
 
-  it('renders multiple elements of the same async component', async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
+  it('should only render both components when both resolve', async () => {
+    const load = jest
+      .fn()
+      .mockResolvedValueOnce({ default: ({ text }) => text })
+      ::mockDelayedResolvedValue({ default: ({ text }) => text })
+
     const Component = lazy(load)
+
     const { container } = render(
       <React.Suspense fallback="progress">
         <>
@@ -250,10 +263,12 @@ describe('#lazy', () => {
       </React.Suspense>,
     )
     expect(container).toHaveTextContent('progress')
-    await wait(() => expect(container).toHaveTextContent('AB'))
+    await wait(() => expect(container).not.toHaveTextContent('progress'))
+    expect(container.textContent).not.toBe('A')
+    await wait(() => expect(container.textContent).toBe('AB'))
   })
 
-  it("should rejder multiple elements of the same async component under contextual Suspense'", async () => {
+  it("should render multiple elements of the same async component under contextual Suspense'", async () => {
     const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
     const Component = lazy(load)
     const { container } = render(
@@ -267,7 +282,9 @@ describe('#lazy', () => {
       </>,
     )
     expect(container).toHaveTextContent('progressA progressB')
-    await wait(() => expect(container).toHaveTextContent('AB'))
+
+    await wait(() => expect(container).not.toHaveTextContent('progress'))
+    expect(container).toHaveTextContent('AB')
   })
 
   it("shouldn't trigger nested Suspense for same lazy component", async () => {
@@ -284,10 +301,14 @@ describe('#lazy', () => {
       </>,
     )
     expect(container).not.toHaveTextContent('progressA progressB')
-    await wait(() => expect(container).toHaveTextContent('AB'))
+
+    await wait(() =>
+      expect(container).not.toHaveTextContent('progressA progressB'),
+    )
+    expect(container).toHaveTextContent('AB')
   })
 
-  it('supports Error Boundary', async () => {
+  it('should support Error Boundary', async () => {
     const load = jest.fn().mockRejectedValue(new Error('Error Boundary'))
     const Component = lazy(load)
     const { container } = render(
@@ -301,7 +322,7 @@ describe('#lazy', () => {
     await wait(() => expect(container).toHaveTextContent('error'))
   })
 
-  it('supports retry from Error Boundary', async () => {
+  it('should support retry from Error Boundary', async () => {
     const load = jest
       .fn()
       .mockRejectedValueOnce(new Error('Error Boundary'))
