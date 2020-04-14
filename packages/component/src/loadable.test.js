@@ -301,9 +301,7 @@ describe('#lazy', () => {
     )
     expect(container.textContent).toBe('progressA')
 
-    await wait(() =>
-      expect(container).not.toHaveTextContent('progressA progressB'),
-    )
+    await wait(() => expect(container).not.toHaveTextContent('progressA'))
     expect(container).toHaveTextContent('AB')
   })
 
