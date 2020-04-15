@@ -10,8 +10,8 @@ afterEach(cleanup)
 
 const unresolvableLoad = jest.fn(() => new Promise(() => {}))
 
-function mockDelayedResolvedValue(resolvedValue) {
-  return this.mockImplementation(
+function mockDelayedResolvedValueOnce(resolvedValue) {
+  return this.mockImplementationOnce(
     () =>
       new Promise(resolve => setTimeout(() => resolve(resolvedValue), 1000)),
   )
@@ -250,7 +250,7 @@ describe('#lazy', () => {
     const load = jest
       .fn()
       .mockResolvedValueOnce({ default: ({ text }) => text })
-      ::mockDelayedResolvedValue({ default: ({ text }) => text })
+      ::mockDelayedResolvedValueOnce({ default: ({ text }) => text })
 
     const Component = lazy(load)
 

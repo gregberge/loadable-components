@@ -193,10 +193,8 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         if (options.suspense) {
           const cachedPromise = this.getCache()
-          if (!cachedPromise) {
+          if (!cachedPromise || cachedPromise.status === STATUS_PENDING) {
             throw this.loadAsync()
-          } else if (cachedPromise.status === STATUS_PENDING) {
-            throw cachedPromise
           }
         }
 
