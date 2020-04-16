@@ -107,6 +107,8 @@ describe('plugin', () => {
         `)
 
         expect(result).toMatchSnapshot()
+        expect(result).toEqual(expect.stringContaining('return "pages/" + props.path.replace'))
+        expect(result).toEqual(expect.stringContaining('/* webpackChunkName: "pages/[request]"'))
       })
     })
 
