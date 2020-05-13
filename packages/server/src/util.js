@@ -1,4 +1,21 @@
-export const clearModuleCache = key => delete require.cache[key]
+export const clearModuleCache = (moduleName) => {
+  const m = require.cache[moduleName];
+  if (m) {
+    // remove self from own parents
+    if (m.parent && m.parent.children) {
+      m.parent.children = m.parent.children.filter(x => x !== m);
+    }
+    // remove self from own children
+    if (m.children) {
+      m.children.forEach(child => {
+        if (child.parent && child.parent === m) {
+          child.parent = null;
+        }
+      })
+    }
+    delete require.cache[moduleName]
+  }
+}
 
 export const smartRequire = modulePath => {
   if (process.env.NODE_ENV !== 'production') {
