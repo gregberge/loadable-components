@@ -1,3 +1,3 @@
-export const loadable_shared = {
+export const LOADABLE_SHARED = {
   initialChunks: {}
 }
