@@ -11,6 +11,7 @@ const development =
 const getConfig = target => ({
   name: target,
   mode: development ? 'development' : 'production',
+  devtool: 'inline-cheap-source-map',
   target,
   entry: `./src/client/main-${target}.js`,
   module: {
@@ -33,7 +34,14 @@ const getConfig = target => ({
           },
           'css-loader',
         ],
-      },
+	  },
+	  ...(target === 'web' ? [{
+			test: require.resolve('react'),
+			use: [{
+				loader: 'expose-loader',
+				options: 'React'
+			},]
+		}] : []),
     ],
   },
   externals:

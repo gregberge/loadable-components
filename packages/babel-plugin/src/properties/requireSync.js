@@ -1,5 +1,15 @@
-export default function requireSyncProperty({ types: t, template }) {
-  const statements = template.ast(`
+function buildProperty({ types: t }, implementation) {
+  return t.objectMethod(
+    'method',
+    t.identifier('requireSync'),
+    [t.identifier('props')],
+    t.blockStatement(implementation),
+  )
+}
+
+export function requireSyncProperty(api) {
+  const { template } = api;
+  const implementation = template.ast(`
     const id = this.resolve(props)
 
     if (typeof __webpack_require__ !== 'undefined') {
@@ -9,11 +19,33 @@ export default function requireSyncProperty({ types: t, template }) {
     return eval('module.require')(id)
   `)
 
-  return () =>
-    t.objectMethod(
-      'method',
-      t.identifier('requireSync'),
-      [t.identifier('props')],
-      t.blockStatement(statements),
-    )
+  return () => {
+    return buildProperty(api, implementation)
+  }
+}
+
+
+export function requireSyncPropertyEsm(api, target) {
+  const { template } = api
+  const nodeImplementation = template.ast(`
+    const id = this.resolve(props)
+
+    const module = __non_webpack_require__(id)
+
+    if (module.__esModule) {
+      return module
+    }
+
+     return { __esModule: true, default: module }
+  `)
+
+  const browserImplementation = template.ast(`
+    const id = this.resolve(props)
+
+    throw new Error('esm module ' + id + ' cannot be loaded synchronously');
+  `)
+
+  return () => {
+    return buildProperty(api, target === 'node' ? nodeImplementation : browserImplementation)
+  };
 }

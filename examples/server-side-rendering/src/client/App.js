@@ -4,6 +4,7 @@ import loadable from '@loadable/component'
 import './main.css'
 
 const A = loadable(() => import('./letters/A'))
+const Native = loadable(() => import(/* webpackIgnore: true */ './native.js'))
 const B = loadable(() => import('./letters/B'))
 const C = loadable(() => import(/* webpackPreload: true */ './letters/C'))
 const D = loadable(() => import(/* webpackPrefetch: true */ './letters/D'))
@@ -30,6 +31,7 @@ const Moment = loadable.lib(() => import('moment'))
 
 const App = () => (
   <div>
+    <Native />
     <A />
     <br />
     <B />

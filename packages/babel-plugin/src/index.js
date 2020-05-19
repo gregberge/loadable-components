@@ -1,21 +1,9 @@
 import syntaxDynamicImport from '@babel/plugin-syntax-dynamic-import'
-import chunkNameProperty from './properties/chunkName'
-import isReadyProperty from './properties/isReady'
-import importAsyncProperty from './properties/importAsync'
-import requireAsyncProperty from './properties/requireAsync'
-import requireSyncProperty from './properties/requireSync'
-import resolveProperty from './properties/resolve'
-import stateProperty from './properties/state'
-
-const properties = [
-  stateProperty,
-  chunkNameProperty,
-  isReadyProperty,
-  importAsyncProperty,
-  requireAsyncProperty,
-  requireSyncProperty,
-  resolveProperty,
-]
+import { chunkProperties, esmProperties } from './properties';
+import {
+  getImportArg,
+  hasWebpackIgnore
+} from './util'
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
@@ -31,8 +19,6 @@ const loadablePlugin = api => {
     })
     return imports
   }
-
-  const propertyFactories = properties.map(init => init(api))
 
   function isValidIdentifier(path) {
     // `loadable()`
@@ -71,7 +57,7 @@ const loadablePlugin = api => {
     return funcPath
   }
 
-  function transformImport(path) {
+  function transformImport(path, target) {
     const callPaths = collectImportCallPaths(path)
 
     // Ignore loadable function that does not have any "import" call
@@ -90,6 +76,9 @@ const loadablePlugin = api => {
     if (!funcPath) return
 
     funcPath.node.params = funcPath.node.params || []
+
+  const properties = hasWebpackIgnore(getImportArg(callPath)) ? esmProperties : chunkProperties
+  const propertyFactories = properties.map(init => init(api, target))
 
     const object = t.objectExpression(
       propertyFactories.map(getProperty =>
@@ -110,15 +99,15 @@ const loadablePlugin = api => {
     inherits: syntaxDynamicImport,
     visitor: {
       Program: {
-        enter(programPath) {
+        enter(programPath, { opts: { target } } = {}) {
           programPath.traverse({
             CallExpression(path) {
               if (!isValidIdentifier(path)) return
-              transformImport(path)
+              transformImport(path, target)
             },
             'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
               if (!hasLoadableComment(path)) return
-              transformImport(path)
+              transformImport(path, target)
             },
           })
         },

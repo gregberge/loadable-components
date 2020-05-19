@@ -53,8 +53,9 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
     }
 
     return eval('require.resolve')(\\"moment\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 };"
 `;
 
@@ -109,8 +110,9 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
     }
 
     return eval('require.resolve')(\\"moment\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 };"
 `;
 
@@ -167,8 +169,9 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
     }
 
     return eval('require.resolve')(\\"moment\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 };"
 `;
 
@@ -226,8 +229,9 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
       }
 
       return eval('require.resolve')(\\"moment\\");
-    }
+    },
 
+    type: \\"CHUNK\\"
   }
 };"
 `;
@@ -289,8 +293,9 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
     }
 
     return eval('require.resolve')(\`./\${foo}\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -345,8 +350,9 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
     }
 
     return eval('require.resolve')(\`./\${props.foo}\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -401,8 +407,9 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
     }
 
     return eval('require.resolve')(\`./dir/\${props.foo}/test\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -463,8 +470,9 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
     }
 
     return eval('require.resolve')(\`./dir/\${foo}/test\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -519,8 +527,9 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
     }
 
     return eval('require.resolve')(\`./\${props.foo}\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -575,8 +584,205 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
     }
 
     return eval('require.resolve')(\\"moment\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
+});"
+`;
+
+exports[`plugin native import should use require in node environments 1`] = `
+"loadable({
+  resolved: {},
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => Promise.resolve(() => __non_webpack_require__(
+  /* webpackIgnore: true */
+  \`./ModA\`)),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props);
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    const module = __non_webpack_require__(id);
+
+    if (module.__esModule) {
+      return module;
+    }
+
+    return {
+      __esModule: true,
+      default: module
+    };
+  },
+
+  resolve() {
+    return \`./ModA\`;
+  },
+
+  type: \\"ESM\\"
+});"
+`;
+
+exports[`plugin native import should work with + concatenation 1`] = `
+"loadable({
+  resolved: {},
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackIgnore: true */
+  './Mod' + 'A'),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props);
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+    throw new Error('esm module ' + id + ' cannot be loaded synchronously');
+  },
+
+  resolve() {
+    return './Mod' + 'A';
+  },
+
+  type: \\"ESM\\"
+});"
+`;
+
+exports[`plugin native import should work with destructuration 1`] = `
+"loadable({
+  resolved: {},
+
+  chunkName({
+    foo
+  }) {
+    return \`\${foo}\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: ({
+    foo
+  }) => import(
+  /* webpackChunkName: \\"[request]\\" */
+  \`./\${foo}\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve({
+    foo
+  }) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./\${foo}\`);
+    }
+
+    return eval('require.resolve')(\`./\${foo}\`);
+  },
+
+  type: \\"CHUNK\\"
+});"
+`;
+
+exports[`plugin native import should work with template literal 1`] = `
+"loadable({
+  resolved: {},
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] === false) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackIgnore: true */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props);
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+    throw new Error('esm module ' + id + ' cannot be loaded synchronously');
+  },
+
+  resolve() {
+    return \`./ModA\`;
+  },
+
+  type: \\"ESM\\"
 });"
 `;
 
@@ -631,8 +837,9 @@ exports[`plugin simple import in a complex promise should work 1`] = `
     }
 
     return eval('require.resolve')(\\"./ModA\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -687,8 +894,9 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
     }
 
     return eval('require.resolve')(\\"../foo/bar\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -743,8 +951,9 @@ exports[`plugin simple import should work with * in name 1`] = `
     }
 
     return eval('require.resolve')(\`./foo*\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -799,8 +1008,9 @@ exports[`plugin simple import should work with + concatenation 1`] = `
     }
 
     return eval('require.resolve')('./Mod' + 'A');
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -855,8 +1065,9 @@ exports[`plugin simple import should work with template literal 1`] = `
     }
 
     return eval('require.resolve')(\`./ModA\`);
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -911,8 +1122,9 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
     }
 
     return eval('require.resolve')(\\"./ModA\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -967,8 +1179,9 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
     }
 
     return eval('require.resolve')(\\"./ModA\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;
 
@@ -1023,7 +1236,8 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
     }
 
     return eval('require.resolve')(\\"./ModA\\");
-  }
+  },
 
+  type: \\"CHUNK\\"
 });"
 `;

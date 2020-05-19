@@ -1,21 +1,14 @@
-import vm from 'vm'
-import { getImportArg } from '../util'
+import {
+  getImportArg,
+  getRawChunkNameFromCommments,
+  getChunkNameComment,
+} from '../util'
 
 const JS_PATH_REGEXP = /^[./]+|(\.js$)/g
 const MATCH_LEFT_HYPHENS_REPLACE_REGEX = /^-/g
 // https://github.com/webpack/webpack/blob/master/lib/Template.js
-const WEBPACK_CHUNK_NAME_REGEXP = /webpackChunkName/
 const WEBPACK_PATH_NAME_NORMALIZE_REPLACE_REGEX = /[^a-zA-Z0-9_!§$()=\-^°]+/g
 const WEBPACK_MATCH_PADDED_HYPHENS_REPLACE_REGEX = /^-|-$/g
-
-function readWebpackCommentValues(str) {
-  try {
-    const values = vm.runInNewContext(`(function(){return {${str}};})()`)
-    return values
-  } catch (e) {
-    throw Error(`compilation error while processing: /*${str}*/: ${e.message}`)
-  }
-}
 
 function writeWebpackCommentValues(values) {
   try {
@@ -28,19 +21,6 @@ function writeWebpackCommentValues(values) {
       `compilation error while processing: /*${values}*/: ${e.message}`,
     )
   }
-}
-
-function getChunkNameComment(importArg) {
-  if (!importArg.has('leadingComments')) return null
-  return importArg
-    .get('leadingComments')
-    .find(comment => comment.node.value.match(WEBPACK_CHUNK_NAME_REGEXP))
-}
-
-function getRawChunkNameFromCommments(importArg) {
-  const chunkNameComment = getChunkNameComment(importArg)
-  if (!chunkNameComment) return null
-  return readWebpackCommentValues(chunkNameComment.node.value)
 }
 
 function moduleToChunk(str) {
@@ -58,7 +38,7 @@ function replaceQuasi(str, stripLeftHyphen) {
   return result.replace(MATCH_LEFT_HYPHENS_REPLACE_REGEX, '')
 }
 
-export default function chunkNameProperty({ types: t }) {
+export function chunkNameProperty({ types: t }) {
   function transformQuasi(quasi, first, single) {
     return t.templateElement(
       {

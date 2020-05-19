@@ -2,9 +2,9 @@
 import { transform } from '@babel/core'
 import plugin from '.'
 
-const testPlugin = code => {
+const testPlugin = (code, target = 'web') => {
   const result = transform(code, {
-    plugins: [plugin],
+    plugins: [[plugin, { target }]],
     configFile: false,
   })
 
@@ -176,6 +176,38 @@ describe('plugin', () => {
       `)
 
       expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('native import', () => {
+    it('should work with template literal', () => {
+      const result = testPlugin(`
+        loadable(() => import(/* webpackIgnore: true */ \`./ModA\`))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should work with + concatenation', () => {
+      const result = testPlugin(`
+        loadable(() => import(/* webpackIgnore: true */ './Mod' + 'A'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+
+    it('should work with destructuration', () => {
+        const result = testPlugin(`
+          loadable(({ foo }) => import(/* webpackChunkName: "Pages" */ \`./\${foo}\`))
+        `)
+        expect(result).toMatchSnapshot()
+    })
+
+    it('should use require in node environments', () => {
+        const result = testPlugin(`
+            loadable(() => import(/* webpackIgnore: true */ \`./ModA\`))
+        `, 'node')
+        expect(result).toMatchSnapshot()
     })
   })
 })

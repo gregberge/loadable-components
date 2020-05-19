@@ -6,6 +6,10 @@ function isWebpack(caller) {
   return Boolean(caller && caller.name === 'babel-loader')
 }
 
+function getTarget(caller) {
+  return caller && caller.target;
+}
+
 module.exports = api => {
   const web = api.caller(isWebTarget)
   const webpack = api.caller(isWebpack)
@@ -23,6 +27,9 @@ module.exports = api => {
         },
       ],
     ],
-    plugins: ['@babel/plugin-syntax-dynamic-import', '@loadable/babel-plugin'],
+    plugins: [
+      '@babel/plugin-syntax-dynamic-import',
+      ['@loadable/babel-plugin', { target: api.caller(getTarget) }]
+    ],
   }
 }

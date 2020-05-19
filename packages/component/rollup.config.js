@@ -45,7 +45,9 @@ export default [
     external: Object.keys(globals),
     plugins: [
       babel(getBabelOptions({ useESModules: true })),
-      nodeResolve(),
+      nodeResolve({
+         mainFields: ['main'],
+      }),
       commonjs(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     ],
@@ -64,7 +66,9 @@ export default [
     external: Object.keys(globals),
     plugins: [
       babel(getBabelOptions({ useESModules: true })),
-      nodeResolve(),
+      nodeResolve({
+        mainFields: ['main'],
+      }),
       commonjs(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       terser(),

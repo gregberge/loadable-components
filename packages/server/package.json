@@ -25,10 +25,11 @@
     "prepublishOnly": "yarn run build"
   },
   "peerDependencies": {
-    "@loadable/component": "^5.0.1",
+	"@loadable/component": "^5.0.1",
+	"react-prerendered-component": "^1.2.4",
     "react": ">=16.3.0"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+	"lodash": "^4.17.15"
   }
 }

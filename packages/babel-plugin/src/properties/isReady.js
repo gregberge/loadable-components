@@ -1,4 +1,4 @@
-export default function isReadyProperty({ types: t, template }) {
+export function isReadyProperty({ types: t, template }) {
   const statements = template.ast(`
     const key=this.resolve(props)
     if (this.resolved[key] === false) {
@@ -20,3 +20,5 @@ export default function isReadyProperty({ types: t, template }) {
       t.blockStatement(statements),
     )
 }
+
+export const isReadyPropertyEsm = isReadyProperty
