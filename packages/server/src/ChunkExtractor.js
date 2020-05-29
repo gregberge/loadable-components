@@ -19,7 +19,10 @@ function extensionToScriptType(extension) {
 }
 
 function getAssets(chunks, getAsset) {
-  return uniqBy(flatMap(chunks, chunk => getAsset(chunk)), 'url')
+  return uniqBy(
+    flatMap(chunks, chunk => getAsset(chunk)),
+    'url',
+  )
 }
 
 function handleExtraProps(asset, extraProps) {
@@ -411,6 +414,7 @@ class ChunkExtractor {
     const preloadAssets = this.getChunkChildAssets(chunks, 'preload')
     const prefetchAssets = this.getChunkChildAssets(chunks, 'prefetch')
     return [...mainAssets, ...preloadAssets, ...prefetchAssets]
+      .sort(a => (a.scriptType === 'style' ? -1 : 0))
   }
 
   getLinkTags(extraProps = {}) {
