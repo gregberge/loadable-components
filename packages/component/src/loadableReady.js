@@ -2,6 +2,7 @@
 /* eslint-env browser */
 import { warn } from './util'
 import { getRequiredChunkKey } from './sharedInternals'
+import {LOADABLE_SHARED} from "./shared";
 
 const BROWSER = typeof window !== 'undefined'
 
@@ -19,7 +20,10 @@ export default function loadableReady(
   if (BROWSER) {
     const dataElement = document.getElementById(getRequiredChunkKey(namespace))
     if (dataElement) {
-      requiredChunks = JSON.parse(dataElement.textContent)
+      requiredChunks = JSON.parse(dataElement.textContent);
+      requiredChunks.forEach(chunk => {
+        LOADABLE_SHARED.initialChunks[chunk] = true;
+      });
     }
   }
 

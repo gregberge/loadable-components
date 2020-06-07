@@ -2,6 +2,7 @@
 import React from 'react'
 import { invariant } from './util'
 import Context from './Context'
+import {LOADABLE_SHARED} from "./shared";
 
 function resolveConstructor(ctor) {
   if (typeof ctor === 'function') {
@@ -82,7 +83,13 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         // If module is already loaded, we use a synchronous loading
         // Only perform this synchronous loading if the component has not
         // been marked with no SSR, else we risk hydration mismatches
-        if (options.ssr !== false && ctor.isReady && ctor.isReady(props)) {
+        if (options.ssr !== false && (
+          // is ready - was loaded in this session
+          (ctor.isReady && ctor.isReady(props)) ||
+          // is ready - was loaded during SSR process
+          (ctor.chunkName && LOADABLE_SHARED.initialChunks[ctor.chunkName(props)])
+          )
+        ) {
           this.loadSync()
         }
       }

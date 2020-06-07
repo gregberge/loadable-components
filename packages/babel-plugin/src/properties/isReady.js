@@ -1,7 +1,7 @@
 export default function isReadyProperty({ types: t, template }) {
   const statements = template.ast(`
     const key=this.resolve(props)
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false
     }
 
