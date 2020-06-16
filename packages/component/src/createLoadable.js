@@ -225,8 +225,9 @@ function createLoadable({ resolve = identity, render, onLoad }) {
     const Loadable = React.forwardRef((props, ref) => {
       const EnhancedInnerLoadableWithRefsForwarded = <EnhancedInnerLoadable forwardedRef={ref} {...props} />
 
+      const type = ctor.type || 'CHUNK';
 
-      return ctor.type === 'CHUNK' ?
+      return type === 'CHUNK' ?
         EnhancedInnerLoadableWithRefsForwarded :
         (
           <PrerenderedComponent live={Loadable.load()}>
