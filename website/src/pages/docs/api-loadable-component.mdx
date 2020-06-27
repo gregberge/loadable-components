@@ -10,19 +10,55 @@ order: 10
 
 Create a loadable component.
 
-| Arguments          | Description                                                          |
-| ------------------ | -------------------------------------------------------------------- |
-| `loadFn`           | The function call to load the component.                             |
-| `options`          | Optional options.                                                    |
-| `options.fallback` | Fallback displayed during the loading.                               |
-| `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
-| `options.cacheKey` | Cache key function (see [dynamic import](/docs/dynamic-import/))      |
+| Arguments                  | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `loadFn`                   | The function call to load the component.                             |
+| `options`                  | Optional options.                                                    |
+| `options.resolveComponent` | Function to resolve the imported component from the imported module. |
+| `options.fallback`         | Fallback displayed during the loading.                               |
+| `options.ssr`              | If `false`, it will not be processed server-side. Default to `true`. |
+| `options.cacheKey`         | Cache key function (see [dynamic import](/docs/dynamic-import/))     |
 
 ```js
 import loadable from '@loadable/component'
 
 const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
+
+### `options.resolveComponent`
+This is a function that receives the imported module (what the `import()` call resolves to) and the props, and returns the component.
+
+The default value assumes that the component is exported as a default export.
+It can be customized to make a loadable component where the imported component is not the default export, or even where a different export is chosen depending on the props.
+For example:
+
+```js
+// components.js
+
+export const Apple = () => 'Apple!'
+export const Orange = () => 'Orange!'
+```
+
+```js
+// loadable.js
+
+const LoadableApple = loadable(() => import('./components'), {
+  resolveComponent: (components) => components.Apple,
+})
+
+const LoadableOrange = loadable(() => import('./components'), {
+  resolveComponent: (components) => components.Orange,
+})
+
+const LoadableFruit = loadable(() => import('./components'), {
+  resolveComponent: (components, props) => components[props.fruit],
+})
+
+```
+
+**Note:** The default `resolveComponent` breaks Typescript type inference due to CommonJS compatibility.
+To avoid this, you can specify `resolveComponent` as `(imported) => imported.default`.
+This requires that the imported components have ES6/Harmony exports.
 
 ## lazy
 
@@ -89,13 +125,14 @@ OtherComponent.load().then(() => {
 
 Create a loadable library.
 
-| Arguments          | Description                                                          |
-| ------------------ | -------------------------------------------------------------------- |
-| `loadFn`           | The function call to load the component.                             |
-| `options`          | Optional options.                                                    |
-| `options.fallback` | Fallback displayed during the loading.                               |
-| `options.ssr`      | If `false`, it will not be processed server-side. Default to `true`. |
-| `options.cacheKey` | Cache key function (see [dynamic import](/docs/dynamic-import))      |
+| Arguments                  | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `loadFn`                   | The function call to load the component.                             |
+| `options`                  | Optional options.                                                    |
+| `options.resolveComponent` | Function to resolve the imported component from the imported module. |
+| `options.fallback`         | Fallback displayed during the loading.                               |
+| `options.ssr`              | If `false`, it will not be processed server-side. Default to `true`. |
+| `options.cacheKey`         | Cache key function (see [dynamic import](/docs/dynamic-import))      |
 
 ```js
 import loadable from '@loadable/component'

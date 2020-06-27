@@ -6,11 +6,11 @@
   "bundlesize": [
     {
       "path": "./packages/component/dist/loadable.min.js",
-      "maxSize": "2.5 kB"
+      "maxSize": "3.5 kB"
     },
     {
       "path": "./packages/component/dist/loadable.esm.js",
-      "maxSize": "3.5 kB"
+      "maxSize": "4.5 kB"
     }
   ],
   "scripts": {

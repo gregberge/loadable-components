@@ -1,5 +1,7 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
+import * as ReactIs from 'react-is'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
 import {LOADABLE_SHARED} from "./shared";
@@ -20,7 +22,7 @@ const withChunkExtractor = Component => props => (
 
 const identity = v => v
 
-function createLoadable({ resolve = identity, render, onLoad }) {
+function createLoadable({ defaultResolveComponent = identity, render, onLoad }) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
     const cache = {}
@@ -32,6 +34,19 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         return ctor.resolve(props)
       }
       return null
+    }
+
+    function resolve(module, props, Loadable) {
+      const Component = options.resolveComponent
+        ? options.resolveComponent(module, props)
+        : defaultResolveComponent(module)
+      if (options.resolveComponent && !ReactIs.isValidElementType(Component)) {
+        throw new Error(`resolveComponent returned something that is not a React component!`)
+      }
+      hoistNonReactStatics(Loadable, Component, {
+        preload: true,
+      })
+      return Component;
     }
 
     class InnerLoadable extends React.Component {
@@ -135,7 +150,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         try {
           const loadedModule = ctor.requireSync(this.props)
-          const result = resolve(loadedModule, { Loadable })
+          const result = resolve(loadedModule, this.props, Loadable)
           this.state.result = result
           this.state.loading = false
         } catch (error) {
@@ -161,13 +176,13 @@ function createLoadable({ resolve = identity, render, onLoad }) {
           this.promise = ctor
             .requireAsync(props)
             .then(loadedModule => {
-              const result = resolve(loadedModule, { Loadable })
+              const result = resolve(loadedModule, this.props, Loadable)
               if (options.suspense) {
                 this.setCache(result)
               }
               this.safeSetState(
                 {
-                  result: resolve(loadedModule, { Loadable }),
+                  result: resolve(loadedModule, this.props, Loadable),
                   loading: false,
                 },
                 () => this.triggerOnLoad(),
