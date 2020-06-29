@@ -592,51 +592,51 @@ describe('ChunkExtrator', () => {
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags()).toMatchInlineSnapshot(`
-                "<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
-                <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
-                <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\">
-                <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
-            `)
+        "<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
+        <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
+      `)
     })
 
     it('should allow for query params in chunk names', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getLinkTags()).toMatchInlineSnapshot(`
-                "<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
-                <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
-                <link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-E.css?param\\">
-                <link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-E.js?param\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
-            `)
+        "<link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-E.css?param\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\">
+        <link data-chunk=\\"letters-E\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-E.js?param\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\">"
+      `)
     })
 
     it('should add extraProps if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
-                "<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
-                <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"testnonce\\">
-                <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
-                <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"testnonce\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"testnonce\\">"
-            `)
+        "<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"testnonce\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"testnonce\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"testnonce\\">
+        <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"testnonce\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"testnonce\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"testnonce\\">"
+      `)
     })
 
     it('should add extraProps if specified - function argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkTags(asset => ({ nonce: asset.chunk })))
         .toMatchInlineSnapshot(`
-                "<link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"main\\">
-                <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"main\\">
-                <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"letters-A\\">
-                <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"letters-A\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"main\\">
-                <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"main\\">"
-            `)
+        "<link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/letters-A.css\\" nonce=\\"letters-A\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"style\\" href=\\"/dist/node/main.css\\" nonce=\\"main\\">
+        <link data-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/main.js\\" nonce=\\"main\\">
+        <link data-chunk=\\"letters-A\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-A.js\\" nonce=\\"letters-A\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/node/letters-C.js\\" nonce=\\"main\\">
+        <link data-parent-chunk=\\"main\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/node/letters-D.js\\" nonce=\\"main\\">"
+      `)
     })
   })
 
@@ -675,140 +675,140 @@ describe('ChunkExtrator', () => {
     it('should return other chunks if referenced', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkElements()).toMatchInlineSnapshot(`
-                Array [
-                  <link
-                    as="style"
-                    data-chunk="main"
-                    href="/dist/node/main.css"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-chunk="main"
-                    href="/dist/node/main.js"
-                    rel="preload"
-                  />,
-                  <link
-                    as="style"
-                    data-chunk="letters-A"
-                    href="/dist/node/letters-A.css"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-chunk="letters-A"
-                    href="/dist/node/letters-A.js"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-parent-chunk="main"
-                    href="/dist/node/letters-C.js"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-parent-chunk="main"
-                    href="/dist/node/letters-D.js"
-                    rel="prefetch"
-                  />,
-                ]
-            `)
+        Array [
+          <link
+            as="style"
+            data-chunk="letters-A"
+            href="/dist/node/letters-A.css"
+            rel="preload"
+          />,
+          <link
+            as="style"
+            data-chunk="main"
+            href="/dist/node/main.css"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-chunk="main"
+            href="/dist/node/main.js"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-chunk="letters-A"
+            href="/dist/node/letters-A.js"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-parent-chunk="main"
+            href="/dist/node/letters-C.js"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-parent-chunk="main"
+            href="/dist/node/letters-D.js"
+            rel="prefetch"
+          />,
+        ]
+      `)
     })
 
     it('should allow for query params in chunk names', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getLinkElements()).toMatchInlineSnapshot(`
-                Array [
-                  <link
-                    as="style"
-                    data-chunk="main"
-                    href="/dist/node/main.css"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-chunk="main"
-                    href="/dist/node/main.js"
-                    rel="preload"
-                  />,
-                  <link
-                    as="style"
-                    data-chunk="letters-E"
-                    href="/dist/node/letters-E.css?param"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-chunk="letters-E"
-                    href="/dist/node/letters-E.js?param"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-parent-chunk="main"
-                    href="/dist/node/letters-C.js"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-parent-chunk="main"
-                    href="/dist/node/letters-D.js"
-                    rel="prefetch"
-                  />,
-                ]
-            `)
+        Array [
+          <link
+            as="style"
+            data-chunk="letters-E"
+            href="/dist/node/letters-E.css?param"
+            rel="preload"
+          />,
+          <link
+            as="style"
+            data-chunk="main"
+            href="/dist/node/main.css"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-chunk="main"
+            href="/dist/node/main.js"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-chunk="letters-E"
+            href="/dist/node/letters-E.js?param"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-parent-chunk="main"
+            href="/dist/node/letters-C.js"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-parent-chunk="main"
+            href="/dist/node/letters-D.js"
+            rel="prefetch"
+          />,
+        ]
+      `)
     })
 
     it('should add extraProps if specified', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getLinkElements({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
-                Array [
-                  <link
-                    as="style"
-                    data-chunk="main"
-                    href="/dist/node/main.css"
-                    nonce="testnonce"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-chunk="main"
-                    href="/dist/node/main.js"
-                    nonce="testnonce"
-                    rel="preload"
-                  />,
-                  <link
-                    as="style"
-                    data-chunk="letters-A"
-                    href="/dist/node/letters-A.css"
-                    nonce="testnonce"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-chunk="letters-A"
-                    href="/dist/node/letters-A.js"
-                    nonce="testnonce"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-parent-chunk="main"
-                    href="/dist/node/letters-C.js"
-                    nonce="testnonce"
-                    rel="preload"
-                  />,
-                  <link
-                    as="script"
-                    data-parent-chunk="main"
-                    href="/dist/node/letters-D.js"
-                    nonce="testnonce"
-                    rel="prefetch"
-                  />,
-                ]
-            `)
+        Array [
+          <link
+            as="style"
+            data-chunk="letters-A"
+            href="/dist/node/letters-A.css"
+            nonce="testnonce"
+            rel="preload"
+          />,
+          <link
+            as="style"
+            data-chunk="main"
+            href="/dist/node/main.css"
+            nonce="testnonce"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-chunk="main"
+            href="/dist/node/main.js"
+            nonce="testnonce"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-chunk="letters-A"
+            href="/dist/node/letters-A.js"
+            nonce="testnonce"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-parent-chunk="main"
+            href="/dist/node/letters-C.js"
+            nonce="testnonce"
+            rel="preload"
+          />,
+          <link
+            as="script"
+            data-parent-chunk="main"
+            href="/dist/node/letters-D.js"
+            nonce="testnonce"
+            rel="prefetch"
+          />,
+        ]
+      `)
     })
   })
 
