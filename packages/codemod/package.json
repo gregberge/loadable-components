@@ -1,6 +1,6 @@
 {
   "name": "loadable-codemod",
-  "description": "Various codemods related to @loadable/components for easier migration/ugprades.",
+  "description": "Various codemods related to @loadable/components for easier migration/upgrades.",
   "version": "5.13.0",
   "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Jacky Efendi <jacky.efendi1@gmail.com>",
@@ -31,5 +31,6 @@
     "execa": "^4.0.0",
     "jscodeshift": "0.7.0",
     "yargs": "^15.1.0"
-  }
+  },
+  "gitHead": "fb0cc38902f70fe4446a5f72824c25fc27f66c6d"
 }

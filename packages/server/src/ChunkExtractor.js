@@ -5,9 +5,9 @@ import uniq from 'lodash/uniq'
 import uniqBy from 'lodash/uniqBy'
 import flatMap from 'lodash/flatMap'
 import React from 'react'
-import { invariant, getRequiredChunkKey } from './sharedInternals'
+import {invariant, getRequiredChunkKey} from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
-import { smartRequire, joinURLPath } from './util'
+import {smartRequire, joinURLPath} from './util'
 
 const EXTENSION_SCRIPT_TYPES = {
   '.js': 'script',
@@ -64,7 +64,7 @@ function assetToScriptElement(asset, extraProps) {
   )
 }
 
-function assetToStyleString(asset, { inputFileSystem }) {
+function assetToStyleString(asset, {inputFileSystem}) {
   return new Promise((resolve, reject) => {
     inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -82,7 +82,7 @@ function assetToStyleTag(asset, extraProps) {
   }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
 }
 
-function assetToStyleTagInline(asset, extraProps, { inputFileSystem }) {
+function assetToStyleTagInline(asset, extraProps, {inputFileSystem}) {
   return new Promise((resolve, reject) => {
     inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -113,7 +113,7 @@ function assetToStyleElement(asset, extraProps) {
   )
 }
 
-function assetToStyleElementInline(asset, extraProps, { inputFileSystem }) {
+function assetToStyleElementInline(asset, extraProps, {inputFileSystem}) {
   return new Promise((resolve, reject) => {
     inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -124,7 +124,7 @@ function assetToStyleElementInline(asset, extraProps, { inputFileSystem }) {
         <style
           key={asset.url}
           data-chunk={asset.chunk}
-          dangerouslySetInnerHTML={{ __html: data }}
+          dangerouslySetInnerHTML={{__html: data}}
           {...handleExtraProps(asset, extraProps)}
         />,
       )
@@ -172,14 +172,14 @@ function isValidChunkAsset(chunkAsset) {
 
 class ChunkExtractor {
   constructor({
-    statsFile,
-    stats,
-    entrypoints = ['main'],
-    namespace = '',
-    outputPath,
-    publicPath,
-    inputFileSystem = fs,
-  } = {}) {
+                statsFile,
+                stats,
+                entrypoints = ['main'],
+                namespace = '',
+                outputPath,
+                publicPath,
+                inputFileSystem = fs,
+              } = {}) {
     this.namespace = namespace
     this.stats = stats || smartRequire(statsFile)
     this.publicPath = publicPath || this.stats.publicPath
@@ -200,7 +200,7 @@ class ChunkExtractor {
     return chunkGroup
   }
 
-  createChunkAsset({ filename, chunk, type, linkType }) {
+  createChunkAsset({filename, chunk, type, linkType}) {
     return {
       filename,
       scriptType: extensionToScriptType(
@@ -279,27 +279,47 @@ class ChunkExtractor {
     return JSON.stringify(this.getChunkDependencies(this.chunks))
   }
 
+  getRequiredChunksNamesScriptContent() {
+    return JSON.stringify({
+      namedChunks: this.chunks,
+    })
+  }
+
   getRequiredChunksScriptTag(extraProps) {
-    return `<script id="${getRequiredChunkKey(
-      this.namespace,
-    )}" type="application/json"${extraPropsToString(
+    const id = getRequiredChunkKey(this.namespace);
+    const props = `type="application/json"${extraPropsToString(
       null,
       extraProps,
-    )}>${this.getRequiredChunksScriptContent()}</script>`
+    )}`;
+    return [
+      `<script id="${id}" ${props}>${this.getRequiredChunksScriptContent()}</script>`,
+      `<script id="${id}_ext" ${props}>${this.getRequiredChunksNamesScriptContent()}</script>`,
+    ].join('');
   }
 
   getRequiredChunksScriptElement(extraProps) {
-    return (
+    const id = getRequiredChunkKey(this.namespace);
+    const props = {
+      type: "application/json",
+      ...handleExtraProps(null, extraProps)
+    }
+    return [
       <script
-        key="required"
-        id={getRequiredChunkKey(this.namespace)}
-        type="application/json"
+        id={id}
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
-        {...handleExtraProps(null, extraProps)}
+        {...props}
+
+      />,
+      <script
+        id={`${id}_ext`}
+        dangerouslySetInnerHTML={{
+          __html: this.getRequiredChunksNamesScriptContent(),
+        }}
+        {...props}
       />
-    )
+    ]
   }
 
   // Public methods
@@ -325,7 +345,7 @@ class ChunkExtractor {
     invariant(mainAsset, 'asset not found')
 
     this.stats.assets
-      .filter(({ name }) => {
+      .filter(({name}) => {
         const type = extensionToScriptType(
           path
             .extname(name)
@@ -334,7 +354,7 @@ class ChunkExtractor {
         )
         return type === 'script'
       })
-      .forEach(({ name }) => {
+      .forEach(({name}) => {
         smartRequire(path.join(this.outputPath, name.split('?')[0]))
       })
 
