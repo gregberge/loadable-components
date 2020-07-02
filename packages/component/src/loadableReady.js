@@ -1,14 +1,15 @@
 /* eslint-disable no-underscore-dangle, camelcase */
 /* eslint-env browser */
-import { warn } from './util'
-import { getRequiredChunkKey } from './sharedInternals'
+import {warn} from './util'
+import {getRequiredChunkKey} from './sharedInternals'
 import {LOADABLE_SHARED} from "./shared";
 
 const BROWSER = typeof window !== 'undefined'
 
 export default function loadableReady(
-  done = () => {},
-  { namespace = '' } = {},
+  done = () => {
+  },
+  {namespace = ''} = {},
 ) {
   if (!BROWSER) {
     warn('`loadableReady()` must be called in browser only')
@@ -18,12 +19,21 @@ export default function loadableReady(
 
   let requiredChunks = null
   if (BROWSER) {
-    const dataElement = document.getElementById(getRequiredChunkKey(namespace))
+    const id = getRequiredChunkKey(namespace)
+    const dataElement = document.getElementById(id)
     if (dataElement) {
       requiredChunks = JSON.parse(dataElement.textContent);
-      requiredChunks.forEach(chunk => {
-        LOADABLE_SHARED.initialChunks[chunk] = true;
-      });
+
+      const extElement = document.getElementById(`${id}_ext`);
+      if (extElement) {
+        const {namedChunks} = JSON.parse(extElement.textContent);
+        namedChunks.forEach(chunkName => {
+          LOADABLE_SHARED.initialChunks[chunkName] = true;
+        });
+      } else {
+        // version mismatch
+        throw new Error('loadable-component: @loabable/server does not match @loadable/component');
+      }
     }
   }
 
