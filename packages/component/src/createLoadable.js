@@ -4,7 +4,7 @@ import * as ReactIs from 'react-is'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
-import {LOADABLE_SHARED} from "./shared";
+import { LOADABLE_SHARED } from './shared'
 
 function resolveConstructor(ctor) {
   if (typeof ctor === 'function') {
@@ -22,7 +22,11 @@ const withChunkExtractor = Component => props => (
 
 const identity = v => v
 
-function createLoadable({ defaultResolveComponent = identity, render, onLoad }) {
+function createLoadable({
+  defaultResolveComponent = identity,
+  render,
+  onLoad,
+}) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
     const cache = {}
@@ -41,12 +45,14 @@ function createLoadable({ defaultResolveComponent = identity, render, onLoad }) 
         ? options.resolveComponent(module, props)
         : defaultResolveComponent(module)
       if (options.resolveComponent && !ReactIs.isValidElementType(Component)) {
-        throw new Error(`resolveComponent returned something that is not a React component!`)
+        throw new Error(
+          `resolveComponent returned something that is not a React component!`,
+        )
       }
       hoistNonReactStatics(Loadable, Component, {
         preload: true,
       })
-      return Component;
+      return Component
     }
 
     class InnerLoadable extends React.Component {
@@ -98,12 +104,13 @@ function createLoadable({ defaultResolveComponent = identity, render, onLoad }) 
         // If module is already loaded, we use a synchronous loading
         // Only perform this synchronous loading if the component has not
         // been marked with no SSR, else we risk hydration mismatches
-        if (options.ssr !== false && (
+        if (
+          options.ssr !== false &&
           // is ready - was loaded in this session
-          (ctor.isReady && ctor.isReady(props)) ||
-          // is ready - was loaded during SSR process
-          (ctor.chunkName && LOADABLE_SHARED.initialChunks[ctor.chunkName(props)])
-          )
+          ((ctor.isReady && ctor.isReady(props)) ||
+            // is ready - was loaded during SSR process
+            (ctor.chunkName &&
+              LOADABLE_SHARED.initialChunks[ctor.chunkName(props)]))
         ) {
           this.loadSync()
         }

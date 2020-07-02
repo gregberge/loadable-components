@@ -85,34 +85,35 @@ export default function chunkNameProperty({ types: t }) {
     const { length } = expressions
 
     if (length === 1) {
-      return expressions[0];
+      return expressions[0]
     }
 
-    return expressions.slice(1).reduce(
-      (r, p) => t.binaryExpression('+', r, p), 
-      expressions[0]
-    )
+    return expressions
+      .slice(1)
+      .reduce((r, p) => t.binaryExpression('+', r, p), expressions[0])
   }
 
   function generateChunkNameNode(callPath, prefix) {
     const importArg = getImportArg(callPath)
     if (importArg.isTemplateLiteral()) {
-      return prefix ? t.binaryExpression(
-        '+',
-        t.stringLiteral(prefix),
-        sanitizeChunkNameTemplateLiteral(
-          combineExpressions(importArg.node)
-        )
-      ) : t.templateLiteral(
-        importArg.node.quasis.map((quasi, index) =>
-          transformQuasi(
-            quasi,
-            index === 0,
-            importArg.node.quasis.length === 1,
-          ),
-        ),
-        importArg.node.expressions,
-      )
+      return prefix
+        ? t.binaryExpression(
+            '+',
+            t.stringLiteral(prefix),
+            sanitizeChunkNameTemplateLiteral(
+              combineExpressions(importArg.node),
+            ),
+          )
+        : t.templateLiteral(
+            importArg.node.quasis.map((quasi, index) =>
+              transformQuasi(
+                quasi,
+                index === 0,
+                importArg.node.quasis.length === 1,
+              ),
+            ),
+            importArg.node.expressions,
+          )
     }
     return t.stringLiteral(moduleToChunk(importArg.node.value))
   }
@@ -136,7 +137,7 @@ export default function chunkNameProperty({ types: t }) {
     if (chunkNameComment) {
       chunkNameComment.remove()
     }
-    
+
     importArg.addComment('leading', writeWebpackCommentValues(values))
   }
 
@@ -164,8 +165,8 @@ export default function chunkNameProperty({ types: t }) {
     }
 
     let chunkNameNode = generateChunkNameNode(
-      callPath, 
-      getChunkNamePrefix(webpackChunkName)
+      callPath,
+      getChunkNamePrefix(webpackChunkName),
     )
 
     if (t.isTemplateLiteral(chunkNameNode)) {
@@ -173,7 +174,7 @@ export default function chunkNameProperty({ types: t }) {
       chunkNameNode = sanitizeChunkNameTemplateLiteral(chunkNameNode)
     } else if (t.isStringLiteral(chunkNameNode)) {
       webpackChunkName = chunkNameNode.value
-    } 
+    }
 
     addOrReplaceChunkNameComment(callPath, { ...values, webpackChunkName })
     return chunkNameNode

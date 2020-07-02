@@ -100,15 +100,19 @@ describe('plugin', () => {
 
         expect(result).toMatchSnapshot()
       })
-	  
-	    it('should keep it', () => {
+
+      it('should keep it', () => {
         const result = testPlugin(`
           loadable(props => import(/* webpackChunkName: "pages/[request]" */ \`./pages/\${props.path}\`))
         `)
 
         expect(result).toMatchSnapshot()
-        expect(result).toEqual(expect.stringContaining('return "pages/" + props.path.replace'))
-        expect(result).toEqual(expect.stringContaining('/* webpackChunkName: "pages/[request]"'))
+        expect(result).toEqual(
+          expect.stringContaining('return "pages/" + props.path.replace'),
+        )
+        expect(result).toEqual(
+          expect.stringContaining('/* webpackChunkName: "pages/[request]"'),
+        )
       })
     })
 

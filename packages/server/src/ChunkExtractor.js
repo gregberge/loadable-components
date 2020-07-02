@@ -5,9 +5,9 @@ import uniq from 'lodash/uniq'
 import uniqBy from 'lodash/uniqBy'
 import flatMap from 'lodash/flatMap'
 import React from 'react'
-import {invariant, getRequiredChunkKey} from './sharedInternals'
+import { invariant, getRequiredChunkKey } from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
-import {smartRequire, joinURLPath} from './util'
+import { smartRequire, joinURLPath } from './util'
 
 const EXTENSION_SCRIPT_TYPES = {
   '.js': 'script',
@@ -64,7 +64,7 @@ function assetToScriptElement(asset, extraProps) {
   )
 }
 
-function assetToStyleString(asset, {inputFileSystem}) {
+function assetToStyleString(asset, { inputFileSystem }) {
   return new Promise((resolve, reject) => {
     inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -82,7 +82,7 @@ function assetToStyleTag(asset, extraProps) {
   }"${getSriHtmlAttributes(asset)}${extraPropsToString(asset, extraProps)}>`
 }
 
-function assetToStyleTagInline(asset, extraProps, {inputFileSystem}) {
+function assetToStyleTagInline(asset, extraProps, { inputFileSystem }) {
   return new Promise((resolve, reject) => {
     inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -113,7 +113,7 @@ function assetToStyleElement(asset, extraProps) {
   )
 }
 
-function assetToStyleElementInline(asset, extraProps, {inputFileSystem}) {
+function assetToStyleElementInline(asset, extraProps, { inputFileSystem }) {
   return new Promise((resolve, reject) => {
     inputFileSystem.readFile(asset.path, 'utf8', (err, data) => {
       if (err) {
@@ -124,7 +124,7 @@ function assetToStyleElementInline(asset, extraProps, {inputFileSystem}) {
         <style
           key={asset.url}
           data-chunk={asset.chunk}
-          dangerouslySetInnerHTML={{__html: data}}
+          dangerouslySetInnerHTML={{ __html: data }}
           {...handleExtraProps(asset, extraProps)}
         />,
       )
@@ -172,14 +172,14 @@ function isValidChunkAsset(chunkAsset) {
 
 class ChunkExtractor {
   constructor({
-                statsFile,
-                stats,
-                entrypoints = ['main'],
-                namespace = '',
-                outputPath,
-                publicPath,
-                inputFileSystem = fs,
-              } = {}) {
+    statsFile,
+    stats,
+    entrypoints = ['main'],
+    namespace = '',
+    outputPath,
+    publicPath,
+    inputFileSystem = fs,
+  } = {}) {
     this.namespace = namespace
     this.stats = stats || smartRequire(statsFile)
     this.publicPath = publicPath || this.stats.publicPath
@@ -200,7 +200,7 @@ class ChunkExtractor {
     return chunkGroup
   }
 
-  createChunkAsset({filename, chunk, type, linkType}) {
+  createChunkAsset({ filename, chunk, type, linkType }) {
     return {
       filename,
       scriptType: extensionToScriptType(
@@ -286,22 +286,22 @@ class ChunkExtractor {
   }
 
   getRequiredChunksScriptTag(extraProps) {
-    const id = getRequiredChunkKey(this.namespace);
+    const id = getRequiredChunkKey(this.namespace)
     const props = `type="application/json"${extraPropsToString(
       null,
       extraProps,
-    )}`;
+    )}`
     return [
       `<script id="${id}" ${props}>${this.getRequiredChunksScriptContent()}</script>`,
       `<script id="${id}_ext" ${props}>${this.getRequiredChunksNamesScriptContent()}</script>`,
-    ].join('');
+    ].join('')
   }
 
   getRequiredChunksScriptElement(extraProps) {
-    const id = getRequiredChunkKey(this.namespace);
+    const id = getRequiredChunkKey(this.namespace)
     const props = {
-      type: "application/json",
-      ...handleExtraProps(null, extraProps)
+      type: 'application/json',
+      ...handleExtraProps(null, extraProps),
     }
     return [
       <script
@@ -310,7 +310,6 @@ class ChunkExtractor {
           __html: this.getRequiredChunksScriptContent(),
         }}
         {...props}
-
       />,
       <script
         id={`${id}_ext`}
@@ -318,7 +317,7 @@ class ChunkExtractor {
           __html: this.getRequiredChunksNamesScriptContent(),
         }}
         {...props}
-      />
+      />,
     ]
   }
 
@@ -345,7 +344,7 @@ class ChunkExtractor {
     invariant(mainAsset, 'asset not found')
 
     this.stats.assets
-      .filter(({name}) => {
+      .filter(({ name }) => {
         const type = extensionToScriptType(
           path
             .extname(name)
@@ -354,7 +353,7 @@ class ChunkExtractor {
         )
         return type === 'script'
       })
-      .forEach(({name}) => {
+      .forEach(({ name }) => {
         smartRequire(path.join(this.outputPath, name.split('?')[0]))
       })
 
@@ -433,8 +432,9 @@ class ChunkExtractor {
     const chunks = [...this.entrypoints, ...this.chunks]
     const preloadAssets = this.getChunkChildAssets(chunks, 'preload')
     const prefetchAssets = this.getChunkChildAssets(chunks, 'prefetch')
-    return [...mainAssets, ...preloadAssets, ...prefetchAssets]
-      .sort(a => (a.scriptType === 'style' ? -1 : 0))
+    return [...mainAssets, ...preloadAssets, ...prefetchAssets].sort(a =>
+      a.scriptType === 'style' ? -1 : 0,
+    )
   }
 
   getLinkTags(extraProps = {}) {

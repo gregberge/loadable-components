@@ -1,15 +1,15 @@
-export const clearModuleCache = (moduleName) => {
-  const m = require.cache[moduleName];
+export const clearModuleCache = moduleName => {
+  const m = require.cache[moduleName]
   if (m) {
     // remove self from own parents
     if (m.parent && m.parent.children) {
-      m.parent.children = m.parent.children.filter(x => x !== m);
+      m.parent.children = m.parent.children.filter(x => x !== m)
     }
     // remove self from own children
     if (m.children) {
       m.children.forEach(child => {
         if (child.parent && child.parent === m) {
-          child.parent = null;
+          child.parent = null
         }
       })
     }
