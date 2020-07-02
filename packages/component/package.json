@@ -40,6 +40,5 @@
     "@babel/runtime": "^7.7.7",
     "hoist-non-react-statics": "^3.3.1",
     "react-is": "^16.12.0"
-  },
-  "gitHead": "fb0cc38902f70fe4446a5f72824c25fc27f66c6d"
+  }
 }
