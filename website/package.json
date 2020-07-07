@@ -12,6 +12,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
-    "smooth-doc": "^4.0.1"
+    "smooth-doc": "^4.0.2"
   }
 }
