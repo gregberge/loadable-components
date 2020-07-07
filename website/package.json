@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "@bundle-analyzer/gatsby-plugin": "^0.5.1",
-    "@xstyled/styled-components": "^1.15.0",
-    "gatsby": "^2.18.7",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-helmet": "^5.2.1",
-    "smooth-doc": "^3.3.0"
+    "@xstyled/styled-components": "^1.17.1",
+    "gatsby": "^2.23.21",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
+    "smooth-doc": "^4.0.0"
   }
 }

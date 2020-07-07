@@ -11,7 +11,8 @@ module.exports = {
         github: 'https://github.com/gregberge/loadable-components',
         menu: ['Introduction', 'Guides', 'API'],
         nav: [{ title: 'Docs', url: '/docs/getting-started/' }],
-        codeFundProperty: 268,
+        carbonAdUrl:
+          '//cdn.carbonads.com/carbon.js?serve=CE7I5K3U&placement=loadable-componentscom',
         googleAnalytics: 'UA-154156493-1',
         algoliaDocSearch: {
           apiKey: 'e6a731577a7b94aefdbb1fb7dcc71e68',
