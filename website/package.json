@@ -8,10 +8,10 @@
   "dependencies": {
     "@bundle-analyzer/gatsby-plugin": "^0.5.1",
     "@xstyled/styled-components": "^1.17.1",
-    "gatsby": "^2.23.21",
+    "gatsby": "^2.24.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
-    "smooth-doc": "^4.0.2"
+    "smooth-doc": "^4.0.3"
   }
 }
