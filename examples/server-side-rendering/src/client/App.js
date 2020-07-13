@@ -4,12 +4,12 @@ import loadable from '@loadable/component'
 import './main.css'
 
 const A = loadable(() => import('./letters/A'))
-const Native = loadable(() => import(/* webpackIgnore: true */ './native.js'))
+const Native = loadable(({ file }) => import(/* webpackIgnore: true */ `${file}`))
 const B = loadable(() => import('./letters/B'))
 const C = loadable(() => import(/* webpackPreload: true */ './letters/C'))
 const D = loadable(() => import(/* webpackPrefetch: true */ './letters/D'))
 const E = loadable(() => import('./letters/E'), { ssr: false })
-const X = loadable(props => import(`./letters/${props.letter}`))
+const X = loadable(({letter}) => import(`./letters/${letter}`))
 const Sub = loadable(props => import(`./letters/${props.letter}/file`))
 const RootSub = loadable(props => import(`./${props.letter}/file`))
 
@@ -31,7 +31,7 @@ const Moment = loadable.lib(() => import('moment'))
 
 const App = () => (
   <div>
-    <Native />
+    <Native file="./native.js" pepe="marc" />
     <A />
     <br />
     <B />

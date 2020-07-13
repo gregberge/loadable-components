@@ -230,7 +230,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
       return type === 'CHUNK' ?
         EnhancedInnerLoadableWithRefsForwarded :
         (
-          <PrerenderedComponent live={Loadable.load()}>
+          <PrerenderedComponent live={Loadable.load(props)}>
             {EnhancedInnerLoadableWithRefsForwarded}
           </PrerenderedComponent>
         )
