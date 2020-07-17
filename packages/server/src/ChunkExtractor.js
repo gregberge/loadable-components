@@ -8,7 +8,6 @@ import React from 'react'
 import { invariant, getRequiredChunkKey } from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
 import { smartRequire, joinURLPath } from './util'
-import { PrerenderedControler } from 'react-prerendered-component';
 
 const EXTENSION_SCRIPT_TYPES = {
   '.js': 'script',
@@ -313,9 +312,7 @@ class ChunkExtractor {
   collectChunks(app) {
     return (
       <ChunkExtractorManager extractor={this}>
-        <PrerenderedControler>
           {app}
-        </PrerenderedControler>
       </ChunkExtractorManager>
     )
   }
