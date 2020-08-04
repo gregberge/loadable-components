@@ -133,26 +133,24 @@ describe('ChunkExtrator', () => {
       })
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[]",
               }
-              id="testapp__LOADABLE_REQUIRED_CHUNKS__"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[]}",
-                }
+            }
+            id="testapp__LOADABLE_REQUIRED_CHUNKS__"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[]}",
               }
-              id="testapp__LOADABLE_REQUIRED_CHUNKS___ext"
-              type="application/json"
-            />,
-          ],
+            }
+            id="testapp__LOADABLE_REQUIRED_CHUNKS___ext"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"
@@ -165,26 +163,24 @@ describe('ChunkExtrator', () => {
     it('should return main script tag without chunk', () => {
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[]",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS__"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[]}",
-                }
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS__"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[]}",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS___ext"
-              type="application/json"
-            />,
-          ],
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"
@@ -198,26 +194,24 @@ describe('ChunkExtrator', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[\\"chunk-0-for-letters-A\\"]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[\\"chunk-0-for-letters-A\\"]",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS__"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
-                }
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS__"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS___ext"
-              type="application/json"
-            />,
-          ],
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"
@@ -236,26 +230,24 @@ describe('ChunkExtrator', () => {
       extractor.addChunk('letters-E')
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[\\"letters-E\\"]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[\\"letters-E\\"]",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS__"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[\\"letters-E\\"]}",
-                }
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS__"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[\\"letters-E\\"]}",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS___ext"
-              type="application/json"
-            />,
-          ],
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"
@@ -275,28 +267,26 @@ describe('ChunkExtrator', () => {
       expect(extractor.getScriptElements({ nonce: 'testnonce' }))
         .toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[\\"chunk-0-for-letters-A\\"]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[\\"chunk-0-for-letters-A\\"]",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS__"
-              nonce="testnonce"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
-                }
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS__"
+            nonce="testnonce"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS___ext"
-              nonce="testnonce"
-              type="application/json"
-            />,
-          ],
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
+            nonce="testnonce"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"
@@ -321,28 +311,26 @@ describe('ChunkExtrator', () => {
         }),
       ).toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[\\"chunk-0-for-letters-A\\"]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[\\"chunk-0-for-letters-A\\"]",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS__"
-              nonce="anonymous"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
-                }
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS__"
+            nonce="anonymous"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS___ext"
-              nonce="anonymous"
-              type="application/json"
-            />,
-          ],
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
+            nonce="anonymous"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"
@@ -368,26 +356,24 @@ describe('ChunkExtrator', () => {
 
       expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
-          Array [
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "[]",
-                }
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[]",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS__"
-              type="application/json"
-            />,
-            <script
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "{\\"namedChunks\\":[]}",
-                }
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS__"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[]}",
               }
-              id="__LOADABLE_REQUIRED_CHUNKS___ext"
-              type="application/json"
-            />,
-          ],
+            }
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
+            type="application/json"
+          />,
           <script
             async={true}
             data-chunk="main"

@@ -297,7 +297,7 @@ class ChunkExtractor {
     ].join('')
   }
 
-  getRequiredChunksScriptElement(extraProps) {
+  getRequiredChunksScriptElements(extraProps) {
     const id = getRequiredChunkKey(this.namespace)
     const props = {
       type: 'application/json',
@@ -381,14 +381,14 @@ class ChunkExtractor {
   }
 
   getScriptElements(extraProps = {}) {
-    const requiredScriptElement = this.getRequiredChunksScriptElement(
+    const requiredScriptElements = this.getRequiredChunksScriptElements(
       extraProps,
     )
     const mainAssets = this.getMainAssets('script')
     const assetsScriptElements = mainAssets.map(asset =>
       assetToScriptElement(asset, extraProps),
     )
-    return [requiredScriptElement, ...assetsScriptElements]
+    return [...requiredScriptElements, ...assetsScriptElements]
   }
 
   getCssString() {
