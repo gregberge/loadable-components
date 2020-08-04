@@ -64,8 +64,9 @@ _Before_ submitting a pull request, please make sure the following is done…
 #### Testing with your own project
 
 You can use `yarn run release-from-git` to create releases as tags on github. This requires that:
- - Your git remote (where you want to publish the tags) is `origin`
- - Your commit messages follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. For example: `feat: add timeout option`.
+
+- Your git remote (where you want to publish the tags) is `origin`
+- Your commit messages follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. For example: `feat: add timeout option`.
 
 ## Bugs
 

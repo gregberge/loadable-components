@@ -26,7 +26,9 @@ const GServer = loadable(() => import('./letters/G'), {
 A.C = C
 A.D = D
 
-const Moment = loadable.lib(() => import('moment'))
+const Moment = loadable.lib(() => import('moment'), {
+  resolveComponent: moment => moment.default || moment,
+})
 
 const App = () => (
   <div>

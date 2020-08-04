@@ -113,11 +113,28 @@ describe('#loadable', () => {
     expect(load).toHaveBeenCalledTimes(2)
   })
 
-  it('supports non-default export', async () => {
+  it('supports commonjs default export', async () => {
     const load = jest.fn().mockResolvedValue(() => 'loaded')
     const Component = loadable(load)
     const { container } = render(<Component />)
     await wait(() => expect(container).toHaveTextContent('loaded'))
+  })
+
+  it('supports non-default export via resolveComponent', async () => {
+    const importedModule = { exported: () => 'loaded' }
+    const load = jest.fn().mockResolvedValue(importedModule)
+    const resolveComponent = jest.fn(({ exported: component }) => component)
+    const Component = loadable(load, {
+      resolveComponent,
+    })
+    const { container } = render(<Component someProp="123" />)
+
+    await wait(() => expect(container).toHaveTextContent('loaded'))
+    expect(resolveComponent).toHaveBeenCalledWith(importedModule, {
+      someProp: '123',
+      __chunkExtractor: undefined,
+      forwardedRef: null,
+    })
   })
 
   it('forwards props', async () => {

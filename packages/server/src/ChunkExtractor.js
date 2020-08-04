@@ -19,7 +19,10 @@ function extensionToScriptType(extension) {
 }
 
 function getAssets(chunks, getAsset) {
-  return uniqBy(flatMap(chunks, chunk => getAsset(chunk)), 'url')
+  return uniqBy(
+    flatMap(chunks, chunk => getAsset(chunk)),
+    'url',
+  )
 }
 
 function handleExtraProps(asset, extraProps) {
@@ -276,27 +279,46 @@ class ChunkExtractor {
     return JSON.stringify(this.getChunkDependencies(this.chunks))
   }
 
+  getRequiredChunksNamesScriptContent() {
+    return JSON.stringify({
+      namedChunks: this.chunks,
+    })
+  }
+
   getRequiredChunksScriptTag(extraProps) {
-    return `<script id="${getRequiredChunkKey(
-      this.namespace,
-    )}" type="application/json"${extraPropsToString(
+    const id = getRequiredChunkKey(this.namespace)
+    const props = `type="application/json"${extraPropsToString(
       null,
       extraProps,
-    )}>${this.getRequiredChunksScriptContent()}</script>`
+    )}`
+    return [
+      `<script id="${id}" ${props}>${this.getRequiredChunksScriptContent()}</script>`,
+      `<script id="${id}_ext" ${props}>${this.getRequiredChunksNamesScriptContent()}</script>`,
+    ].join('')
   }
 
   getRequiredChunksScriptElement(extraProps) {
-    return (
+    const id = getRequiredChunkKey(this.namespace)
+    const props = {
+      type: 'application/json',
+      ...handleExtraProps(null, extraProps),
+    }
+    return [
       <script
-        key="required"
-        id={getRequiredChunkKey(this.namespace)}
-        type="application/json"
+        id={id}
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
-        {...handleExtraProps(null, extraProps)}
-      />
-    )
+        {...props}
+      />,
+      <script
+        id={`${id}_ext`}
+        dangerouslySetInnerHTML={{
+          __html: this.getRequiredChunksNamesScriptContent(),
+        }}
+        {...props}
+      />,
+    ]
   }
 
   // Public methods
@@ -410,7 +432,9 @@ class ChunkExtractor {
     const chunks = [...this.entrypoints, ...this.chunks]
     const preloadAssets = this.getChunkChildAssets(chunks, 'preload')
     const prefetchAssets = this.getChunkChildAssets(chunks, 'prefetch')
-    return [...mainAssets, ...preloadAssets, ...prefetchAssets]
+    return [...mainAssets, ...preloadAssets, ...prefetchAssets].sort(a =>
+      a.scriptType === 'style' ? -1 : 0,
+    )
   }
 
   getLinkTags(extraProps = {}) {

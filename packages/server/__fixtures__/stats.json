@@ -204,7 +204,7 @@
     },
     "letters-A": {
       "chunks": [
-        "letters-A"
+        "chunk-0-for-letters-A"
       ],
       "assets": [
         "letters-A.css",

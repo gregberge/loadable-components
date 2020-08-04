@@ -1,12 +1,6 @@
-import hoistNonReactStatics from 'hoist-non-react-statics'
-
-export function resolveComponent(loadedModule, { Loadable }) {
+export function defaultResolveComponent(loadedModule) {
   // eslint-disable-next-line no-underscore-dangle
-  const Component = loadedModule.__esModule
+  return loadedModule.__esModule
     ? loadedModule.default
     : loadedModule.default || loadedModule
-  hoistNonReactStatics(Loadable, Component, {
-    preload: true,
-  })
-  return Component
 }

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.13.1](https://github.com/gregberge/loadable-components/compare/v5.13.0...v5.13.1) (2020-07-02)
+
+
+### Bug Fixes
+
+* expose used chunkNames from a server. Fixes [#587](https://github.com/gregberge/loadable-components/issues/587) ([831aec0](https://github.com/gregberge/loadable-components/commit/831aec03154ab16007db0d78fbf3559583c000fe))
+
+
+
+
+
+# [5.13.0](https://github.com/gregberge/loadable-components/compare/v5.12.0...v5.13.0) (2020-06-29)
+
+
+### Bug Fixes
+
+* memory leak in module cache management, fixes [#560](https://github.com/gregberge/loadable-components/issues/560) ([6c11703](https://github.com/gregberge/loadable-components/commit/6c11703cbc5446fc61d10c47b64e84a00cf899c3))
+
+
+
+
+
 # [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
 
 

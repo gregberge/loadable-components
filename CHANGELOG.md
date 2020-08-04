@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.13.1](https://github.com/smooth-code/loadable-components/compare/v5.13.0...v5.13.1) (2020-07-02)
+
+
+### Bug Fixes
+
+* expose used chunkNames from a server. Fixes [#587](https://github.com/smooth-code/loadable-components/issues/587) ([831aec0](https://github.com/smooth-code/loadable-components/commit/831aec03154ab16007db0d78fbf3559583c000fe))
+
+
+
+
+
+# [5.13.0](https://github.com/smooth-code/loadable-components/compare/v5.12.0...v5.13.0) (2020-06-29)
+
+
+### Bug Fixes
+
+* allow webpack cache is ready only for initial chunks, fixes [#558](https://github.com/smooth-code/loadable-components/issues/558) ([61f8b75](https://github.com/smooth-code/loadable-components/commit/61f8b75b54612368c88807d73abb7dc7add720ad))
+* memory leak in module cache management, fixes [#560](https://github.com/smooth-code/loadable-components/issues/560) ([6c11703](https://github.com/smooth-code/loadable-components/commit/6c11703cbc5446fc61d10c47b64e84a00cf899c3))
+* use make-dir instead of mkdirp ([#544](https://github.com/smooth-code/loadable-components/issues/544)) ([5a9c33b](https://github.com/smooth-code/loadable-components/commit/5a9c33b222fecb320dc02b643122fbe717aa6fc8))
+* **babel-plugin:** add missing peer dependency ([#524](https://github.com/smooth-code/loadable-components/issues/524)) ([03a79b6](https://github.com/smooth-code/loadable-components/commit/03a79b66defc78f150436acd6a9d3e029bb1d470))
+
+
+### Features
+
+* add `resolveComponent` option ([a47d3d9](https://github.com/smooth-code/loadable-components/commit/a47d3d9021ee6b12c1209bf41069dc133cb1fa7c))
+
+
+
+
+
 # [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
 
 

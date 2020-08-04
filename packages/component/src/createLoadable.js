@@ -1,7 +1,11 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
+import * as ReactIs from 'react-is'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant, statusAware, STATUS_REJECTED, STATUS_PENDING } from './util'
+
 import Context from './Context'
+import { LOADABLE_SHARED } from './shared'
 
 function resolveConstructor(ctor) {
   if (typeof ctor === 'function') {
@@ -19,7 +23,11 @@ const withChunkExtractor = Component => props => (
 
 const identity = v => v
 
-function createLoadable({ resolve = identity, render, onLoad }) {
+function createLoadable({
+  defaultResolveComponent = identity,
+  render,
+  onLoad,
+}) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
     const cache = {}
@@ -31,6 +39,21 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         return ctor.resolve(props)
       }
       return null
+    }
+
+    function resolve(module, props, Loadable) {
+      const Component = options.resolveComponent
+        ? options.resolveComponent(module, props)
+        : defaultResolveComponent(module)
+      if (options.resolveComponent && !ReactIs.isValidElementType(Component)) {
+        throw new Error(
+          `resolveComponent returned something that is not a React component!`,
+        )
+      }
+      hoistNonReactStatics(Loadable, Component, {
+        preload: true,
+      })
+      return Component
     }
 
     class InnerLoadable extends React.Component {
@@ -82,7 +105,14 @@ function createLoadable({ resolve = identity, render, onLoad }) {
         // If module is already loaded, we use a synchronous loading
         // Only perform this synchronous loading if the component has not
         // been marked with no SSR, else we risk hydration mismatches
-        if (options.ssr !== false && ctor.isReady && ctor.isReady(props)) {
+        if (
+          options.ssr !== false &&
+          // is ready - was loaded in this session
+          ((ctor.isReady && ctor.isReady(props)) ||
+            // is ready - was loaded during SSR process
+            (ctor.chunkName &&
+              LOADABLE_SHARED.initialChunks[ctor.chunkName(props)]))
+        ) {
           this.loadSync()
         }
       }
@@ -137,7 +167,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         try {
           const loadedModule = ctor.requireSync(this.props)
-          const result = resolve(loadedModule, { Loadable })
+          const result = resolve(loadedModule, this.props, Loadable)
           this.state.result = result
           this.state.loading = false
         } catch (error) {
@@ -166,7 +196,7 @@ function createLoadable({ resolve = identity, render, onLoad }) {
 
         promise = promise
           .then(loadedModule => {
-            const result = resolve(loadedModule, { Loadable })
+            const result = resolve(loadedModule, this.props, { Loadable })
             this.safeSetState(
               {
                 result,

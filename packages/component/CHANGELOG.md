@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.13.1](https://github.com/gregberge/loadable-components/compare/v5.13.0...v5.13.1) (2020-07-02)
+
+
+### Bug Fixes
+
+* expose used chunkNames from a server. Fixes [#587](https://github.com/gregberge/loadable-components/issues/587) ([831aec0](https://github.com/gregberge/loadable-components/commit/831aec03154ab16007db0d78fbf3559583c000fe))
+
+
+
+
+
+# [5.13.0](https://github.com/gregberge/loadable-components/compare/v5.12.0...v5.13.0) (2020-06-29)
+
+
+### Bug Fixes
+
+* allow webpack cache is ready only for initial chunks, fixes [#558](https://github.com/gregberge/loadable-components/issues/558) ([61f8b75](https://github.com/gregberge/loadable-components/commit/61f8b75b54612368c88807d73abb7dc7add720ad))
+
+
+### Features
+
+* add `resolveComponent` option ([a47d3d9](https://github.com/gregberge/loadable-components/commit/a47d3d9021ee6b12c1209bf41069dc133cb1fa7c))
+
+
+
+
+
 # [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
 
 

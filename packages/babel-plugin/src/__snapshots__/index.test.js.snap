@@ -13,7 +13,7 @@ exports[`plugin Magic comment should remove only needed comments 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -69,7 +69,7 @@ exports[`plugin Magic comment should transpile arrow functions 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -125,7 +125,7 @@ exports[`plugin Magic comment should transpile function expression 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -184,7 +184,7 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
     isReady(props) {
       const key = this.resolve(props);
 
-      if (this.resolved[key] === false) {
+      if (this.resolved[key] !== true) {
         return false;
       }
 
@@ -245,7 +245,7 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -294,6 +294,62 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 });"
 `;
 
+exports[`plugin aggressive import with "webpackChunkName" should keep it 1`] = `
+"loadable({
+  resolved: {},
+
+  chunkName(props) {
+    return \\"pages/\\" + props.path.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: props => import(
+  /* webpackChunkName: \\"pages/[request]\\" */
+  \`./pages/\${props.path}\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve(props) {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./pages/\${props.path}\`);
+    }
+
+    return eval('require.resolve')(\`./pages/\${props.path}\`);
+  }
+
+});"
+`;
+
 exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
 "loadable({
   resolved: {},
@@ -305,7 +361,7 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -361,7 +417,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -419,7 +475,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -479,7 +535,7 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -535,7 +591,7 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -591,7 +647,7 @@ exports[`plugin simple import in a complex promise should work 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -647,7 +703,7 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -703,7 +759,7 @@ exports[`plugin simple import should work with * in name 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -759,7 +815,7 @@ exports[`plugin simple import should work with + concatenation 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -815,7 +871,7 @@ exports[`plugin simple import should work with template literal 1`] = `
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -871,7 +927,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -927,7 +983,7 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 
@@ -983,7 +1039,7 @@ exports[`plugin simple import without "webpackChunkName" comment should add it 1
   isReady(props) {
     const key = this.resolve(props);
 
-    if (this.resolved[key] === false) {
+    if (this.resolved[key] !== true) {
       return false;
     }
 

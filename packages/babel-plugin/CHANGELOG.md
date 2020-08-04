@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.13.0](https://github.com/gregberge/loadable-components/compare/v5.12.0...v5.13.0) (2020-06-29)
+
+
+### Bug Fixes
+
+* allow webpack cache is ready only for initial chunks, fixes [#558](https://github.com/gregberge/loadable-components/issues/558) ([61f8b75](https://github.com/gregberge/loadable-components/commit/61f8b75b54612368c88807d73abb7dc7add720ad))
+* **babel-plugin:** add missing peer dependency ([#524](https://github.com/gregberge/loadable-components/issues/524)) ([03a79b6](https://github.com/gregberge/loadable-components/commit/03a79b66defc78f150436acd6a9d3e029bb1d470))
+
+
+
+
+
 # [5.12.0](https://github.com/gregberge/loadable-components/compare/v5.11.0...v5.12.0) (2020-01-09)
 
 
