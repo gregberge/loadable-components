@@ -40,22 +40,28 @@ _Before_ submitting a pull request, please make sure the following is done…
     yarn --version
     ```
 
-4.  If you've added code that should be tested, add tests. You can use watch mode that continuously transforms changed files to make your life easier.
+4. Run `yarn build` to bootstrap packages.
+
+    ```sh
+    yarn build
+    ```
+
+5.  If you've added code that should be tested, add tests. You can use watch mode that continuously transforms changed files to make your life easier.
 
     ```sh
     # in the background
     yarn run dev
     ```
 
-5.  If you've changed APIs, update the documentation.
+6.  If you've changed APIs, update the documentation.
 
-6.  Ensure the linting is good via `yarn lint`.
+7.  Ensure the linting is good via `yarn lint`.
 
     ```sh-session
     $ yarn lint
     ```
 
-7.  Ensure the test suite passes via `yarn test`.
+8.  Ensure the test suite passes via `yarn test`.
 
     ```sh-session
     $ yarn test
@@ -63,7 +69,7 @@ _Before_ submitting a pull request, please make sure the following is done…
 
 #### Testing with your own project
 
-You can use `yarn run release-from-git` to create releases as tags on github. This requires that:
+You can use `yarn run release-to-git` to create releases as tags on github. This requires that:
 
 - Your git remote (where you want to publish the tags) is `origin`
 - Your commit messages follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. For example: `feat: add timeout option`.
