@@ -2,10 +2,13 @@
 import React from 'react'
 import * as ReactIs from 'react-is'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import { invariant, statusAware, STATUS_REJECTED, STATUS_PENDING } from './util'
-
+import { invariant } from './util'
 import Context from './Context'
 import { LOADABLE_SHARED } from './shared'
+
+const STATUS_PENDING = 'PENDING'
+const STATUS_RESOLVED = 'RESOLVED'
+const STATUS_REJECTED = 'REJECTED'
 
 function resolveConstructor(ctor) {
   if (typeof ctor === 'function') {
@@ -75,8 +78,6 @@ function createLoadable({
           loading: true,
           cacheKey: getCacheKey(props),
         }
-
-        this.promise = null
 
         invariant(
           !props.__chunkExtractor || ctor.requireSync,
@@ -190,13 +191,19 @@ function createLoadable({
       loadAsync() {
         const { __chunkExtractor, forwardedRef, ...props } = this.props
 
-        let promise = this.getCache() || statusAware(ctor.requireAsync(props))
+        let promise = this.getCache() || ctor.requireAsync(props)
+
+        if (!promise.status) promise.status = STATUS_PENDING
 
         this.setCache(promise)
+
+        const cachedPromise = promise
 
         promise = promise
           .then(loadedModule => {
             const result = resolve(loadedModule, this.props, { Loadable })
+            cachedPromise.status = STATUS_RESOLVED
+
             this.safeSetState(
               {
                 result,
@@ -206,6 +213,7 @@ function createLoadable({
             )
           })
           .catch(error => {
+            cachedPromise.status = STATUS_REJECTED
             this.safeSetState({ error, loading: false })
           })
 
