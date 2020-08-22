@@ -76,6 +76,17 @@ describe('#loadable', () => {
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
+  it('should call onload callback option', async () => {
+    const load = createLoadFunction()
+    const onLoadCallback = jest.fn();
+    const Component = loadable(load, { onLoad: onLoadCallback })
+    const { container } = render(<Component />)
+    expect(container).toBeEmpty()
+    load.resolve({ default: () => 'loaded' })
+    await wait(() => expect(container).toHaveTextContent('loaded'))
+    expect(onLoadCallback).toHaveBeenCalledTimes(1)
+  })
+
   it('supports preload', async () => {
     const load = createLoadFunction()
     const Component = loadable(load)

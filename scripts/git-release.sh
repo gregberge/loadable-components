@@ -10,6 +10,11 @@ git commit -m "Publish to git"
 
 for DIR in $(yarn run -s lerna changed --parseable); do
   (
+    if [ $(basename $DIR) = "codemod" ];
+    then
+      continue
+    fi
+        
     VERSION=$(cat "${DIR}/package.json" | jq -r '.version')
     NAME=$(cat "${DIR}/package.json" | jq -r '.name')
 

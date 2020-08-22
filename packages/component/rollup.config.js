@@ -12,6 +12,7 @@ const name = 'loadable'
 const globals = {
   react: 'React',
   'hoist-non-react-statics': 'hoistNonReactStatics',
+  "react-is": "react-is",
 }
 
 const external = id => !id.startsWith('.') && !id.startsWith('/')
