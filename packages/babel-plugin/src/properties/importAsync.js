@@ -16,36 +16,32 @@ export function importAsyncProperty(api) {
   return ({ funcPath }) => buildProperty(api, getFunc(api, funcPath))
 }
 
-export function importAsyncPropertyEsm(api, target) {
+function getFuncWithEsmSSR(api, funcPath, target) {
+  const { params, body, async } = funcPath.node
   const { types: t } = api
 
-  function getFuncWithEsmSSR(funcPath) {
-    const { params, body, async } = funcPath.node
-
-    if (target === 'node') {
-      return t.arrowFunctionExpression(
-        params,
-        t.callExpression(
-          t.memberExpression(
-            t.identifier('Promise'),
-            t.identifier('resolve'),
-          ),
-          [
-            t.arrowFunctionExpression(
-              [],
-              t.callExpression(
-                t.identifier('__non_webpack_require__'),
-                body.arguments
-              )
-            )
-          ]
+  if (target === 'node') {
+    return t.arrowFunctionExpression(
+      params,
+      t.callExpression(
+        t.memberExpression(
+          t.identifier('Promise'),
+          t.identifier('resolve'),
         ),
-        async
-      )
-    }
-
-    return getFunc(api, funcPath)
+        [
+          t.callExpression(
+            t.identifier('__non_webpack_require__'),
+            body.arguments
+          )
+        ]
+      ),
+      async
+    )
   }
 
-  return ({ funcPath }) => buildProperty(api, getFuncWithEsmSSR(funcPath))
+  return getFunc(api, funcPath)
+}
+
+export function importAsyncPropertyEsm(api, target) {
+  return ({ funcPath }) => buildProperty(api, getFuncWithEsmSSR(api, funcPath, target))
 }

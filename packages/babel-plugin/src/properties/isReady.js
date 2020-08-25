@@ -1,16 +1,5 @@
-export function isReadyProperty({ types: t, template }) {
-  const statements = template.ast(`
-    const key=this.resolve(props)
-    if (this.resolved[key] === false) {
-      return false
-    }
-
-    if (typeof __webpack_modules__ !== 'undefined') {
-      return !!(__webpack_modules__[key])
-    }
-
-    return false
-  `)
+function buildProperty({ types: t, template }, statement) {
+  const statements = template.ast(statement)
 
   return () =>
     t.objectMethod(
@@ -21,4 +10,29 @@ export function isReadyProperty({ types: t, template }) {
     )
 }
 
-export const isReadyPropertyEsm = isReadyProperty
+export function isReadyProperty(api) {
+  const statement = `
+    const key = this.resolve(props)
+    if (this.resolved[key] === false) {
+      return false
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!(__webpack_modules__[key])
+    }
+
+    return false
+  `
+
+  return buildProperty(api, statement)
+}
+
+export function isReadyPropertyEsm(api) {
+  const statement = `
+    const key = this.resolve(props)
+
+    return !!this.module[key]
+  `
+
+  return buildProperty(api, statement)
+}

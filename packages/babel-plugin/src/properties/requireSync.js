@@ -42,7 +42,11 @@ export function requireSyncPropertyEsm(api, target) {
   const browserImplementation = template.ast(`
     const id = this.resolve(props)
 
-    throw new Error('esm module ' + id + ' cannot be loaded synchronously');
+    if (this.isReady(props)) {
+      return this.module[id]
+    }
+
+    throw new Error('esm module ' + id + ' should be preloaded before calling requireSync method');
   `)
 
   return () => {

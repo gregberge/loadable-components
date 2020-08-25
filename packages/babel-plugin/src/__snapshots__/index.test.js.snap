@@ -592,30 +592,18 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 
 exports[`plugin native import should use require in node environments 1`] = `
 "loadable({
-  resolved: {},
-
-  isReady(props) {
-    const key = this.resolve(props);
-
-    if (this.resolved[key] === false) {
-      return false;
-    }
-
-    if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[key];
-    }
-
-    return false;
-  },
-
+  module: {},
   importAsync: () => Promise.resolve(() => __non_webpack_require__(
   /* webpackIgnore: true */
   \`./ModA\`)),
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.resolved[key] = false;
-    return this.importAsync(props);
+    this.module[key] = null;
+    return this.importAsync(props).then(resolved => {
+      this.module[key] = resolved;
+      return resolved;
+    });
   },
 
   requireSync(props) {
@@ -637,48 +625,53 @@ exports[`plugin native import should use require in node environments 1`] = `
     return \`./ModA\`;
   },
 
-  type: \\"ESM\\"
+  type: \\"ESM\\",
+
+  isReady(props) {
+    const key = this.resolve(props);
+    return !!this.module[key];
+  }
+
 });"
 `;
 
 exports[`plugin native import should work with + concatenation 1`] = `
 "loadable({
-  resolved: {},
-
-  isReady(props) {
-    const key = this.resolve(props);
-
-    if (this.resolved[key] === false) {
-      return false;
-    }
-
-    if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[key];
-    }
-
-    return false;
-  },
-
+  module: {},
   importAsync: () => import(
   /* webpackIgnore: true */
   './Mod' + 'A'),
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.resolved[key] = false;
-    return this.importAsync(props);
+    this.module[key] = null;
+    return this.importAsync(props).then(resolved => {
+      this.module[key] = resolved;
+      return resolved;
+    });
   },
 
   requireSync(props) {
     const id = this.resolve(props);
-    throw new Error('esm module ' + id + ' cannot be loaded synchronously');
+
+    if (this.isReady(props)) {
+      return this.module[id];
+    }
+
+    throw new Error('esm module ' + id + ' should be preloaded before calling requireSync method');
   },
 
   resolve() {
     return './Mod' + 'A';
   },
 
-  type: \\"ESM\\"
+  type: \\"ESM\\",
+
+  isReady(props) {
+    const key = this.resolve(props);
+    return !!this.module[key];
+  }
+
 });"
 `;
 
@@ -747,42 +740,41 @@ exports[`plugin native import should work with destructuration 1`] = `
 
 exports[`plugin native import should work with template literal 1`] = `
 "loadable({
-  resolved: {},
-
-  isReady(props) {
-    const key = this.resolve(props);
-
-    if (this.resolved[key] === false) {
-      return false;
-    }
-
-    if (typeof __webpack_modules__ !== 'undefined') {
-      return !!__webpack_modules__[key];
-    }
-
-    return false;
-  },
-
+  module: {},
   importAsync: () => import(
   /* webpackIgnore: true */
   \`./ModA\`),
 
   requireAsync(props) {
     const key = this.resolve(props);
-    this.resolved[key] = false;
-    return this.importAsync(props);
+    this.module[key] = null;
+    return this.importAsync(props).then(resolved => {
+      this.module[key] = resolved;
+      return resolved;
+    });
   },
 
   requireSync(props) {
     const id = this.resolve(props);
-    throw new Error('esm module ' + id + ' cannot be loaded synchronously');
+
+    if (this.isReady(props)) {
+      return this.module[id];
+    }
+
+    throw new Error('esm module ' + id + ' should be preloaded before calling requireSync method');
   },
 
   resolve() {
     return \`./ModA\`;
   },
 
-  type: \\"ESM\\"
+  type: \\"ESM\\",
+
+  isReady(props) {
+    const key = this.resolve(props);
+    return !!this.module[key];
+  }
+
 });"
 `;
 

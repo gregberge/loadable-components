@@ -1,4 +1,6 @@
-function buildProperty({ types: t }, implementation) {
+function buildProperty({ types: t, template }, statement) {
+  const implementation = template.ast(statement)
+
   return t.objectMethod(
     'method',
     t.identifier('requireAsync'),
@@ -8,31 +10,31 @@ function buildProperty({ types: t }, implementation) {
 }
 
 export function requireAsyncProperty(api) {
-  const { template } = api
-
-  const implementation = template.ast(`
+  const statement = `
     const key = this.resolve(props)
     this.resolved[key] = false
     return this.importAsync(props).then(resolved => {
       this.resolved[key] = true
       return resolved
     })
-  `)
+  `
 
   return () => {
-    return buildProperty(api, implementation)
+    return buildProperty(api, statement)
   }
 }
 
 export function requireAsyncPropertyEsm(api) {
-  const { template } = api
-  const implementation = template.ast(`
+  const statement = `
     const key = this.resolve(props)
-    this.resolved[key] = false
-    return this.importAsync(props)
-  `)
+    this.module[key] = null
+    return this.importAsync(props).then(resolved => {
+      this.module[key] = resolved
+      return resolved
+    });
+  `
 
   return () => {
-    return buildProperty(api, implementation)
+    return buildProperty(api, statement)
   }
 }

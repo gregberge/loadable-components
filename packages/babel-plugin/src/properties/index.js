@@ -4,11 +4,10 @@ import { importAsyncProperty, importAsyncPropertyEsm } from './importAsync'
 import { requireAsyncProperty, requireAsyncPropertyEsm } from './requireAsync'
 import { requireSyncProperty, requireSyncPropertyEsm } from './requireSync'
 import { resolveProperty, resolvePropertyEsm } from './resolve'
-import { stateProperty, statePropertyEsm } from './state'
-import { typeProperty, typePropertyEsm } from './type'
+import { resolvedProperty, typeProperty, typePropertyEsm, modulePropertyEsm } from './state'
 
 export const chunkProperties = [
-  stateProperty,
+  resolvedProperty,
   chunkNameProperty,
   isReadyProperty,
   importAsyncProperty,
@@ -19,11 +18,11 @@ export const chunkProperties = [
 ]
 
 export const esmProperties = [
-	statePropertyEsm,
-	isReadyPropertyEsm,
-	importAsyncPropertyEsm,
-	requireAsyncPropertyEsm,
-	requireSyncPropertyEsm,
-	resolvePropertyEsm,
-	typePropertyEsm
+  modulePropertyEsm,
+  importAsyncPropertyEsm,
+  requireAsyncPropertyEsm,
+  requireSyncPropertyEsm,
+  resolvePropertyEsm,
+  typePropertyEsm,
+  isReadyPropertyEsm
 ]
