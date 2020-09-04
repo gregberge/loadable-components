@@ -129,13 +129,8 @@ function createLoadable({
             error: undefined,
             loading: true,
           })
-
-          if (!options.suspense) this.loadAsync()
-        } else if (this.state.loading) {
-          this.loadAsync()
-        } else if (!this.state.error) {
-          this.triggerOnLoad()
         }
+        this.loadAsync()
       }
 
       componentDidUpdate(prevProps, prevState) {
@@ -247,8 +242,6 @@ function createLoadable({
         }
 
         return render({
-          loading,
-          fallback,
           result,
           options,
           props: { ...props, ref: forwardedRef },
