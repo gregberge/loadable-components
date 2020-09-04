@@ -130,13 +130,13 @@ function createLoadable({
             loading: true,
           })
         }
-        this.loadAsync()
+        this.loadAsyncOnLifecycle()
       }
 
       componentDidUpdate(prevProps, prevState) {
         // Component is reloaded if the cacheKey has changed
         if (prevState.cacheKey !== this.state.cacheKey) {
-          this.loadAsync()
+          this.loadAsyncOnLifecycle()
         }
       }
 
@@ -186,19 +186,34 @@ function createLoadable({
       loadAsync() {
         const { __chunkExtractor, forwardedRef, ...props } = this.props
 
-        let promise = this.getCache() || ctor.requireAsync(props)
+        let promise = this.getCache()
 
-        if (!promise.status) promise.status = STATUS_PENDING
+        if (!promise) {
+          promise = ctor.requireAsync(props)
+          promise.status = STATUS_PENDING
 
-        this.setCache(promise)
+          this.setCache(promise)
 
-        const cachedPromise = promise
+          const cachedPromise = promise
 
-        promise = promise
+          promise = promise
+            .then(loadedModule => {
+              cachedPromise.status = STATUS_RESOLVED
+              return loadedModule
+            })
+            .catch(error => {
+              cachedPromise.status = STATUS_REJECTED
+              throw error
+            })
+        }
+
+        return promise
+      }
+
+      loadAsyncOnLifecycle() {
+        this.loadAsync()
           .then(loadedModule => {
             const result = resolve(loadedModule, this.props, { Loadable })
-            cachedPromise.status = STATUS_RESOLVED
-
             this.safeSetState(
               {
                 result,
@@ -207,12 +222,7 @@ function createLoadable({
               () => this.triggerOnLoad(),
             )
           })
-          .catch(error => {
-            cachedPromise.status = STATUS_REJECTED
-            this.safeSetState({ error, loading: false })
-          })
-
-        return promise
+          .catch(error => this.safeSetState({ error, loading: false }))
       }
 
       render() {
