@@ -11,4 +11,9 @@ module.exports = {
     ['@babel/preset-env', { loose: true, targets: getTargets() }],
   ],
   plugins: ['@babel/plugin-proposal-class-properties'],
+  env: {
+    test: {
+      plugins: ['@babel/plugin-proposal-function-bind'],
+    },
+  },
 }

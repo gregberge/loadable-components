@@ -11,8 +11,8 @@ export const { loadable, lazy } = createLoadable({
       }
     }
   },
-  render({ result, loading, props }) {
-    if (!loading && props.children) {
+  render({ result, props }) {
+    if (props.children) {
       return props.children(result)
     }
 

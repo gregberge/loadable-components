@@ -6,6 +6,10 @@ import { invariant } from './util'
 import Context from './Context'
 import { LOADABLE_SHARED } from './shared'
 
+const STATUS_PENDING = 'PENDING'
+const STATUS_RESOLVED = 'RESOLVED'
+const STATUS_REJECTED = 'REJECTED'
+
 function resolveConstructor(ctor) {
   if (typeof ctor === 'function') {
     return { requireAsync: ctor }
@@ -75,8 +79,6 @@ function createLoadable({
           cacheKey: getCacheKey(props),
         }
 
-        this.promise = null
-
         invariant(
           !props.__chunkExtractor || ctor.requireSync,
           'SSR requires `@loadable/babel-plugin`, please install it',
@@ -119,18 +121,22 @@ function createLoadable({
       componentDidMount() {
         this.mounted = true
 
-        if (this.state.loading) {
-          this.loadAsync()
-        } else if (!this.state.error) {
-          this.triggerOnLoad()
+        const cachedPromise = this.getCache()
+
+        if (cachedPromise && cachedPromise.status === STATUS_REJECTED) {
+          this.setCache()
+          this.setState({
+            error: undefined,
+            loading: true,
+          })
         }
+        this.loadAsyncOnLifecycle()
       }
 
       componentDidUpdate(prevProps, prevState) {
         // Component is reloaded if the cacheKey has changed
         if (prevState.cacheKey !== this.state.cacheKey) {
-          this.promise = null
-          this.loadAsync()
+          this.loadAsyncOnLifecycle()
         }
       }
 
@@ -178,29 +184,45 @@ function createLoadable({
       }
 
       loadAsync() {
-        if (!this.promise) {
-          const { __chunkExtractor, forwardedRef, ...props } = this.props
-          this.promise = ctor
-            .requireAsync(props)
+        const { __chunkExtractor, forwardedRef, ...props } = this.props
+
+        let promise = this.getCache()
+
+        if (!promise) {
+          promise = ctor.requireAsync(props)
+          promise.status = STATUS_PENDING
+
+          this.setCache(promise)
+
+          const cachedPromise = promise
+
+          promise = promise
             .then(loadedModule => {
-              const result = resolve(loadedModule, this.props, Loadable)
-              if (options.suspense) {
-                this.setCache(result)
-              }
-              this.safeSetState(
-                {
-                  result: resolve(loadedModule, this.props, Loadable),
-                  loading: false,
-                },
-                () => this.triggerOnLoad(),
-              )
+              cachedPromise.status = STATUS_RESOLVED
+              return loadedModule
             })
             .catch(error => {
-              this.safeSetState({ error, loading: false })
+              cachedPromise.status = STATUS_REJECTED
+              throw error
             })
         }
 
-        return this.promise
+        return promise
+      }
+
+      loadAsyncOnLifecycle() {
+        this.loadAsync()
+          .then(loadedModule => {
+            const result = resolve(loadedModule, this.props, { Loadable })
+            this.safeSetState(
+              {
+                result,
+                loading: false,
+              },
+              () => this.triggerOnLoad(),
+            )
+          })
+          .catch(error => this.safeSetState({ error, loading: false }))
       }
 
       render() {
@@ -213,15 +235,10 @@ function createLoadable({
         const { error, loading, result } = this.state
 
         if (options.suspense) {
-          const cachedResult = this.getCache()
-          if (!cachedResult) throw this.loadAsync()
-          return render({
-            loading: false,
-            fallback: null,
-            result: cachedResult,
-            options,
-            props: { ...props, ref: forwardedRef },
-          })
+          const cachedPromise = this.getCache()
+          if (!cachedPromise || cachedPromise.status === STATUS_PENDING) {
+            throw this.loadAsync()
+          }
         }
 
         if (error) {
@@ -235,8 +252,6 @@ function createLoadable({
         }
 
         return render({
-          loading,
-          fallback,
           result,
           options,
           props: { ...props, ref: forwardedRef },
