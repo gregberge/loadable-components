@@ -6,6 +6,7 @@
     "jest": true
   },
   "rules": {
+    "react/jsx-one-expression-per-line": "off",
     "no-plusplus": "off",
     "no-param-reassign": "off",
     "no-nested-ternary": "off",

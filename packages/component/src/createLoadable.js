@@ -272,7 +272,9 @@ function createLoadable({
           this.setCache(promise)
 
           promise.then(
-            () => (promise.status = STATUS_RESOLVED),
+            () => {
+              promise.status = STATUS_RESOLVED
+            },
             error => {
               console.error(
                 'loadable-components: failed to asynchronously load component',
