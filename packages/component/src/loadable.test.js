@@ -10,13 +10,15 @@ afterEach(cleanup)
 
 const unresolvableLoad = jest.fn(() => new Promise(() => {}))
 
-const resolvedToDefault = (value) => jest.fn().mockResolvedValue({default: value});
+const resolvedToDefault = value =>
+  jest.fn().mockResolvedValue({ default: value })
 
 function mockDelayedResolvedValueOnce(fn, resolvedValue) {
   return fn.mockImplementationOnce(
-    () =>  new Promise(resolve => {
-      setTimeout(() => resolve(resolvedValue), 1000)
-    }),
+    () =>
+      new Promise(resolve => {
+        setTimeout(() => resolve(resolvedValue), 1000)
+      }),
   )
 }
 
@@ -214,7 +216,7 @@ describe('#loadable', () => {
 
   it('forwards ref', async () => {
     const load = resolvedToDefault(
-      React.forwardRef((props, fref) => <div {...props} ref={fref} />)
+      React.forwardRef((props, fref) => <div {...props} ref={fref} />),
     )
     const Component = loadable(load)
     const ref = React.createRef()
