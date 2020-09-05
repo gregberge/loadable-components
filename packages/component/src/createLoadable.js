@@ -34,6 +34,7 @@ function createLoadable({
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
     const cache = {}
+
     function getCacheKey(props) {
       if (options.cacheKey) {
         return options.cacheKey(props)
@@ -167,6 +168,11 @@ function createLoadable({
           this.state.result = result
           this.state.loading = false
         } catch (error) {
+          console.error('loadable-components: failed to synchronously load component, which expected to be available', {
+            fileName: ctor.resolve(this.props),
+            chunkName: ctor.chunkName(this.props),
+            error: error.message,
+          });
           this.state.error = error
         }
       }
@@ -202,6 +208,11 @@ function createLoadable({
               return loadedModule
             })
             .catch(error => {
+              console.error('loadable-components: failed to asynchronously load component', {
+                fileName: ctor.resolve(this.props),
+                chunkName: ctor.chunkName(this.props),
+                error: error.message,
+              });
               cachedPromise.status = STATUS_REJECTED
               throw error
             })
