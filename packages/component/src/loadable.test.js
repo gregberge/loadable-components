@@ -10,10 +10,15 @@ afterEach(cleanup)
 
 const unresolvableLoad = jest.fn(() => new Promise(() => {}))
 
-function mockDelayedResolvedValueOnce(resolvedValue) {
-  return this.mockImplementationOnce(
+const resolvedToDefault = value =>
+  jest.fn().mockResolvedValue({ default: value })
+
+function mockDelayedResolvedValueOnce(fn, resolvedValue) {
+  return fn.mockImplementationOnce(
     () =>
-      new Promise(resolve => setTimeout(() => resolve(resolvedValue), 1000)),
+      new Promise(resolve => {
+        setTimeout(() => resolve(resolvedValue), 1000)
+      }),
   )
 }
 
@@ -93,7 +98,7 @@ describe('#loadable', () => {
   })
 
   it('mounts component when loaded', async () => {
-    const load = jest.fn().mockResolvedValue({ default: () => 'loaded' })
+    const load = resolvedToDefault(() => 'loaded')
     const Component = loadable(load)
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
@@ -101,7 +106,7 @@ describe('#loadable', () => {
   })
 
   it('supports preload', async () => {
-    const load = jest.fn().mockResolvedValue({ default: () => 'loaded' })
+    const load = resolvedToDefault(() => 'loaded')
     const Component = loadable(load)
     expect(load).not.toHaveBeenCalled()
     Component.preload({ foo: 'bar' })
@@ -114,7 +119,7 @@ describe('#loadable', () => {
   })
 
   it('supports commonjs default export', async () => {
-    const load = jest.fn().mockResolvedValue(() => 'loaded')
+    const load = resolvedToDefault(() => 'loaded')
     const Component = loadable(load)
     const { container } = render(<Component />)
     await wait(() => expect(container).toHaveTextContent('loaded'))
@@ -138,14 +143,14 @@ describe('#loadable', () => {
   })
 
   it('forwards props', async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ name }) => name })
+    const load = resolvedToDefault(({ name }) => name)
     const Component = loadable(load)
     const { container } = render(<Component name="James Bond" />)
     await wait(() => expect(container).toHaveTextContent('James Bond'))
   })
 
   it('should update component if props change', async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ value }) => value })
+    const load = resolvedToDefault(({ value }) => value)
     const Component = loadable(load)
     const { container } = render(<Component value="first" />)
     await wait(() => expect(container).toHaveTextContent('first'))
@@ -155,7 +160,7 @@ describe('#loadable', () => {
   })
 
   it('calls load func if cacheKey change', async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ value }) => value })
+    const load = resolvedToDefault(({ value }) => value)
     const Component = loadable(load, { cacheKey: ({ value }) => value })
     const { container } = render(<Component value="first" />)
     await wait(() => expect(container).toHaveTextContent('first'))
@@ -166,7 +171,7 @@ describe('#loadable', () => {
   })
 
   it('calls load func if resolve change', async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ value }) => value })
+    const load = resolvedToDefault(({ value }) => value)
     const Component = loadable({
       requireAsync: load,
       resolve: ({ value }) => value,
@@ -210,9 +215,9 @@ describe('#loadable', () => {
   })
 
   it('forwards ref', async () => {
-    const load = jest.fn().mockResolvedValue({
-      default: React.forwardRef((props, fref) => <div {...props} ref={fref} />),
-    })
+    const load = resolvedToDefault(
+      React.forwardRef((props, fref) => <div {...props} ref={fref} />),
+    )
     const Component = loadable(load)
     const ref = React.createRef()
     render(<Component ref={ref} />)
@@ -251,7 +256,7 @@ describe('#loadable', () => {
 
 describe('#lazy', () => {
   it('supports Suspense', async () => {
-    const load = jest.fn().mockResolvedValue({ default: () => 'loaded' })
+    const load = resolvedToDefault(() => 'loaded')
     const Component = lazy(load)
     const { container } = render(
       <React.Suspense fallback="progress">
@@ -267,7 +272,8 @@ describe('#lazy', () => {
     const load = jest
       .fn()
       .mockResolvedValueOnce({ default: ({ text }) => text })
-      ::mockDelayedResolvedValueOnce({ default: ({ text }) => text })
+
+    mockDelayedResolvedValueOnce(load, { default: ({ text }) => text })
 
     const Component = lazy(load)
 
@@ -285,7 +291,7 @@ describe('#lazy', () => {
   })
 
   it("should render multiple elements of the same async component under contextual Suspense'", async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
+    const load = resolvedToDefault(({ text }) => text)
     const Component = lazy(load)
     const { container } = render(
       <>
@@ -304,7 +310,7 @@ describe('#lazy', () => {
   })
 
   it("shouldn't trigger nested Suspense for same lazy component", async () => {
-    const load = jest.fn().mockResolvedValue({ default: ({ text }) => text })
+    const load = resolvedToDefault(({ text }) => text)
     const Component = lazy(load)
     const { container } = render(
       <>

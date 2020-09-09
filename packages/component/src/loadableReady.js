@@ -32,7 +32,7 @@ export default function loadableReady(
       } else {
         // version mismatch
         throw new Error(
-          'loadable-component: @loabable/server does not match @loadable/component',
+          'loadable-component: @loadable/server does not match @loadable/component',
         )
       }
     }
