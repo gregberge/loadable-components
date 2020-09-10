@@ -149,6 +149,14 @@ describe('#loadable', () => {
     await wait(() => expect(container).toHaveTextContent('James Bond'))
   })
 
+  it('sets component displayName', async () => {
+    const load = resolvedToDefault(({ name }) => name)
+    const Component = loadable(load, {
+      displayName: 'TestComponent'
+    })
+    expect(Component.displayName).toEqual('TestComponent')
+  })
+
   it('should update component if props change', async () => {
     const load = resolvedToDefault(({ value }) => value)
     const Component = loadable(load)

@@ -339,6 +339,10 @@ function createLoadable({
 
     Loadable.load = props => ctor.requireAsync(props)
 
+    if (options.displayName) {
+      Loadable.displayName = options.displayName;
+    }
+
     return Loadable
   }
 
