@@ -8,3 +8,4 @@ lerna.json
 /website/.cache/
 /website/public/
 __testfixtures__/
+examples/*/public

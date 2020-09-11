@@ -40,7 +40,7 @@ _Before_ submitting a pull request, please make sure the following is done…
     yarn --version
     ```
 
-4. Run `yarn build` to bootstrap packages.
+4.  Run `yarn build` to bootstrap packages.
 
     ```sh
     yarn build
