@@ -1,7 +1,7 @@
 {
   "name": "@loadable/babel-plugin",
   "description": "Babel plugin for loadable (required for SSR).",
-  "version": "5.13.0",
+  "version": "5.13.2",
   "main": "lib/index.js",
   "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Greg Bergé <berge.greg@gmail.com>",

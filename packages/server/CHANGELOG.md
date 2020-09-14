@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.13.2](https://github.com/gregberge/loadable-components/compare/v5.13.1...v5.13.2) (2020-09-14)
+
+
+### Bug Fixes
+
+* spread nested required chunks array ([95e6ecb](https://github.com/gregberge/loadable-components/commit/95e6ecb0dd9be3cf18ded934cca433a660fa3543))
+
+
+
+
+
 ## [5.13.1](https://github.com/gregberge/loadable-components/compare/v5.13.0...v5.13.1) (2020-07-02)
 
 

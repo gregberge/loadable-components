@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.13.2](https://github.com/smooth-code/loadable-components/compare/v5.13.1...v5.13.2) (2020-09-14)
+
+
+### Bug Fixes
+
+* Fixed lazy usage with Suspense and Error Boundary together ([#521](https://github.com/smooth-code/loadable-components/issues/521)) ([42fbdd0](https://github.com/smooth-code/loadable-components/commit/42fbdd0d552551b18ed0781383bb0073e1cd8640))
+* human readable errors ([b86bb82](https://github.com/smooth-code/loadable-components/commit/b86bb82417ad098ed73037159886c4d0481ba34e))
+* spread nested required chunks array ([95e6ecb](https://github.com/smooth-code/loadable-components/commit/95e6ecb0dd9be3cf18ded934cca433a660fa3543))
+* typo ([bebb828](https://github.com/smooth-code/loadable-components/commit/bebb82811e25475e91f9fadf64fda004b6b649b0))
+
+
+
+
+
 ## [5.13.1](https://github.com/smooth-code/loadable-components/compare/v5.13.0...v5.13.1) (2020-07-02)
 
 

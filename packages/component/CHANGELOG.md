@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.13.2](https://github.com/gregberge/loadable-components/compare/v5.13.1...v5.13.2) (2020-09-14)
+
+
+### Bug Fixes
+
+* Fixed lazy usage with Suspense and Error Boundary together ([#521](https://github.com/gregberge/loadable-components/issues/521)) ([42fbdd0](https://github.com/gregberge/loadable-components/commit/42fbdd0d552551b18ed0781383bb0073e1cd8640))
+
+
+
+
+
 ## [5.13.1](https://github.com/gregberge/loadable-components/compare/v5.13.0...v5.13.1) (2020-07-02)
 
 

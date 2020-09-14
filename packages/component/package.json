@@ -1,7 +1,7 @@
 {
   "name": "@loadable/component",
   "description": "React code splitting made easy.",
-  "version": "5.13.1",
+  "version": "5.13.2",
   "main": "dist/loadable.cjs.js",
   "module": "dist/loadable.esm.js",
   "repository": "git@github.com:gregberge/loadable-components.git",

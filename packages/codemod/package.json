@@ -1,7 +1,7 @@
 {
   "name": "loadable-codemod",
   "description": "Various codemods related to @loadable/components for easier migration/upgrades.",
-  "version": "5.13.1",
+  "version": "5.13.2",
   "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Jacky Efendi <jacky.efendi1@gmail.com>",
   "bin": {
