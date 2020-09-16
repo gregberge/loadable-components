@@ -56,7 +56,7 @@ function createLoadable({
       if (ctor.resolve) {
         return ctor.resolve(props)
       }
-      return null
+      return "static"
     }
 
     /**
@@ -181,7 +181,7 @@ function createLoadable({
        * @returns {Component|string}
        */
       getCacheKey() {
-        return getCacheKey(this.props) || JSON.stringify(this.props)
+        return getCacheKey(this.props)
       }
 
       /**
