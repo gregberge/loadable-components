@@ -306,6 +306,7 @@ class ChunkExtractor {
     return [
       <script
         id={id}
+        key={id}
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksScriptContent(),
         }}
@@ -313,6 +314,7 @@ class ChunkExtractor {
       />,
       <script
         id={`${id}_ext`}
+        key={`${id}_ext`}
         dangerouslySetInnerHTML={{
           __html: this.getRequiredChunksNamesScriptContent(),
         }}
