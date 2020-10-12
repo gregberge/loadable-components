@@ -201,17 +201,20 @@ class ChunkExtractor {
   }
 
   createChunkAsset({ filename, chunk, type, linkType }) {
+    const resolvedFilename =
+      typeof filename === 'object' && filename.name ? filename.name : filename
+
     return {
-      filename,
+      filename: resolvedFilename,
       scriptType: extensionToScriptType(
         path
-          .extname(filename)
+          .extname(resolvedFilename)
           .split('?')[0]
           .toLowerCase(),
       ),
       chunk,
-      url: this.resolvePublicUrl(filename),
-      path: path.join(this.outputPath, filename),
+      url: this.resolvePublicUrl(resolvedFilename),
+      path: path.join(this.outputPath, resolvedFilename),
       type,
       linkType,
     }
