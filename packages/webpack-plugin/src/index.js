@@ -72,8 +72,14 @@ class LoadablePlugin {
   apply(compiler) {
     this.compiler = compiler
 
-    // Add a custom output.jsonpFunction: __LOADABLE_LOADED_CHUNKS__
-    compiler.options.output.jsonpFunction = '__LOADABLE_LOADED_CHUNKS__'
+    // Check if webpack version 4 or 5
+    if ('jsonpFunction' in compiler.options.output) {
+      // Add a custom output.jsonpFunction: __LOADABLE_LOADED_CHUNKS__
+      compiler.options.output.jsonpFunction = '__LOADABLE_LOADED_CHUNKS__'
+    } else {
+      // Add a custom output.chunkLoadingGlobal: __LOADABLE_LOADED_CHUNKS__
+      compiler.options.output.chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__'
+    }
 
     if (this.opts.outputAsset || this.opts.writeToDisk) {
       compiler.hooks.emit.tapAsync('@loadable/webpack-plugin', this.handleEmit)
