@@ -1,0 +1,46 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nodemon src/server/main.js",
+    "build": "NODE_ENV=production yarn build:webpack && yarn build:lib",
+    "build:dev": "NODE_ENV=development yarn build:webpack && yarn build:lib",
+    "build:webpack": "webpack",
+    "build:lib": "babel -d lib src",
+    "start": "NODE_ENV=production node lib/server/main.js",
+    "start:dev": "NODE_ENV=development node -r @babel/register lib/server/main.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/loadable__component": "^5.13.1",
+    "@types/react": "^16.9.53",
+    "@types/react-router-dom": "^5.1.6",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^2.1.1",
+    "mini-css-extract-plugin": "^0.6.0",
+    "nodemon": "^1.19.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "typescript": "^4.0.3",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-middleware": "^3.6.2",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "@babel/register": "^7.12.1",
+    "@loadable/babel-plugin": "file:./../../packages/babel-plugin",
+    "@loadable/component": "file:./../../packages/component",
+    "@loadable/server": "file:./../../packages/server",
+    "@loadable/webpack-plugin": "file:./../../packages/webpack-plugin",
+    "core-js": "^3.0.1",
+    "express": "^4.16.4",
+    "moment": "^2.24.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
