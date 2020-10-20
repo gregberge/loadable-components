@@ -11,6 +11,7 @@ import { smartRequire, joinURLPath } from './util'
 
 const EXTENSION_SCRIPT_TYPES = {
   '.js': 'script',
+  '.mjs': 'script',
   '.css': 'style',
 }
 
