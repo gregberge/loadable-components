@@ -15,7 +15,7 @@ const getConfig = target => ({
   module: {
     rules: [
       {
-        test: /\.js?$/,
+        test: /\.([jt])sx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -40,6 +40,10 @@ const getConfig = target => ({
 
   optimization: {
     runtimeChunk: target !== 'node',
+  },
+
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js', '.css' ],
   },
 
   output: {

@@ -3,26 +3,35 @@ import loadable from '@loadable/component'
 import {StaticRouter, Switch, Route} from 'react-router-dom';
 
 const X = loadable(() => import(`./Page`))
+const Y = loadable(() => import(`./PageWithParam`))
 
 const App = () => (
   <div>
     <p>
-      Lazy load letter A:<X/>
+      Components loaded directly:
+      <X/>
+      <Y x={42}/>
     </p>
-    <p>
+    <hr/>
+    <div>
       <StaticRouter>
         <Switch>
           <Route component={X}/>
+          <Route path="route-accepts-any" component={Y}/>
           <Route
             path="otherPath"
             render={routeProperties =>
-            // @ts-expect-error
+            // @ts-expect-error routeProperties do not exists on X - it accepts no props at all
               <X {...routeProperties} />
             }
             />
         </Switch>
+        <hr/>
+        <Switch>
+          <Route component={Y}/>
+        </Switch>
       </StaticRouter>
-    </p>
+    </div>
   </div>
 )
 

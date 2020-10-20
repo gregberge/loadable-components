@@ -12,7 +12,7 @@ module.exports = api => {
 
   return {
     presets: [
-      "@babel/preset-typescript",
+      '@babel/preset-typescript',
       '@babel/preset-react',
       [
         '@babel/preset-env',
