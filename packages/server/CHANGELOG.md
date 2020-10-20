@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.14.0](https://github.com/gregberge/loadable-components/compare/v5.13.2...v5.14.0) (2020-10-20)
+
+
+### Bug Fixes
+
+* add key to chunks script elements ([#631](https://github.com/gregberge/loadable-components/issues/631)) ([25b532e](https://github.com/gregberge/loadable-components/commit/25b532eb53a2841229dbc8a9c91f24112a46b93f)), closes [#628](https://github.com/gregberge/loadable-components/issues/628)
+* treat mjs as script ([575fe2b](https://github.com/gregberge/loadable-components/commit/575fe2b3f58b18c17416f238780b9bab85110706))
+
+
+### Features
+
+* make packages webpack 5 compatible ([#638](https://github.com/gregberge/loadable-components/issues/638)) ([e882e4d](https://github.com/gregberge/loadable-components/commit/e882e4d812e714066eba19a11dd119193e7a9e01))
+
+
+
+
+
 ## [5.13.2](https://github.com/gregberge/loadable-components/compare/v5.13.1...v5.13.2) (2020-09-14)
 
 

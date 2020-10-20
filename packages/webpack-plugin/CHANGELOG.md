@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.14.0](https://github.com/gregberge/loadable-components/compare/v5.13.2...v5.14.0) (2020-10-20)
+
+
+### Features
+
+* make packages webpack 5 compatible ([#638](https://github.com/gregberge/loadable-components/issues/638)) ([e882e4d](https://github.com/gregberge/loadable-components/commit/e882e4d812e714066eba19a11dd119193e7a9e01))
+
+
+
+
+
 # [5.13.0](https://github.com/gregberge/loadable-components/compare/v5.12.0...v5.13.0) (2020-06-29)
 
 
