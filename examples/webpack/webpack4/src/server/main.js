@@ -6,7 +6,7 @@ import { ChunkExtractor } from '@loadable/server'
 
 const app = express();
 
-https://github.com/gregberge/loadable-components/issues/634
+// https://github.com/gregberge/loadable-components/issues/634
 app.use('*/runtime~main.js', async (req, res, next) => {
   console.log('delaying runtime chunk');
   await new Promise(resolve => setTimeout(resolve, 2000));
