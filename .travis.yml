@@ -22,6 +22,10 @@ branches:
 
 script:
   - yarn ci
+  - yarn --cwd examples/typescript && yarn --cwd examples/typescript build
+  - yarn --cwd examples/webpack/webpack4 && yarn --cwd examples/webpack/webpack4 build
+  - yarn --cwd examples/webpack/webpack5 && yarn --cwd examples/webpack/webpack5 build
+
 
 notifications:
   email: false
