@@ -56,7 +56,7 @@ function createLoadable({
       if (ctor.resolve) {
         return ctor.resolve(props)
       }
-      return "static"
+      return 'static'
     }
 
     /**

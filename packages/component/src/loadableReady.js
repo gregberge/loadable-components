@@ -72,5 +72,5 @@ export default function loadableReady(
     }
 
     checkReadyState()
-  }).then(done);
+  }).then(done)
 }

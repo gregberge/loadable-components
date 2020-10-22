@@ -4,7 +4,7 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { ChunkExtractor } from '@loadable/server'
 
-const app = express();
+const app = express()
 
 // https://github.com/gregberge/loadable-components/issues/634
 // app.use('*/runtime~main.js', async (req, res, next) => {

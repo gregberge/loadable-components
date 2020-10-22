@@ -14,13 +14,16 @@ const Moment = loadable.lib(() => import('moment'), {
 const App = () => (
   <div>
     <p>
-    Lazy load letter A:<X letter="A" />
+      Lazy load letter A:
+      <X letter="A" />
     </p>
     <p>
-      Lazy load letter C:<X letter="B" />
+      Lazy load letter C:
+      <X letter="B" />
     </p>
     <p>
-      Lazy load letter only on Client C:<ClientSideOnly letter="C" />
+      Lazy load letter only on Client C:
+      <ClientSideOnly letter="C" />
     </p>
     <p>
       lazy load momentjs:

@@ -9,3 +9,5 @@ lerna.json
 /website/public/
 __testfixtures__/
 examples/*/public
+**/dist/
+**/lib/

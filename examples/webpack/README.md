@@ -1,1 +1,1 @@
-these examples are also __tests__
+these examples are also **tests**

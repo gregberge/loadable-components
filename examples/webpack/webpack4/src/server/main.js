@@ -4,20 +4,20 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { ChunkExtractor } from '@loadable/server'
 
-const app = express();
+const app = express()
 
 // https://github.com/gregberge/loadable-components/issues/634
 app.use('*/runtime~main*.js', async (req, res, next) => {
-  console.log('delaying runtime chunk');
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  next();
-});
+  console.log('delaying runtime chunk')
+  await new Promise(resolve => setTimeout(resolve, 2000))
+  next()
+})
 
 app.use('*/letters*.js', async (req, res, next) => {
-  console.log('delaying letters chunk');
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  next();
-});
+  console.log('delaying letters chunk')
+  await new Promise(resolve => setTimeout(resolve, 1000))
+  next()
+})
 
 app.use(express.static(path.join(__dirname, '../../public')))
 

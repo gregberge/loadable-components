@@ -5,7 +5,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const DIST_PATH = path.resolve(__dirname, 'public/dist')
 const production = process.env.NODE_ENV === 'production'
-const development = !production;
+const development = !production
 
 const getConfig = target => ({
   name: target,

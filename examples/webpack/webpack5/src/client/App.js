@@ -10,7 +10,8 @@ const Moment = loadable.lib(() => import('moment'), {
 const App = () => (
   <div>
     <p>
-    Lazy load letter A:<X letter="A" />
+      Lazy load letter A:
+      <X letter="A" />
     </p>
     <p>
       lazy load momentjs:
