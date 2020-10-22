@@ -7,9 +7,15 @@ import { ChunkExtractor } from '@loadable/server'
 const app = express();
 
 // https://github.com/gregberge/loadable-components/issues/634
-app.use('*/runtime~main.js', async (req, res, next) => {
+app.use('*/runtime~main*.js', async (req, res, next) => {
   console.log('delaying runtime chunk');
   await new Promise(resolve => setTimeout(resolve, 2000));
+  next();
+});
+
+app.use('*/letters*.js', async (req, res, next) => {
+  console.log('delaying letters chunk');
+  await new Promise(resolve => setTimeout(resolve, 1000));
   next();
 });
 
