@@ -62,7 +62,6 @@ export default function loadableReady(
         if (!resolved) {
           resolved = true
           resolve()
-          done()
         }
       }
     }
@@ -73,5 +72,5 @@ export default function loadableReady(
     }
 
     checkReadyState()
-  })
+  }).then(done);
 }

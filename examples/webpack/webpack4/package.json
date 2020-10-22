@@ -7,7 +7,8 @@
     "build:webpack": "webpack",
     "build:lib": "babel -d lib src",
     "start": "NODE_ENV=production node lib/server/main.js",
-    "start:dev": "NODE_ENV=development node -r @babel/register lib/server/main.js"
+    "start:dev": "NODE_ENV=development node -r @babel/register lib/server/main.js",
+    "update": "rm ./node_modules/.yarn-integrity && yarn"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
