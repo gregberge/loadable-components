@@ -202,7 +202,7 @@ class ChunkExtractor {
     namespace = '',
     outputPath,
     publicPath,
-    filter,
+    filterChunk,
     inputFileSystem = fs,
   } = {}) {
     this.namespace = namespace
@@ -211,7 +211,7 @@ class ChunkExtractor {
     this.outputPath = outputPath || this.stats.outputPath
     this.statsFile = statsFile
     this.entrypoints = Array.isArray(entrypoints) ? entrypoints : [entrypoints]
-    this.filter = filter || Boolean
+    this.filterChunk = filterChunk || Boolean
     this.chunks = []
     this.inputFileSystem = inputFileSystem
     this.assetsByName = this.stats.assets.reduce((acc, asset) => {
@@ -237,7 +237,7 @@ class ChunkExtractor {
   }
 
   isExctractableChunkAsset(chunk) {
-    return isValidChunkAsset(chunk) && this.filter(chunk)
+    return isValidChunkAsset(chunk) && this.filterChunk(chunk)
   }
 
   createChunkAsset({ filename, chunk, type, linkType }) {

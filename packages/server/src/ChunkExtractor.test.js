@@ -311,7 +311,7 @@ describe('ChunkExtrator', () => {
         namespace: 'testapp',
         stats,
         outputPath: path.resolve(__dirname, '../__fixtures__'),
-        filter: ({ info }) => !info.hotModuleReplacement,
+        filterChunk: ({ info }) => !info.hotModuleReplacement,
       })
       extractor.addChunk('letters-A')
 
