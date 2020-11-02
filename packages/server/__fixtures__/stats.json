@@ -1,8 +1,8 @@
 {
   "errors": [],
   "warnings": [],
-  "version": "4.41.0",
-  "hash": "3e6566a0799a062ba9c6",
+  "version": "4.46.0",
+  "hash": "6bd3f3f9c2fe8a3d1b0f",
   "publicPath": "/dist/node/",
   "outputPath": "../../examples/server-side-rendering/public/dist/node",
   "assetsByChunkName": {
@@ -201,7 +201,7 @@
     },
     {
       "name": "main.js",
-      "size": 13586,
+      "size": 13582,
       "chunks": [
         "main"
       ],
@@ -511,7 +511,7 @@
       "files": [
         "Y-file.js"
       ],
-      "hash": "b4d8d777cba1919ad570",
+      "hash": "e57a651e1c0b1f68eff1",
       "siblings": [],
       "parents": [
         "main"
@@ -535,7 +535,7 @@
         "letters-A.css",
         "letters-A.js"
       ],
-      "hash": "0c15a7fd2a22c9b265fa",
+      "hash": "eb9a32a6db31b2899f58",
       "siblings": [],
       "parents": [
         "main"
@@ -559,7 +559,7 @@
         "letters-A-css.css",
         "letters-A-css.js"
       ],
-      "hash": "8028b2657cb1626f301d",
+      "hash": "89c9874f01b1e3949436",
       "siblings": [],
       "parents": [
         "main"
@@ -582,7 +582,7 @@
       "files": [
         "letters-B.js"
       ],
-      "hash": "84099bce3af835a0d9b3",
+      "hash": "a3dc7ba1a249083fd1a2",
       "siblings": [],
       "parents": [
         "main"
@@ -605,7 +605,7 @@
       "files": [
         "letters-C.js"
       ],
-      "hash": "e2e5758bdd6bdbcd8c64",
+      "hash": "0873e4e07b1949c2212a",
       "siblings": [],
       "parents": [
         "main"
@@ -628,7 +628,7 @@
       "files": [
         "letters-D.js"
       ],
-      "hash": "698cbca6bfdf9fbf1074",
+      "hash": "611804f2589a69fd908c",
       "siblings": [],
       "parents": [
         "main"
@@ -651,7 +651,7 @@
       "files": [
         "letters-E.js"
       ],
-      "hash": "21404278fb1a3c5e67ad",
+      "hash": "1c23ff7e41756c9ac4c7",
       "siblings": [],
       "parents": [
         "main"
@@ -674,7 +674,7 @@
       "files": [
         "letters-E-param.js"
       ],
-      "hash": "5253b4e1e5e59e52c4fa",
+      "hash": "94c459d9fc0e6f9c1ec1",
       "siblings": [],
       "parents": [
         "main"
@@ -697,7 +697,7 @@
       "files": [
         "letters-F.js"
       ],
-      "hash": "4f9fef34f4df74392d9f",
+      "hash": "d0a6bbc708c2980012bc",
       "siblings": [],
       "parents": [
         "main"
@@ -713,14 +713,14 @@
       "rendered": true,
       "initial": false,
       "entry": false,
-      "size": 153,
+      "size": 166,
       "names": [
         "letters-G"
       ],
       "files": [
         "letters-G.js"
       ],
-      "hash": "0119642059748a42b121",
+      "hash": "05ba7bf72eab83fb0877",
       "siblings": [],
       "parents": [
         "main"
@@ -743,7 +743,7 @@
       "files": [
         "letters-Z-file.js"
       ],
-      "hash": "21d8cde8b6e3c5c8b362",
+      "hash": "9a7d56059319a25320c1",
       "siblings": [],
       "parents": [
         "main"
@@ -759,7 +759,7 @@
       "rendered": true,
       "initial": true,
       "entry": true,
-      "size": 14368,
+      "size": 14654,
       "names": [
         "main"
       ],
@@ -767,7 +767,7 @@
         "main.css",
         "main.js"
       ],
-      "hash": "f2e7d69a2c13975fa3a9",
+      "hash": "af91cc7eead6c72e727d",
       "siblings": [],
       "parents": [],
       "children": [
@@ -849,7 +849,7 @@
           "files": [
             "*"
           ],
-          "hash": "ae6a81c348917f377d61",
+          "hash": "0bd7ee33f38ce0c05d66",
           "siblings": [],
           "parents": [],
           "children": [],
@@ -1010,7 +1010,7 @@
           "files": [
             "*"
           ],
-          "hash": "3de4c2d6fb7d56e8b981",
+          "hash": "db3f80a505f46970d1ec",
           "siblings": [],
           "parents": [],
           "children": [],
@@ -1126,5 +1126,6 @@
       "children": [],
       "name": "mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!src/client/main.css"
     }
-  ]
+  ],
+  "generator": "loadable-components"
 }

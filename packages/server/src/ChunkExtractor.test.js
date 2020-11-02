@@ -306,6 +306,49 @@ describe('ChunkExtrator', () => {
       `)
     })
 
+    it.only('should use filter from options', () => {
+      extractor = new ChunkExtractor({
+        namespace: 'testapp',
+        stats,
+        outputPath: path.resolve(__dirname, '../__fixtures__'),
+        filter: ({ info }) => !info.hotModuleReplacement,
+      })
+      extractor.addChunk('letters-A')
+
+      expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
+        Array [
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "[\\"letters-A\\"]",
+              }
+            }
+            id="testapp__LOADABLE_REQUIRED_CHUNKS__"
+            type="application/json"
+          />,
+          <script
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
+              }
+            }
+            id="testapp__LOADABLE_REQUIRED_CHUNKS___ext"
+            type="application/json"
+          />,
+          <script
+            async={true}
+            data-chunk="main"
+            src="/dist/node/main.js"
+          />,
+          <script
+            async={true}
+            data-chunk="letters-A"
+            src="/dist/node/letters-A.js"
+          />,
+        ]
+      `)
+    })
+
     it('should add extra props if specified - function argument', () => {
       extractor.addChunk('letters-A')
       expect(

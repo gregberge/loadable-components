@@ -202,6 +202,7 @@ class ChunkExtractor {
     namespace = '',
     outputPath,
     publicPath,
+    filter,
     inputFileSystem = fs,
   } = {}) {
     this.namespace = namespace
@@ -210,8 +211,13 @@ class ChunkExtractor {
     this.outputPath = outputPath || this.stats.outputPath
     this.statsFile = statsFile
     this.entrypoints = Array.isArray(entrypoints) ? entrypoints : [entrypoints]
+    this.filter = filter || Boolean
     this.chunks = []
     this.inputFileSystem = inputFileSystem
+    this.assetsByName = this.stats.assets.reduce((acc, asset) => {
+      acc[asset.name] = asset
+      return acc
+    }, {})
   }
 
   resolvePublicUrl(filename) {
@@ -230,9 +236,15 @@ class ChunkExtractor {
     return chunkInfo
   }
 
+  isExctractableChunkAsset(chunk) {
+    return isValidChunkAsset(chunk) && this.filter(chunk)
+  }
+
   createChunkAsset({ filename, chunk, type, linkType }) {
     const resolvedFilename =
       typeof filename === 'object' && filename.name ? filename.name : filename
+
+    const asset = this.assetsByName[resolvedFilename]
 
     return {
       filename: resolvedFilename,
@@ -242,6 +254,7 @@ class ChunkExtractor {
       path: path.join(this.outputPath, resolvedFilename),
       type,
       linkType,
+      info: asset ? asset.info : {},
     }
   }
 
@@ -257,7 +270,7 @@ class ChunkExtractor {
             linkType: 'preload',
           }),
         )
-        .filter(isValidChunkAsset)
+        .filter(this.isExctractableChunkAsset, this)
     }
 
     if (Array.isArray(chunks)) {
@@ -280,7 +293,7 @@ class ChunkExtractor {
             linkType: type,
           }),
         )
-        .filter(isValidChunkAsset)
+        .filter(this.isExctractableChunkAsset, this)
     }
 
     if (Array.isArray(chunks)) {
