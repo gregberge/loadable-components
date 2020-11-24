@@ -117,3 +117,7 @@ const OtherComponent = loadable(loadOther)
 ```
 
 The `loadOther` function will be transformed into an object, this way you can manipulate function and it is still portable!
+
+## Compatibility Considerations
+
+If you still happen to be using `babel-plugin-dynamic-import-webpack` you should remove it because it is not compatible with this plugin. Newer versions of Webpack now understand dynamic imports so you don't need this older plugin in any case.
