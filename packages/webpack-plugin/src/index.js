@@ -92,7 +92,7 @@ class LoadablePlugin {
           if (asset) compilation.assets[this.opts.filename] = asset
         })
       } else { // v5
-        compiler.hooks.make.tapAsync(name, compilation => {
+        compiler.hooks.make.tap(name, compilation => {
           compilation.hooks.processAssets.tap(
             { name, stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE },
             () => {
