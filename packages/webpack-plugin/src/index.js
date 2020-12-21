@@ -29,14 +29,13 @@ class LoadablePlugin {
     const result = JSON.stringify(stats, null, 2)
 
     if (this.opts.outputAsset) {
-      hookCompiler.assets[this.opts.filename] = {
-        source() {
-          return result
-        },
-        size() {
-          return result.length
-        },
-      }
+      const outputPath = nodePath.resolve(
+        this.compiler.options.output.path,
+        this.opts.filename,
+      )
+      const file = fs.createWriteStream(outputPath)
+      file.write(result)
+      file.end()
     }
 
     if (this.opts.writeToDisk) {
@@ -50,7 +49,7 @@ class LoadablePlugin {
    * Write Assets Manifest file
    * @method writeAssetsFile
    */
-  writeAssetsFile = manifest => {
+  writeAssetsFile = (manifest) => {
     const outputFolder =
       this.opts.writeToDisk.filename || this.compiler.options.output.path
 
