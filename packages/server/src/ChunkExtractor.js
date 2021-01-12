@@ -363,7 +363,7 @@ class ChunkExtractor {
         smartRequire(path.join(this.outputPath, name.split('?')[0]))
       })
 
-    return smartRequire(mainAsset.path)
+    return smartRequire(mainAsset.path.split('?')[0])
   }
 
   // Main assets
