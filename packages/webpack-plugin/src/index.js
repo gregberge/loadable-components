@@ -22,12 +22,19 @@ class LoadablePlugin {
       hash: true,
       publicPath: true,
       assets: true,
-      chunks: false,
+      chunks: true,
       modules: false,
       source: false,
       errorDetails: false,
       timings: false,
     })
+
+    stats.chunks = stats.chunks.map(chunk => ({
+      ...chunk,
+      modules: [], // in case modules array is big
+      origins: [], // in case origins array is big
+    }))
+
     const result = JSON.stringify(stats, null, 2)
 
     if (this.opts.writeToDisk) {

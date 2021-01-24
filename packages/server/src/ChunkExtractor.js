@@ -171,6 +171,11 @@ function isValidChunkAsset(chunkAsset) {
   return chunkAsset.scriptType && !HOT_UPDATE_REGEXP.test(chunkAsset.filename)
 }
 
+const JS_FILE = /\.js$/
+function checkIfChunkIncludesJs(chunkInfo) {
+  return chunkInfo.files.some(file => JS_FILE.test(file.split('?')[0]))
+}
+
 class ChunkExtractor {
   constructor({
     statsFile,
@@ -199,6 +204,12 @@ class ChunkExtractor {
     const chunkGroup = this.stats.namedChunkGroups[chunk]
     invariant(chunkGroup, `cannot find ${chunk} in stats`)
     return chunkGroup
+  }
+
+  getChunkInfo(chunkId) {
+    const chunkInfo = this.stats.chunks.find(chunk => chunk.id === chunkId)
+    invariant(chunkInfo, `cannot find chunk (chunkId: ${chunkId}) in stats`)
+    return chunkInfo
   }
 
   createChunkAsset({ filename, chunk, type, linkType }) {
@@ -269,7 +280,17 @@ class ChunkExtractor {
   getChunkDependencies(chunks) {
     const one = chunk => {
       const chunkGroup = this.getChunkGroup(chunk)
-      return chunkGroup.chunks
+
+      // ignore chunk that only contains css files.
+      return chunkGroup.chunks.filter(chunkId => {
+        const chunkInfo = this.getChunkInfo(chunkId)
+
+        if (!chunkInfo) {
+          return false
+        }
+
+        return checkIfChunkIncludesJs(chunkInfo)
+      })
     }
 
     if (Array.isArray(chunks)) {
