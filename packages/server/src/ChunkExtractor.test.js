@@ -27,13 +27,13 @@ describe('ChunkExtrator', () => {
     })
 
     it('should use publicPath from ChunkExtractor options', () => {
-      const extractor = new ChunkExtractor({
+      const testExtractor = new ChunkExtractor({
         stats,
         publicPath: 'https://cdn.example.org/v1.1.0/',
         outputPath: path.resolve(__dirname, '../__fixtures__'),
       })
 
-      expect(extractor.resolvePublicUrl('main.js')).toEqual(
+      expect(testExtractor.resolvePublicUrl('main.js')).toEqual(
         'https://cdn.example.org/v1.1.0/main.js',
       )
     })
@@ -72,12 +72,12 @@ describe('ChunkExtrator', () => {
     })
 
     it('should return main script tag without chunk with namespaced required chunks id', () => {
-      const extractor = new ChunkExtractor({
+      const testExtractor = new ChunkExtractor({
         namespace: 'testapp',
         stats,
         outputPath: path.resolve(__dirname, '../__fixtures__'),
       })
-      expect(extractor.getScriptTags()).toMatchInlineSnapshot(`
+      expect(testExtractor.getScriptTags()).toMatchInlineSnapshot(`
         "<script id=\\"testapp__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\">[]</script><script id=\\"testapp__LOADABLE_REQUIRED_CHUNKS___ext\\" type=\\"application/json\\">{\\"namedChunks\\":[]}</script>
         <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\"></script>"
       `)
@@ -128,12 +128,12 @@ describe('ChunkExtrator', () => {
 
   describe('#getScriptElements', () => {
     it('should return main script tag without chunk with namespaced id for loadable chunks', () => {
-      const extractor = new ChunkExtractor({
+      const testExtractor = new ChunkExtractor({
         namespace: 'testapp',
         stats,
         outputPath: path.resolve(__dirname, '../__fixtures__'),
       })
-      expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
+      expect(testExtractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
           <script
             dangerouslySetInnerHTML={
@@ -351,13 +351,13 @@ describe('ChunkExtrator', () => {
     })
 
     it('should use publicPath from options', () => {
-      const extractor = new ChunkExtractor({
+      const testExtractor = new ChunkExtractor({
         stats,
         publicPath: 'https://cdn.example.org/v1.1.0/',
         outputPath: path.resolve(__dirname, '../__fixtures__'),
       })
 
-      expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
+      expect(testExtractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
           <script
             dangerouslySetInnerHTML={
