@@ -22,7 +22,8 @@
   "scripts": {
     "prebuild": "shx rm -rf lib",
     "build": "BUILD_TARGET=node babel --config-file ../../babel.config.js -d lib --ignore \"**/*.test.js\" src",
-    "prepublishOnly": "yarn run build"
+    "prepublishOnly": "yarn run build",
+    "update-fixtures": "yarn --cwd ../../examples/__fixtures__ build:webpack && rm -rf ./__fixtures__ && cp -R ../../examples/__fixtures__/target ./__fixtures__ "
   },
   "peerDependencies": {
     "@loadable/component": "^5.0.1",

@@ -29,6 +29,9 @@ class LoadablePlugin {
       timings: false,
     })
 
+    stats.generator = 'loadable-components'
+
+    // we don't need all chunk information, only a type
     stats.chunks = stats.chunks.map(chunk => ({
       ...chunk,
       modules: [], // in case modules array is big

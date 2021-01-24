@@ -19,6 +19,25 @@ function extensionToScriptType(extension) {
   return EXTENSION_SCRIPT_TYPES[extension] || null
 }
 
+/**
+ * some files can be references with extra query arguments which have to be removed
+ * @param name
+ * @returns {*}
+ */
+function cleanFileName(name) {
+  return name.split('?')[0]
+}
+
+function getFileScriptType(fileName) {
+  return extensionToScriptType(
+    cleanFileName(path.extname(fileName)).toLowerCase(),
+  )
+}
+
+function isScriptFile(fileName) {
+  return getFileScriptType(fileName) === 'script'
+}
+
 function getAssets(chunks, getAsset) {
   return uniqBy(
     flatMap(chunks, chunk => getAsset(chunk)),
@@ -171,9 +190,8 @@ function isValidChunkAsset(chunkAsset) {
   return chunkAsset.scriptType && !HOT_UPDATE_REGEXP.test(chunkAsset.filename)
 }
 
-const JS_FILE = /\.js$/
 function checkIfChunkIncludesJs(chunkInfo) {
-  return chunkInfo.files.some(file => JS_FILE.test(file.split('?')[0]))
+  return chunkInfo.files.some(file => isScriptFile(file))
 }
 
 class ChunkExtractor {
@@ -218,12 +236,7 @@ class ChunkExtractor {
 
     return {
       filename: resolvedFilename,
-      scriptType: extensionToScriptType(
-        path
-          .extname(resolvedFilename)
-          .split('?')[0]
-          .toLowerCase(),
-      ),
+      scriptType: getFileScriptType(resolvedFilename),
       chunk,
       url: this.resolvePublicUrl(resolvedFilename),
       path: path.join(this.outputPath, resolvedFilename),
@@ -371,20 +384,12 @@ class ChunkExtractor {
     invariant(mainAsset, 'asset not found')
 
     this.stats.assets
-      .filter(({ name }) => {
-        const type = extensionToScriptType(
-          path
-            .extname(name)
-            .split('?')[0]
-            .toLowerCase(),
-        )
-        return type === 'script'
-      })
+      .filter(({ name }) => isScriptFile(name))
       .forEach(({ name }) => {
-        smartRequire(path.join(this.outputPath, name.split('?')[0]))
+        smartRequire(path.join(this.outputPath, cleanFileName(name)))
       })
 
-    return smartRequire(mainAsset.path.split('?')[0])
+    return smartRequire(cleanFileName(mainAsset.path))
   }
 
   // Main assets
