@@ -18,16 +18,16 @@ const App = () => (
       <X letter="A" />
     </p>
     <p>
-      Lazy load letter C:
+      Lazy load letter B:
       <X letter="B" />
     </p>
     <p>
-      Lazy load letter only on Client C and D:
-      <ClientSideOnly letter="C" />
+      Lazy load letter <strong>only on Client</strong> C and D:
+      <ClientSideOnly letter="C" /> +
       <ClientSideOnly letter="D" />
     </p>
     <p>
-      lazy load momentjs:
+      lazy load momentjs and format date:
       <Moment>{moment => `now is : ${moment().format('HH:mm')}`}</Moment>
     </p>
   </div>
