@@ -2,7 +2,7 @@ const nodePath = require('path')
 const fs = require('fs')
 const makeDir = require('make-dir')
 
-const name = '@loadable/webpack-plugin';
+const name = '@loadable/webpack-plugin'
 
 class LoadablePlugin {
   constructor({
@@ -45,7 +45,7 @@ class LoadablePlugin {
       }
     }
 
-    return null;
+    return null
   }
 
   /**
@@ -74,31 +74,39 @@ class LoadablePlugin {
   apply(compiler) {
     this.compiler = compiler
 
-    // Check if webpack version 4 or 5
-    if ('jsonpFunction' in compiler.options.output) {
-      // Add a custom output.jsonpFunction: __LOADABLE_LOADED_CHUNKS__
+    const version = 'jsonpFunction' in compiler.options.output ? 4 : 5
+
+    // Add a custom chunk loading callback __LOADABLE_LOADED_CHUNKS__
+    if (version === 4) {
       compiler.options.output.jsonpFunction = '__LOADABLE_LOADED_CHUNKS__'
     } else {
-      // Add a custom output.chunkLoadingGlobal: __LOADABLE_LOADED_CHUNKS__
       compiler.options.output.chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__'
     }
 
-    const { webpack } = compiler;
-
     if (this.opts.outputAsset || this.opts.writeToDisk) {
-      if (!webpack) { // v4
+      if (version === 4) {
+        // webpack 4
         compiler.hooks.emit.tap(name, compilation => {
           const asset = this.handleEmit(compilation)
-          if (asset) compilation.assets[this.opts.filename] = asset
+          if (asset) {
+            compilation.assets[this.opts.filename] = asset
+          }
         })
-      } else { // v5
+      } else {
+        // webpack 5
         compiler.hooks.make.tap(name, compilation => {
           compilation.hooks.processAssets.tap(
-            { name, stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE },
+            {
+              name,
+              stage:
+                compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+            },
             () => {
               const asset = this.handleEmit(compilation)
-              if (asset) compilation.emitAsset(this.opts.filename, asset)
-            }
+              if (asset) {
+                compilation.emitAsset(this.opts.filename, asset)
+              }
+            },
           )
         })
       }
