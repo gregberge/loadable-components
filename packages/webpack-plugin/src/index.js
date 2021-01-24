@@ -2,6 +2,8 @@ const nodePath = require('path')
 const fs = require('fs')
 const makeDir = require('make-dir')
 
+const name = '@loadable/webpack-plugin';
+
 class LoadablePlugin {
   constructor({
     filename = 'loadable-stats.json',
@@ -15,8 +17,8 @@ class LoadablePlugin {
     this.compiler = null
   }
 
-  handleEmit = (hookCompiler, callback) => {
-    const stats = hookCompiler.getStats().toJson({
+  handleEmit = compilation => {
+    const stats = compilation.getStats().toJson({
       hash: true,
       publicPath: true,
       assets: true,
@@ -28,8 +30,12 @@ class LoadablePlugin {
     })
     const result = JSON.stringify(stats, null, 2)
 
+    if (this.opts.writeToDisk) {
+      this.writeAssetsFile(result)
+    }
+
     if (this.opts.outputAsset) {
-      hookCompiler.assets[this.opts.filename] = {
+      return {
         source() {
           return result
         },
@@ -39,11 +45,7 @@ class LoadablePlugin {
       }
     }
 
-    if (this.opts.writeToDisk) {
-      this.writeAssetsFile(result)
-    }
-
-    callback()
+    return null;
   }
 
   /**
@@ -81,8 +83,25 @@ class LoadablePlugin {
       compiler.options.output.chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__'
     }
 
+    const { webpack } = compiler;
+
     if (this.opts.outputAsset || this.opts.writeToDisk) {
-      compiler.hooks.emit.tapAsync('@loadable/webpack-plugin', this.handleEmit)
+      if (!webpack) { // v4
+        compiler.hooks.emit.tap(name, compilation => {
+          const asset = this.handleEmit(compilation)
+          if (asset) compilation.assets[this.opts.filename] = asset
+        })
+      } else { // v5
+        compiler.hooks.make.tap(name, compilation => {
+          compilation.hooks.processAssets.tap(
+            { name, stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE },
+            () => {
+              const asset = this.handleEmit(compilation)
+              if (asset) compilation.emitAsset(this.opts.filename, asset)
+            }
+          )
+        })
+      }
     }
   }
 }
