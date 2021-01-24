@@ -22,8 +22,9 @@ const App = () => (
       <X letter="B" />
     </p>
     <p>
-      Lazy load letter only on Client C:
+      Lazy load letter only on Client C and D:
       <ClientSideOnly letter="C" />
+      <ClientSideOnly letter="D" />
     </p>
     <p>
       lazy load momentjs:

@@ -39,6 +39,7 @@ const getConfig = target => ({
     target === 'node' ? ['@loadable/component', nodeExternals()] : undefined,
 
   optimization: {
+    // this will lead to runtime error
     runtimeChunk: false && target !== 'node',
   },
 
