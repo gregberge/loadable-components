@@ -306,33 +306,33 @@ describe('ChunkExtrator', () => {
       `)
     })
 
-    it.only('should use filter from options', () => {
-      extractor = new ChunkExtractor({
-        namespace: 'testapp',
+    it('should use filterChunk from options', () => {
+      const filteredExtractor = new ChunkExtractor({
         stats,
-        outputPath: path.resolve(__dirname, '../__fixtures__'),
-        filterChunk: ({ info }) => !info.hotModuleReplacement,
+        outputPath: targetPath,
+        filterChunk: ({ chunk }) => chunk !== 'letters-B',
       })
-      extractor.addChunk('letters-A')
+      filteredExtractor.addChunk('letters-A')
+      filteredExtractor.addChunk('letters-B')
 
-      expect(extractor.getScriptElements()).toMatchInlineSnapshot(`
+      expect(filteredExtractor.getScriptElements()).toMatchInlineSnapshot(`
         Array [
           <script
             dangerouslySetInnerHTML={
               Object {
-                "__html": "[\\"letters-A\\"]",
+                "__html": "[\\"letters-A\\",\\"letters-B\\"]",
               }
             }
-            id="testapp__LOADABLE_REQUIRED_CHUNKS__"
+            id="__LOADABLE_REQUIRED_CHUNKS__"
             type="application/json"
           />,
           <script
             dangerouslySetInnerHTML={
               Object {
-                "__html": "{\\"namedChunks\\":[\\"letters-A\\"]}",
+                "__html": "{\\"namedChunks\\":[\\"letters-A\\",\\"letters-B\\"]}",
               }
             }
-            id="testapp__LOADABLE_REQUIRED_CHUNKS___ext"
+            id="__LOADABLE_REQUIRED_CHUNKS___ext"
             type="application/json"
           />,
           <script
