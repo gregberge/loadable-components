@@ -2,7 +2,7 @@
   "errors": [],
   "warnings": [],
   "version": "4.41.0",
-  "hash": "3e6566a0799a062ba9c6",
+  "hash": "978c0e495cd799413c9a",
   "publicPath": "/dist/node/",
   "outputPath": "../../examples/server-side-rendering/public/dist/node",
   "assetsByChunkName": {
@@ -767,7 +767,7 @@
         "main.css",
         "main.js"
       ],
-      "hash": "f2e7d69a2c13975fa3a9",
+      "hash": "37cac90b272ff26b2f8f",
       "siblings": [],
       "parents": [],
       "children": [

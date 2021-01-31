@@ -15,12 +15,13 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "ci": "yarn build && yarn lint && ./scripts/prepare.sh yarn test --ci && bundlesize",
+    "ci": "yarn build && yarn lint && yarn test:prepare && yarn test --ci && bundlesize",
     "dev": "WATCH_MODE=true lerna run build --parallel -- --watch",
     "format": "prettier --write \"**/*.{js,json,md}\"",
     "lint": "eslint .",
     "release": "lerna publish --conventional-commits && conventional-github-releaser --preset angular",
     "release-to-git": "./scripts/git-release.sh",
+    "test:prepare": "./scripts/prepare.sh",
     "test": "jest"
   },
   "devDependencies": {

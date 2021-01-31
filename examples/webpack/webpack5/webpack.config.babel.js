@@ -40,7 +40,7 @@ const getConfig = target => ({
 
   optimization: {
     // this will lead to runtime error
-    runtimeChunk: false && target !== 'node',
+    runtimeChunk: target !== 'node',
   },
 
   output: {
