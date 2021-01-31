@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.14.2](https://github.com/gregberge/loadable-components/compare/v5.14.1...v5.14.2) (2021-01-31)
+
+
+### Bug Fixes
+
+* ignore css chunk ([#689](https://github.com/gregberge/loadable-components/issues/689)) ([6926e19](https://github.com/gregberge/loadable-components/commit/6926e190c80f525467980fffbbded0bf933f27ed))
+* update hooks for webpack 5 ([#676](https://github.com/gregberge/loadable-components/issues/676)) ([671ef52](https://github.com/gregberge/loadable-components/commit/671ef527e7a37c459df616ee74dc92e106e8245e))
+
+
+
+
+
 # [5.14.0](https://github.com/gregberge/loadable-components/compare/v5.13.2...v5.14.0) (2020-10-20)
 
 
