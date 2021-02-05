@@ -49,8 +49,11 @@ export default function loadableReady(
   let resolved = false
 
   return new Promise(resolve => {
-    window.__LOADABLE_LOADED_CHUNKS__ = window.__LOADABLE_LOADED_CHUNKS__ || []
-    const loadedChunks = window.__LOADABLE_LOADED_CHUNKS__
+    const prefix = namespace ? `__${namespace}` : ''
+    const loadedChunksKey = `${prefix}__LOADABLE_LOADED_CHUNKS__`
+
+    window[loadedChunksKey] = window[loadedChunksKey] || []
+    const loadedChunks = window[loadedChunksKey]
     const originalPush = loadedChunks.push.bind(loadedChunks)
 
     function checkReadyState() {
