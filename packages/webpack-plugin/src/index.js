@@ -10,9 +10,9 @@ class LoadablePlugin {
     path,
     writeToDisk,
     outputAsset = true,
-    namespace = null,
+    chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__',
   } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path, namespace }
+    this.opts = { filename, writeToDisk, outputAsset, path, chunkLoadingGlobal }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -86,13 +86,12 @@ class LoadablePlugin {
     this.compiler = compiler
 
     const version = 'jsonpFunction' in compiler.options.output ? 4 : 5
-    const namespace = this.opts.namespace ? `__${this.opts.namespace}` : ''
 
-    // Add a custom chunk loading callback __LOADABLE_LOADED_CHUNKS__
+    // Add a custom chunk loading callback
     if (version === 4) {
-      compiler.options.output.jsonpFunction = `${namespace}__LOADABLE_LOADED_CHUNKS__`
+      compiler.options.output.jsonpFunction = this.opts.chunkLoadingGlobal
     } else {
-      compiler.options.output.chunkLoadingGlobal = `${namespace}__LOADABLE_LOADED_CHUNKS__`
+      compiler.options.output.chunkLoadingGlobal = this.opts.chunkLoadingGlobal
     }
 
     if (this.opts.outputAsset || this.opts.writeToDisk) {

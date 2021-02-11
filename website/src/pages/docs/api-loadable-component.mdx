@@ -26,6 +26,7 @@ const OtherComponent = loadable(() => import('./OtherComponent'))
 ```
 
 ### `options.resolveComponent`
+
 This is a function that receives the imported module (what the `import()` call resolves to) and the props, and returns the component.
 
 The default value assumes that the component is exported as a default export.
@@ -43,17 +44,16 @@ export const Orange = () => 'Orange!'
 // loadable.js
 
 const LoadableApple = loadable(() => import('./components'), {
-  resolveComponent: (components) => components.Apple,
+  resolveComponent: components => components.Apple,
 })
 
 const LoadableOrange = loadable(() => import('./components'), {
-  resolveComponent: (components) => components.Orange,
+  resolveComponent: components => components.Orange,
 })
 
 const LoadableFruit = loadable(() => import('./components'), {
   resolveComponent: (components, props) => components[props.fruit],
 })
-
 ```
 
 **Note:** The default `resolveComponent` breaks Typescript type inference due to CommonJS compatibility.
@@ -169,11 +169,12 @@ A component created using `loadable.lib` or `lazy.lib`.
 
 Wait for all loadable components to be loaded. This method must only be used with Server Side Rendering, see [Server Side Rendering guide](/docs/server-side-rendering/).
 
-| Arguments           | Description                                                                               |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| `done`              | Function called when all components are loaded.                                           |
-| `options`           | Optional options.                                                                         |
-| `options.namespace` | Namespace of your application (use only if you have several React apps on the same page). |
+| Arguments                    | Description                                                                               |
+| ---------------------------- | ----------------------------------------------------------------------------------------- |
+| `done`                       | Function called when all components are loaded.                                           |
+| `options`                    | Optional options.                                                                         |
+| `options.namespace`          | Namespace of your application (use only if you have several React apps on the same page). |
+| `options.chunkLoadingGlobal` | A custom `chunkLoadingGlobal` if set in the Webpack plugin                                |
 
 ```js
 import { loadableReady } from '@loadable/component'
