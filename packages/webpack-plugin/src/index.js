@@ -19,13 +19,16 @@ class LoadablePlugin {
 
   handleEmit = compilation => {
     const stats = compilation.getStats().toJson({
-      hash: true,
-      publicPath: true,
+      all: false,
       assets: true,
       chunks: true,
-      modules: false,
-      source: false,
+      chunkGroups: true,
       errorDetails: false,
+      hash: true,
+      modules: false,
+      outputPath: true,
+      publicPath: true,
+      source: false,
       timings: false,
     })
 
