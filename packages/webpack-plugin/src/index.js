@@ -109,7 +109,7 @@ class LoadablePlugin {
             {
               name,
               stage:
-                compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+                compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
             },
             () => {
               const asset = this.handleEmit(compilation)
