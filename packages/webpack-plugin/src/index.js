@@ -23,13 +23,11 @@ class LoadablePlugin {
       assets: true,
       chunks: true,
       chunkGroups: true,
-      errorDetails: false,
+      chunkGroupChildren: true,
       hash: true,
-      modules: false,
+      ids: true,
       outputPath: true,
       publicPath: true,
-      source: false,
-      timings: false,
     })
 
     stats.generator = 'loadable-components'
