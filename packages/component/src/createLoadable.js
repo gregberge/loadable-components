@@ -26,11 +26,18 @@ function resolveConstructor(ctor) {
   return ctor
 }
 
-const withChunkExtractor = Component => props => (
-  <Context.Consumer>
-    {extractor => <Component __chunkExtractor={extractor} {...props} />}
-  </Context.Consumer>
-)
+const withChunkExtractor = Component => {
+  const LoadableWithChunkExtractor = props => (
+    <Context.Consumer>
+      {extractor => <Component __chunkExtractor={extractor} {...props} />}
+    </Context.Consumer>
+  )
+  if (Component.displayName) {
+    LoadableWithChunkExtractor.displayName =
+      `${Component.displayName}WithChunkExtractor`;
+  }
+  return LoadableWithChunkExtractor
+}
 
 const identity = v => v
 
@@ -331,6 +338,8 @@ function createLoadable({
     const Loadable = React.forwardRef((props, ref) => (
       <EnhancedInnerLoadable forwardedRef={ref} {...props} />
     ))
+
+    Loadable.displayName = 'Loadable'
 
     // In future, preload could use `<link rel="preload">`
     Loadable.preload = props => {
