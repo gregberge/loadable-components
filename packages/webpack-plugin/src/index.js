@@ -22,7 +22,7 @@ class LoadablePlugin {
       hash: true,
       publicPath: true,
       assets: true,
-      chunks: true,
+      chunks: false,
       modules: false,
       source: false,
       errorDetails: false,
@@ -32,11 +32,12 @@ class LoadablePlugin {
     stats.generator = 'loadable-components'
 
     // we don't need all chunk information, only a type
-    stats.chunks = stats.chunks.map(chunk => ({
-      ...chunk,
-      modules: [], // in case modules array is big
-      origins: [], // in case origins array is big
-    }))
+    stats.chunks = [...compilation.chunks].map((chunk) => {
+      return {
+        id: chunk.id,
+        files: [...chunk.files],
+      };
+    });
 
     const result = JSON.stringify(stats, null, 2)
 
