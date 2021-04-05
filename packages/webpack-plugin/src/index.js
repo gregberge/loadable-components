@@ -20,14 +20,15 @@ class LoadablePlugin {
 
   handleEmit = compilation => {
     const stats = compilation.getStats().toJson({
-      hash: true,
-      publicPath: true,
+      all: false,
       assets: true,
       chunks: true,
-      modules: false,
-      source: false,
-      errorDetails: false,
-      timings: false,
+      chunkGroups: true,
+      chunkGroupChildren: true,
+      hash: true,
+      ids: true,
+      outputPath: true,
+      publicPath: true,
     })
 
     stats.generator = 'loadable-components'
