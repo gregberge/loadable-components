@@ -18,7 +18,7 @@ export const clearModuleCache = moduleName => {
 }
 
 export const smartRequire = modulePath => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && module.hot) {
     clearModuleCache(modulePath)
   }
 
