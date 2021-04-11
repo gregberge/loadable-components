@@ -8,7 +8,7 @@ const BROWSER = typeof window !== 'undefined'
 
 export default function loadableReady(
   done = () => {},
-  { namespace = '' } = {},
+  { namespace = '', chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__' } = {},
 ) {
   if (!BROWSER) {
     warn('`loadableReady()` must be called in browser only')
@@ -49,8 +49,8 @@ export default function loadableReady(
   let resolved = false
 
   return new Promise(resolve => {
-    window.__LOADABLE_LOADED_CHUNKS__ = window.__LOADABLE_LOADED_CHUNKS__ || []
-    const loadedChunks = window.__LOADABLE_LOADED_CHUNKS__
+    window[chunkLoadingGlobal] = window[chunkLoadingGlobal] || []
+    const loadedChunks = window[chunkLoadingGlobal]
     const originalPush = loadedChunks.push.bind(loadedChunks)
 
     function checkReadyState() {

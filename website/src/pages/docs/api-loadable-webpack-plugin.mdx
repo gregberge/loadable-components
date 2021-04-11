@@ -10,13 +10,14 @@ order: 30
 
 Create a webpack loadable plugin.
 
-| Arguments                      | Description                                                                         |
-| ------------------------------ | ----------------------------------------------------------------------------------- |
-| `options`                      | Optional options                                                                    |
-| `options.filename`             | Stats filename (default to `loadable-stats.json`)                                   |
-| `options.outputAsset`          | Always write stats file to the `output.path` directory. Defaults to `true`          |
-| `options.writeToDisk`          | Accepts `boolean` or `object`. Always write stats file to disk. Default to `false`. |
-| `options.writeToDisk.filename` | Write assets to disk at given `filename` location                                   |
+| Arguments                      | Description                                                                                  |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
+| `options`                      | Optional options                                                                             |
+| `options.filename`             | Stats filename (default to `loadable-stats.json`)                                            |
+| `options.outputAsset`          | Always write stats file to the `output.path` directory. Defaults to `true`                   |
+| `options.writeToDisk`          | Accepts `boolean` or `object`. Always write stats file to disk. Default to `false`.          |
+| `options.writeToDisk.filename` | Write assets to disk at given `filename` location                                            |
+| `options.chunkLoadingGlobal`   | Overrides Webpack's `chunkLoadingGlobal` allowing multiple Webpack runtimes on the same page |
 
 ```js
 new LoadablePlugin({ filename: 'stats.json', writeToDisk: true })
