@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.15.0](https://github.com/gregberge/loadable-components/compare/v5.14.2...v5.15.0) (2021-05-08)
+
+
+### Features
+
+* support multiple Webpack runtimes ([#701](https://github.com/gregberge/loadable-components/issues/701)) ([d351367](https://github.com/gregberge/loadable-components/commit/d3513679ed680e46967ca18555116c06e5a4b341))
+* webpack plugin doesn't need all chunk info ([#735](https://github.com/gregberge/loadable-components/issues/735)) ([cea9f24](https://github.com/gregberge/loadable-components/commit/cea9f249f7550a1154cf88bcfa3812ebb78a500f))
+
+
+
+
+
 ## [5.14.2](https://github.com/gregberge/loadable-components/compare/v5.14.1...v5.14.2) (2021-01-31)
 
 
