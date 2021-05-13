@@ -28,7 +28,7 @@ Using `statsFile` will automatically reload stats for you if they change.
 ```js
 import { ChunkExtractor } from '@loadable/server'
 
-const statsFile = path.resolve('../dist/loadable-stats.json')
+const statsFile = path.resolve('..', 'dist', 'loadable-stats.json')
 const chunkExtractor = new ChunkExtractor({ statsFile })
 ```
 
