@@ -22,6 +22,7 @@ class LoadablePlugin {
     const stats = compilation.getStats().toJson({
       all: false,
       assets: true,
+      cachedAssets: true,
       chunks: false,
       chunkGroups: true,
       chunkGroupChildren: true,
