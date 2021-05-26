@@ -31,6 +31,7 @@ class LoadablePlugin {
       this.opts.stats || {
         all: false,
         assets: true,
+        cachedAssets: true,
         chunks: false,
         chunkGroups: true,
         chunkGroupChildren: true,
