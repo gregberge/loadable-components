@@ -39,8 +39,20 @@ class LoadablePlugin {
       return {
         id: chunk.id,
         files: [...chunk.files],
-      };
-    });
+      }
+    })
+
+    // update namedChunkGroups with integrity from webpack-subresource-integrity if available
+    Object.values(stats.namedChunkGroups).forEach(namedChunkGroup => {
+      namedChunkGroup.assets.forEach(namedChunkGroupAsset => {
+        if (!namedChunkGroupAsset.integrity) {
+          const asset = stats.assets.find(a => a.name === namedChunkGroupAsset.name) || {}
+          if (asset.integrity) {
+            namedChunkGroupAsset.integrity = asset.integrity
+          }
+        }
+      })
+    })
 
     const result = JSON.stringify(stats, null, 2)
 

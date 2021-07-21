@@ -64,6 +64,7 @@ _Before_ submitting a pull request, please make sure the following is done…
 8.  Ensure the test suite passes via `yarn test`.
 
     ```sh-session
+    $ yarn test:prepare # build example and generate fixtures before running tests
     $ yarn test
     ```
 

@@ -233,9 +233,12 @@ class ChunkExtractor {
   createChunkAsset({ filename, chunk, type, linkType }) {
     const resolvedFilename =
       typeof filename === 'object' && filename.name ? filename.name : filename
+    const resolvedIntegrity =
+      typeof filename === 'object' && filename.integrity ? filename.integrity : null
 
     return {
       filename: resolvedFilename,
+      integrity: resolvedIntegrity,
       scriptType: getFileScriptType(resolvedFilename),
       chunk,
       url: this.resolvePublicUrl(resolvedFilename),
