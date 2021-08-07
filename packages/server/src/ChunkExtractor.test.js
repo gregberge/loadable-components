@@ -102,6 +102,31 @@ describe('ChunkExtrator', () => {
       `)
     })
 
+    it('should add integrity if available in stats', () => {
+      const testExtractor = new ChunkExtractor({
+        stats: {
+          ...stats,
+          namedChunkGroups: {
+            ...stats.namedChunkGroups,
+            main: {
+              ...stats.namedChunkGroups.main,
+              assets: stats.namedChunkGroups.main.assets.map(name => ({
+                name,
+                // pseudo hash - reversed name
+                integrity: name.split('').reverse().join(''),
+              })),
+            },
+          },
+        },
+        outputPath: targetPath,
+      })
+      expect(testExtractor.getScriptTags({ crossorigin: 'anonymous' }))
+        .toMatchInlineSnapshot(`
+        "<script id=\\"__LOADABLE_REQUIRED_CHUNKS__\\" type=\\"application/json\\" crossorigin=\\"anonymous\\">[]</script><script id=\\"__LOADABLE_REQUIRED_CHUNKS___ext\\" type=\\"application/json\\" crossorigin=\\"anonymous\\">{\\"namedChunks\\":[]}</script>
+        <script async data-chunk=\\"main\\" src=\\"/dist/node/main.js\\" integrity=\\"sj.niam\\" crossorigin=\\"anonymous\\"></script>"
+      `)
+    })
+
     it('should add extra props if specified - object argument', () => {
       extractor.addChunk('letters-A')
       expect(extractor.getScriptTags({ nonce: 'testnonce' }))
