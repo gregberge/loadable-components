@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.1](https://github.com/smooth-code/loadable-components/compare/v5.15.0...v5.15.1) (2021-08-17)
+
+
+### Bug Fixes
+
+* add cachedAssets to stats options ([#779](https://github.com/smooth-code/loadable-components/issues/779)) ([73b17fd](https://github.com/smooth-code/loadable-components/commit/73b17fd067579b1c5d38eba00e157964e0930a94)), closes [#770](https://github.com/smooth-code/loadable-components/issues/770)
+* SubResourceIntegrity ([#803](https://github.com/smooth-code/loadable-components/issues/803)) ([9b34195](https://github.com/smooth-code/loadable-components/commit/9b34195627c65372a7c834311c32dfcbd5b7fedd))
+
+
+
+
+
 # [5.15.0](https://github.com/smooth-code/loadable-components/compare/v5.14.2...v5.15.0) (2021-05-08)
 
 

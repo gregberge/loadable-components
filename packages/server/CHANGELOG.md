@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.1](https://github.com/gregberge/loadable-components/compare/v5.15.0...v5.15.1) (2021-08-17)
+
+
+### Bug Fixes
+
+* SubResourceIntegrity ([#803](https://github.com/gregberge/loadable-components/issues/803)) ([9b34195](https://github.com/gregberge/loadable-components/commit/9b34195627c65372a7c834311c32dfcbd5b7fedd))
+
+
+
+
+
 # [5.15.0](https://github.com/gregberge/loadable-components/compare/v5.14.2...v5.15.0) (2021-05-08)
 
 **Note:** Version bump only for package @loadable/server
