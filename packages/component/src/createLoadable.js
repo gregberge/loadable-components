@@ -343,10 +343,13 @@ function createLoadable({
 
     // In future, preload could use `<link rel="preload">`
     Loadable.preload = props => {
-      ctor.requireAsync(props)
+      cache[getCacheKey()] = ctor.requireAsync(props);
     }
 
-    Loadable.load = props => ctor.requireAsync(props)
+    Loadable.load = props => {
+      cache[getCacheKey()] = ctor.requireAsync(props);
+      return cache[getCacheKey()];
+    }
 
     return Loadable
   }
