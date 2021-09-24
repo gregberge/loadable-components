@@ -18,6 +18,7 @@ Create a loadable component.
 | `options.fallback`         | Fallback displayed during the loading.                               |
 | `options.ssr`              | If `false`, it will not be processed server-side. Default to `true`. |
 | `options.cacheKey`         | Cache key function (see [dynamic import](/docs/dynamic-import/))     |
+| `options.onLoad`           | Function be call at async load componet finish.                      |
 
 ```js
 import loadable from '@loadable/component'
@@ -133,6 +134,7 @@ Create a loadable library.
 | `options.fallback`         | Fallback displayed during the loading.                               |
 | `options.ssr`              | If `false`, it will not be processed server-side. Default to `true`. |
 | `options.cacheKey`         | Cache key function (see [dynamic import](/docs/dynamic-import))      |
+| `options.onLoad`           | Function be call at async load componet finish.                      |
 
 ```js
 import loadable from '@loadable/component'
