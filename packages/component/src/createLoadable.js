@@ -211,6 +211,11 @@ function createLoadable({
             onLoad(this.state.result, this.props)
           })
         }
+        if (options.onLoad) {
+          setTimeout(() => {
+            options.onLoad(this.state.result, this.props)
+          })
+        }
       }
 
       /**
