@@ -105,6 +105,22 @@ describe('#loadable', () => {
     await wait(() => expect(container).toHaveTextContent('loaded'))
   })
 
+  it('loaded trigger onLoad', async () => {
+    const onLoad = jest.fn();
+    const renderFn = jest.fn(() => 'loaded')
+    const load = resolvedToDefault(renderFn)
+    const Component = loadable(load, { onLoad })
+    const { container } = render(<Component name="James Bond" />)
+    expect(container).toBeEmpty()
+    await wait(() => expect(container).toHaveTextContent('loaded'))
+    await wait(() => expect(onLoad).toHaveBeenCalled());
+    expect(onLoad).toHaveBeenCalledWith(renderFn, {
+      name: 'James Bond',
+      __chunkExtractor: undefined,
+      forwardedRef: null,
+    });
+  })
+
   it('supports preload', async () => {
     const load = resolvedToDefault(() => 'loaded')
     const Component = loadable(load)
