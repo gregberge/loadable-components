@@ -249,7 +249,7 @@ function createLoadable({
 
         promise
           .then(loadedModule => {
-            const result = resolve(loadedModule, this.props, { Loadable })
+            const result = resolve(loadedModule, this.props, Loadable)
             this.safeSetState(
               {
                 result,
