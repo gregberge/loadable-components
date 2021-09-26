@@ -28,7 +28,7 @@ export const smartRequire = modulePath => {
     clearModuleCache(modulePath)
   }
 
-  return getRequire(modulePath)
+  return getRequire()(modulePath)
 }
 
 export const joinURLPath = (publicPath, filename) => {
