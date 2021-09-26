@@ -1,5 +1,11 @@
+// Use __non_webpack_require__ to prevent Webpack from compiling it
+// when the server-side code is compiled with Webpack
+// eslint-disable-next-line camelcase, no-undef, global-require, import/no-dynamic-require, no-eval
+const getRequire = () => typeof __non_webpack_require__ !== 'undefined' ? __non_webpack_require__ : eval('require');
+
 export const clearModuleCache = moduleName => {
-  const m = require.cache[moduleName]
+  const { cache } = getRequire();
+  const m = cache[moduleName]
   if (m) {
     // remove self from own parents
     if (m.parent && m.parent.children) {
@@ -13,7 +19,7 @@ export const clearModuleCache = moduleName => {
         }
       })
     }
-    delete require.cache[moduleName]
+    delete cache[moduleName]
   }
 }
 
@@ -22,16 +28,7 @@ export const smartRequire = modulePath => {
     clearModuleCache(modulePath)
   }
 
-  // Use __non_webpack_require__ to prevent Webpack from compiling it
-  // when the server-side code is compiled with Webpack
-  // eslint-disable-next-line camelcase
-  if (typeof __non_webpack_require__ !== 'undefined') {
-    // eslint-disable-next-line no-undef
-    return __non_webpack_require__(modulePath)
-  }
-
-  // eslint-disable-next-line global-require, import/no-dynamic-require, no-eval
-  return eval('require')(modulePath)
+  return getRequire()(modulePath)
 }
 
 export const joinURLPath = (publicPath, filename) => {
