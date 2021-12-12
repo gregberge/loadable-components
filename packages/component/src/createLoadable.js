@@ -89,6 +89,37 @@ function createLoadable({
       return Component
     }
 
+    const cachedLoad = props => {
+      const cacheKey = getCacheKey(props)
+      let promise = cache[cacheKey]
+
+      if (!promise || promise.status === STATUS_REJECTED) {
+        promise = ctor.requireAsync(props)
+        promise.status = STATUS_PENDING
+
+        cache[cacheKey] = promise
+
+        promise.then(
+          () => {
+            promise.status = STATUS_RESOLVED
+          },
+          error => {
+            console.error(
+              'loadable-components: failed to asynchronously load component',
+              {
+                fileName: ctor.resolve(props),
+                chunkName: ctor.chunkName(props),
+                error: error ? error.message : error,
+              },
+            )
+            promise.status = STATUS_REJECTED
+          },
+        )
+      }
+
+      return promise
+    }
+
     class InnerLoadable extends React.Component {
       static getDerivedStateFromProps(props, state) {
         const cacheKey = getCacheKey(props)
@@ -270,33 +301,7 @@ function createLoadable({
       resolveAsync() {
         const { __chunkExtractor, forwardedRef, ...props } = this.props
 
-        let promise = this.getCache()
-
-        if (!promise) {
-          promise = ctor.requireAsync(props)
-          promise.status = STATUS_PENDING
-
-          this.setCache(promise)
-
-          promise.then(
-            () => {
-              promise.status = STATUS_RESOLVED
-            },
-            error => {
-              console.error(
-                'loadable-components: failed to asynchronously load component',
-                {
-                  fileName: ctor.resolve(this.props),
-                  chunkName: ctor.chunkName(this.props),
-                  error: error ? error.message : error,
-                },
-              )
-              promise.status = STATUS_REJECTED
-            },
-          )
-        }
-
-        return promise
+        return cachedLoad(props)
       }
 
       render() {
@@ -343,12 +348,11 @@ function createLoadable({
 
     // In future, preload could use `<link rel="preload">`
     Loadable.preload = props => {
-      cache[getCacheKey()] = ctor.requireAsync(props);
+      Loadable.load(props)
     }
 
     Loadable.load = props => {
-      cache[getCacheKey()] = ctor.requireAsync(props);
-      return cache[getCacheKey()];
+      return cachedLoad(props)
     }
 
     return Loadable
