@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.2](https://github.com/gregberge/loadable-components/compare/v5.15.1...v5.15.2) (2021-12-12)
+
+
+### Bug Fixes
+
+* loadAsync Loadable should copy statics ([#839](https://github.com/gregberge/loadable-components/issues/839)) ([9ff6693](https://github.com/gregberge/loadable-components/commit/9ff66939ee6fd622922f71128a30b5d3f43f63b0))
+* use stable promises for load/preload/React ([#858](https://github.com/gregberge/loadable-components/issues/858)) ([45f2d91](https://github.com/gregberge/loadable-components/commit/45f2d9133c8234fec9cbe36e5a162a61f24e4aae))
+
+
+
+
+
 # [5.15.0](https://github.com/gregberge/loadable-components/compare/v5.14.2...v5.15.0) (2021-05-08)
 
 

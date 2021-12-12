@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.2](https://github.com/gregberge/loadable-components/compare/v5.15.1...v5.15.2) (2021-12-12)
+
+
+### Bug Fixes
+
+* Clear correct cache when compiling with Webpack ([#838](https://github.com/gregberge/loadable-components/issues/838)) ([3b9cb20](https://github.com/gregberge/loadable-components/commit/3b9cb202a09365e67c08ec18455d82bedf62f4db))
+
+
+
+
+
 ## [5.15.1](https://github.com/gregberge/loadable-components/compare/v5.15.0...v5.15.1) (2021-08-17)
 
 

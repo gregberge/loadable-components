@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.2](https://github.com/smooth-code/loadable-components/compare/v5.15.1...v5.15.2) (2021-12-12)
+
+
+### Bug Fixes
+
+* Clear correct cache when compiling with Webpack ([#838](https://github.com/smooth-code/loadable-components/issues/838)) ([3b9cb20](https://github.com/smooth-code/loadable-components/commit/3b9cb202a09365e67c08ec18455d82bedf62f4db))
+* loadAsync Loadable should copy statics ([#839](https://github.com/smooth-code/loadable-components/issues/839)) ([9ff6693](https://github.com/smooth-code/loadable-components/commit/9ff66939ee6fd622922f71128a30b5d3f43f63b0))
+* use stable promises for load/preload/React ([#858](https://github.com/smooth-code/loadable-components/issues/858)) ([45f2d91](https://github.com/smooth-code/loadable-components/commit/45f2d9133c8234fec9cbe36e5a162a61f24e4aae))
+
+
+
+
+
 ## [5.15.1](https://github.com/smooth-code/loadable-components/compare/v5.15.0...v5.15.1) (2021-08-17)
 
 
