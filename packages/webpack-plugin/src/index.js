@@ -35,7 +35,7 @@ class LoadablePlugin {
     stats.generator = 'loadable-components'
 
     // we don't need all chunk information, only a type
-    stats.chunks = [...compilation.chunks].map((chunk) => {
+    stats.chunks = [...compilation.chunks].map(chunk => {
       return {
         id: chunk.id,
         files: [...chunk.files],
@@ -46,7 +46,8 @@ class LoadablePlugin {
     Object.values(stats.namedChunkGroups).forEach(namedChunkGroup => {
       namedChunkGroup.assets.forEach(namedChunkGroupAsset => {
         if (!namedChunkGroupAsset.integrity) {
-          const asset = stats.assets.find(a => a.name === namedChunkGroupAsset.name) || {}
+          const asset =
+            stats.assets.find(a => a.name === namedChunkGroupAsset.name) || {}
           if (asset.integrity) {
             namedChunkGroupAsset.integrity = asset.integrity
           }
@@ -124,8 +125,7 @@ class LoadablePlugin {
           compilation.hooks.processAssets.tap(
             {
               name,
-              stage:
-                compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
+              stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
             },
             () => {
               const asset = this.handleEmit(compilation)

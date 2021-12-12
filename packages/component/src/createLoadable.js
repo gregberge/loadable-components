@@ -33,8 +33,7 @@ const withChunkExtractor = Component => {
     </Context.Consumer>
   )
   if (Component.displayName) {
-    LoadableWithChunkExtractor.displayName =
-      `${Component.displayName}WithChunkExtractor`;
+    LoadableWithChunkExtractor.displayName = `${Component.displayName}WithChunkExtractor`
   }
   return LoadableWithChunkExtractor
 }

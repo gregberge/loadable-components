@@ -1,10 +1,13 @@
 // Use __non_webpack_require__ to prevent Webpack from compiling it
 // when the server-side code is compiled with Webpack
 // eslint-disable-next-line camelcase, no-undef, global-require, import/no-dynamic-require, no-eval
-const getRequire = () => typeof __non_webpack_require__ !== 'undefined' ? __non_webpack_require__ : eval('require');
+const getRequire = () =>
+  typeof __non_webpack_require__ !== 'undefined'
+    ? __non_webpack_require__
+    : eval('require')
 
 export const clearModuleCache = moduleName => {
-  const { cache } = getRequire();
+  const { cache } = getRequire()
   const m = cache[moduleName]
   if (m) {
     // remove self from own parents

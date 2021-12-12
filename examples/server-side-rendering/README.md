@@ -10,6 +10,7 @@ git clone https://github.com/gregberge/loadable-components.git
 
 2. Install [https://yarnpkg.com/lang/en/docs/install](yarn) if haven't already
 3. Install libary dependencies and build library
+
 ```bash
 yarn
 yarn build
@@ -20,6 +21,7 @@ yarn build
 ```bash
 cd ./loadable-components/examples/server-side-rendering
 ```
+
 5. Install project dependencies
 
 ```bash

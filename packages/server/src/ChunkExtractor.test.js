@@ -113,7 +113,10 @@ describe('ChunkExtrator', () => {
               assets: stats.namedChunkGroups.main.assets.map(name => ({
                 name,
                 // pseudo hash - reversed name
-                integrity: name.split('').reverse().join(''),
+                integrity: name
+                  .split('')
+                  .reverse()
+                  .join(''),
               })),
             },
           },
