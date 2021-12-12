@@ -115,7 +115,7 @@ describe('#loadable', () => {
     const { container } = render(<Component />)
     expect(container).toBeEmpty()
     await wait(() => expect(container).toHaveTextContent('loaded'))
-    expect(load).toHaveBeenCalledTimes(2)
+    expect(load).toHaveBeenCalledTimes(1)
   })
 
   it('supports commonjs default export', async () => {
