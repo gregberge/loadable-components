@@ -56,6 +56,10 @@ const jsx = extractor.collectChunks(<YourApp />)
 // Render your application
 const html = renderToString(jsx)
 
+/* `renderToString` must be called before `getScriptTags`, `getLinkTags`
+ * and `getStyleTags`.
+ */
+
 // You can now collect your script tags
 const scriptTags = extractor.getScriptTags() // or extractor.getScriptElements();
 
