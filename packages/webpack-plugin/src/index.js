@@ -11,15 +11,23 @@ class LoadablePlugin {
     writeToDisk,
     outputAsset = true,
     chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__',
+    transformStats,
   } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path, chunkLoadingGlobal }
+    this.opts = {
+      filename,
+      writeToDisk,
+      outputAsset,
+      path,
+      chunkLoadingGlobal,
+      transformStats,
+    }
 
     // The Webpack compiler instance
     this.compiler = null
   }
 
   handleEmit = compilation => {
-    const stats = compilation.getStats().toJson({
+    let stats = compilation.getStats().toJson({
       all: false,
       assets: true,
       cachedAssets: true,
@@ -54,6 +62,10 @@ class LoadablePlugin {
         }
       })
     })
+
+    if (this.opts.transformStats) {
+      stats = this.opts.transformStats(stats, compilation)
+    }
 
     const result = JSON.stringify(stats, null, 2)
 
