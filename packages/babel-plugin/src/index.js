@@ -104,6 +104,15 @@ const loadablePlugin = api => {
     } else {
       funcPath.replaceWith(object)
     }
+
+    /** Append unused synchronous import for WMF  */
+    const importPath = callPath.node.arguments[0].value;
+    const unusedImportName = `__loadableUnused_${importPath.replace(/\W+/g, '_')}`;
+    const unusedImportFactory = api.template(
+      `import ${unusedImportName} from '${importPath}';${unusedImportName};`,
+      { sourceType: 'module' }
+    );
+    callPath.findParent((p) => p.isStatement()).insertAfter(unusedImportFactory());
   }
 
   return {
