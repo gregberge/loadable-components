@@ -107,8 +107,12 @@ const loadablePlugin = api => {
 
     /** Append unused synchronous import for WMF */
     const importPath = callPath.node.arguments[0].value;
-    if (typeof importPath === 'string') {
+    if (
       // Only works with 'StringLiteral' as import path aka import('mf/compo')
+      typeof importPath === 'string' &&
+      // Very ugly way to detect if loadable doesn't use wmf remote
+      importPath[0] !== '.'
+    ) {
       const unusedImportName = `__loadableUnused_${importPath.replace(/\W+/g, '_')}`;
       const unusedImportFactory = api.template(
         `import ${unusedImportName} from '${importPath}';${unusedImportName};`,
