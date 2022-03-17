@@ -105,14 +105,17 @@ const loadablePlugin = api => {
       funcPath.replaceWith(object)
     }
 
-    /** Append unused synchronous import for WMF  */
+    /** Append unused synchronous import for WMF */
     const importPath = callPath.node.arguments[0].value;
-    const unusedImportName = `__loadableUnused_${importPath.replace(/\W+/g, '_')}`;
-    const unusedImportFactory = api.template(
-      `import ${unusedImportName} from '${importPath}';${unusedImportName};`,
-      { sourceType: 'module' }
-    );
-    callPath.findParent((p) => p.isStatement()).insertAfter(unusedImportFactory());
+    if (typeof importPath === 'string') {
+      // Only works with 'StringLiteral' as import path aka import('mf/compo')
+      const unusedImportName = `__loadableUnused_${importPath.replace(/\W+/g, '_')}`;
+      const unusedImportFactory = api.template(
+        `import ${unusedImportName} from '${importPath}';${unusedImportName};`,
+        { sourceType: 'module' }
+      );
+      callPath.findParent((p) => p.isStatement()).insertAfter(unusedImportFactory());
+    }
   }
 
   return {
