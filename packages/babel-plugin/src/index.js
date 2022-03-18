@@ -19,7 +19,7 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = api => {
+const loadablePlugin = (api, state) => {
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -111,6 +111,7 @@ const loadablePlugin = api => {
       // Only works with 'StringLiteral' as import path aka import('mf/compo')
       typeof importPath === 'string' &&
       // Very ugly way to detect if loadable doesn't use wmf remote
+      state.srr &&
       importPath[0] !== '.'
     ) {
       const unusedImportName = `__loadableUnused_${importPath.replace(/\W+/g, '_')}`;
