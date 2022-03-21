@@ -3,6 +3,7 @@
 import { warn } from './util'
 import { getRequiredChunkKey } from './sharedInternals'
 import { LOADABLE_SHARED } from './shared'
+import { preload, preloadAll } from './loadableModulesMap';
 
 const BROWSER = typeof window !== 'undefined'
 
@@ -11,30 +12,27 @@ export default function loadableReady(
   { namespace = '', chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__' } = {},
 ) {
   if (!BROWSER) {
-    warn('`loadableReady()` must be called in browser only')
-    done()
-    return Promise.resolve()
+    return preloadAll().then(done);
   }
 
   let requiredChunks = null
-  if (BROWSER) {
-    const id = getRequiredChunkKey(namespace)
-    const dataElement = document.getElementById(id)
-    if (dataElement) {
-      requiredChunks = JSON.parse(dataElement.textContent)
+  let namedChunks = [];
+  const id = getRequiredChunkKey(namespace)
+  const dataElement = document.getElementById(id)
+  if (dataElement) {
+    requiredChunks = JSON.parse(dataElement.textContent)
 
-      const extElement = document.getElementById(`${id}_ext`)
-      if (extElement) {
-        const { namedChunks } = JSON.parse(extElement.textContent)
-        namedChunks.forEach(chunkName => {
-          LOADABLE_SHARED.initialChunks[chunkName] = true
-        })
-      } else {
-        // version mismatch
-        throw new Error(
-          'loadable-component: @loadable/server does not match @loadable/component',
-        )
-      }
+    const extElement = document.getElementById(`${id}_ext`)
+    if (extElement) {
+      namedChunks = JSON.parse(extElement.textContent).namedChunks;
+      namedChunks.forEach(chunkName => {
+        LOADABLE_SHARED.initialChunks[chunkName] = true
+      })
+    } else {
+      // version mismatch
+      throw new Error(
+        'loadable-component: @loadable/server does not match @loadable/component',
+      )
     }
   }
 
@@ -72,5 +70,6 @@ export default function loadableReady(
     }
 
     checkReadyState()
-  }).then(done)
+  }).then(() => preload(namedChunks))
+    .then(done);
 }

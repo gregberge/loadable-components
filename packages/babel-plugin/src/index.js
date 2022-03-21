@@ -19,7 +19,7 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = (api, state) => {
+const loadablePlugin = api => {
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -103,23 +103,6 @@ const loadablePlugin = (api, state) => {
       )
     } else {
       funcPath.replaceWith(object)
-    }
-
-    /** Append unused synchronous import for WMF */
-    const importPath = callPath.node.arguments[0].value;
-    if (
-      // Only works with 'StringLiteral' as import path aka import('mf/compo')
-      typeof importPath === 'string' &&
-      // Very ugly way to detect if loadable doesn't use wmf remote
-      state.srr &&
-      importPath[0] !== '.'
-    ) {
-      const unusedImportName = `__loadableUnused_${importPath.replace(/\W+/g, '_')}`;
-      const unusedImportFactory = api.template(
-        `import ${unusedImportName} from '${importPath}';${unusedImportName};`,
-        { sourceType: 'module' }
-      );
-      callPath.findParent((p) => p.isStatement()).insertAfter(unusedImportFactory());
     }
   }
 
