@@ -5,6 +5,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
 import { LOADABLE_SHARED } from './shared'
+import { register } from './loadableModulesMap';
 
 const STATUS_PENDING = 'PENDING'
 const STATUS_RESOLVED = 'RESOLVED'
@@ -46,8 +47,9 @@ function createLoadable({
   onLoad,
 }) {
   function loadable(loadableConstructor, options = {}) {
-    const ctor = resolveConstructor(loadableConstructor)
     const cache = {}
+    const ctor = resolveConstructor(loadableConstructor)
+    register(ctor);
 
     /**
      * Cachekey represents the component to be loaded
