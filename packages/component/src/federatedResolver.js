@@ -16,7 +16,7 @@ export const register = (loadableCtor) => {
  * Calls importAsync for all the modules listed in moduleNames
  * Resolves after modules are loaded
  */
-export const preload = (moduleNames) => {
+export const resolveNamedFederatedModules = (moduleNames) => {
   const federatedModules = moduleNames
     .filter((name) => !localModuleNames.includes(name))
     .map((name) => federatedModuleMap[name]);
@@ -29,8 +29,8 @@ export const preload = (moduleNames) => {
 
 
 /**
- * Preload all the existing federated modules, to be on the server (we don't have loadable required chunks on SSR)
+ * Preload all the existing federated modules, to be used on the server (we don't have loadable required chunks on SSR)
  */
-export const preloadAll = () => preload(Object.keys(federatedModuleMap))
+export const resolveAllFederatedModules = () => resolveNamedFederatedModules(Object.keys(federatedModuleMap))
   // repeat if more modules are discovered during preloading
-  .then(Object.keys(federatedModuleMap).length ? preloadAll() : undefined);
+  .then(Object.keys(federatedModuleMap).length ? resolveAllFederatedModules() : undefined);

@@ -3,7 +3,7 @@
 import { warn } from './util'
 import { getRequiredChunkKey } from './sharedInternals'
 import { LOADABLE_SHARED } from './shared'
-import { preload, preloadAll } from './loadableModulesMap';
+import { resolveNamedFederatedModules, resolveAllFederatedModules } from './federatedResolver';
 
 const BROWSER = typeof window !== 'undefined'
 
@@ -12,7 +12,7 @@ export default function loadableReady(
   { namespace = '', chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__' } = {},
 ) {
   if (!BROWSER) {
-    return preloadAll().then(done);
+    return resolveAllFederatedModules().then(done);
   }
 
   let requiredChunks = null
@@ -70,6 +70,6 @@ export default function loadableReady(
     }
 
     checkReadyState()
-  }).then(() => preload(namedChunks))
+  }).then(() => resolveNamedFederatedModules(namedChunks))
     .then(done);
 }
