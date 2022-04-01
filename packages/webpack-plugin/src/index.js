@@ -1,6 +1,7 @@
 const nodePath = require('path')
 const fs = require('fs')
 const makeDir = require('make-dir')
+const { collectSharedModuleConsumptionStats } = require('./federatedStatsCollector');
 
 const name = '@loadable/webpack-plugin'
 
@@ -28,19 +29,36 @@ class LoadablePlugin {
       chunkGroupChildren: true,
       hash: true,
       ids: true,
+      modules: true,
       outputPath: true,
       publicPath: true,
+      reasons: true,
     })
 
     stats.generator = 'loadable-components'
 
-    // we don't need all chunk information, only a type
-    stats.chunks = [...compilation.chunks].map(chunk => {
-      return {
+    const { sharedConsumes, sharedModules } = collectSharedModuleConsumptionStats(stats.modules);
+    delete stats.modules;
+
+    stats.sharedModules = sharedModules;
+    // stats.sharedConsumes = sharedConsumes;
+
+    stats.chunks = [];
+    [...compilation.chunks].forEach((chunk) => {
+      if (!chunk.files.length && chunk.id in stats.sharedConsumes) {
+        // get rid of unnecessary empty webpack_sharing_consume_* chunks
+        stats.sharedConsumes[chunk.id].forEach((sharedModuleId) => {
+          delete stats.sharedModules[sharedModuleId];
+        });
+        return;
+      }
+
+      stats.chunks.push({
         id: chunk.id,
         files: [...chunk.files],
-      }
-    })
+        sharedConsumes: sharedConsumes[chunk.id],
+      });
+    });
 
     // update namedChunkGroups with integrity from webpack-subresource-integrity if available
     Object.values(stats.namedChunkGroups).forEach(namedChunkGroup => {
