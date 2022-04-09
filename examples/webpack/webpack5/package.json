@@ -33,7 +33,7 @@
     "@loadable/webpack-plugin": "file:./../../../packages/webpack-plugin",
     "core-js": "^3.0.1",
     "express": "^4.16.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }
