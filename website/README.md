@@ -1,6 +1,6 @@
 # Loadable Components website
 
-[Documentation site](https://loadable-components.com/) for [loadable components](https://github.com/gregberge/loadable-components). This website is running on [gatsbyjs](gatsbyjs.org).
+[Documentation site](https://loadable-components.com/) for [loadable components](https://github.com/gregberge/loadable-components). This website is running on [gatsbyjs](https://gatsbyjs.com/).
 
 ## Getting Started
 
