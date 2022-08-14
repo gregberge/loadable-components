@@ -11,8 +11,16 @@ class LoadablePlugin {
     writeToDisk,
     outputAsset = true,
     chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__',
+    loadableStatsFileOptions = {},
   } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path, chunkLoadingGlobal }
+    this.opts = {
+      filename,
+      writeToDisk,
+      outputAsset,
+      path,
+      chunkLoadingGlobal,
+      loadableStatsFileOptions,
+    }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -30,6 +38,13 @@ class LoadablePlugin {
       ids: true,
       outputPath: true,
       publicPath: true,
+      /**
+       * There are situations where an end user may want to override the output
+       * of the stats file. For example, some build systems require reproducible output
+       * and some of the paths and ids can be dynamic. Not outputting them to
+       * the stats file can help to create a more hermetic output
+       */
+      ...this.opts.loadableStatsFileOptions
     })
 
     stats.generator = 'loadable-components'
