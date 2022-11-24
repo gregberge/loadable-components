@@ -41,11 +41,17 @@ const loadablePlugin = api => {
     }
 
     // `loadable.lib()`
-    return (
+    if (
       path.get('callee').isMemberExpression() &&
       path.get('callee.object').isIdentifier({ name: 'loadable' }) &&
       path.get('callee.property').isIdentifier({ name: 'lib' })
-    )
+    ) {
+      return true
+    }
+
+    // `lazy()`
+    return (path.get('callee').isIdentifier({ name: 'lazy' }))
+    
   }
 
   function hasLoadableComment(path) {

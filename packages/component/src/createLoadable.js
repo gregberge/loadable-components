@@ -151,16 +151,22 @@ function createLoadable({
           if (options.ssr === false) {
             return
           }
+          
+          if (!options.suspense) {
+            // We run load function, we assume that it won't fail and that it
+            // triggers a synchronous loading of the module
+            ctor.requireAsync(props).catch(() => null)
 
-          // We run load function, we assume that it won't fail and that it
-          // triggers a synchronous loading of the module
-          ctor.requireAsync(props).catch(() => null)
+            // So we can require now the module synchronously
+            this.loadSync()
 
-          // So we can require now the module synchronously
-          this.loadSync()
+            props.__chunkExtractor.addChunk(ctor.chunkName(props))
+
+            return
+          }
 
           props.__chunkExtractor.addChunk(ctor.chunkName(props))
-          return
+          
         }
 
         // Client-side with `isReady` method present (SSR probably)
