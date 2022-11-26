@@ -119,6 +119,7 @@ function createLoadable({
       return promise
     }
     const lazyCachedLoad = props => {
+      if (props.__chunkExtractor && options.ssr === false) return null
       const cacheKey = getCacheKey(props)
       let lazyOrComponent = cache[cacheKey]
 
@@ -155,6 +156,11 @@ function createLoadable({
         invariant(
           !props.__chunkExtractor || ctor.requireSync,
           'SSR requires `@loadable/babel-plugin`, please install it',
+        )
+
+        invariant(
+          !options.reactLazy || !props.fallback,
+          'reactLazy cannot be used with fallback, wrap in a Suspense',
         )
 
         // Server-side
@@ -330,7 +336,7 @@ function createLoadable({
         if (options.reactLazy) {
           return render({
             fallback,
-            result: lazyCachedLoad(props),
+            result: lazyCachedLoad(props) ,
             options,
             props: { ...props, ref: forwardedRef },
           })
