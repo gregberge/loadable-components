@@ -49,8 +49,8 @@ const loadablePlugin = api => {
       return true
     }
 
-    // `lazy()`
-    return (path.get('callee').isIdentifier({ name: 'lazy' }))
+    // `lazy(), reactLazy()`
+    return (path.get('callee').isIdentifier({ name: 'lazy' }) || path.get('callee').isIdentifier({ name: 'reactLazy' }))
     
   }
 

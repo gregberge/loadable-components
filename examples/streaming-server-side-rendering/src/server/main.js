@@ -59,8 +59,8 @@ app.get('*', (req, res) => {
       // This should pick up any new link tags that hasn't been previously
       // written to this stream. Should not write before html if nothing suspended.
       if (shellReady && !firstWrite) {
-        const scriptTags = webExtractor.getScriptTagsSince()
-        const linkTags = webExtractor.getLinkTagsSince()
+        const scriptTags = webExtractor.flushScriptTags()
+        const linkTags = webExtractor.flushLinkTags()
         if (scriptTags) {
           res.write(scriptTags, encoding)
         }

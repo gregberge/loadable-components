@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp */
 import createLoadable from './createLoadable'
 
-export const { loadable, lazy } = createLoadable({
+export const { loadable, lazy, reactLazy } = createLoadable({
   onLoad(result, props) {
     if (result && props.forwardedRef) {
       if (typeof props.forwardedRef === 'function') {

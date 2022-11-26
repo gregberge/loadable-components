@@ -118,6 +118,18 @@ function createLoadable({
 
       return promise
     }
+    const lazyCachedLoad = props => {
+      const cacheKey = getCacheKey(props)
+      let lazyOrComponent = cache[cacheKey]
+
+      if (!lazyOrComponent) {
+        lazyOrComponent = React.lazy(()=>ctor.importAsync(props))
+        cache[cacheKey] = lazyOrComponent
+
+      }
+
+      return lazyOrComponent
+    }
 
     class InnerLoadable extends React.Component {
       static getDerivedStateFromProps(props, state) {
@@ -151,8 +163,7 @@ function createLoadable({
           if (options.ssr === false) {
             return
           }
-          
-          if (!options.suspense) {
+          if (!options.reactLazy) {
             // We run load function, we assume that it won't fail and that it
             // triggers a synchronous loading of the module
             ctor.requireAsync(props).catch(() => null)
@@ -160,20 +171,16 @@ function createLoadable({
             // So we can require now the module synchronously
             this.loadSync()
 
-            props.__chunkExtractor.addChunk(ctor.chunkName(props))
-
-            return
           }
-
           props.__chunkExtractor.addChunk(ctor.chunkName(props))
-          
+          return
         }
 
         // Client-side with `isReady` method present (SSR probably)
         // If module is already loaded, we use a synchronous loading
         // Only perform this synchronous loading if the component has not
         // been marked with no SSR, else we risk hydration mismatches
-        if (
+        else if (
           options.ssr !== false &&
           // is ready - was loaded in this session
           ((ctor.isReady && ctor.isReady(props)) ||
@@ -186,25 +193,27 @@ function createLoadable({
       }
 
       componentDidMount() {
-        this.mounted = true
+        if (!options.reactLazy) {
+          this.mounted = true
 
-        // retrieve loading promise from a global cache
-        const cachedPromise = this.getCache()
+          // retrieve loading promise from a global cache
+          const cachedPromise = this.getCache()
 
-        // if promise exists, but rejected - clear cache
-        if (cachedPromise && cachedPromise.status === STATUS_REJECTED) {
-          this.setCache()
-        }
+          // if promise exists, but rejected - clear cache
+          if (cachedPromise && cachedPromise.status === STATUS_REJECTED) {
+            this.setCache()
+          }
 
-        // component might be resolved synchronously in the constructor
-        if (this.state.loading) {
-          this.loadAsync()
+          // component might be resolved synchronously in the constructor
+          if (this.state.loading) {
+            this.loadAsync()
+          }
         }
       }
 
       componentDidUpdate(prevProps, prevState) {
         // Component has to be reloaded on cacheKey change
-        if (prevState.cacheKey !== this.state.cacheKey) {
+        if (prevState.cacheKey !== this.state.cacheKey && !options.reactLazy) {
           this.loadAsync()
         }
       }
@@ -318,6 +327,14 @@ function createLoadable({
         } = this.props
         const { error, loading, result } = this.state
 
+        if (options.reactLazy) {
+          return render({
+            fallback,
+            result: lazyCachedLoad(props),
+            options,
+            props: { ...props, ref: forwardedRef },
+          })
+        }
         if (options.suspense) {
           const cachedPromise = this.getCache() || this.loadAsync()
           if (cachedPromise.status === STATUS_PENDING) {
@@ -367,7 +384,10 @@ function createLoadable({
     return loadable(ctor, { ...options, suspense: true })
   }
 
-  return { loadable, lazy }
+  function reactLazy(ctor, options) {
+    return loadable(ctor, { ...options, reactLazy: true })
+  }
+  return { loadable, lazy, reactLazy }
 }
 
 export default createLoadable

@@ -3,7 +3,7 @@ import React from 'react'
 import createLoadable from './createLoadable'
 import { defaultResolveComponent } from './resolvers'
 
-export const { loadable, lazy } = createLoadable({
+export const { loadable, lazy, reactLazy } = createLoadable({
   defaultResolveComponent,
   render({ result: Component, props }) {
     return <Component {...props} />

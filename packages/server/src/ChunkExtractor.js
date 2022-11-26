@@ -213,7 +213,7 @@ class ChunkExtractor {
     this.statsFile = statsFile
     this.entrypoints = Array.isArray(entrypoints) ? entrypoints : [entrypoints]
     this.chunks = []
-    this.seenChunks = []
+    this.seenChunks = new Set([])
     this.inputFileSystem = inputFileSystem
   }
 
@@ -488,29 +488,26 @@ class ChunkExtractor {
     return assets.map(asset => assetToLinkElement(asset, extraProps))
   }
 
-  getLinkTagsSince(extraProps = {}) {
+  flushLinkTags(extraProps = {}) {
     const assets = this.getPreAssets()
-    const linkTags = assets.map(asset => {
-      if (!this.seenChunks.includes(asset.chunk)) {
-        this.seenChunks.push(asset.chunk)
-        return assetToLinkTag(asset, extraProps)
-      }
-      return false
-    })
-    return joinTags(linkTags.filter((tag)=>Boolean(tag)))
+    const linkTags = assets
+      .filter(asset => !this.seenChunks.has(asset.chunk))
+      .map(asset => assetToLinkTag(asset, extraProps));
+
+    assets.forEach(({ chunk }) => this.seenChunks.add(chunk));
+    
+    return joinTags(linkTags)
   }
 
-  getScriptTagsSince(extraProps = {}) {
-    const requiredScriptTag = this.getRequiredChunksScriptTag(extraProps)
+  flushScriptTags(extraProps = {}) {
     const mainAssets = this.getMainAssets('script')
-    const assetsScriptTags = mainAssets.map(asset => {
-      if (!this.seenChunks.includes(asset.chunk)) {
-        this.seenChunks.push(asset.chunk)
-        return assetToScriptTag(asset, extraProps)
-      }
-      return false
-    })
-    return joinTags(assetsScriptTags.filter((tag)=>Boolean(tag)))
+    const assetsScriptTags = mainAssets
+      .filter(asset => !this.seenChunks.has(asset.chunk))
+      .map(asset => assetToScriptTag(asset, extraProps));
+
+    mainAssets.forEach(({ chunk }) => this.seenChunks.add(chunk));
+    
+    return joinTags(assetsScriptTags)
   }
 
 }
