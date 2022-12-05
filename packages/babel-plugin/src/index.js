@@ -34,9 +34,14 @@ const loadablePlugin = api => {
 
   const propertyFactories = properties.map(init => init(api))
 
-  function isValidIdentifier(path) {
+  function isValidIdentifier(path, hasLazyImport) {
     // `loadable()`
     if (path.get('callee').isIdentifier({ name: 'loadable' })) {
+      return true
+    }
+
+    // `lazy()`
+    if (path.get('callee').isIdentifier({ name: 'lazy' }) && hasLazyImport) {
       return true
     }
 
@@ -106,14 +111,20 @@ const loadablePlugin = api => {
     }
   }
 
+
   return {
     inherits: syntaxDynamicImport,
     visitor: {
       Program: {
         enter(programPath) {
+          let hasLazyImport = false
+
           programPath.traverse({
+            ImportDeclaration(path) {
+              hasLazyImport = hasLazyImport || path.node.source.value == '@loadable/component' && path.node.specifiers.some(({ imported })=>imported.name=='lazy')
+            },
             CallExpression(path) {
-              if (!isValidIdentifier(path)) return
+              if (!isValidIdentifier(path, hasLazyImport)) return
               transformImport(path)
             },
             'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {

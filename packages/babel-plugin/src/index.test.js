@@ -20,7 +20,25 @@ describe('plugin', () => {
 
       expect(result).toMatchSnapshot()
     })
+    it('should work with lazy if imported', () => {
+      const result = testPlugin(`
+        import { lazy } from '@loadable/component'
+        lazy(() => import(\`./ModA\`))
+      `)
 
+      expect(result).toMatchSnapshot()
+    })
+    it('should not work with lazy if not imported', () => {
+      const result = testPlugin(`
+        import React, { lazy } from 'react'
+        lazy(() => import(\`./ModA\`))
+      `)
+
+      expect(result).toMatchInlineSnapshot(`
+        "import React, { lazy } from 'react';
+        lazy(() => import(\`./ModA\`));"
+      `)
+    })
     it('should work with + concatenation', () => {
       const result = testPlugin(`
         loadable(() => import('./Mod' + 'A'))
