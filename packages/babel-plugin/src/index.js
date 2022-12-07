@@ -34,21 +34,22 @@ const loadablePlugin = api => {
 
   const propertyFactories = properties.map(init => init(api))
 
-  function isValidIdentifier(path, hasLazyImport) {
+  function isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier) {
     // `loadable()`
-    if (path.get('callee').isIdentifier({ name: 'loadable' })) {
+    if (loadableImportSpecifier && path.get('callee').isIdentifier({ name: loadableImportSpecifier })) {
       return true
     }
 
     // `lazy()`
-    if (path.get('callee').isIdentifier({ name: 'lazy' }) && hasLazyImport) {
+    if (lazyImportSpecifier && path.get('callee').isIdentifier({ name: lazyImportSpecifier })) {
       return true
     }
 
     // `loadable.lib()`
     return (
+      loadableImportSpecifier &&
       path.get('callee').isMemberExpression() &&
-      path.get('callee.object').isIdentifier({ name: 'loadable' }) &&
+      path.get('callee.object').isIdentifier({ name: loadableImportSpecifier }) &&
       path.get('callee.property').isIdentifier({ name: 'lib' })
     )
   }
@@ -117,14 +118,28 @@ const loadablePlugin = api => {
     visitor: {
       Program: {
         enter(programPath) {
-          let hasLazyImport = false
+          let loadableImportSpecifier = false
+          let lazyImportSpecifier = false
 
           programPath.traverse({
-            ImportDeclaration(path) {
-              hasLazyImport = hasLazyImport || path.node.source.value == '@loadable/component' && path.node.specifiers.some(({ imported })=>imported.name=='lazy')
+            ImportDefaultSpecifier(path) {
+              if (!loadableImportSpecifier) {
+                const { parent } = path
+                const { local } = path.node
+                loadableImportSpecifier = parent.source.value == '@loadable/component' &&
+                  local && local.name
+              }
+            },
+            ImportSpecifier(path) {
+              if (!lazyImportSpecifier) {
+                const { parent } = path
+                const { imported, local } = path.node
+                lazyImportSpecifier = parent.source.value == '@loadable/component' &&
+                  imported && imported.name == 'lazy' && local && local.name
+              }
             },
             CallExpression(path) {
-              if (!isValidIdentifier(path, hasLazyImport)) return
+              if (!isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier)) return
               transformImport(path)
             },
             'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
