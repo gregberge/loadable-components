@@ -40,7 +40,7 @@ describe('plugin', () => {
         lazy(() => import(\`./ModA\`));"
       `)
     })
-    it('should work with renamed specifier', () => {
+    it('should not work with renamed specifier by default', () => {
       const result = testPlugin(`
         import renamedLoadable from '@loadable/component'
         renamedLoadable(() => import(\`./ModA\`))

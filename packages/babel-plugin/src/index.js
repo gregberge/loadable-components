@@ -1,3 +1,4 @@
+import { declare } from "@babel/helper-plugin-utils";
 import syntaxDynamicImport from '@babel/plugin-syntax-dynamic-import'
 import chunkNameProperty from './properties/chunkName'
 import isReadyProperty from './properties/isReady'
@@ -19,7 +20,7 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = api => {
+const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) => {
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -118,7 +119,7 @@ const loadablePlugin = api => {
     visitor: {
       Program: {
         enter(programPath) {
-          let loadableImportSpecifier = false
+          let loadableImportSpecifier = defaultImportSpecifier
           let lazyImportSpecifier = false
 
           programPath.traverse({
@@ -151,6 +152,6 @@ const loadablePlugin = api => {
       },
     },
   }
-}
+})
 
 export default loadablePlugin
