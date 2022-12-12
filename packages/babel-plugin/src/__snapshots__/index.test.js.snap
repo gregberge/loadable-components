@@ -233,7 +233,8 @@ exports[`plugin Magic comment should transpile shortand properties 1`] = `
 `;
 
 exports[`plugin aggressive import should work with destructuration 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName({
@@ -295,7 +296,8 @@ exports[`plugin aggressive import should work with destructuration 1`] = `
 `;
 
 exports[`plugin aggressive import with "webpackChunkName" should keep it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName(props) {
@@ -351,7 +353,8 @@ exports[`plugin aggressive import with "webpackChunkName" should keep it 1`] = `
 `;
 
 exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName(props) {
@@ -407,7 +410,8 @@ exports[`plugin aggressive import with "webpackChunkName" should replace it 1`] 
 `;
 
 exports[`plugin aggressive import without "webpackChunkName" should support complex request 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName(props) {
@@ -463,7 +467,8 @@ exports[`plugin aggressive import without "webpackChunkName" should support comp
 `;
 
 exports[`plugin aggressive import without "webpackChunkName" should support destructuring 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName({
@@ -525,7 +530,8 @@ exports[`plugin aggressive import without "webpackChunkName" should support dest
 `;
 
 exports[`plugin aggressive import without "webpackChunkName" should support simple request 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName(props) {
@@ -581,7 +587,8 @@ exports[`plugin aggressive import without "webpackChunkName" should support simp
 `;
 
 exports[`plugin loadable.lib should be transpiled too 1`] = `
-"loadable.lib({
+"import loadable from '@loadable/component';
+loadable.lib({
   resolved: {},
 
   chunkName() {
@@ -637,7 +644,8 @@ exports[`plugin loadable.lib should be transpiled too 1`] = `
 `;
 
 exports[`plugin simple import in a complex promise should work 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -692,8 +700,14 @@ exports[`plugin simple import in a complex promise should work 1`] = `
 });"
 `;
 
+exports[`plugin simple import should not work with renamed specifier by default 1`] = `
+"import renamedLoadable from '@loadable/component';
+renamedLoadable(() => import(\`./ModA\`));"
+`;
+
 exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -749,7 +763,8 @@ exports[`plugin simple import should transform path into "chunk-friendly" name 1
 `;
 
 exports[`plugin simple import should work with * in name 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -805,7 +820,8 @@ exports[`plugin simple import should work with * in name 1`] = `
 `;
 
 exports[`plugin simple import should work with + concatenation 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -917,8 +933,66 @@ lazy({
 });"
 `;
 
+exports[`plugin simple import should work with renamed lazy specifier 1`] = `
+"import { lazy as renamedLazy } from '@loadable/component';
+renamedLazy({
+  resolved: {},
+
+  chunkName() {
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return eval('require.resolve')(\`./ModA\`);
+  }
+
+});"
+`;
+
 exports[`plugin simple import should work with template literal 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -974,7 +1048,8 @@ exports[`plugin simple import should work with template literal 1`] = `
 `;
 
 exports[`plugin simple import with "webpackChunkName" comment should use it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -1030,7 +1105,8 @@ exports[`plugin simple import with "webpackChunkName" comment should use it 1`] 
 `;
 
 exports[`plugin simple import with "webpackChunkName" comment should use it even if comment is separated by "," 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
@@ -1086,7 +1162,8 @@ exports[`plugin simple import with "webpackChunkName" comment should use it even
 `;
 
 exports[`plugin simple import without "webpackChunkName" comment should add it 1`] = `
-"loadable({
+"import loadable from '@loadable/component';
+loadable({
   resolved: {},
 
   chunkName() {
