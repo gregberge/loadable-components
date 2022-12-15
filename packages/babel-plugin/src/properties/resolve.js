@@ -1,13 +1,27 @@
 import { getImportArg } from '../util'
 
-export default function resolveProperty({ types: t, template }) {
-  const buildStatements = template`
-    if (require.resolveWeak) {
-      return require.resolveWeak(ID)
-    }
-
-    return eval('require.resolve')(ID)
-  `
+export default function resolveProperty(
+  { types: t, template },
+  { moduleFederation },
+) {
+  const templates = {
+    federated: template`
+      require(ID)
+      
+      if (require.resolveWeak) {
+        return require.resolveWeak(ID)
+      }
+      
+      return eval('require.resolve')(ID)
+    `,
+    standard: template`
+      if (require.resolveWeak) {
+        return require.resolveWeak(ID)
+      }
+      
+      return eval('require.resolve')(ID)
+    `,
+  }
 
   function getCallValue(callPath) {
     const importArg = getImportArg(callPath)
@@ -27,11 +41,16 @@ export default function resolveProperty({ types: t, template }) {
     return t.stringLiteral(importArg.node.value)
   }
 
-  return ({ callPath, funcPath }) =>
-    t.objectMethod(
+  return ({ callPath, funcPath }) => {
+    const targetTemplate = moduleFederation ? 'federated' : 'standard'
+
+    return t.objectMethod(
       'method',
       t.identifier('resolve'),
       funcPath.node.params,
-      t.blockStatement(buildStatements({ ID: getCallValue(callPath) })),
+      t.blockStatement(
+        templates[targetTemplate]({ ID: getCallValue(callPath) }),
+      ),
     )
+  }
 }
