@@ -42,7 +42,8 @@ export default function resolveProperty(
   }
 
   return ({ callPath, funcPath }) => {
-    const targetTemplate = moduleFederation ? 'federated' : 'standard'
+    const targetTemplate =
+      moduleFederation && process.isBrowser === false ? 'federated' : 'standard'
 
     return t.objectMethod(
       'method',
