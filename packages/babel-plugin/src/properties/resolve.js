@@ -42,8 +42,27 @@ export default function resolveProperty(
   }
 
   return ({ callPath, funcPath }) => {
+    const { isBrowser } = process
+
+    if (moduleFederation) {
+      if ('isBrowser' in process) {
+        if (isBrowser === true) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            'The "moduleFederation: true" option will disable code splitting on the client-side',
+          )
+        }
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn(
+          'It\'s recommended to use "isBrowser" global variable to detect the environment\n' +
+            'Try to add "webpack.DefinePlugin({ \'process.isBrowser\': true })" to your webpack config',
+        )
+      }
+    }
+
     const targetTemplate =
-      moduleFederation && process.isBrowser === false ? 'federated' : 'standard'
+      moduleFederation && isBrowser === false ? 'federated' : 'standard'
 
     return t.objectMethod(
       'method',
