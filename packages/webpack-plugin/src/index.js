@@ -101,6 +101,19 @@ class LoadablePlugin {
   apply(compiler) {
     this.compiler = compiler
 
+    const { webpack } = compiler
+
+    const defs = {
+      'process.isBrowser':
+        compiler.options.target === 'web' ||
+        compiler.options.target === undefined,
+    }
+
+    // eslint-disable-next-line global-require
+    new ((webpack && webpack.DefinePlugin) || require('webpack').DefinePlugin)(
+      defs,
+    ).apply(compiler)
+
     const version = 'jsonpFunction' in compiler.options.output ? 4 : 5
 
     // Add a custom chunk loading callback
