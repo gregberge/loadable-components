@@ -49,15 +49,13 @@ export default function resolveProperty(
         if (isBrowser === true) {
           // eslint-disable-next-line no-console
           console.warn(
-            'The "moduleFederation: true" option only works in Node.js environment\n' +
-              'Try to add "webpack.DefinePlugin({ \'process.isBrowser\': false })" to your webpack config',
+            'You are using Module Federation with target browser in webpack config. This is not recommended, cause it will disable code-splitting on client-side. Please use target "node" or false.',
           )
         }
       } else {
         // eslint-disable-next-line no-console
         console.warn(
-          'It\'s recommended to use "isBrowser" global variable to detect the environment\n' +
-            'Try to add "webpack.DefinePlugin({ \'process.isBrowser\': false })" to your webpack config',
+          'process.isBrowser not found. Please use LoadablePlugin in webpack config.',
         )
       }
     }
