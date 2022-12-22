@@ -44,20 +44,11 @@ export default function resolveProperty(
   return ({ callPath, funcPath }) => {
     const { isBrowser } = process
 
-    if (moduleFederation) {
-      if ('isBrowser' in process) {
-        if (isBrowser === true) {
-          // eslint-disable-next-line no-console
-          console.warn(
-            'You are using Module Federation with target browser in webpack config. This is not recommended, cause it will disable code-splitting on client-side. Please use target "node" or false.',
-          )
-        }
-      } else {
-        // eslint-disable-next-line no-console
-        console.warn(
-          'process.isBrowser not found. Please use LoadablePlugin in webpack config.',
-        )
-      }
+    if (moduleFederation && !('isBrowser' in process)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'process.isBrowser not found. Please use LoadablePlugin in webpack config.',
+      )
     }
 
     const targetTemplate =
