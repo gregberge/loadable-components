@@ -11,8 +11,16 @@ class LoadablePlugin {
     writeToDisk,
     outputAsset = true,
     chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__',
+    serverSideModuleFederation = false,
   } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path, chunkLoadingGlobal }
+    this.opts = {
+      filename,
+      writeToDisk,
+      outputAsset,
+      path,
+      chunkLoadingGlobal,
+      serverSideModuleFederation,
+    }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -103,16 +111,23 @@ class LoadablePlugin {
 
     const { webpack } = compiler
 
-    const defs = {
-      'process.isBrowser':
-        compiler.options.target === 'web' ||
-        compiler.options.target === undefined,
+    if (
+      (this.opts.serverSideModuleFederation === true &&
+        compiler.options.target === 'web') ||
+      compiler.options.target === undefined
+    ) {
+      throw new Error(
+        `Enabling server-side module federation support for a client-side Webpack target (${compiler.options.target}) is unnecessary and will effectively disable all code-splitting.`,
+      )
     }
 
-    // eslint-disable-next-line global-require
-    new ((webpack && webpack.DefinePlugin) || require('webpack').DefinePlugin)(
-      defs,
-    ).apply(compiler)
+    if (this.opts.serverSideModuleFederation) {
+      new ((webpack && webpack.DefinePlugin) ||
+        // eslint-disable-next-line global-require
+        require('webpack').DefinePlugin)({
+        serverSideModuleFederation: true,
+      }).apply(compiler)
+    }
 
     const version = 'jsonpFunction' in compiler.options.output ? 4 : 5
 

@@ -1,9 +1,6 @@
 import { getImportArg } from '../util'
 
-export default function resolveProperty(
-  { types: t, template },
-  { moduleFederation },
-) {
+export default function resolveProperty({ types: t, template }) {
   const templates = {
     federated: template`
       require(ID)
@@ -42,17 +39,9 @@ export default function resolveProperty(
   }
 
   return ({ callPath, funcPath }) => {
-    const { isBrowser } = process
-
-    if (moduleFederation && !('isBrowser' in process)) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'process.isBrowser not found. Please use LoadablePlugin in webpack config.',
-      )
-    }
-
-    const targetTemplate =
-      moduleFederation && isBrowser === false ? 'federated' : 'standard'
+    const targetTemplate = process.env.serverSideModuleFederation
+      ? 'federated'
+      : 'standard'
 
     return t.objectMethod(
       'method',
