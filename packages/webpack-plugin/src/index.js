@@ -112,9 +112,9 @@ class LoadablePlugin {
     const { webpack } = compiler
 
     if (
-      (this.opts.serverSideModuleFederation === true &&
-        compiler.options.target === 'web') ||
-      compiler.options.target === undefined
+      this.opts.serverSideModuleFederation === true &&
+      (compiler.options.target === 'web' ||
+        compiler.options.target === undefined)
     ) {
       throw new Error(
         `Enabling server-side module federation support for a client-side Webpack target (${compiler.options.target}) is unnecessary and will effectively disable all code-splitting.`,
