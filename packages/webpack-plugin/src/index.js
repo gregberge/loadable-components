@@ -109,8 +109,6 @@ class LoadablePlugin {
   apply(compiler) {
     this.compiler = compiler
 
-    const { webpack } = compiler
-
     if (
       (this.opts.serverSideModuleFederation === true &&
         compiler.options.target === 'web') ||
