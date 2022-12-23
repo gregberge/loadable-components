@@ -112,6 +112,16 @@ class LoadablePlugin {
     const { webpack } = compiler
 
     if (
+      (this.opts.serverSideModuleFederation === true &&
+        compiler.options.target === 'web') ||
+      compiler.options.target === undefined
+    ) {
+      throw new Error(
+        `Enabling server-side module federation support for a client-side Webpack target (${compiler.options.target}) is unnecessary and will effectively disable all code-splitting.`,
+      )
+    }
+
+    if (
       this.opts.serverSideModuleFederation === true &&
       (compiler.options.target === 'web' ||
         compiler.options.target === undefined)
@@ -122,11 +132,10 @@ class LoadablePlugin {
     }
 
     if (this.opts.serverSideModuleFederation) {
-      new ((webpack && webpack.DefinePlugin) ||
-        // eslint-disable-next-line global-require
-        require('webpack').DefinePlugin)({
-        serverSideModuleFederation: true,
-      }).apply(compiler)
+      Object.defineProperty(process, 'serverSideModuleFederation', {
+        value: true,
+        writable: false,
+      })
     }
 
     const version = 'jsonpFunction' in compiler.options.output ? 4 : 5
