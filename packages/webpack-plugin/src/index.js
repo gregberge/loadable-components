@@ -120,7 +120,7 @@ class LoadablePlugin {
     }
 
     if (this.opts.serverSideModuleFederation) {
-      Object.defineProperty(process, 'serverSideModuleFederation', {
+      Object.defineProperty(process.env, 'SERVER_SIDE_MODULE_FEDERATION', {
         value: true,
         writable: false,
       })

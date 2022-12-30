@@ -39,7 +39,7 @@ export default function resolveProperty({ types: t, template }) {
   }
 
   return ({ callPath, funcPath }) => {
-    const targetTemplate = process.serverSideModuleFederation
+    const targetTemplate = process.env.SERVER_SIDE_MODULE_FEDERATION
       ? 'federated'
       : 'standard'
 
