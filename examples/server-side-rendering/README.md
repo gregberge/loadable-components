@@ -28,7 +28,7 @@ cd ./loadable-components/examples/server-side-rendering
 yarn
 ```
 
-5. Run locally or build and serve
+5. Run locally, build and serve or build, serve, run e2e tests in cypress
 
 ```bash
 yarn dev
@@ -37,6 +37,10 @@ yarn dev
 
 yarn build
 yarn start
+# Or
+
+yarn build
+yarn test
 ```
 
 🍻
