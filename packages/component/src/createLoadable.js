@@ -100,6 +100,8 @@ function createLoadable({
 
         promise.then(
           () => {
+            console.log(
+              'loadable-components: resolved component asynchronously')
             promise.status = STATUS_RESOLVED
           },
           error => {
@@ -258,6 +260,8 @@ function createLoadable({
           const result = resolve(loadedModule, this.props, Loadable)
           this.state.result = result
           this.state.loading = false
+          console.log(
+            'loadable-components: loaded component synchronously')
         } catch (error) {
           console.error(
             'loadable-components: failed to synchronously load component, which expected to be available',

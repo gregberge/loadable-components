@@ -6,7 +6,7 @@
     "build:webpack": "webpack",
     "build:lib": "babel -d lib src",
     "start": "NODE_ENV=production node lib/server/main.js",
-    "test:cypress": "start-server-and-test start http://localhost:9000 cypress",
+    "test": "start-server-and-test start http://localhost:9000 cypress",
     "cypress": "cypress open",
     "link:all": "yarn link @loadable/babel-plugin && yarn link @loadable/server && yarn link @loadable/component"
   },
