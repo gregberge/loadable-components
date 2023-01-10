@@ -5,7 +5,18 @@ import { hydrate } from 'react-dom'
 import { loadableReady } from '@loadable/component'
 import App from './App'
 
-loadableReady(() => {
-  const root = document.getElementById('main')
-  hydrate(<App />, root)
-})
+const start = () => {
+  loadableReady(() => {
+    const root = document.getElementById('main')
+    hydrate(<App />, root)
+  })
+}
+
+if (!window.Cypress) {
+  start();
+}
+else {
+  setTimeout(() => {
+    start();
+  }, 1000)
+}
