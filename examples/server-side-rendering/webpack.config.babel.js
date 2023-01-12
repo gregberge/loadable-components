@@ -40,6 +40,11 @@ const getConfig = target => ({
     moduleIds: 'named',
     chunkIds: 'named',
   },
+  resolve: {
+    alias: target === 'web' ? {
+      perf_hooks: path.resolve("./perf_hooks.js"),
+    } : {}
+  },  
   externals:
     target === 'node' ? ['@loadable/component', nodeExternals()] : undefined,
   output: {

@@ -5,6 +5,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
 import { LOADABLE_SHARED } from './shared'
+import { performance } from 'perf_hooks'
 import loadableEvents from './loadableEvents'
 
 const STATUS_PENDING = 'PENDING'
@@ -99,9 +100,13 @@ function createLoadable({
         promise.status = STATUS_PENDING
 
         cache[cacheKey] = promise
-
+        const t0 = performance.now()
         promise.then(
           () => {
+            const t1 = performance.now()
+
+            loadableEvents.emit(
+              { type: 'cachedLoad', name: instanceName, chunkName: ctor.chunkName(props), time: t1-t0 })
             console.log(
               'loadable-components: resolved component asynchronously')
             promise.status = STATUS_RESOLVED
