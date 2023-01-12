@@ -1,11 +1,13 @@
 describe('template spec', () => {
   it('passes', () => {
     cy.visit('/', {
-      onBeforeLoad(win) {
-        cy.spy(win.console, 'log').as('spyWinConsoleLog');
-      },
     })
-    cy.get('@spyWinConsoleLog')
+    cy.window().then((win) => {
+      cy.spy(win.loadableEvents, 'emit' ).as('spyLoadableEmit')
+    })
+  
+
+    cy.get('@spyLoadableEmit')
       .should('be.calledOnce');
   })
 })

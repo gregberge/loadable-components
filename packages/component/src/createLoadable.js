@@ -5,6 +5,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
 import { LOADABLE_SHARED } from './shared'
+import loadableEvents from './loadableEvents'
 
 const STATUS_PENDING = 'PENDING'
 const STATUS_RESOLVED = 'RESOLVED'
@@ -47,6 +48,7 @@ function createLoadable({
 }) {
   function loadable(loadableConstructor, options = {}) {
     const ctor = resolveConstructor(loadableConstructor)
+    const instanceName = ctor.chunkName({}).replace('undefined','')
     const cache = {}
 
     /**
@@ -260,8 +262,8 @@ function createLoadable({
           const result = resolve(loadedModule, this.props, Loadable)
           this.state.result = result
           this.state.loading = false
-          console.log(
-            'loadable-components: loaded component synchronously')
+          loadableEvents.emit(
+            { type: 'loadSync', name: instanceName, chunkName: ctor.chunkName(this.props) })
         } catch (error) {
           console.error(
             'loadable-components: failed to synchronously load component, which expected to be available',
