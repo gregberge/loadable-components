@@ -1,9 +1,12 @@
-import EventEmitter from 'events'
 
-const loadableEvents = new EventEmitter()
+let callback = null
 
-if (typeof window !== 'undefined') {
-  window.loadableEvents = loadableEvents
+export function registerCallback(cb) {
+  callback = cb
 }
 
-export default loadableEvents
+export function emit(event) {
+  if (callback) {
+    callback(event)
+  }  
+}

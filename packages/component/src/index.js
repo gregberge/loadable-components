@@ -2,6 +2,7 @@
 import * as sharedInternals from './sharedInternals'
 import * as loadableExports from './loadable'
 import * as libraryExports from './library'
+import * as loadableEvents from './loadableEvents'
 
 const { loadable } = loadableExports
 loadable.lib = libraryExports.loadable
@@ -10,7 +11,7 @@ const { lazy } = loadableExports
 lazy.lib = libraryExports.lazy
 
 export default loadable
-export { lazy }
+export { lazy, loadableEvents }
 
 export { default as loadableReady } from './loadableReady'
 export const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = sharedInternals

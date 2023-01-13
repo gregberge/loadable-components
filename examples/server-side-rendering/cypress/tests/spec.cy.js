@@ -3,11 +3,11 @@ describe('template spec', () => {
     cy.visit('/', {
     })
     cy.window().then((win) => {
-      cy.spy(win.loadableEvents, 'emit' ).as('spyLoadableEmit')
+      cy.spy(win, 'loadableEvents').as('spyloadableEvents')
     })
   
 
-    cy.get('@spyLoadableEmit')
+    cy.get('@spyloadableEvents')
       .should('be.calledOnce');
   })
 })
