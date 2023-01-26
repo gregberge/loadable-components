@@ -5,7 +5,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
 import { LOADABLE_SHARED } from './shared'
-import * as loadableEvents from './loadableEvents'
+import * as loadableEvents from './loadableEventsInternal'
 
 const STATUS_PENDING = 'PENDING'
 const STATUS_RESOLVED = 'RESOLVED'
