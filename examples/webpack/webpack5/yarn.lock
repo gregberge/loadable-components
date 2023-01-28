@@ -762,24 +762,24 @@
     to-fast-properties "^2.0.0"
 
 "@loadable/babel-plugin@file:../../../packages/babel-plugin":
-  version "5.13.2"
+  version "5.15.3"
   dependencies:
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
 
 "@loadable/component@file:../../../packages/component":
-  version "5.14.1"
+  version "5.15.3"
   dependencies:
     "@babel/runtime" "^7.7.7"
     hoist-non-react-statics "^3.3.1"
     react-is "^16.12.0"
 
 "@loadable/server@file:../../../packages/server":
-  version "5.14.0"
+  version "5.15.3"
   dependencies:
     lodash "^4.17.15"
 
 "@loadable/webpack-plugin@file:../../../packages/webpack-plugin":
-  version "5.14.0"
+  version "5.15.2"
   dependencies:
     make-dir "^3.0.2"
 
@@ -2876,9 +2876,9 @@ nan@^2.12.1:
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
 
 nanoid@^3.1.12:
-  version "3.1.12"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.12.tgz#6f7736c62e8d39421601e4a0c77623a97ea69654"
-  integrity sha512-1qstj9z5+x491jfiC4Nelk+f8XBad7LN20PmyWINJEMRSf3wcAjAWysw1qaA8z6NSKe2sjq1hRSDpBH5paCb6A==
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
+  integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
 nanomatch@^1.2.9:
   version "1.2.13"
