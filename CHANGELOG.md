@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.3](https://github.com/smooth-code/loadable-components/compare/v5.15.2...v5.15.3) (2023-01-28)
+
+
+### Bug Fixes
+
+* add React 17 and 18 to package dependencies, fixes [#718](https://github.com/smooth-code/loadable-components/issues/718) ([66edc37](https://github.com/smooth-code/loadable-components/commit/66edc37a731a8ec655deffd3ad454fd96e909ba3))
+
+
+
+
+
 ## [5.15.2](https://github.com/smooth-code/loadable-components/compare/v5.15.1...v5.15.2) (2021-12-12)
 
 
