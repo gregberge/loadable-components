@@ -1,3 +1,4 @@
+import { declare } from "@babel/helper-plugin-utils";
 import syntaxDynamicImport from '@babel/plugin-syntax-dynamic-import'
 import chunkNameProperty from './properties/chunkName'
 import isReadyProperty from './properties/isReady'
@@ -19,7 +20,7 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = api => {
+const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) => {
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -34,16 +35,22 @@ const loadablePlugin = api => {
 
   const propertyFactories = properties.map(init => init(api))
 
-  function isValidIdentifier(path) {
+  function isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier) {
     // `loadable()`
-    if (path.get('callee').isIdentifier({ name: 'loadable' })) {
+    if (loadableImportSpecifier && path.get('callee').isIdentifier({ name: loadableImportSpecifier })) {
+      return true
+    }
+
+    // `lazy()`
+    if (lazyImportSpecifier && path.get('callee').isIdentifier({ name: lazyImportSpecifier })) {
       return true
     }
 
     // `loadable.lib()`
     if (
+      loadableImportSpecifier &&
       path.get('callee').isMemberExpression() &&
-      path.get('callee.object').isIdentifier({ name: 'loadable' }) &&
+      path.get('callee.object').isIdentifier({ name: loadableImportSpecifier }) &&
       path.get('callee.property').isIdentifier({ name: 'lib' })
     ) {
       return true
@@ -112,14 +119,34 @@ const loadablePlugin = api => {
     }
   }
 
+
   return {
     inherits: syntaxDynamicImport,
     visitor: {
       Program: {
         enter(programPath) {
+          let loadableImportSpecifier = defaultImportSpecifier
+          let lazyImportSpecifier = false
+
           programPath.traverse({
+            ImportDefaultSpecifier(path) {
+              if (!loadableImportSpecifier) {
+                const { parent } = path
+                const { local } = path.node
+                loadableImportSpecifier = parent.source.value == '@loadable/component' &&
+                  local && local.name
+              }
+            },
+            ImportSpecifier(path) {
+              if (!lazyImportSpecifier) {
+                const { parent } = path
+                const { imported, local } = path.node
+                lazyImportSpecifier = parent.source.value == '@loadable/component' &&
+                  imported && imported.name == 'lazy' && local && local.name
+              }
+            },
             CallExpression(path) {
-              if (!isValidIdentifier(path)) return
+              if (!isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier)) return
               transformImport(path)
             },
             'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
@@ -131,6 +158,6 @@ const loadablePlugin = api => {
       },
     },
   }
-}
+})
 
 export default loadablePlugin

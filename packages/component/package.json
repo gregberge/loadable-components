@@ -1,7 +1,7 @@
 {
   "name": "@loadable/component",
   "description": "React code splitting made easy.",
-  "version": "5.15.2",
+  "version": "5.15.3",
   "main": "dist/loadable.cjs.js",
   "module": "dist/loadable.esm.js",
   "repository": "git@github.com:gregberge/loadable-components.git",
@@ -34,7 +34,7 @@
     "prepublishOnly": "yarn run build"
   },
   "peerDependencies": {
-    "react": ">=16.3.0"
+    "react": "^16.3.0 || ^17.0.0 || ^18.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",

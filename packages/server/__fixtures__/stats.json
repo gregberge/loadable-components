@@ -1,8 +1,7 @@
 {
   "errors": [],
   "warnings": [],
-  "version": "4.41.0",
-  "hash": "978c0e495cd799413c9a",
+  "hash": "84e08a1809b7b09283e2",
   "publicPath": "/dist/node/",
   "outputPath": "../../examples/server-side-rendering/public/dist/node",
   "assetsByChunkName": {
@@ -201,7 +200,7 @@
     },
     {
       "name": "main.js",
-      "size": 13586,
+      "size": 13582,
       "chunks": [
         "main"
       ],
@@ -213,49 +212,6 @@
     }
   ],
   "filteredAssets": 0,
-  "entrypoints": {
-    "main": {
-      "chunks": [
-        "main"
-      ],
-      "assets": [
-        "main.css",
-        "main.js"
-      ],
-      "children": {
-        "preload": [
-          {
-            "name": "letters-C",
-            "chunks": [
-              "letters-C"
-            ],
-            "assets": [
-              "letters-C.js"
-            ]
-          }
-        ],
-        "prefetch": [
-          {
-            "name": "letters-D",
-            "chunks": [
-              "letters-D"
-            ],
-            "assets": [
-              "letters-D.js"
-            ]
-          }
-        ]
-      },
-      "childAssets": {
-        "preload": [
-          "letters-C.js"
-        ],
-        "prefetch": [
-          "letters-D.js"
-        ]
-      }
-    }
-  },
   "namedChunkGroups": {
     "main": {
       "chunks": [
@@ -498,633 +454,82 @@
       "childAssets": {}
     }
   },
+  "generator": "loadable-components",
   "chunks": [
     {
       "id": "Y-file",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "Y-file"
-      ],
       "files": [
         "Y-file.js"
-      ],
-      "hash": "b4d8d777cba1919ad570",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-A",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 290,
-      "names": [
-        "letters-A"
-      ],
       "files": [
         "letters-A.css",
         "letters-A.js"
-      ],
-      "hash": "0c15a7fd2a22c9b265fa",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-A-css",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 81,
-      "names": [
-        "letters-A-css"
-      ],
       "files": [
         "letters-A-css.css",
         "letters-A-css.js"
-      ],
-      "hash": "8028b2657cb1626f301d",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-B",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 191,
-      "names": [
-        "letters-B"
-      ],
       "files": [
         "letters-B.js"
-      ],
-      "hash": "84099bce3af835a0d9b3",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-C",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "letters-C"
-      ],
       "files": [
         "letters-C.js"
-      ],
-      "hash": "e2e5758bdd6bdbcd8c64",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-D",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "letters-D"
-      ],
       "files": [
         "letters-D.js"
-      ],
-      "hash": "698cbca6bfdf9fbf1074",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-E",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "letters-E"
-      ],
       "files": [
         "letters-E.js"
-      ],
-      "hash": "21404278fb1a3c5e67ad",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-E-param",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "letters-E-param"
-      ],
       "files": [
         "letters-E-param.js"
-      ],
-      "hash": "5253b4e1e5e59e52c4fa",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-F",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "letters-F"
-      ],
       "files": [
         "letters-F.js"
-      ],
-      "hash": "4f9fef34f4df74392d9f",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-G",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 153,
-      "names": [
-        "letters-G"
-      ],
       "files": [
         "letters-G.js"
-      ],
-      "hash": "0119642059748a42b121",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "letters-Z-file",
-      "rendered": true,
-      "initial": false,
-      "entry": false,
-      "size": 27,
-      "names": [
-        "letters-Z-file"
-      ],
       "files": [
         "letters-Z-file.js"
-      ],
-      "hash": "21d8cde8b6e3c5c8b362",
-      "siblings": [],
-      "parents": [
-        "main"
-      ],
-      "children": [],
-      "childrenByOrder": {},
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
+      ]
     },
     {
       "id": "main",
-      "rendered": true,
-      "initial": true,
-      "entry": true,
-      "size": 14368,
-      "names": [
-        "main"
-      ],
       "files": [
         "main.css",
         "main.js"
-      ],
-      "hash": "37cac90b272ff26b2f8f",
-      "siblings": [],
-      "parents": [],
-      "children": [
-        "Y-file",
-        "letters-A",
-        "letters-A-css",
-        "letters-B",
-        "letters-C",
-        "letters-D",
-        "letters-E",
-        "letters-E-param",
-        "letters-F",
-        "letters-G",
-        "letters-Z-file"
-      ],
-      "childrenByOrder": {
-        "preload": [
-          "letters-C"
-        ],
-        "prefetch": [
-          "letters-D"
-        ]
-      },
-      "modules": [],
-      "filteredModules": 0,
-      "origins": []
-    }
-  ],
-  "logging": {
-    "webpack.buildChunkGraph.visitModules": {
-      "entries": [],
-      "filteredEntries": 5,
-      "debug": false
-    }
-  },
-  "children": [
-    {
-      "errors": [],
-      "warnings": [],
-      "publicPath": "/dist/node/",
-      "outputPath": "../../examples/server-side-rendering/public/dist/node",
-      "assetsByChunkName": {},
-      "assets": [],
-      "filteredAssets": 0,
-      "entrypoints": {
-        "mini-css-extract-plugin": {
-          "chunks": [
-            "mini-css-extract-plugin"
-          ],
-          "assets": [
-            "*"
-          ],
-          "children": {},
-          "childAssets": {}
-        }
-      },
-      "namedChunkGroups": {
-        "mini-css-extract-plugin": {
-          "chunks": [
-            "mini-css-extract-plugin"
-          ],
-          "assets": [
-            "*"
-          ],
-          "children": {},
-          "childAssets": {}
-        }
-      },
-      "chunks": [
-        {
-          "id": "mini-css-extract-plugin",
-          "rendered": true,
-          "initial": true,
-          "entry": true,
-          "size": 2596,
-          "names": [
-            "mini-css-extract-plugin"
-          ],
-          "files": [
-            "*"
-          ],
-          "hash": "ae6a81c348917f377d61",
-          "siblings": [],
-          "parents": [],
-          "children": [],
-          "childrenByOrder": {},
-          "modules": [
-            {
-              "id": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-              "identifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/letters/A.css",
-              "name": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-              "index": 0,
-              "index2": 1,
-              "size": 190,
-              "cacheable": true,
-              "built": true,
-              "optional": false,
-              "prefetched": false,
-              "chunks": [
-                "mini-css-extract-plugin"
-              ],
-              "issuer": null,
-              "issuerId": null,
-              "issuerName": null,
-              "issuerPath": null,
-              "failed": false,
-              "errors": 0,
-              "warnings": 0,
-              "assets": [],
-              "reasons": [
-                {
-                  "moduleId": null,
-                  "moduleIdentifier": null,
-                  "module": null,
-                  "moduleName": null,
-                  "type": "single entry",
-                  "userRequest": "!!../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/letters/A.css",
-                  "loc": "mini-css-extract-plugin"
-                }
-              ],
-              "usedExports": true,
-              "providedExports": null,
-              "optimizationBailout": [
-                "ModuleConcatenation bailout: Module is not an ECMAScript module"
-              ],
-              "depth": 0
-            },
-            {
-              "id": "./node_modules/css-loader/dist/runtime/api.js",
-              "identifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/runtime/api.js",
-              "name": "./node_modules/css-loader/dist/runtime/api.js",
-              "index": 1,
-              "index2": 0,
-              "size": 2406,
-              "cacheable": true,
-              "built": true,
-              "optional": false,
-              "prefetched": false,
-              "chunks": [
-                "mini-css-extract-plugin"
-              ],
-              "issuer": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/letters/A.css",
-              "issuerId": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-              "issuerName": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-              "issuerPath": [
-                {
-                  "id": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-                  "identifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/letters/A.css",
-                  "name": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css"
-                }
-              ],
-              "failed": false,
-              "errors": 0,
-              "warnings": 0,
-              "assets": [],
-              "reasons": [
-                {
-                  "moduleId": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-                  "moduleIdentifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/letters/A.css",
-                  "module": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-                  "moduleName": "./node_modules/css-loader/dist/cjs.js!./src/client/letters/A.css",
-                  "type": "cjs require",
-                  "userRequest": "../../../node_modules/css-loader/dist/runtime/api.js",
-                  "loc": "1:27-90"
-                }
-              ],
-              "usedExports": true,
-              "providedExports": null,
-              "optimizationBailout": [
-                "ModuleConcatenation bailout: Module is not an ECMAScript module"
-              ],
-              "depth": 1
-            }
-          ],
-          "filteredModules": 0,
-          "origins": [
-            {
-              "module": "",
-              "moduleIdentifier": "",
-              "moduleName": "",
-              "loc": "mini-css-extract-plugin",
-              "request": "!!../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/letters/A.css",
-              "reasons": []
-            }
-          ]
-        }
-      ],
-      "logging": {
-        "webpack.buildChunkGraph.visitModules": {
-          "entries": [],
-          "filteredEntries": 2,
-          "debug": false
-        }
-      },
-      "children": [],
-      "name": "mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!src/client/letters/A.css"
-    },
-    {
-      "errors": [],
-      "warnings": [],
-      "publicPath": "/dist/node/",
-      "outputPath": "../../examples/server-side-rendering/public/dist/node",
-      "assetsByChunkName": {},
-      "assets": [],
-      "filteredAssets": 0,
-      "entrypoints": {
-        "mini-css-extract-plugin": {
-          "chunks": [
-            "mini-css-extract-plugin"
-          ],
-          "assets": [
-            "*"
-          ],
-          "children": {},
-          "childAssets": {}
-        }
-      },
-      "namedChunkGroups": {
-        "mini-css-extract-plugin": {
-          "chunks": [
-            "mini-css-extract-plugin"
-          ],
-          "assets": [
-            "*"
-          ],
-          "children": {},
-          "childAssets": {}
-        }
-      },
-      "chunks": [
-        {
-          "id": "mini-css-extract-plugin",
-          "rendered": true,
-          "initial": true,
-          "entry": true,
-          "size": 2589,
-          "names": [
-            "mini-css-extract-plugin"
-          ],
-          "files": [
-            "*"
-          ],
-          "hash": "3de4c2d6fb7d56e8b981",
-          "siblings": [],
-          "parents": [],
-          "children": [],
-          "childrenByOrder": {},
-          "modules": [
-            {
-              "id": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-              "identifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/main.css",
-              "name": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-              "index": 0,
-              "index2": 1,
-              "size": 183,
-              "cacheable": true,
-              "built": true,
-              "optional": false,
-              "prefetched": false,
-              "chunks": [
-                "mini-css-extract-plugin"
-              ],
-              "issuer": null,
-              "issuerId": null,
-              "issuerName": null,
-              "issuerPath": null,
-              "failed": false,
-              "errors": 0,
-              "warnings": 0,
-              "assets": [],
-              "reasons": [
-                {
-                  "moduleId": null,
-                  "moduleIdentifier": null,
-                  "module": null,
-                  "moduleName": null,
-                  "type": "single entry",
-                  "userRequest": "!!../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/main.css",
-                  "loc": "mini-css-extract-plugin"
-                }
-              ],
-              "usedExports": true,
-              "providedExports": null,
-              "optimizationBailout": [
-                "ModuleConcatenation bailout: Module is not an ECMAScript module"
-              ],
-              "depth": 0
-            },
-            {
-              "id": "./node_modules/css-loader/dist/runtime/api.js",
-              "identifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/runtime/api.js",
-              "name": "./node_modules/css-loader/dist/runtime/api.js",
-              "index": 1,
-              "index2": 0,
-              "size": 2406,
-              "cacheable": true,
-              "built": true,
-              "optional": false,
-              "prefetched": false,
-              "chunks": [
-                "mini-css-extract-plugin"
-              ],
-              "issuer": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/main.css",
-              "issuerId": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-              "issuerName": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-              "issuerPath": [
-                {
-                  "id": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-                  "identifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/main.css",
-                  "name": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css"
-                }
-              ],
-              "failed": false,
-              "errors": 0,
-              "warnings": 0,
-              "assets": [],
-              "reasons": [
-                {
-                  "moduleId": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-                  "moduleIdentifier": "../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/main.css",
-                  "module": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-                  "moduleName": "./node_modules/css-loader/dist/cjs.js!./src/client/main.css",
-                  "type": "cjs require",
-                  "userRequest": "../../node_modules/css-loader/dist/runtime/api.js",
-                  "loc": "1:27-87"
-                }
-              ],
-              "usedExports": true,
-              "providedExports": null,
-              "optimizationBailout": [
-                "ModuleConcatenation bailout: Module is not an ECMAScript module"
-              ],
-              "depth": 1
-            }
-          ],
-          "filteredModules": 0,
-          "origins": [
-            {
-              "module": "",
-              "moduleIdentifier": "",
-              "moduleName": "",
-              "loc": "mini-css-extract-plugin",
-              "request": "!!../../examples/server-side-rendering/node_modules/css-loader/dist/cjs.js!../../examples/server-side-rendering/src/client/main.css",
-              "reasons": []
-            }
-          ]
-        }
-      ],
-      "logging": {
-        "webpack.buildChunkGraph.visitModules": {
-          "entries": [],
-          "filteredEntries": 2,
-          "debug": false
-        }
-      },
-      "children": [],
-      "name": "mini-css-extract-plugin node_modules/css-loader/dist/cjs.js!src/client/main.css"
+      ]
     }
   ]
 }
