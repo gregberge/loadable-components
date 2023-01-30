@@ -8,6 +8,6 @@ describe('template spec', () => {
   
 
     cy.get('@spyloadableEvents')
-      .should('be.calledOnce');
+      .should('be.calledWith', Cypress.sinon.match({ type: 'successAsyncLoad' }));
   })
 })
