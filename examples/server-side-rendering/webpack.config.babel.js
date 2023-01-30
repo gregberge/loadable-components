@@ -5,14 +5,21 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const DIST_PATH = path.resolve(__dirname, 'public/dist')
 const production = process.env.NODE_ENV === 'production'
+const testbuild = process.env.TESTBUILD === 'true'
 const development =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+
+const testEntrypoins = ['simple', 'prefetch', 'preload','ssrfalse', 'props', 'library']
+const getTestEntrypoints = target => testEntrypoins.reduce((acc,value)=>{
+  acc[value]=`./src/client/${value}${target === 'web'?`-${target}`:''}.js`
+  return acc
+}, {})
 
 const getConfig = target => ({
   name: target,
   mode: development ? 'development' : 'production',
   target,
-  entry: `./src/client/main-${target}.js`,
+  entry: Object.assign({ 'main': `./src/client/main-${target}.js` }, testbuild ? getTestEntrypoints(target) : {}),
   module: {
     rules: [
       {

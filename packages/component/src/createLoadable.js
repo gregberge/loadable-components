@@ -112,6 +112,9 @@ function createLoadable({
             promise.status = STATUS_RESOLVED
           },
           error => {
+            loadableEvents.emit(
+              { type: 'errorAsyncLoad', name: instanceName, chunkName: ctor.chunkName(props) })
+
             console.error(
               'loadable-components: failed to asynchronously load component',
               {
