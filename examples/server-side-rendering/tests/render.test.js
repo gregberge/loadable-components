@@ -46,6 +46,8 @@ describe('rendertest', () => {
       const result = renderEntrypoint('props')
       expect(result.html).toMatchInlineSnapshot(`"<div>A<br/>F</div>"`)
     })
+    
+    expect(eventsMock).toHaveBeenCalledTimes(1)
     expect(eventsMock).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'loadSync'
