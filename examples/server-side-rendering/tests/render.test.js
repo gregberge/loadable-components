@@ -61,6 +61,7 @@ describe('rendertest', () => {
         <link data-parent-chunk=\\"props\\" rel=\\"preload\\" as=\\"script\\" href=\\"/dist/web/letters-C.js\\">
         <link data-parent-chunk=\\"props\\" rel=\\"prefetch\\" as=\\"script\\" href=\\"/dist/web/letters-D.js\\">"
       `)
+      // webpackPreload and webpackPrefetch does not respect entrypoint
       expect(result.webExtractor.getStyleTags()).toMatchInlineSnapshot(
         `"<link data-chunk=\\"letters-A\\" rel=\\"stylesheet\\" href=\\"/dist/web/letters-A.css\\">"`,
       )
