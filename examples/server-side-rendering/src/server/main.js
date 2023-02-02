@@ -39,10 +39,13 @@ const webStats = path.resolve(
 )
 
 app.get('*', (req, res) => {
-  const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats })
-  const { default: App } = nodeExtractor.requireEntrypoint()
+  const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats, entrypoints: [req.query.entrypoint||'main'] })
+  console.log(req.query.entrypoint);
+  console.log(nodeExtractor.getChunkAssets(req.query.entrypoint||'main'));
 
-  const webExtractor = new ChunkExtractor({ statsFile: webStats })
+  const { default: App } = nodeExtractor.requireEntrypoint(req.query.entrypoint)
+
+  const webExtractor = new ChunkExtractor({ statsFile: webStats, entrypoints: [req.query.entrypoint||'main'] })
   const jsx = webExtractor.collectChunks(<App />)
 
   const html = renderToString(jsx)
