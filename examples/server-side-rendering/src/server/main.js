@@ -40,8 +40,6 @@ const webStats = path.resolve(
 
 app.get('*', (req, res) => {
   const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats, entrypoints: [req.query.entrypoint||'main'] })
-  console.log(req.query.entrypoint);
-  console.log(nodeExtractor.getChunkAssets(req.query.entrypoint||'main'));
 
   const { default: App } = nodeExtractor.requireEntrypoint(req.query.entrypoint)
 

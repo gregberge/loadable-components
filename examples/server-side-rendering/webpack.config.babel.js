@@ -10,7 +10,7 @@ const development =
   !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
 
 const testEntrypoins = ['simple', 'prefetch', 'preload','ssrfalse', 'props', 'library']
-const getTestEntrypoints = target => testEntrypoins.reduce((acc,value)=>{
+const getTestEntrypoints = target => testEntrypoins.concat(target === 'node'?['render']:[]).reduce((acc,value)=>{
   acc[value]=`./src/client/${value}${target === 'web'?`-${target}`:''}.js`
   return acc
 }, {})
