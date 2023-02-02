@@ -383,12 +383,11 @@ class ChunkExtractor {
   // Utilities
 
   requireEntrypoint(entrypoint) {
-    const entrypointPath =this.getEntrypointPath(this.entrypoint)
+    const entrypointPath = this.getEntrypointPath(this.entrypoint)
 
-    this.stats.assets
-      .filter(({ name }) => isScriptFile(name))
-      .forEach(({ name }) => {
-        smartRequire(path.join(this.outputPath, cleanFileName(name)))
+    this.getAllScriptAssetsPaths()
+      .forEach((assetPath) => {
+        smartRequire(assetPath)
       })
 
     return smartRequire(entrypointPath)
@@ -400,6 +399,14 @@ class ChunkExtractor {
     const mainAsset = assets.find(asset => asset.scriptType === 'script')
     invariant(mainAsset, 'asset not found')
     return cleanFileName(mainAsset.path)
+  }
+
+  getAllScriptAssetsPaths() {
+    return this.stats.assets
+      .filter(({ name }) => isScriptFile(name))
+      .map(({ name }) => {
+        return path.join(this.outputPath, cleanFileName(name))
+      })
   }
 
   // Main assets
