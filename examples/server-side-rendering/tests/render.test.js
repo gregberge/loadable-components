@@ -41,11 +41,15 @@ describe('rendertest', () => {
     loadableEvents.registerCallback(eventsMock)
   })
 
-  describe('rennder entrypoints', () => {
+  describe('render entrypoints', () => {
     it('should render props entrypoint', () => {
       const result = renderEntrypoint('props')
       expect(result.html).toMatchInlineSnapshot(`"<div>A<br/>F</div>"`)
     })
-    expect(eventsMock.toHaveBeenCalled)
+    expect(eventsMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'loadSync'
+      })
+    )
   })
 })
