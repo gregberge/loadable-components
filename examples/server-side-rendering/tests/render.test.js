@@ -67,7 +67,12 @@ describe('rendertest', () => {
       expect(eventsMock).toHaveBeenCalledTimes(2)
       expect(eventsMock).toHaveBeenCalledWith(
         expect.objectContaining({
-          type: 'loadSync',
+          type: 'loadSync', chunkName: 'letters-A'
+        }),
+      )
+      expect(eventsMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'loadSync', chunkName: 'letters-F'
         }),
       )
     })
