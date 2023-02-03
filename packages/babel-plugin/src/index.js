@@ -20,7 +20,9 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) => {
+const loadablePlugin = declare((api, babelOptions) => {
+  const { defaultImportSpecifier = 'loadable' } = babelOptions
+
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -33,7 +35,7 @@ const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) =>
     return imports
   }
 
-  const propertyFactories = properties.map(init => init(api))
+  const propertyFactories = properties.map(init => init(api, babelOptions))
 
   function isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier) {
     // `loadable()`

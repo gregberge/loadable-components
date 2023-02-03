@@ -11,8 +11,16 @@ class LoadablePlugin {
     writeToDisk,
     outputAsset = true,
     chunkLoadingGlobal = '__LOADABLE_LOADED_CHUNKS__',
+    serverSideModuleFederation = false,
   } = {}) {
-    this.opts = { filename, writeToDisk, outputAsset, path, chunkLoadingGlobal }
+    this.opts = {
+      filename,
+      writeToDisk,
+      outputAsset,
+      path,
+      chunkLoadingGlobal,
+      serverSideModuleFederation,
+    }
 
     // The Webpack compiler instance
     this.compiler = null
@@ -100,6 +108,23 @@ class LoadablePlugin {
 
   apply(compiler) {
     this.compiler = compiler
+
+    if (
+      this.opts.serverSideModuleFederation === true &&
+      (compiler.options.target === 'web' ||
+        compiler.options.target === undefined)
+    ) {
+      throw new Error(
+        `Enabling server-side module federation support for a client-side Webpack target (${compiler.options.target}) is unnecessary and will effectively disable all code-splitting.`,
+      )
+    }
+
+    if (this.opts.serverSideModuleFederation) {
+      Object.defineProperty(process.env, 'SERVER_SIDE_MODULE_FEDERATION', {
+        value: true,
+        writable: false,
+      })
+    }
 
     const version = 'jsonpFunction' in compiler.options.output ? 4 : 5
 
