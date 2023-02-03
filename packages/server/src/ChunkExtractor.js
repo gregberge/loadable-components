@@ -7,7 +7,7 @@ import flatMap from 'lodash/flatMap'
 import React from 'react'
 import { invariant, getRequiredChunkKey } from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
-import { smartRequire, joinURLPath } from './util'
+import { smartRequire, joinURLPath, readJsonFileSync } from './util'
 
 const EXTENSION_SCRIPT_TYPES = {
   '.js': 'script',
@@ -205,7 +205,7 @@ class ChunkExtractor {
     inputFileSystem = fs,
   } = {}) {
     this.namespace = namespace
-    this.stats = stats || smartRequire(statsFile)
+    this.stats = stats || readJsonFileSync(inputFileSystem, statsFile)
     this.publicPath = publicPath || this.stats.publicPath
     this.outputPath = outputPath || this.stats.outputPath
     this.statsFile = statsFile
@@ -383,18 +383,30 @@ class ChunkExtractor {
   // Utilities
 
   requireEntrypoint(entrypoint) {
+    const entrypointPath = this.getEntrypointPath(this.entrypoint)
+
+    this.getAllScriptAssetsPaths()
+      .forEach((assetPath) => {
+        smartRequire(assetPath)
+      })
+
+    return smartRequire(entrypointPath)
+  }
+
+  getEntrypointPath(entrypoint) {
     entrypoint = entrypoint || this.entrypoints[0]
     const assets = this.getChunkAssets(entrypoint)
     const mainAsset = assets.find(asset => asset.scriptType === 'script')
     invariant(mainAsset, 'asset not found')
+    return cleanFileName(mainAsset.path)
+  }
 
-    this.stats.assets
+  getAllScriptAssetsPaths() {
+    return this.stats.assets
       .filter(({ name }) => isScriptFile(name))
-      .forEach(({ name }) => {
-        smartRequire(path.join(this.outputPath, cleanFileName(name)))
+      .map(({ name }) => {
+        return path.join(this.outputPath, cleanFileName(name))
       })
-
-    return smartRequire(cleanFileName(mainAsset.path))
   }
 
   // Main assets

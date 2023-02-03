@@ -41,3 +41,7 @@ export const joinURLPath = (publicPath, filename) => {
 
   return `${publicPath}/${filename}`
 }
+
+export const readJsonFileSync = (inputFileSystem, jsonFilePath) => {
+  return JSON.parse(inputFileSystem.readFileSync(jsonFilePath))
+}
