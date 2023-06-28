@@ -2,9 +2,9 @@
 import { transform } from '@babel/core'
 import plugin from '.'
 
-const testPlugin = code => {
+const testPlugin = (code, options) => {
   const result = transform(code, {
-    plugins: [plugin],
+    plugins: [[plugin, options]],
     configFile: false,
   })
 
@@ -198,6 +198,22 @@ describe('plugin', () => {
         loadable.lib(() => import('moment'))
       `)
 
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('additionalSpecifiers', () => {
+    it('Should match on custom specifiers', () => {
+      const result = testPlugin(`
+        LoadableHOC(() => import(\`./ModA\`))
+      `, { additionalSpecifiers: ['LoadableHOC']})
+
+      expect(result).toMatchSnapshot()
+    })
+    it('Should not match on undeclared specifiers', () => {
+      const result = testPlugin(`
+        LoadableHOC(() => import(\`./ModA\`))
+      `)
       expect(result).toMatchSnapshot()
     })
   })

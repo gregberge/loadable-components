@@ -20,7 +20,10 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) => {
+const loadablePlugin = declare((api, { 
+  defaultImportSpecifier = 'loadable',
+  additionalSpecifiers = []
+ }) => {
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -43,6 +46,11 @@ const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) =>
 
     // `lazy()`
     if (lazyImportSpecifier && path.get('callee').isIdentifier({ name: lazyImportSpecifier })) {
+      return true
+    }
+
+    // Additional, custom specifiers.  e.g. LoadableHOC()
+    if (additionalSpecifiers.find(specifier => path.get('callee').isIdentifier({ name: specifier }))) {
       return true
     }
 
