@@ -586,6 +586,244 @@ loadable({
 });"
 `;
 
+exports[`plugin custom signatures named signature should not match default import 1`] = `
+"import myLoadable from 'myLoadablePackage';
+myLoadable(() => import(\`./ModA\`));"
+`;
+
+exports[`plugin custom signatures should match custom default signature 1`] = `
+"import myLoadable from 'myLoadablePackage';
+myLoadable({
+  resolved: {},
+
+  chunkName() {
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return eval('require.resolve')(\`./ModA\`);
+  }
+
+});"
+`;
+
+exports[`plugin custom signatures should match custom named signature 1`] = `
+"import { myLoadable } from 'myLoadablePackage';
+myLoadable({
+  resolved: {},
+
+  chunkName() {
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return eval('require.resolve')(\`./ModA\`);
+  }
+
+});"
+`;
+
+exports[`plugin custom signatures should match renamed default import 1`] = `
+"import renamedLoadable from '@loadable/component';
+renamedLoadable({
+  resolved: {},
+
+  chunkName() {
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return eval('require.resolve')(\`./ModA\`);
+  }
+
+});"
+`;
+
+exports[`plugin custom signatures should match simple default import 1`] = `
+"import loadable from '@loadable/component';
+loadable({
+  resolved: {},
+
+  chunkName() {
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return eval('require.resolve')(\`./ModA\`);
+  }
+
+});"
+`;
+
+exports[`plugin custom signatures should not match on undeclared specifiers 1`] = `
+"import myLoadable from 'myLoadablePackage';
+myLoadable(() => import(\`./ModA\`));"
+`;
+
 exports[`plugin loadable.lib should be transpiled too 1`] = `
 "import loadable from '@loadable/component';
 loadable.lib({
@@ -698,11 +936,6 @@ loadable({
   }
 
 });"
-`;
-
-exports[`plugin simple import should not work with renamed specifier by default 1`] = `
-"import renamedLoadable from '@loadable/component';
-renamedLoadable(() => import(\`./ModA\`));"
 `;
 
 exports[`plugin simple import should transform path into "chunk-friendly" name 1`] = `
@@ -936,6 +1169,63 @@ lazy({
 exports[`plugin simple import should work with renamed lazy specifier 1`] = `
 "import { lazy as renamedLazy } from '@loadable/component';
 renamedLazy({
+  resolved: {},
+
+  chunkName() {
+    return \`ModA\`.replace(/[^a-zA-Z0-9_!§$()=\\\\-^°]+/g, \\"-\\");
+  },
+
+  isReady(props) {
+    const key = this.resolve(props);
+
+    if (this.resolved[key] !== true) {
+      return false;
+    }
+
+    if (typeof __webpack_modules__ !== 'undefined') {
+      return !!__webpack_modules__[key];
+    }
+
+    return false;
+  },
+
+  importAsync: () => import(
+  /* webpackChunkName: \\"ModA\\" */
+  \`./ModA\`),
+
+  requireAsync(props) {
+    const key = this.resolve(props);
+    this.resolved[key] = false;
+    return this.importAsync(props).then(resolved => {
+      this.resolved[key] = true;
+      return resolved;
+    });
+  },
+
+  requireSync(props) {
+    const id = this.resolve(props);
+
+    if (typeof __webpack_require__ !== 'undefined') {
+      return __webpack_require__(id);
+    }
+
+    return eval('module.require')(id);
+  },
+
+  resolve() {
+    if (require.resolveWeak) {
+      return require.resolveWeak(\`./ModA\`);
+    }
+
+    return eval('require.resolve')(\`./ModA\`);
+  }
+
+});"
+`;
+
+exports[`plugin simple import should work with renamed specifier by default 1`] = `
+"import renamedLoadable from '@loadable/component';
+renamedLoadable({
   resolved: {},
 
   chunkName() {

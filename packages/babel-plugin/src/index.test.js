@@ -2,9 +2,9 @@
 import { transform } from '@babel/core'
 import plugin from '.'
 
-const testPlugin = code => {
+const testPlugin = (code, options) => {
   const result = transform(code, {
-    plugins: [plugin],
+    plugins: [[plugin, options]],
     configFile: false,
   })
 
@@ -40,7 +40,7 @@ describe('plugin', () => {
         lazy(() => import(\`./ModA\`));"
       `)
     })
-    it('should not work with renamed specifier by default', () => {
+    it('should work with renamed specifier by default', () => {
       const result = testPlugin(`
         import renamedLoadable from '@loadable/component'
         renamedLoadable(() => import(\`./ModA\`))
@@ -198,6 +198,51 @@ describe('plugin', () => {
         loadable.lib(() => import('moment'))
       `)
 
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('custom signatures', () => {
+    it('should match simple default import', () => {
+      const result = testPlugin(`
+        import loadable from '@loadable/component'
+        loadable(() => import(\`./ModA\`))
+      `, { signatures: [{ name: 'default', from: '@loadable/component' }]})
+      expect(result).toMatchSnapshot()
+    })
+    it('should match renamed default import', () => {
+      const result = testPlugin(`
+        import renamedLoadable from '@loadable/component'
+        renamedLoadable(() => import(\`./ModA\`))
+      `, { signatures: [{ name: 'default', from: '@loadable/component' }]})
+      expect(result).toMatchSnapshot()
+    })
+    it('should match custom default signature', () => {
+      const result = testPlugin(`
+        import myLoadable from 'myLoadablePackage'
+        myLoadable(() => import(\`./ModA\`))
+      `, { signatures: [{ name: 'default', from: 'myLoadablePackage' }]})
+      expect(result).toMatchSnapshot()
+    })
+    it('should match custom named signature', () => {
+      const result = testPlugin(`
+        import { myLoadable } from 'myLoadablePackage'
+        myLoadable(() => import(\`./ModA\`))
+      `, { signatures: [{ name: 'myLoadable', from: 'myLoadablePackage' }]})
+      expect(result).toMatchSnapshot()
+    })
+    it('named signature should not match default import', () => {
+      const result = testPlugin(`
+        import myLoadable from 'myLoadablePackage'
+        myLoadable(() => import(\`./ModA\`))
+      `, { signatures: [{ name: 'myLoadable', from: 'myLoadablePackage' }]})
+      expect(result).toMatchSnapshot()
+    })
+    it('should not match on undeclared specifiers', () => {
+      const result = testPlugin(`
+        import myLoadable from 'myLoadablePackage'
+        myLoadable(() => import(\`./ModA\`))
+      `)
       expect(result).toMatchSnapshot()
     })
   })

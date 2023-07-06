@@ -20,7 +20,12 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
-const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) => {
+const loadablePlugin = declare((api, { 
+  signatures = []
+ }) => {
+  if (!signatures.find(sig => sig.from == '@loadable/component')) {
+    signatures.push({name: 'default', from: '@loadable/component'})
+  }
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -35,9 +40,9 @@ const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) =>
 
   const propertyFactories = properties.map(init => init(api))
 
-  function isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier) {
-    // `loadable()`
-    if (loadableImportSpecifier && path.get('callee').isIdentifier({ name: loadableImportSpecifier })) {
+  function isValidIdentifier(path, loadableImportSpecifiers, lazyImportSpecifier) {
+    // loadable signatures
+    if (loadableImportSpecifiers.find(specifier => path.get('callee').isIdentifier({ name: specifier }))) {
       return true
     }
 
@@ -48,9 +53,8 @@ const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) =>
 
     // `loadable.lib()`
     return (
-      loadableImportSpecifier &&
       path.get('callee').isMemberExpression() &&
-      path.get('callee.object').isIdentifier({ name: loadableImportSpecifier }) &&
+      loadableImportSpecifiers.find(specifier => path.get('callee.object').isIdentifier({ name: specifier })) &&
       path.get('callee.property').isIdentifier({ name: 'lib' })
     )
   }
@@ -119,28 +123,30 @@ const loadablePlugin = declare((api, { defaultImportSpecifier = 'loadable' }) =>
     visitor: {
       Program: {
         enter(programPath) {
-          let loadableImportSpecifier = defaultImportSpecifier
           let lazyImportSpecifier = false
+          const loadableSpecifiers = []
 
           programPath.traverse({
             ImportDefaultSpecifier(path) {
-              if (!loadableImportSpecifier) {
-                const { parent } = path
-                const { local } = path.node
-                loadableImportSpecifier = parent.source.value == '@loadable/component' &&
-                  local && local.name
+              const { parent } = path
+              const { local } = path.node
+              if (local && signatures.find(signature => signature.name === 'default' && parent.source.value === signature.from)) {
+                loadableSpecifiers.push(local.name)
               }
             },
             ImportSpecifier(path) {
+              const { parent } = path
+              const { imported, local } = path.node
               if (!lazyImportSpecifier) {
-                const { parent } = path
-                const { imported, local } = path.node
                 lazyImportSpecifier = parent.source.value == '@loadable/component' &&
                   imported && imported.name == 'lazy' && local && local.name
               }
+              if (local && imported && signatures.find(signature => imported.name === signature.name && parent.source.value === signature.from)) {
+                loadableSpecifiers.push(local.name)
+              }
             },
             CallExpression(path) {
-              if (!isValidIdentifier(path, loadableImportSpecifier, lazyImportSpecifier)) return
+              if (!isValidIdentifier(path, loadableSpecifiers, lazyImportSpecifier)) return
               transformImport(path)
             },
             'ArrowFunctionExpression|FunctionExpression|ObjectMethod': path => {
