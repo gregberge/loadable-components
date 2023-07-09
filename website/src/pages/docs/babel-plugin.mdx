@@ -81,7 +81,31 @@ On client side, the two code are completely compatible.
 
 Please note that babel must not be configured [to strip comments](https://babeljs.io/docs/en/options#comments), since the chunk name is defined in a comment.
 
-## Loadable detection
+## Loadable Configuration (beta)
+> available since 5.16.0
+
+Sometimes you need to wrap loadable with your own custom logic. There are many use cases for it, from injecting telemetry to hiding external libraries behind facade.
+By default `loadable-components` are configured to transform dynamic imports used only inside loadable helpers, but can be configured to instrument any other function of your choice.
+```json
+{
+  "plugins": ["@loadable/babel-plugin", {
+     "signatures": [
+        { "name": "default", "from": "myLoadableWrapper" }
+        { "name": "myLoadableHelper", "from": "myLoadableWrapper" }
+     ]
+  }]
+}
+```
+```tsx
+import {myLoadableHelper} from "myLoadableWrapper";
+const Loadable = myLoadableHelper(() => import("./MyComponent"));
+// will behave similar to
+import loadable from '@loadable/component'
+const OtherComponent = loadable(() => import('./OtherComponent'))
+```
+
+## Loadable detection (deprecated)
+> Please dont use this feature and prefer Loadable Configuration instead
 
 The detection of a loadable component is based on the keyword "loadable". It is an opinionated choice, it gives you flexibility but it could also be restrictive.
 
