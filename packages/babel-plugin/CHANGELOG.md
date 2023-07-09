@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.16.0](https://github.com/gregberge/loadable-components/compare/v5.15.3...v5.16.0) (2023-07-09)
+
+
+### Features
+
+* Allow additional identifiers to be passed in to the babel plugin ([#966](https://github.com/gregberge/loadable-components/issues/966)) ([e18e37a](https://github.com/gregberge/loadable-components/commit/e18e37afd8b30455d3a786b9b0dae5f3bd0d442b))
+
+
+
+
+
 ## [5.15.3](https://github.com/gregberge/loadable-components/compare/v5.15.2...v5.15.3) (2023-01-28)
 
 **Note:** Version bump only for package @loadable/babel-plugin
