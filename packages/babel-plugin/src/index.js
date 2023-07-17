@@ -123,7 +123,7 @@ const loadablePlugin = declare((api, {
       Program: {
         enter(programPath) {
           let lazyImportSpecifier = false
-          // default to "loadable" detection. Remove defaults is signatures are configured
+          // default to "loadable" detection. Remove defaults if signatures are configured
           const loadableSpecifiers = signatures === DEFAULT_SIGNATURE ? ['loadable']: [];
 
           programPath.traverse({
