@@ -20,12 +20,11 @@ const properties = [
 
 const LOADABLE_COMMENT = '#__LOADABLE__'
 
+const DEFAULT_SIGNATURE = [{name: 'default', from: '@loadable/component'}];
+
 const loadablePlugin = declare((api, { 
-  signatures = []
+  signatures = DEFAULT_SIGNATURE
  }) => {
-  if (!signatures.find(sig => sig.from == '@loadable/component')) {
-    signatures.push({name: 'default', from: '@loadable/component'})
-  }
   const { types: t } = api
 
   function collectImportCallPaths(startPath) {
@@ -124,7 +123,8 @@ const loadablePlugin = declare((api, {
       Program: {
         enter(programPath) {
           let lazyImportSpecifier = false
-          const loadableSpecifiers = []
+          // default to "loadable" detection. Remove defaults if signatures are configured
+          const loadableSpecifiers = signatures === DEFAULT_SIGNATURE ? ['loadable']: [];
 
           programPath.traverse({
             ImportDefaultSpecifier(path) {

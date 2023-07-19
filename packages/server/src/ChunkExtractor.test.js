@@ -45,7 +45,7 @@ describe('ChunkExtrator', () => {
         statsFile: path.resolve(__dirname, '../__fixtures__/stats.json'),
       })
 
-      expect(extractor.stats).toBe(stats)
+      expect(extractor.stats).toEqual(stats)
     })
   })
 

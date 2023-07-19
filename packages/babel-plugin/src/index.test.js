@@ -203,6 +203,13 @@ describe('plugin', () => {
   })
 
   describe('custom signatures', () => {
+    it('(default) should support old named import', () => {
+      const result = testPlugin(`
+        import loadable from './loadable-utils'
+        loadable(() => import(\`./ModA\`))
+      `)
+      expect(result).toMatchSnapshot()
+    });
     it('should match simple default import', () => {
       const result = testPlugin(`
         import loadable from '@loadable/component'
