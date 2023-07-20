@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.1](https://github.com/smooth-code/loadable-components/compare/v5.16.0...v5.16.1) (2023-07-20)
+
+
+### Bug Fixes
+
+* correct babel plugin default signature to allow any source of 'loadable' ([#972](https://github.com/smooth-code/loadable-components/issues/972)) ([19849b6](https://github.com/smooth-code/loadable-components/commit/19849b6ba738fe19c18e61ed3402ee82ba934760)), closes [#971](https://github.com/smooth-code/loadable-components/issues/971)
+
+
+
+
+
 # [5.16.0](https://github.com/smooth-code/loadable-components/compare/v5.15.3...v5.16.0) (2023-07-09)
 
 
