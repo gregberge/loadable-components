@@ -45,17 +45,50 @@ const loadablePlugin = declare((api, {
       return true
     }
 
+    // `loadable.lib()`
+    if (
+      path.get('callee').isMemberExpression() &&
+      loadableImportSpecifiers.find(specifier => path.get('callee.object').isIdentifier({ name: specifier })) &&
+      path.get('callee.property').isIdentifier({ name: 'lib' })
+    ) {
+      return true
+    }
+
+    // `loadable.hook()`
+    if (
+      path.get('callee').isMemberExpression() &&
+      loadableImportSpecifiers.find(specifier => path.get('callee.object').isIdentifier({ name: specifier })) &&
+      path.get('callee.property').isIdentifier({ name: 'hook' })
+    ) {
+      return true
+    }
+
     // `lazy()`
     if (lazyImportSpecifier && path.get('callee').isIdentifier({ name: lazyImportSpecifier })) {
       return true
     }
 
-    // `loadable.lib()`
-    return (
+    // `lazy.lib()`
+    if (
+      lazyImportSpecifier &&
       path.get('callee').isMemberExpression() &&
-      loadableImportSpecifiers.find(specifier => path.get('callee.object').isIdentifier({ name: specifier })) &&
+      path.get('callee.object').isIdentifier({ name: lazyImportSpecifier }) &&
       path.get('callee.property').isIdentifier({ name: 'lib' })
-    )
+    ) {
+      return true
+    }
+
+    // `lazy.hook()`
+    if (
+      lazyImportSpecifier &&
+      path.get('callee').isMemberExpression() &&
+      path.get('callee.object').isIdentifier({ name: lazyImportSpecifier }) &&
+      path.get('callee.property').isIdentifier({ name: 'hook' })
+    ) {
+      return true
+    }
+
+    return false
   }
 
   function hasLoadableComment(path) {

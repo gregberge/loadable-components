@@ -4,6 +4,7 @@ import 'regenerator-runtime/runtime'
 import '@testing-library/jest-dom/extend-expect'
 import React from 'react'
 import { render, cleanup, wait } from '@testing-library/react'
+import { renderHook } from '@testing-library/react-hooks'
 import loadable, { lazy } from './index'
 
 afterEach(cleanup)
