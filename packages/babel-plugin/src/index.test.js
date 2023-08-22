@@ -202,6 +202,39 @@ describe('plugin', () => {
     })
   })
 
+  describe('lazy.lib', () => {
+    it('should be transpiled too', () => {
+      const result = testPlugin(`
+        import { lazy } from '@loadable/component'
+        lazy.lib(() => import('moment'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('loadable.hook', () => {
+    it('should be transpiled too', () => {
+      const result = testPlugin(`
+        import loadable from '@loadable/component'
+        loadable.hook(() => import('moment'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
+
+  describe('lazy.hook', () => {
+    it('should be transpiled too', () => {
+      const result = testPlugin(`
+        import { lazy } from '@loadable/component'
+        lazy.hook(() => import('moment'))
+      `)
+
+      expect(result).toMatchSnapshot()
+    })
+  })
+
   describe('custom signatures', () => {
     it('(default) should support old named import', () => {
       const result = testPlugin(`
