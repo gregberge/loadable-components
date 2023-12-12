@@ -2,8 +2,15 @@
   "name": "@loadable/component",
   "description": "React code splitting made easy.",
   "version": "5.15.3",
-  "main": "dist/loadable.cjs.js",
-  "module": "dist/loadable.esm.js",
+  "main": "./dist/loadable.cjs.js",
+  "module": "./dist/loadable.esm.mjs",
+  "exports": {
+    ".": {
+      "require": "./dist/loadable.cjs.js",
+      "import": "./dist/loadable.esm.mjs",
+      "default": "./dist/loadable.cjs.js"
+    }
+  },
   "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "publishConfig": {
