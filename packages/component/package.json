@@ -1,7 +1,7 @@
 {
   "name": "@loadable/component",
   "description": "React code splitting made easy.",
-  "version": "5.15.3",
+  "version": "5.16.2",
   "main": "./dist/loadable.cjs.js",
   "module": "./dist/loadable.esm.mjs",
   "exports": {

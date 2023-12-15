@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.2](https://github.com/gregberge/loadable-components/compare/v5.16.1...v5.16.2) (2023-12-15)
+
+
+### Bug Fixes
+
+* add esm exports to package.json and change esm bundle extension to .mjs to allow node.js to properly import esm version of package. ([#989](https://github.com/gregberge/loadable-components/issues/989)) ([e4a3718](https://github.com/gregberge/loadable-components/commit/e4a37188b804e6a5bc66f39c23c738006bc0e284))
+
+
+
+
+
 ## [5.16.1](https://github.com/gregberge/loadable-components/compare/v5.16.0...v5.16.1) (2023-07-20)
 
 
