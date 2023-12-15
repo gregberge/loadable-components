@@ -1,7 +1,7 @@
 {
   "errors": [],
   "warnings": [],
-  "hash": "84e08a1809b7b09283e2",
+  "hash": "6cacb38ddc45b9bbd140",
   "publicPath": "/dist/node/",
   "outputPath": "../../examples/server-side-rendering/public/dist/node",
   "assetsByChunkName": {

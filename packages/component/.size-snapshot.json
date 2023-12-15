@@ -4,7 +4,7 @@
     "minified": 7394,
     "gzipped": 2621
   },
-  "dist/loadable.esm.js": {
+  "dist/loadable.esm.mjs": {
     "bundled": 16434,
     "minified": 7090,
     "gzipped": 2552,
