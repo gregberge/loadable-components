@@ -69,8 +69,7 @@ describe('#loadable', () => {
   })
 
   afterEach(() => {
-    // eslint-disable-next-line no-console
-    console.error.mockRestore()
+    jest.restoreAllMocks();
   })
 
   it('renders nothing without a fallback', () => {

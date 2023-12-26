@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define, react/no-multi-comp, no-underscore-dangle */
 import React from 'react'
-import * as ReactIs from 'react-is'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
@@ -77,11 +76,12 @@ function createLoadable({
         ? options.resolveComponent(module, props)
         : defaultResolveComponent(module)
 
-      if (options.resolveComponent && !ReactIs.isValidElementType(Component)) {
-        throw new Error(
-          `resolveComponent returned something that is not a React component!`,
-        )
-      }
+      // FIXME: suppressed due to https://github.com/gregberge/loadable-components/issues/990
+      // if (options.resolveComponent && !ReactIs.isValidElementType(Component)) {
+      //   throw new Error(
+      //     `resolveComponent returned something that is not a React component!`,
+      //   )
+      // }
       hoistNonReactStatics(Loadable, Component, {
         preload: true,
       })
