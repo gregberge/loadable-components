@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.3](https://github.com/smooth-code/loadable-components/compare/v5.16.2...v5.16.3) (2023-12-26)
+
+
+### Bug Fixes
+
+* correct react-is for mjs export; remove isValidComponent check ([#991](https://github.com/smooth-code/loadable-components/issues/991)) ([9d381c3](https://github.com/smooth-code/loadable-components/commit/9d381c35b7fc1f8f9122caac25e8e255871ebab6))
+
+
+
+
+
 ## [5.16.2](https://github.com/smooth-code/loadable-components/compare/v5.16.1...v5.16.2) (2023-12-15)
 
 
