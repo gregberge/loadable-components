@@ -2,7 +2,16 @@
   "name": "@loadable/server",
   "description": "Server utilities for loadable.",
   "version": "5.16.2",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/cjs/index.js"
+    }
+  },
   "repository": "git@github.com:gregberge/loadable-components.git",
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "publishConfig": {
@@ -21,7 +30,11 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "shx rm -rf lib",
-    "build": "BUILD_TARGET=node babel --config-file ../../babel.config.js -d lib --ignore \"**/*.test.js\" src",
+    "build:esm": "MODULE_TARGET=esm yarn run build:script -d lib/esm",
+    "build:cjs": "MODULE_TARGET=cjs yarn run build:script -d lib/cjs && yarn run create-cjs-package-json",
+    "build:script": "BUILD_TARGET=node babel --config-file ../../babel.config.js --ignore \"**/*.test.js\" src",
+    "build": "yarn build:esm && yarn build:cjs",
+    "create-cjs-package-json": "echo '{\"type\": \"commonjs\"}' > ./lib/cjs/package.json",
     "prepublishOnly": "yarn run build",
     "update-fixtures": "yarn --cwd ../../examples/__fixtures__ build:webpack && rm -rf ./__fixtures__ && cp -R ../../examples/__fixtures__/target ./__fixtures__ "
   },
