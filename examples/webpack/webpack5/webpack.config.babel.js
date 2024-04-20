@@ -8,10 +8,14 @@ const production = process.env.NODE_ENV === 'production'
 const development = !production
 
 const getConfig = target => ({
+  experiments: {
+    outputModule: true,
+  },
   name: target,
-  mode: development ? 'development' : 'production',
+  mode: 'production',
   target,
-  entry: `./src/client/main-${target}.js`,
+  // entry: `./src/client/main-${target}.js`,
+  entry: target==='web' ? `./src/client/main-web.js` : './src/server/main.js',
   module: {
     rules: [
       {
@@ -36,18 +40,21 @@ const getConfig = target => ({
     ],
   },
   externals:
-    target === 'node' ? ['@loadable/component', nodeExternals()] : undefined,
+    target === 'node' ? ['@loadable/component','@loadable/server', nodeExternals()] : undefined,
 
   optimization: {
     // this will lead to runtime error
     runtimeChunk: target !== 'node',
   },
 
+  devtool:undefined,
   output: {
     path: path.join(DIST_PATH, target),
-    filename: production ? '[name]-bundle-[chunkhash:8].js' : '[name].js',
+    filename: production ? '[name]-bundle-[chunkhash:8].js' : '[name].mjs',
     publicPath: `/dist/${target}/`,
-    libraryTarget: target === 'node' ? 'commonjs2' : undefined,
+    libraryTarget: 'module',// target === 'node' ? 'commonjs2' : undefined,
+    chunkFormat:'module',
+    module:true,
   },
   plugins: [new LoadablePlugin(), new MiniCssExtractPlugin()],
 })

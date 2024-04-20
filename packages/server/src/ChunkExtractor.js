@@ -1,9 +1,14 @@
 /* eslint-disable react/no-danger */
 import path from 'path'
 import fs from 'fs'
-import uniq from 'lodash/uniq'
-import uniqBy from 'lodash/uniqBy'
-import flatMap from 'lodash/flatMap'
+
+// eslint-disable-next-line import/extensions
+import uniq from 'lodash/uniq.js'
+// eslint-disable-next-line import/extensions
+import uniqBy from 'lodash/uniqBy.js'
+// eslint-disable-next-line import/extensions
+import flatMap from 'lodash/flatMap.js'
+
 import React from 'react'
 import { invariant, getRequiredChunkKey } from './sharedInternals'
 import ChunkExtractorManager from './ChunkExtractorManager'
