@@ -18,6 +18,7 @@
     "react/sort-comp": "off",
     "react/jsx-props-no-spreading": "off",
     "react/state-in-constructor": "off",
+    "import/extensions": "off",
     "import/prefer-default-export": "off"
   }
 }
