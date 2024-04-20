@@ -17,5 +17,24 @@
         "code": 5764
       }
     }
+  },
+  "dist/cjs/loadable.cjs.js": {
+    "bundled": 16900,
+    "minified": 7226,
+    "gzipped": 2553
+  },
+  "dist/esm/loadable.esm.mjs": {
+    "bundled": 16517,
+    "minified": 6917,
+    "gzipped": 2490,
+    "treeshaked": {
+      "rollup": {
+        "code": 259,
+        "import_statements": 259
+      },
+      "webpack": {
+        "code": 5764
+      }
+    }
   }
 }
