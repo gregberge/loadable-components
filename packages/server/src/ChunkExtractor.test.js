@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import 'regenerator-runtime/runtime.js'
+import 'regenerator-runtime/runtime'
 import path from 'path'
 import stats from '../__fixtures__/stats.json'
-import ChunkExtractor from './ChunkExtractor.js'
+import ChunkExtractor from './ChunkExtractor'
 
 const targetPath = path.resolve(
   __dirname,
