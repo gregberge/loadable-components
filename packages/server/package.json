@@ -1,7 +1,7 @@
 {
   "name": "@loadable/server",
   "description": "Server utilities for loadable.",
-  "version": "5.16.2",
+  "version": "5.16.4",
   "type": "module",
   "main": "./dist/cjs/loadable-server.cjs.js",
   "module": "./dist/esm/loadable-server.esm.mjs",

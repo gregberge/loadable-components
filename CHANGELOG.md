@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.4](https://github.com/smooth-code/loadable-components/compare/v5.16.3...v5.16.4) (2024-04-20)
+
+
+### Bug Fixes
+
+* correct esm configuration for loadable/server, fixes: [#999](https://github.com/smooth-code/loadable-components/issues/999) ([#1004](https://github.com/smooth-code/loadable-components/issues/1004)) ([114cea2](https://github.com/smooth-code/loadable-components/commit/114cea2b61ef644d3b794a9b5f48df69f0f5400b))
+
+
+
+
+
 ## [5.16.3](https://github.com/smooth-code/loadable-components/compare/v5.16.2...v5.16.3) (2023-12-26)
 
 
