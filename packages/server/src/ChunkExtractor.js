@@ -1,13 +1,13 @@
 /* eslint-disable react/no-danger */
 import path from 'path'
 import fs from 'fs'
-import uniq from 'lodash/uniq.js'
-import uniqBy from 'lodash/uniqBy.js'
-import flatMap from 'lodash/flatMap.js'
+import uniq from 'lodash/uniq'
+import uniqBy from 'lodash/uniqBy'
+import flatMap from 'lodash/flatMap'
 import React from 'react'
-import { invariant, getRequiredChunkKey } from './sharedInternals.js'
-import ChunkExtractorManager from './ChunkExtractorManager.js'
-import { smartRequire, joinURLPath, readJsonFileSync } from './util.js'
+import { invariant, getRequiredChunkKey } from './sharedInternals'
+import ChunkExtractorManager from './ChunkExtractorManager'
+import { smartRequire, joinURLPath, readJsonFileSync } from './util'
 
 const EXTENSION_SCRIPT_TYPES = {
   '.js': 'script',

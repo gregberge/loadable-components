@@ -1,4 +1,4 @@
-import { joinURLPath } from './util.js'
+import { joinURLPath } from './util'
 
 describe('util', () => {
   describe('#joinURLPath', () => {

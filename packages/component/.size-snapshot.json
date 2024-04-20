@@ -1,10 +1,10 @@
 {
-  "dist/loadable.cjs.js": {
+  "dist/cjs/loadable.cjs.js": {
     "bundled": 16900,
     "minified": 7226,
     "gzipped": 2553
   },
-  "dist/loadable.esm.mjs": {
+  "dist/esm/loadable.esm.mjs": {
     "bundled": 16517,
     "minified": 6917,
     "gzipped": 2490,
