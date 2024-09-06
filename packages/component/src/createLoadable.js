@@ -3,7 +3,7 @@ import React from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { invariant } from './util'
 import Context from './Context'
-import { LOADABLE_SHARED } from './shared'
+import { getInitialChunks } from './shared'
 
 const STATUS_PENDING = 'PENDING'
 const STATUS_RESOLVED = 'RESOLVED'
@@ -173,7 +173,7 @@ function createLoadable({
           ((ctor.isReady && ctor.isReady(props)) ||
             // is ready - was loaded during SSR process
             (ctor.chunkName &&
-              LOADABLE_SHARED.initialChunks[ctor.chunkName(props)]))
+              getInitialChunks()[ctor.chunkName(props)]))
         ) {
           this.loadSync()
         }

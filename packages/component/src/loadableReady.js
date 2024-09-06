@@ -2,7 +2,7 @@
 /* eslint-env browser */
 import { warn } from './util'
 import { getRequiredChunkKey } from './sharedInternals'
-import { LOADABLE_SHARED } from './shared'
+import { getInitialChunks } from './shared'
 
 const BROWSER = typeof window !== 'undefined'
 
@@ -26,8 +26,9 @@ export default function loadableReady(
       const extElement = document.getElementById(`${id}_ext`)
       if (extElement) {
         const { namedChunks } = JSON.parse(extElement.textContent)
+        const initialChunks = getInitialChunks()
         namedChunks.forEach(chunkName => {
-          LOADABLE_SHARED.initialChunks[chunkName] = true
+          initialChunks[chunkName] = true
         })
       } else {
         // version mismatch
