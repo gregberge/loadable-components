@@ -2,9 +2,7 @@
 /* eslint-env browser */
 import { warn } from './util'
 import { getRequiredChunkKey } from './sharedInternals'
-import { getInitialChunks } from './shared'
-
-const BROWSER = typeof window !== 'undefined'
+import { BROWSER, getInitialChunks } from './shared'
 
 export default function loadableReady(
   done = () => {},
