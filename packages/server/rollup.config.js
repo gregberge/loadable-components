@@ -4,7 +4,6 @@ import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
-import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import pkg from './package.json'
 
 const input = 'src/index.js'
@@ -36,13 +35,13 @@ export default [
     input,
     output: { file: pkg.main, format: 'cjs', exports: 'named' },
     external,
-    plugins: [babel(getBabelOptions({ useESModules: false })), sizeSnapshot()],
+    plugins: [babel(getBabelOptions({ useESModules: false }))],
   },
   // esm
   {
     input,
     output: { file: pkg.module, format: 'esm' },
     external,
-    plugins: [babel(getBabelOptions({ useESModules: true })), sizeSnapshot()],
+    plugins: [babel(getBabelOptions({ useESModules: true }))],
   },
 ]

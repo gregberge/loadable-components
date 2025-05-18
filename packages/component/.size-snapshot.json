@@ -2,7 +2,7 @@
   "dist/cjs/loadable.cjs.js": {
     "bundled": 16900,
     "minified": 7226,
-    "gzipped": 2553
+    "gzipped": 2545
   },
   "dist/esm/loadable.esm.mjs": {
     "bundled": 16517,
