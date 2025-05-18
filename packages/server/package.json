@@ -1,7 +1,7 @@
 {
   "name": "@loadable/server",
   "description": "Server utilities for loadable.",
-  "version": "5.16.5",
+  "version": "5.16.6",
   "type": "module",
   "main": "./dist/cjs/loadable-server.cjs.js",
   "module": "./dist/esm/loadable-server.esm.mjs",
@@ -40,7 +40,7 @@
     "react": "^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@loadable/component": "^5.0.1"
+    "@loadable/component": "^5.16.6"
   },
   "dependencies": {
     "lodash": "^4.17.15"
